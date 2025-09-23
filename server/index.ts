@@ -1,10 +1,36 @@
 import express, { type Request, Response, NextFunction } from "express";
+import session from "express-session";
+import ConnectPgSimple from "connect-pg-simple";
+import pg from "pg";
+const { Pool } = pg;
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// PostgreSQL session store
+const PgSession = ConnectPgSimple(session);
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL
+});
+
+// Session middleware
+app.use(session({
+  store: new PgSession({
+    pool,
+    tableName: 'session'
+  }),
+  secret: process.env.SESSION_SECRET || 'surgitech-connect-secret-key',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: false, // Set to true in production with HTTPS
+    httpOnly: true,
+    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+  }
+}));
 
 app.use((req, res, next) => {
   const start = Date.now();

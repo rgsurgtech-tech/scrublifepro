@@ -1,86 +1,92 @@
-# SurgiTech Connect Design Guidelines
+# SurgiPrep Design Guidelines
 
 ## Design Approach
-**Selected Approach:** Design System (Material Design) with medical industry adaptations
-**Justification:** This is a utility-focused, information-dense application where efficiency, learnability, and trust are paramount. Medical professionals need quick access to critical information with zero ambiguity.
+**Selected Approach:** Reference-Based Approach inspired by premium medical apps with glassmorphism aesthetics
+**Justification:** Experience-focused application where visual appeal builds trust and engagement with healthcare professionals. The dark glassmorphism design creates a premium, professional atmosphere suitable for surgical environments.
 
 ## Core Design Elements
 
 ### A. Color Palette
 **Primary Colors:**
-- Primary Blue: 210 85% 45% (medical trust and professionalism)
-- Primary Dark: 210 25% 25% (headers and emphasis)
+- Medical Cyan: 180 85% 45% (medical caduceus branding)
+- Deep Navy: 220 25% 8% (primary dark background)
+- Surgical Blue: 210 70% 35% (accent elements)
+
+**Gradient System:**
+- Primary Gradient: Cyan (180 85% 45%) to Purple (270 65% 50%) for buttons and CTAs
+- Background Gradients: Subtle navy to black overlays on surgical room imagery
 
 **Supporting Colors:**
-- Success Green: 145 70% 45% (confirmations, completed procedures)
-- Warning Orange: 25 85% 55% (important notes, cautions)
-- Error Red: 0 75% 50% (critical alerts)
-- Neutral Gray: 210 10% 60% (secondary text, borders)
+- Success Green: 145 60% 40%
+- Warning Amber: 35 80% 50%
+- Error Red: 0 70% 45%
+- Glass White: 0 0% 95% (for text on glass elements)
 
-**Background:**
-- Light mode: 0 0% 98% (clean medical environment feel)
-- Dark mode: 210 15% 8% (reduced eye strain in OR environments)
+**Glass Elements:**
+- Glass backgrounds: 20% opacity with backdrop blur
+- Border highlights: 10% white opacity with subtle glow effects
 
 ### B. Typography
-**Font System:** Inter (via Google Fonts CDN)
-- **Headers:** Inter 600-700 (medical authority)
-- **Body:** Inter 400-500 (optimal readability)
-- **Captions:** Inter 400 (secondary information)
-- **Sizes:** Scale from 14px to 32px for mobile-first design
+**Font System:** Inter (Google Fonts CDN)
+- **Headers:** Inter 600-700, sizes 18px-28px
+- **Body:** Inter 400-500, 14px-16px
+- **Glass Element Text:** Inter 500-600 for enhanced readability on transparent backgrounds
 
 ### C. Layout System
 **Spacing Units:** Tailwind units of 2, 4, 6, and 8
-- Tight spacing (p-2, m-2) for data-dense areas
-- Medium spacing (p-4, m-4) for general content
-- Generous spacing (p-6, p-8) for section separation and breathing room
+- Glass card padding: p-6 for breathing room
+- Icon spacing: p-4 for touch targets
+- Section gaps: mb-8 for clear hierarchy
 
 ### D. Component Library
 
+**Glassmorphism Cards:**
+- Semi-transparent backgrounds with backdrop blur
+- Subtle border gradients with soft shadows
+- Rounded corners (16px-24px) for modern medical aesthetic
+
 **Navigation:**
-- Bottom tab navigation (5 tabs max) for primary functions
-- Top app bar with search and user profile access
-- Breadcrumb navigation for deep procedure hierarchies
+- Bottom glass navigation bar with blur effects
+- Floating search bar with glass treatment
+- Breadcrumb trails on glass backgrounds
 
-**Data Display:**
-- Card-based layout for procedure guides with clear hierarchy
-- Expandable sections for detailed information
-- Quick-scan bullet points and numbered lists
-- Progress indicators for multi-step procedures
+**Specialty Selection:**
+- Circular icons with glass backgrounds
+- Hover states with subtle glow effects
+- Grid layout optimized for touch interaction
 
-**Forms:**
-- Large touch targets (minimum 44px) for mobile use
-- Clear field labels and validation states
-- Toggle switches for preferences and settings
-- Floating action button for "Create New" functions
-
-**Content Organization:**
-- Specialty tabs/filters at top level
-- Search with autocomplete and recent searches
-- Favorite/bookmark system with visual indicators
-- Recently viewed procedures section
+**Buttons:**
+- Primary: Cyan-to-purple gradients with glass overlay
+- Secondary: Glass treatment with cyan borders
+- Floating action buttons with medical caduceus icon
 
 **Community Features:**
-- Simple threaded discussion layout
-- User verification badges for CSTs
-- Clean typography hierarchy for forum posts
+- Glass cards for discussion threads
+- Engagement metrics with subtle cyan highlights
+- User avatars with circular glass frames
 
-### E. Mobile-First Considerations
-- Touch-friendly interface with adequate spacing
-- Thumb-zone optimization for primary actions
-- Swipe gestures for navigation between procedure steps
-- Quick access to search from any screen
-- Offline indicators and download status
+### E. Background Treatment
+**Surgical Room Imagery:**
+- Blurred OR backgrounds with dark overlays
+- High contrast maintained for text readability
+- Professional medical equipment silhouettes
 
-### F. Medical Context Adaptations
-- High contrast ratios for various lighting conditions
-- Quick access patterns (information within 2-3 taps)
-- Clear visual hierarchy to prevent medical errors
-- Subtle animations only - no distracting movement
-- Professional, clinical aesthetic that builds trust
+### F. Mobile-First Adaptations
+- Large touch targets (minimum 48px) for gloved hands
+- High contrast text for various lighting conditions
+- Optimized glass effects for mobile performance
+- Gesture-friendly card interactions
+
+### G. Medical Context Features
+- Quick access dashboard with glass widget cards
+- Emergency-ready high contrast mode toggle
+- Professional color scheme suitable for sterile environments
+- Minimal animations to prevent distraction during critical tasks
 
 ## Images
-**Hero Image:** No large hero image - this is a utility app focused on quick information access
-**Procedure Images:** Placeholder rectangles for medical diagrams, instrument photos, and setup images throughout procedure guides
-**Icon System:** Heroicons for consistency, with medical-specific icons as needed
+**Background Images:** Blurred surgical room environments (OR lights, medical equipment) as full-screen backgrounds with dark overlays
+**Medical Branding:** Caduceus symbol integrated into app icon and loading states
+**Procedure Visuals:** Placeholder rectangles within glass cards for medical diagrams and instrument photography
+**No Large Hero:** Focus on functional dashboard layout rather than marketing imagery
 
-This design system prioritizes clarity, speed, and professional trust while maintaining modern usability standards essential for medical applications.
+This design system creates a premium, professional aesthetic that builds trust with medical professionals while maintaining the clarity and efficiency required in surgical environments.

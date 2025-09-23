@@ -127,6 +127,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ error: "Failed to get specialties" });
     }
   });
+
+  app.get("/api/specialties/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const specialty = await storage.getSpecialtyById(id);
+      
+      if (!specialty) {
+        return res.status(404).json({ error: "Specialty not found" });
+      }
+      
+      res.json(specialty);
+    } catch (error) {
+      console.error('Get specialty error:', error);
+      res.status(500).json({ error: "Failed to get specialty" });
+    }
+  });
   
   // Procedures routes
   app.get("/api/procedures", async (req, res) => {

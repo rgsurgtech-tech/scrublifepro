@@ -81,10 +81,10 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg" 
-                onClick={() => setLocation('/auth')}
+                onClick={() => setLocation('/specialties')}
                 data-testid="button-get-started"
               >
-                Get Started
+                Browse Procedures
               </Button>
               <Button 
                 variant="outline" 
@@ -98,7 +98,11 @@ export default function Home() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-            <Card className="text-center glass-card bg-transparent backdrop-blur-xl border-white/10">
+            <Card 
+              className="text-center glass-card bg-transparent backdrop-blur-xl border-white/10 cursor-pointer hover-elevate" 
+              onClick={() => setLocation('/specialties')}
+              data-testid="card-procedure-guides"
+            >
               <CardHeader>
                 <Stethoscope className="h-12 w-12 text-primary mx-auto mb-4" />
                 <CardTitle className="text-lg text-white">Procedure Guides</CardTitle>

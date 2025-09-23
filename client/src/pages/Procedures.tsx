@@ -78,7 +78,7 @@ export default function Procedures() {
       if (!response.ok) throw new Error('Failed to fetch specialty');
       return response.json();
     },
-    enabled: !!user && !!specialtyId,
+    enabled: !!specialtyId,
   });
 
   const { data: procedures, isLoading: proceduresLoading } = useQuery<Procedure[]>({
@@ -88,7 +88,7 @@ export default function Procedures() {
       if (!response.ok) throw new Error('Failed to fetch procedures');
       return response.json();
     },
-    enabled: !!user && !!specialtyId,
+    enabled: !!specialtyId,
   });
 
   if (isLoading || specialtyLoading || proceduresLoading) {
@@ -102,10 +102,6 @@ export default function Procedures() {
     );
   }
 
-  if (!user) {
-    setLocation('/auth');
-    return null;
-  }
 
   if (!match || !specialtyId) {
     setLocation('/specialties');

@@ -42,7 +42,6 @@ export default function Specialties() {
 
   const { data: specialties, isLoading: specialtiesLoading } = useQuery<Specialty[]>({
     queryKey: ['/api/specialties'],
-    enabled: !!user,
   });
 
   if (isLoading || specialtiesLoading) {
@@ -56,10 +55,6 @@ export default function Specialties() {
     );
   }
 
-  if (!user) {
-    setLocation('/auth');
-    return null;
-  }
 
   return (
     <div 
@@ -156,8 +151,8 @@ export default function Specialties() {
           <Card className="bg-white/10 backdrop-blur-md border-white/20 text-white">
             <CardContent className="p-6 text-center">
               <div className="text-3xl font-bold text-primary mb-2">
-                {user.subscriptionTier === 'premium' ? 'Unlimited' : 
-                 user.subscriptionTier === 'standard' ? '3' : '1'}
+                {user?.subscriptionTier === 'premium' ? 'Unlimited' : 
+                 user?.subscriptionTier === 'standard' ? '3' : user ? '1' : 'Sign up for access'}
               </div>
               <p className="text-white/80">Available to You</p>
             </CardContent>

@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ArrowLeft, Heart, Eye, Brain, Bone, Scissors, Baby, CheckCircle } from "lucide-react";
+import { ArrowLeft, Heart, Eye, Brain, Bone, Scissors, Baby, CheckCircle, Activity, Stethoscope, Zap, Wrench, Target, Wind, Dna, Shield, Truck, Repeat } from "lucide-react";
 
 interface SpecialtySelectorProps {
   onBack: () => void;
@@ -54,36 +54,124 @@ const specialties = [
     color: 'bg-orange-100 text-orange-700 dark:bg-orange-900 dark:text-orange-300'
   },
   {
-    id: 'gynecology',
-    name: 'Gynecology',
+    id: 'obgyn',
+    name: 'Obstetrics & Gynecology',
     icon: Baby,
-    description: 'Hysterectomy, C-sections, Laparoscopy',
+    description: 'C-sections, Hysterectomy, Laparoscopy, Labor & Delivery',
     procedures: 110,
     color: 'bg-pink-100 text-pink-700 dark:bg-pink-900 dark:text-pink-300'
   },
   {
     id: 'urology',
     name: 'Urology',
-    icon: Scissors,
-    description: 'Prostatectomy, Kidney procedures, Cystoscopy',
+    icon: Activity,
+    description: 'Prostatectomy, Kidney procedures, Cystoscopy, Transplant',
     procedures: 75,
     color: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-900 dark:text-cyan-300'
   },
   {
     id: 'ent',
-    name: 'ENT',
-    icon: Scissors,
+    name: 'ENT (Otolaryngology)',
+    icon: Stethoscope,
     description: 'Tonsillectomy, Sinus surgery, Ear procedures',
     procedures: 55,
     color: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300'
   },
   {
     id: 'plastic',
-    name: 'Plastic Surgery',
+    name: 'Plastic & Reconstructive',
     icon: Scissors,
-    description: 'Reconstruction, Cosmetic, Hand surgery',
+    description: 'Reconstruction, Cosmetic, Hand surgery, Microsurgery',
     procedures: 90,
     color: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-300'
+  },
+  {
+    id: 'pediatric',
+    name: 'Pediatric Surgery',
+    icon: Baby,
+    description: 'Congenital repairs, Appendectomy, Hernia, Neonatal',
+    procedures: 80,
+    color: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300'
+  },
+  {
+    id: 'bariatric',
+    name: 'Bariatric Surgery',
+    icon: Target,
+    description: 'Gastric bypass, Sleeve gastrectomy, Lap-band',
+    procedures: 45,
+    color: 'bg-teal-100 text-teal-700 dark:bg-teal-900 dark:text-teal-300'
+  },
+  {
+    id: 'thoracic',
+    name: 'Thoracic Surgery',
+    icon: Wind,
+    description: 'Lung resection, Chest wall procedures, Mediastinal',
+    procedures: 70,
+    color: 'bg-sky-100 text-sky-700 dark:bg-sky-900 dark:text-sky-300'
+  },
+  {
+    id: 'cardiothoracic',
+    name: 'Cardiothoracic',
+    icon: Heart,
+    description: 'Heart surgery, Valve replacement, CABG, Transplant',
+    procedures: 65,
+    color: 'bg-rose-100 text-rose-700 dark:bg-rose-900 dark:text-rose-300'
+  },
+  {
+    id: 'maxillofacial',
+    name: 'Oral & Maxillofacial',
+    icon: Wrench,
+    description: 'Jaw surgery, TMJ, Facial trauma, Oral pathology',
+    procedures: 40,
+    color: 'bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-300'
+  },
+  {
+    id: 'colorectal',
+    name: 'Colorectal Surgery',
+    icon: Activity,
+    description: 'Colectomy, Hemorrhoidectomy, Rectal procedures',
+    procedures: 85,
+    color: 'bg-lime-100 text-lime-700 dark:bg-lime-900 dark:text-lime-300'
+  },
+  {
+    id: 'trauma',
+    name: 'Trauma Surgery',
+    icon: Truck,
+    description: 'Emergency procedures, Polytrauma, Critical care',
+    procedures: 120,
+    color: 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300'
+  },
+  {
+    id: 'transplant',
+    name: 'Transplant Surgery',
+    icon: Repeat,
+    description: 'Organ transplant, Kidney, Liver, Heart, Pancreas',
+    procedures: 35,
+    color: 'bg-violet-100 text-violet-700 dark:bg-violet-900 dark:text-violet-300'
+  },
+  {
+    id: 'vascular',
+    name: 'Vascular Surgery',
+    icon: Zap,
+    description: 'Bypass grafts, Aneurysm repair, Stent placement',
+    procedures: 60,
+    color: 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
+  },
+  {
+    id: 'oncology',
+    name: 'Surgical Oncology',
+    icon: Shield,
+    description: 'Cancer resection, Lymph node dissection, Biopsy',
+    procedures: 95,
+    color: 'bg-gray-100 text-gray-700 dark:bg-gray-900 dark:text-gray-300'
+  },
+  {
+    id: 'endocrine',
+    name: 'Endocrine Surgery',
+    icon: Dna,
+    description: 'Thyroidectomy, Parathyroid, Adrenal procedures',
+    procedures: 55,
+    color: 'bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300'
   }
 ];
 

@@ -48,11 +48,109 @@ async function seed() {
       color: 'bg-orange-100 text-orange-700 dark:bg-orange-900 dark:text-orange-300'
     },
     {
-      name: 'Gynecology',
-      description: 'Hysterectomy, C-sections, Laparoscopy',
+      name: 'Obstetrics & Gynecology',
+      description: 'C-sections, Hysterectomy, Laparoscopy, Labor & Delivery',
       icon: 'Baby',
       procedureCount: 110,
       color: 'bg-pink-100 text-pink-700 dark:bg-pink-900 dark:text-pink-300'
+    },
+    {
+      name: 'Urology',
+      description: 'Prostatectomy, Kidney procedures, Cystoscopy, Transplant',
+      icon: 'Activity',
+      procedureCount: 75,
+      color: 'bg-cyan-100 text-cyan-700 dark:bg-cyan-900 dark:text-cyan-300'
+    },
+    {
+      name: 'ENT (Otolaryngology)',
+      description: 'Tonsillectomy, Sinus surgery, Ear procedures',
+      icon: 'Stethoscope',
+      procedureCount: 55,
+      color: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300'
+    },
+    {
+      name: 'Plastic & Reconstructive',
+      description: 'Reconstruction, Cosmetic, Hand surgery, Microsurgery',
+      icon: 'Scissors',
+      procedureCount: 90,
+      color: 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-300'
+    },
+    {
+      name: 'Pediatric Surgery',
+      description: 'Congenital repairs, Appendectomy, Hernia, Neonatal',
+      icon: 'Baby',
+      procedureCount: 80,
+      color: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300'
+    },
+    {
+      name: 'Bariatric Surgery',
+      description: 'Gastric bypass, Sleeve gastrectomy, Lap-band',
+      icon: 'Target',
+      procedureCount: 45,
+      color: 'bg-teal-100 text-teal-700 dark:bg-teal-900 dark:text-teal-300'
+    },
+    {
+      name: 'Thoracic Surgery',
+      description: 'Lung resection, Chest wall procedures, Mediastinal',
+      icon: 'Wind',
+      procedureCount: 70,
+      color: 'bg-sky-100 text-sky-700 dark:bg-sky-900 dark:text-sky-300'
+    },
+    {
+      name: 'Cardiothoracic',
+      description: 'Heart surgery, Valve replacement, CABG, Transplant',
+      icon: 'Heart',
+      procedureCount: 65,
+      color: 'bg-rose-100 text-rose-700 dark:bg-rose-900 dark:text-rose-300'
+    },
+    {
+      name: 'Oral & Maxillofacial',
+      description: 'Jaw surgery, TMJ, Facial trauma, Oral pathology',
+      icon: 'Wrench',
+      procedureCount: 40,
+      color: 'bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-300'
+    },
+    {
+      name: 'Colorectal Surgery',
+      description: 'Colectomy, Hemorrhoidectomy, Rectal procedures',
+      icon: 'Activity',
+      procedureCount: 85,
+      color: 'bg-lime-100 text-lime-700 dark:bg-lime-900 dark:text-lime-300'
+    },
+    {
+      name: 'Trauma Surgery',
+      description: 'Emergency procedures, Polytrauma, Critical care',
+      icon: 'Truck',
+      procedureCount: 120,
+      color: 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300'
+    },
+    {
+      name: 'Transplant Surgery',
+      description: 'Organ transplant, Kidney, Liver, Heart, Pancreas',
+      icon: 'Repeat',
+      procedureCount: 35,
+      color: 'bg-violet-100 text-violet-700 dark:bg-violet-900 dark:text-violet-300'
+    },
+    {
+      name: 'Vascular Surgery',
+      description: 'Bypass grafts, Aneurysm repair, Stent placement',
+      icon: 'Zap',
+      procedureCount: 60,
+      color: 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
+    },
+    {
+      name: 'Surgical Oncology',
+      description: 'Cancer resection, Lymph node dissection, Biopsy',
+      icon: 'Shield',
+      procedureCount: 95,
+      color: 'bg-gray-100 text-gray-700 dark:bg-gray-900 dark:text-gray-300'
+    },
+    {
+      name: 'Endocrine Surgery',
+      description: 'Thyroidectomy, Parathyroid, Adrenal procedures',
+      icon: 'Dna',
+      procedureCount: 55,
+      color: 'bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300'
     }
   ];
 

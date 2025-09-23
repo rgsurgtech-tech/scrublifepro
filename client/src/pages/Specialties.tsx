@@ -123,6 +123,7 @@ export default function Specialties() {
                   variant="outline" 
                   size="sm" 
                   className="w-full bg-white/5 border-white/20 text-white hover:bg-white/10"
+                  onClick={() => setLocation(`/procedures/${specialty.id}`)}
                   data-testid={`button-view-procedures-${specialty.id}`}
                 >
                   View Procedures

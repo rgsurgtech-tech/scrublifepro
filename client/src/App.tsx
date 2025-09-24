@@ -11,6 +11,7 @@ import Procedures from "@/pages/Procedures";
 import Community from "@/pages/Community";
 import Profile from "@/pages/Profile";
 import Notes from "@/pages/Notes";
+import Subscribe from "@/pages/Subscribe";
 import NotFound from "@/pages/not-found";
 import AuthPage from "@/pages/AuthPage";
 
@@ -25,6 +26,7 @@ function Router() {
       <Route path="/community" component={Community} />
       <Route path="/profile" component={Profile} />
       <Route path="/notes" component={Notes} />
+      <Route path="/subscribe" component={Subscribe} />
       <Route component={NotFound} />
     </Switch>
   );

@@ -58,6 +58,29 @@ export class DatabaseStorage implements IStorage {
     return result[0] || null;
   }
 
+  async updateUserStripeInfo(id: string, stripeCustomerId: string, stripeSubscriptionId: string): Promise<User | null> {
+    const result = await db.update(users)
+      .set({ 
+        stripeCustomerId, 
+        stripeSubscriptionId,
+        updatedAt: new Date() 
+      })
+      .where(eq(users.id, id))
+      .returning();
+    return result[0] || null;
+  }
+
+  async updateUserSubscriptionTier(id: string, subscriptionTier: string): Promise<User | null> {
+    const result = await db.update(users)
+      .set({ 
+        subscriptionTier,
+        updatedAt: new Date() 
+      })
+      .where(eq(users.id, id))
+      .returning();
+    return result[0] || null;
+  }
+
   // Specialties
   async getAllSpecialties(): Promise<Specialty[]> {
     return await db.select().from(specialties).orderBy(specialties.name);

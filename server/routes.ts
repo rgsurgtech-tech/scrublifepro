@@ -2,8 +2,17 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
+import Stripe from "stripe";
 import { storage } from "./storage";
 import { insertUserSchema, insertUserNoteSchema, insertForumPostSchema } from "@shared/schema";
+
+// Initialize Stripe - From javascript_stripe integration
+if (!process.env.STRIPE_SECRET_KEY) {
+  throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
+}
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: "2025-08-27.basil",
+});
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Authentication routes
@@ -341,6 +350,96 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Update profile error:', error);
       res.status(500).json({ error: "Failed to update profile" });
+    }
+  });
+
+  // Stripe payment routes - From javascript_stripe integration
+  app.post("/api/create-payment-intent", async (req, res) => {
+    try {
+      const { amount } = req.body;
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: Math.round(amount * 100), // Convert to cents
+        currency: "usd",
+      });
+      res.json({ clientSecret: paymentIntent.client_secret });
+    } catch (error: any) {
+      res
+        .status(500)
+        .json({ message: "Error creating payment intent: " + error.message });
+    }
+  });
+
+  // Create subscription for paid tiers - From javascript_stripe integration
+  app.post('/api/create-subscription', requireAuth, async (req: any, res) => {
+    try {
+      const { priceId, tier } = req.body;
+      let user = req.user;
+
+      if (user.stripeSubscriptionId) {
+        const subscription = await stripe.subscriptions.retrieve(user.stripeSubscriptionId);
+
+        const latestInvoice = typeof subscription.latest_invoice === 'string' 
+          ? await stripe.invoices.retrieve(subscription.latest_invoice, { expand: ['payment_intent'] })
+          : subscription.latest_invoice;
+        
+        res.send({
+          subscriptionId: subscription.id,
+          clientSecret: latestInvoice?.payment_intent?.client_secret,
+        });
+        return;
+      }
+      
+      if (!user.email) {
+        throw new Error('No user email on file');
+      }
+
+      // Create or get Stripe customer
+      let customerId = user.stripeCustomerId;
+      if (!customerId) {
+        const customer = await stripe.customers.create({
+          email: user.email,
+          name: `${user.firstName} ${user.lastName}`,
+        });
+        customerId = customer.id;
+      }
+
+      // Create subscription
+      const subscription = await stripe.subscriptions.create({
+        customer: customerId,
+        items: [{
+          price: priceId, // This will be provided by frontend
+        }],
+        payment_behavior: 'default_incomplete',
+        expand: ['latest_invoice.payment_intent'],
+      });
+
+      // Update user with Stripe info and subscription tier
+      await storage.updateUserStripeInfo(user.id, customerId, subscription.id);
+      await storage.updateUserSubscriptionTier(user.id, tier);
+  
+      const latestInvoice = typeof subscription.latest_invoice === 'string' 
+        ? await stripe.invoices.retrieve(subscription.latest_invoice, { expand: ['payment_intent'] })
+        : subscription.latest_invoice;
+      
+      res.send({
+        subscriptionId: subscription.id,
+        clientSecret: latestInvoice?.payment_intent?.client_secret,
+      });
+    } catch (error: any) {
+      console.error('Create subscription error:', error);
+      return res.status(400).send({ error: { message: error.message } });
+    }
+  });
+
+  // Update subscription tier after successful payment
+  app.post('/api/update-subscription-tier', requireAuth, async (req: any, res) => {
+    try {
+      const { tier } = req.body;
+      const user = await storage.updateUserSubscriptionTier(req.user.id, tier);
+      res.json({ user });
+    } catch (error: any) {
+      console.error('Update subscription tier error:', error);
+      res.status(500).json({ error: "Failed to update subscription tier" });
     }
   });
 

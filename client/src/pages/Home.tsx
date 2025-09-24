@@ -213,10 +213,10 @@ export default function Home() {
                   </div>
                   <Button 
                     className="w-full bg-primary text-white hover:bg-primary/90" 
-                    onClick={() => setLocation('/auth?mode=signup&plan=standard')}
+                    onClick={() => setLocation('/subscribe')}
                     data-testid="button-signup-standard"
                   >
-                    Start Standard Plan
+                    Subscribe Now
                   </Button>
                 </CardContent>
               </Card>
@@ -243,10 +243,10 @@ export default function Home() {
                   </div>
                   <Button 
                     className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600" 
-                    onClick={() => setLocation('/auth?mode=signup&plan=premium')}
+                    onClick={() => setLocation('/subscribe')}
                     data-testid="button-signup-premium"
                   >
-                    Upgrade to Premium
+                    Subscribe Now
                   </Button>
                 </CardContent>
               </Card>

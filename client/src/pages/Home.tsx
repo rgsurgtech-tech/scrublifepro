@@ -159,7 +159,7 @@ export default function Home() {
           </div>
 
           <div className="text-center">
-            <h2 className="text-3xl font-bold mb-8">Choose Your Plan</h2>
+            <h2 className="text-3xl font-bold mb-8 text-white">Choose Your Plan</h2>
             <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
               <Card className="glass-card bg-transparent backdrop-blur-xl border-white/10" data-testid="card-pricing-free">
                 <CardHeader>

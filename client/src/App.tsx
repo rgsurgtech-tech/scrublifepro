@@ -9,6 +9,7 @@ import Home from "@/pages/Home";
 import Specialties from "@/pages/Specialties";
 import Procedures from "@/pages/Procedures";
 import Community from "@/pages/Community";
+import Profile from "@/pages/Profile";
 import NotFound from "@/pages/not-found";
 import AuthPage from "@/pages/AuthPage";
 
@@ -21,6 +22,7 @@ function Router() {
       <Route path="/procedures/:specialtyId" component={Procedures} />
       <Route path="/procedures/:specialtyId/:procedureId" component={Procedures} />
       <Route path="/community" component={Community} />
+      <Route path="/profile" component={Profile} />
       <Route component={NotFound} />
     </Switch>
   );

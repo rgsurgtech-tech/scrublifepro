@@ -443,7 +443,7 @@ export default function Home() {
             </CardContent>
           </Card>
 
-          <Card className="glass-card bg-transparent backdrop-blur-xl border-white/10 hover-elevate cursor-pointer" data-testid="card-profile">
+          <Card className="glass-card bg-transparent backdrop-blur-xl border-white/10 hover-elevate cursor-pointer" onClick={() => setLocation('/profile')} data-testid="card-profile">
             <CardHeader>
               <Shield className="h-8 w-8 text-primary mb-2" />
               <CardTitle className="text-white">Profile Settings</CardTitle>

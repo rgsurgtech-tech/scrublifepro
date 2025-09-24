@@ -195,6 +195,25 @@ export class DatabaseStorage implements IStorage {
     return result[0] || null;
   }
 
+  async getAllUserNotes(userId: string): Promise<any[]> {
+    const result = await db.select({
+      id: userNotes.id,
+      procedureId: userNotes.procedureId,
+      content: userNotes.content,
+      createdAt: userNotes.createdAt,
+      updatedAt: userNotes.updatedAt,
+      procedureTitle: procedures.name,
+      specialtyId: procedures.specialtyId,
+      specialtyName: specialties.name,
+    })
+      .from(userNotes)
+      .leftJoin(procedures, eq(userNotes.procedureId, procedures.id))
+      .leftJoin(specialties, eq(procedures.specialtyId, specialties.id))
+      .where(eq(userNotes.userId, userId))
+      .orderBy(desc(userNotes.updatedAt));
+    return result;
+  }
+
   async saveUserNote(note: InsertUserNote): Promise<UserNote> {
     const result = await db.insert(userNotes).values(note).returning();
     return result[0];

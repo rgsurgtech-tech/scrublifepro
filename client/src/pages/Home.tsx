@@ -431,7 +431,7 @@ export default function Home() {
             </CardContent>
           </Card>
 
-          <Card className="glass-card bg-transparent backdrop-blur-xl border-white/10 hover-elevate cursor-pointer" data-testid="card-notes">
+          <Card className="glass-card bg-transparent backdrop-blur-xl border-white/10 hover-elevate cursor-pointer" onClick={() => setLocation('/notes')} data-testid="card-notes">
             <CardHeader>
               <BookOpen className="h-8 w-8 text-primary mb-2" />
               <CardTitle className="text-white">My Notes</CardTitle>

@@ -242,6 +242,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ error: "Failed to get notes" });
     }
   });
+
+  app.get("/api/user/notes", requireAuth, async (req: any, res) => {
+    try {
+      const notes = await storage.getAllUserNotes(req.user.id);
+      res.json(notes);
+    } catch (error) {
+      console.error('Get all notes error:', error);
+      res.status(500).json({ error: "Failed to get notes" });
+    }
+  });
   
   app.post("/api/user/notes", requireAuth, async (req: any, res) => {
     try {

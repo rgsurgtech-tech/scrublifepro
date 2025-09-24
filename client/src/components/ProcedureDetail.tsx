@@ -306,7 +306,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
                 <CardTitle className="text-base">Key Success Factors</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
-                {procedure_data.tips.map((tip, index) => (
+                {procedure_data.tips.map((tip: string, index: number) => (
                   <div key={index} className="flex items-start gap-2">
                     <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
                     <span className="text-sm">{tip}</span>
@@ -321,7 +321,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
                 <CardTitle className="text-base">Potential Complications</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
-                {procedure_data.complications.map((complication, index) => (
+                {procedure_data.complications.map((complication: string, index: number) => (
                   <div key={index} className="flex items-start gap-2">
                     <AlertCircle className="h-4 w-4 text-orange-500 mt-0.5 flex-shrink-0" />
                     <span className="text-sm">{complication}</span>
@@ -339,7 +339,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
               </CardHeader>
               <CardContent>
                 <ol className="space-y-2">
-                  {procedure_data.positioning.steps.map((step, index) => (
+                  {procedure_data.positioning.steps.map((step: string, index: number) => (
                     <li key={index} className="flex items-start gap-3 text-sm">
                       <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs font-semibold flex-shrink-0 mt-0.5">
                         {index + 1}
@@ -358,7 +358,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
               </CardHeader>
               <CardContent>
                 <ol className="space-y-2">
-                  {procedure_data.draping.steps.map((step, index) => (
+                  {procedure_data.draping.steps.map((step: string, index: number) => (
                     <li key={index} className="flex items-start gap-3 text-sm">
                       <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs font-semibold flex-shrink-0 mt-0.5">
                         {index + 1}
@@ -379,7 +379,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
                 <div>
                   <h4 className="font-semibold text-sm mb-2">Basic Sets</h4>
                   <div className="flex flex-wrap gap-2">
-                    {procedure_data.instruments.basicSet.map((instrument, index) => (
+                    {procedure_data.instruments.basicSet.map((instrument: string, index: number) => (
                       <Badge key={index} variant="secondary" className="text-xs">
                         {instrument}
                       </Badge>
@@ -389,7 +389,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
                 <div>
                   <h4 className="font-semibold text-sm mb-2">Special Instruments</h4>
                   <div className="space-y-1">
-                    {procedure_data.instruments.specialInstruments.map((instrument, index) => (
+                    {procedure_data.instruments.specialInstruments.map((instrument: string, index: number) => (
                       <div key={index} className="flex items-center gap-2 text-sm">
                         <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0"></div>
                         {instrument}
@@ -410,7 +410,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
                 <div>
                   <h4 className="font-semibold text-sm mb-2">Essential Items</h4>
                   <div className="flex flex-wrap gap-2">
-                    {procedure_data.mayoSetup.essentials.map((item, index) => (
+                    {procedure_data.mayoSetup.essentials.map((item: string, index: number) => (
                       <Badge key={index} variant="outline" className="text-xs">
                         {item}
                       </Badge>
@@ -429,7 +429,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {procedure_data.procedureSteps.steps.map((step) => (
+                  {procedure_data.procedureSteps.steps.map((step: any) => (
                     <div key={step.step} className="border-l-2 border-primary pl-4 pb-4">
                       <div className="flex items-center gap-2 mb-2">
                         <span className="bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-sm font-semibold">
@@ -439,7 +439,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
                       </div>
                       <p className="text-sm text-muted-foreground mb-2">{step.description}</p>
                       <div className="flex flex-wrap gap-1">
-                        {step.instruments.map((instrument, index) => (
+                        {step.instruments.map((instrument: string, index: number) => (
                           <Badge key={index} variant="outline" className="text-xs">
                             {instrument}
                           </Badge>
@@ -461,7 +461,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {procedure_data.medications.items.map((med, index) => (
+                  {procedure_data.medications.items.map((med: any, index: number) => (
                     <div key={index} className="flex items-center justify-between p-3 bg-muted rounded-md">
                       <div>
                         <h4 className="font-semibold text-sm">{med.name}</h4>

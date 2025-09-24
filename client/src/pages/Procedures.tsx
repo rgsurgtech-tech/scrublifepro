@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Clock, AlertTriangle, Star, ChevronRight, Heart, Eye, Brain, Bone, Scissors, Baby, Activity, Stethoscope, Zap, Wrench, Target, Wind, Dna, Shield, Truck, Repeat } from 'lucide-react';
 import surgicalBg from '@assets/stock_images/surgical_operating_r_269f4a87.jpg';
+import ProcedureDetail from '@/components/ProcedureDetail';
 
 // Icon mapping for specialties
 const iconMap: { [key: string]: React.ReactNode } = {
@@ -67,9 +68,13 @@ interface Procedure {
 export default function Procedures() {
   const { user, isLoading } = useAuth();
   const [, setLocation] = useLocation();
-  const [match, params] = useRoute('/procedures/:specialtyId');
+  const [listMatch, listParams] = useRoute('/procedures/:specialtyId');
+  const [detailMatch, detailParams] = useRoute('/procedures/:specialtyId/:procedureId');
   
-  const specialtyId = params?.specialtyId;
+  // Determine if we're showing list or detail view
+  const isDetailView = detailMatch;
+  const specialtyId = detailParams?.specialtyId || listParams?.specialtyId;
+  const procedureId = detailParams?.procedureId;
 
   const { data: specialty, isLoading: specialtyLoading } = useQuery<Specialty>({
     queryKey: ['/api/specialties', specialtyId],
@@ -91,7 +96,18 @@ export default function Procedures() {
     enabled: !!specialtyId,
   });
 
-  if (isLoading || specialtyLoading || proceduresLoading) {
+  // Fetch individual procedure for detail view
+  const { data: selectedProcedure, isLoading: procedureLoading } = useQuery<Procedure>({
+    queryKey: ['/api/procedures', procedureId],
+    queryFn: async () => {
+      const response = await fetch(`/api/procedures/${procedureId}`);
+      if (!response.ok) throw new Error('Failed to fetch procedure');
+      return response.json();
+    },
+    enabled: !!procedureId && isDetailView,
+  });
+
+  if (isLoading || specialtyLoading || proceduresLoading || (isDetailView && procedureLoading)) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -102,17 +118,28 @@ export default function Procedures() {
     );
   }
 
-
-  if (!match || !specialtyId) {
+  if ((!listMatch && !detailMatch) || !specialtyId) {
     setLocation('/specialties');
     return null;
   }
 
   const handleProcedureClick = (procedureId: string) => {
-    // TODO: Implement individual procedure detail page
-    // setLocation(`/procedure/${procedureId}`);
-    console.log('Procedure clicked:', procedureId);
+    setLocation(`/procedures/${specialtyId}/${procedureId}`);
   };
+
+  const handleBackToProcedures = () => {
+    setLocation(`/procedures/${specialtyId}`);
+  };
+
+  // Show detail view if we have a procedure ID
+  if (isDetailView && selectedProcedure) {
+    return (
+      <ProcedureDetail 
+        procedure={selectedProcedure}
+        onBack={handleBackToProcedures}
+      />
+    );
+  }
 
   return (
     <div 
@@ -161,7 +188,8 @@ export default function Procedures() {
           {procedures?.map((procedure) => (
             <Card 
               key={procedure.id} 
-              className="bg-white/10 backdrop-blur-md border-white/20 text-white hover-elevate"
+              className="bg-white/10 backdrop-blur-md border-white/20 text-white hover-elevate cursor-pointer"
+              onClick={() => handleProcedureClick(procedure.id)}
               data-testid={`card-procedure-${procedure.id}`}
             >
               <CardHeader className="pb-3">

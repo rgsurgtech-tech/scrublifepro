@@ -19,6 +19,7 @@ function Router() {
       <Route path="/auth" component={AuthPage} />
       <Route path="/specialties" component={Specialties} />
       <Route path="/procedures/:specialtyId" component={Procedures} />
+      <Route path="/procedures/:specialtyId/:procedureId" component={Procedures} />
       <Route path="/community" component={Community} />
       <Route component={NotFound} />
     </Switch>

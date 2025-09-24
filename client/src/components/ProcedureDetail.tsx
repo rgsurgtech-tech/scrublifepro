@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowLeft, Star, Download, Share, Clock, AlertCircle, CheckCircle, Eye, FileText, Wrench, User, Pill } from "lucide-react";
+import { apiRequest, queryClient } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface ProcedureDetailProps {
   procedure: any;
@@ -12,13 +16,87 @@ interface ProcedureDetailProps {
 }
 
 export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailProps) {
+  const { user } = useAuth();
+  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("overview");
   const [isFavorite, setIsFavorite] = useState(procedure?.isFavorite || false);
   const [personalNotes, setPersonalNotes] = useState("");
 
-  // TODO: Remove mock data when implementing real backend
+  // Get procedure ID - handle both mock and real procedure data
+  const procedureId = procedure?.id || "mock-procedure-1";
+
+  // Fetch existing notes for this procedure
+  const { data: existingNotes } = useQuery({
+    queryKey: ['/api/user/notes', procedureId],
+    queryFn: async () => {
+      if (!user) return null;
+      const response = await fetch(`/api/user/notes/${procedureId}`, {
+        credentials: 'include'
+      });
+      if (response.status === 401) return null;
+      if (!response.ok) throw new Error('Failed to fetch notes');
+      return response.json();
+    },
+    enabled: !!user && !!procedureId
+  });
+
+  // Update local notes state when data is fetched
+  useEffect(() => {
+    if (existingNotes?.content) {
+      setPersonalNotes(existingNotes.content);
+    }
+  }, [existingNotes]);
+
+  // Save notes mutation
+  const saveNotesMutation = useMutation({
+    mutationFn: async (content: string) => {
+      const response = await apiRequest('POST', '/api/user/notes', {
+        procedureId,
+        content
+      });
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/user/notes', procedureId] });
+      toast({
+        title: 'Notes saved!',
+        description: 'Your personal notes have been saved successfully.'
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: 'Failed to save notes',
+        description: error.message,
+        variant: 'destructive'
+      });
+    }
+  });
+
+  const handleSaveNotes = () => {
+    if (!user) {
+      toast({
+        title: 'Authentication required',
+        description: 'Please sign in to save notes.',
+        variant: 'destructive'
+      });
+      return;
+    }
+    
+    if (personalNotes.trim().length === 0) {
+      toast({
+        title: 'No content to save',
+        description: 'Please add some notes before saving.',
+        variant: 'destructive'
+      });
+      return;
+    }
+
+    saveNotesMutation.mutate(personalNotes);
+  };
+
+  // Use real procedure data if available, fallback to mock data for development
   const mockDetailedProcedure = {
-    id: 1,
+    id: "mock-1",
     name: "Laparoscopic Cholecystectomy",
     specialty: "General Surgery",
     duration: "45-90 min",
@@ -136,7 +214,8 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
     ]
   };
 
-  const procedure_data = mockDetailedProcedure;
+  // Use real procedure data if available, fallback to mock data
+  const procedure_data = procedure || mockDetailedProcedure;
 
   return (
     <div className="min-h-screen bg-background">
@@ -416,8 +495,13 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
                   <span className="text-xs text-muted-foreground">
                     {personalNotes.length}/1000 characters
                   </span>
-                  <Button size="sm" data-testid="button-save-notes">
-                    Save Notes
+                  <Button 
+                    size="sm" 
+                    onClick={handleSaveNotes}
+                    disabled={saveNotesMutation.isPending}
+                    data-testid="button-save-notes"
+                  >
+                    {saveNotesMutation.isPending ? 'Saving...' : 'Save Notes'}
                   </Button>
                 </div>
               </CardContent>

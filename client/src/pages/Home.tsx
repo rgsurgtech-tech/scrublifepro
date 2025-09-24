@@ -416,16 +416,16 @@ export default function Home() {
           </Card>
 
           <Card 
-            className="hover-elevate cursor-pointer" 
+            className="glass-card bg-transparent backdrop-blur-xl border-white/10 hover-elevate cursor-pointer" 
             onClick={() => setLocation('/community')}
             data-testid="card-community-forum"
           >
             <CardHeader>
               <Users className="h-8 w-8 text-primary mb-2" />
-              <CardTitle>Community Forum</CardTitle>
+              <CardTitle className="text-white">Community Forum</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-white/70">
                 Connect with fellow surgical technologists
               </p>
             </CardContent>

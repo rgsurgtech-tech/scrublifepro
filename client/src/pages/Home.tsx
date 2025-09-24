@@ -1,46 +1,49 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { useLocation } from 'wouter';
+import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Stethoscope, Users, BookOpen, Shield, Search, Heart, Bone, Brain, Eye, Baby, Activity, Scissors, Target, Wind, Wrench, Truck, Repeat, Zap, Dna } from 'lucide-react';
 import surgicalBg from '@assets/stock_images/surgical_operating_r_269f4a87.jpg';
 
-// Specialty data mapping for IDs to display information
-const specialtyMap: { [key: string]: { name: string; icon: React.ReactNode } } = {
-  'general': { name: 'General Surgery', icon: <Stethoscope className="w-8 h-8 text-white" /> },
-  'orthopedics': { name: 'Orthopedics', icon: <Bone className="w-8 h-8 text-white" /> },
-  'cardiovascular': { name: 'Cardiovascular', icon: <Heart className="w-8 h-8 text-white" /> },
-  'neurosurgery': { name: 'Neurosurgery', icon: <Brain className="w-8 h-8 text-white" /> },
-  'ophthalmology': { name: 'Ophthalmology', icon: <Eye className="w-8 h-8 text-white" /> },
-  'obgyn': { name: 'OBGYN', icon: <Baby className="w-8 h-8 text-white" /> },
-  'urology': { name: 'Urology', icon: <Activity className="w-8 h-8 text-white" /> },
-  'ent': { name: 'ENT', icon: <Stethoscope className="w-8 h-8 text-white" /> },
-  'plastic': { name: 'Plastic Surgery', icon: <Scissors className="w-8 h-8 text-white" /> },
-  'pediatric': { name: 'Pediatric Surgery', icon: <Baby className="w-8 h-8 text-white" /> },
-  'bariatric': { name: 'Bariatric Surgery', icon: <Target className="w-8 h-8 text-white" /> },
-  'thoracic': { name: 'Thoracic Surgery', icon: <Wind className="w-8 h-8 text-white" /> },
-  'cardiothoracic': { name: 'Cardiothoracic', icon: <Heart className="w-8 h-8 text-white" /> },
-  'maxillofacial': { name: 'Oral & Maxillofacial', icon: <Wrench className="w-8 h-8 text-white" /> },
-  'colorectal': { name: 'Colorectal Surgery', icon: <Activity className="w-8 h-8 text-white" /> },
-  'trauma': { name: 'Trauma Surgery', icon: <Truck className="w-8 h-8 text-white" /> },
-  'transplant': { name: 'Transplant Surgery', icon: <Repeat className="w-8 h-8 text-white" /> },
-  'vascular': { name: 'Vascular Surgery', icon: <Zap className="w-8 h-8 text-white" /> },
-  'oncology': { name: 'Surgical Oncology', icon: <Shield className="w-8 h-8 text-white" /> },
-  'endocrine': { name: 'Endocrine Surgery', icon: <Dna className="w-8 h-8 text-white" /> },
+// Icon mapping for specialties
+const iconMap: { [key: string]: React.ReactNode } = {
+  'Scissors': <Scissors className="w-8 h-8 text-white" />,
+  'Bone': <Bone className="w-8 h-8 text-white" />,
+  'Heart': <Heart className="w-8 h-8 text-white" />,
+  'Brain': <Brain className="w-8 h-8 text-white" />,
+  'Eye': <Eye className="w-8 h-8 text-white" />,
+  'Baby': <Baby className="w-8 h-8 text-white" />,
+  'Activity': <Activity className="w-8 h-8 text-white" />,
+  'Stethoscope': <Stethoscope className="w-8 h-8 text-white" />,
+  'Wrench': <Wrench className="w-8 h-8 text-white" />,
+  'Target': <Target className="w-8 h-8 text-white" />,
+  'Wind': <Wind className="w-8 h-8 text-white" />,
+  'Truck': <Truck className="w-8 h-8 text-white" />,
+  'Repeat': <Repeat className="w-8 h-8 text-white" />,
+  'Zap': <Zap className="w-8 h-8 text-white" />,
+  'Shield': <Shield className="w-8 h-8 text-white" />,
+  'Dna': <Dna className="w-8 h-8 text-white" />,
 };
 
-// Helper function to get specialty info by ID
-const getSpecialtyInfo = (specialtyId: string) => {
-  return specialtyMap[specialtyId] || { 
-    name: specialtyId, 
-    icon: <Stethoscope className="w-8 h-8 text-white" /> 
-  };
-};
+interface Specialty {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  procedureCount: number;
+  color: string;
+}
 
 export default function Home() {
   const { user, isLoading } = useAuth();
   const [, setLocation] = useLocation();
+  
+  // Fetch all specialties to display real data
+  const { data: allSpecialties } = useQuery<Specialty[]>({
+    queryKey: ['/api/specialties'],
+  });
 
   if (isLoading) {
     return (
@@ -283,48 +286,20 @@ export default function Home() {
             <h2 className="text-2xl font-bold text-white mb-4">Your Specialties</h2>
             <div className="flex gap-4 overflow-x-auto pb-2">
               {/* Display user's selected specialties or popular ones if none selected */}
-              {(user.selectedSpecialties && user.selectedSpecialties.length > 0) ? (
-                user.selectedSpecialties.map((specialtyId, index) => {
-                  const specialtyInfo = getSpecialtyInfo(specialtyId);
-                  return (
-                    <div key={specialtyId} className="flex flex-col items-center gap-2 min-w-[80px] cursor-pointer hover-elevate" onClick={() => setLocation(`/procedures/${specialtyId}`)} data-testid={`specialty-${specialtyId}`}>
-                      <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center relative">
-                        {specialtyInfo.icon}
-                        {index === 0 && (
-                          <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-primary rounded-full border-2 border-white flex items-center justify-center">
-                            <div className="w-2 h-2 bg-white rounded-full"></div>
-                          </div>
-                        )}
+              {/* Display first 8 specialties from database */}
+              {allSpecialties?.slice(0, 8).map((specialty, index) => (
+                <div key={specialty.id} className="flex flex-col items-center gap-2 min-w-[80px] cursor-pointer hover-elevate" onClick={() => setLocation(`/procedures/${specialty.id}`)} data-testid={`specialty-${specialty.id}`}>
+                  <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center relative">
+                    {iconMap[specialty.icon] || <Stethoscope className="w-8 h-8 text-white" />}
+                    {index === 0 && (
+                      <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-primary rounded-full border-2 border-white flex items-center justify-center">
+                        <div className="w-2 h-2 bg-white rounded-full"></div>
                       </div>
-                      <span className="text-xs text-white text-center">{specialtyInfo.name}</span>
-                    </div>
-                  );
-                })
-              ) : (
-                // Default popular specialties to display
-                [
-                  { id: 'orthopedics', name: 'Orthopedics', icon: Bone },
-                  { id: 'cardiovascular', name: 'Cardiovascular', icon: Heart },
-                  { id: 'general', name: 'General Surgery', icon: Stethoscope },
-                  { id: 'neurosurgery', name: 'Neurosurgery', icon: Brain },
-                  { id: 'trauma', name: 'Trauma Surgery', icon: Truck },
-                  { id: 'obgyn', name: 'OBGYN', icon: Baby },
-                  { id: 'pediatric', name: 'Pediatric Surgery', icon: Baby },
-                  { id: 'bariatric', name: 'Bariatric Surgery', icon: Target }
-                ].map((specialty, index) => (
-                  <div key={specialty.id} className="flex flex-col items-center gap-2 min-w-[80px] cursor-pointer hover-elevate" onClick={() => setLocation(`/procedures/${specialty.id}`)} data-testid={`specialty-${specialty.id}`}>
-                    <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center relative">
-                      <specialty.icon className="w-8 h-8 text-white" />
-                      {index === 0 && (
-                        <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-primary rounded-full border-2 border-white flex items-center justify-center">
-                          <div className="w-2 h-2 bg-white rounded-full"></div>
-                        </div>
-                      )}
-                    </div>
-                    <span className="text-xs text-white text-center">{specialty.name}</span>
+                    )}
                   </div>
-                ))
-              )}
+                  <span className="text-xs text-white text-center">{specialty.name}</span>
+                </div>
+              ))}
             </div>
           </div>
 

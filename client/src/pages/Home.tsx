@@ -287,7 +287,7 @@ export default function Home() {
                 user.selectedSpecialties.map((specialtyId, index) => {
                   const specialtyInfo = getSpecialtyInfo(specialtyId);
                   return (
-                    <div key={specialtyId} className="flex flex-col items-center gap-2 min-w-[80px] cursor-pointer hover-elevate" onClick={() => setLocation(`/procedures/${specialtyId}`)} data-testid={`specialty-${specialtyId}`}>
+                    <div key={specialtyId} className="flex flex-col items-center gap-2 min-w-[80px] cursor-pointer hover-elevate" onClick={() => setLocation('/specialties')} data-testid={`specialty-${specialtyId}`}>
                       <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center relative">
                         {specialtyInfo.icon}
                         {index === 0 && (
@@ -312,7 +312,7 @@ export default function Home() {
                   { id: 'pediatric', name: 'Pediatric Surgery', icon: Baby },
                   { id: 'bariatric', name: 'Bariatric Surgery', icon: Target }
                 ].map((specialty, index) => (
-                  <div key={specialty.id} className="flex flex-col items-center gap-2 min-w-[80px] cursor-pointer hover-elevate" onClick={() => setLocation(`/procedures/${specialty.id}`)} data-testid={`specialty-${specialty.id}`}>
+                  <div key={specialty.id} className="flex flex-col items-center gap-2 min-w-[80px] cursor-pointer hover-elevate" onClick={() => setLocation('/specialties')} data-testid={`specialty-${specialty.id}`}>
                     <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center relative">
                       <specialty.icon className="w-8 h-8 text-white" />
                       {index === 0 && (

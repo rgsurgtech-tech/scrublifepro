@@ -435,18 +435,6 @@ export default function Home() {
             </CardContent>
           </Card>
 
-          <Card className="hover-elevate cursor-pointer" data-testid="card-notes">
-            <CardHeader>
-              <BookOpen className="h-8 w-8 text-primary mb-2" />
-              <CardTitle>My Notes</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">
-                View and manage your personal procedure notes
-              </p>
-            </CardContent>
-          </Card>
-
           <Card className="glass-card bg-transparent backdrop-blur-xl border-white/10 hover-elevate cursor-pointer" data-testid="card-notes">
             <CardHeader>
               <BookOpen className="h-8 w-8 text-primary mb-2" />

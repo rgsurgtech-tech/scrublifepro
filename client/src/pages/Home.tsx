@@ -178,6 +178,13 @@ export default function Home() {
                       ✓ Community access
                     </p>
                   </div>
+                  <Button 
+                    className="w-full bg-white text-black hover:bg-gray-100" 
+                    onClick={() => setLocation('/auth?mode=signup&plan=free')}
+                    data-testid="button-signup-free"
+                  >
+                    Get Started Free
+                  </Button>
                 </CardContent>
               </Card>
 
@@ -204,6 +211,13 @@ export default function Home() {
                       ✓ Offline access
                     </p>
                   </div>
+                  <Button 
+                    className="w-full bg-primary text-white hover:bg-primary/90" 
+                    onClick={() => setLocation('/auth?mode=signup&plan=standard')}
+                    data-testid="button-signup-standard"
+                  >
+                    Start Standard Plan
+                  </Button>
                 </CardContent>
               </Card>
 
@@ -227,6 +241,13 @@ export default function Home() {
                       ✓ Priority support
                     </p>
                   </div>
+                  <Button 
+                    className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600" 
+                    onClick={() => setLocation('/auth?mode=signup&plan=premium')}
+                    data-testid="button-signup-premium"
+                  >
+                    Upgrade to Premium
+                  </Button>
                 </CardContent>
               </Card>
             </div>

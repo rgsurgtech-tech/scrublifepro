@@ -275,7 +275,7 @@ export default function Home() {
         <header className="flex items-center justify-between p-4 glass backdrop-blur-xl border-b border-white/10">
           <div className="flex items-center gap-3">
             <svg className="w-8 h-8 text-primary" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2C11.4 2 11 2.4 11 3V21C11 21.6 11.4 22 12 22S13 21.6 13 21V3C13 2.4 12.6 2 12 2M8 4C7.4 4.2 7 4.8 7.2 5.4C7.8 7.2 9.4 8.8 11.2 9.4C11.8 9.6 12.4 9.2 12.2 8.6C11.6 6.8 10 5.2 8.2 4.6C7.8 4.4 7.2 4.2 8 4M16 4C16.6 4.2 17 4.8 16.8 5.4C16.2 7.2 14.6 8.8 12.8 9.4C12.2 9.6 11.6 9.2 11.8 8.6C12.4 6.8 14 5.2 15.8 4.6C16.2 4.4 16.8 4.2 16 4M8 12C7.4 12.2 7 12.8 7.2 13.4C7.8 15.2 9.4 16.8 11.2 17.4C11.8 17.6 12.4 17.2 12.2 16.6C11.6 14.8 10 13.2 8.2 12.6C7.8 12.4 7.2 12.2 8 12M16 12C16.6 12.2 17 12.8 16.8 13.4C16.2 15.2 14.6 16.8 12.8 17.4C12.2 17.6 11.6 17.2 11.8 16.6C12.4 14.8 14 13.2 15.8 12.6C16.2 12.4 16.8 12.2 16 12M9 3H15L12 6L9 3Z"/>
+              <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2M21 9V7L15 10L21 13V11C21 15.97 16.97 20 12 20S3 15.97 3 11V13L9 10L3 7V9C3 14.97 7.03 19 12 19S21 14.97 21 9Z"/>
             </svg>
             <span className="text-xl font-bold text-white">SurgiPrep</span>
           </div>

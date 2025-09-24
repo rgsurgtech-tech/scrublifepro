@@ -6,10 +6,18 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { ArrowLeft, Star, Download, Share, Clock, AlertCircle, CheckCircle, Eye, FileText, Wrench, User, Pill, Info } from "lucide-react";
+import { ArrowLeft, Star, Download, Share, Clock, AlertCircle, CheckCircle, Eye, FileText, Wrench, User, Pill, Info, Lightbulb } from "lucide-react";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+
+// Import surgical instrument images
+import laparoscopicSetImage from "@assets/stock_images/laparoscopic_surgica_2f77ae4e.jpg";
+import grasperImage from "@assets/stock_images/laparoscopic_surgica_d230030e.jpg";
+import trocarImage from "@assets/stock_images/laparoscopic_surgica_4e4a2a75.jpg";
+import laparoscopeImage from "@assets/stock_images/laparoscopic_surgica_ea48bdf4.jpg";
+import electrocauteryImage from "@assets/stock_images/laparoscopic_surgica_47f97ae1.jpg";
+import harmonicScalpelImage from "@assets/stock_images/harmonic_scalpel_ult_e37fe3a8.jpg";
 
 interface ProcedureDetailProps {
   procedure: any;
@@ -51,15 +59,17 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
   }, [existingNotes]);
 
   // Save notes mutation
-  // Instrument details database
+  // Instrument details database with enhanced information
   const instrumentDetails = {
     "Major laparoscopy set": {
       name: "Major Laparoscopy Set",
       category: "Surgical Set",
-      description: "Complete instrument set for laparoscopic procedures",
-      contents: ["5mm and 10mm trocars", "Laparoscopic graspers", "Laparoscopic scissors", "Clip appliers", "Irrigation/aspiration"],
-      usage: "Used for minimally invasive surgical procedures through small incisions",
-      specifications: "Sterile, reusable instruments designed for laparoscopic surgery"
+      description: "Complete instrument set for laparoscopic procedures including all essential tools for minimally invasive surgery",
+      contents: ["5mm and 10mm trocars", "Laparoscopic graspers (Maryland, DeBakey, Wave)", "Laparoscopic Metz scissors", "Clip appliers with titanium clips", "L-hook electrocautery", "Suction/irrigation system"],
+      usage: "Used for minimally invasive surgical procedures through small keyhole incisions. Provides complete surgical capability for procedures like cholecystectomy, appendectomy, and hernia repair",
+      specifications: "Sterile, reusable instruments with autoclave capability. Standard 5mm diameter for working ports, 10-12mm for specimen extraction",
+      image: "laparoscopic_surgica_2f77ae4e.jpg",
+      setupTips: ["Arrange instruments by frequency of use", "Have backup clips readily available", "Test all electrical connections before procedure", "Ensure camera white balance is optimized"]
     },
     "Basic laparotomy set": {
       name: "Basic Laparotomy Set", 
@@ -70,36 +80,44 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       specifications: "Sterile, reusable surgical instruments for open surgery"
     },
     "Electrocautery": {
-      name: "Electrocautery Unit",
-      category: "Energy Device", 
-      description: "Device that uses electrical current to cut tissue and control bleeding",
-      contents: ["Generator unit", "Handpiece", "Foot pedal", "Return electrode pad"],
-      usage: "Tissue cutting and hemostasis during surgery",
-      specifications: "Monopolar and bipolar modes, adjustable power settings"
+      name: "Electrosurgical Unit (ESU)",
+      category: "Energy Device",
+      description: "High-frequency electrical current device for cutting tissue and achieving hemostasis. Provides both cutting and coagulation modes for tissue manipulation",
+      contents: ["RF generator with digital display", "L-hook electrocautery electrode", "Monopolar and bipolar handpieces", "Foot pedal with dual activation", "Grounding pad for patient safety"],
+      usage: "Primary cutting and coagulation for tissue dissection. L-hook electrode ideal for gallbladder dissection from liver bed. Provides precise control of bleeding vessels during laparoscopic procedures",
+      specifications: "Adjustable power settings 1-100W. Pure cut, blend, and coag modes. Patient return electrode monitoring. Isolated output for patient safety. Compatible with all laparoscopic instruments",
+      image: "laparoscopic_surgica_47f97ae1.jpg",
+      setupTips: ["Verify grounding pad placement", "Set appropriate power levels", "Have suction ready for smoke evacuation", "Check electrode tip condition"]
     },
     "5mm and 10mm trocars (4 total)": {
-      name: "Laparoscopic Trocars",
+      name: "Laparoscopic Trocar System",
       category: "Access Port",
-      description: "Cannulas that provide access ports for laparoscopic instruments",
-      contents: ["10mm primary trocar", "Three 5mm secondary trocars", "Safety shields", "CO2 valves"],
-      usage: "Create sealed access points for laparoscopic instruments",
-      specifications: "Disposable or reusable, with safety mechanisms to prevent injury"
+      description: "Sharp-pointed cannulated instruments that provide access ports for laparoscopic surgery. Create sealed entry points while maintaining pneumoperitoneum",
+      contents: ["One 10-12mm primary umbilical trocar", "Three 5mm secondary working trocars", "Safety shields with spring-loaded tips", "CO2 stopcock valves", "Reduction sleeves for smaller instruments"],
+      usage: "Primary trocar inserted at umbilicus for camera. Secondary trocars placed under direct visualization for working instruments. Maintains sealed access while allowing instrument exchange",
+      specifications: "Disposable or reusable options. Safety mechanisms include spring-loaded shields and visual confirmation systems. Various tip designs: pyramidal, conical, or bladed for different tissue types",
+      image: "laparoscopic_surgica_4e4a2a75.jpg",
+      setupTips: ["Check all valves before insertion", "Have various sizes available", "Ensure CO2 connections are secure", "Position for optimal triangulation"]
     },
     "Laparoscope (0° and 30°)": {
-      name: "Laparoscope Camera System",
+      name: "Laparoscopic Camera System",
       category: "Visualization",
-      description: "High-definition camera system for laparoscopic visualization",
-      contents: ["0-degree scope", "30-degree scope", "Light cable", "Camera head"],
-      usage: "Provides visual guidance during laparoscopic procedures",
-      specifications: "HD video capability, autoclavable, fiber optic illumination"
+      description: "High-definition telescopic camera system providing illuminated visualization of the abdominal cavity. Available in different viewing angles for optimal visualization",
+      contents: ["0-degree straight scope for direct viewing", "30-degree angled scope for enhanced visualization", "Fiber optic light cable", "HD camera head with zoom capability", "Anti-fog warming system"],
+      usage: "Primary visualization tool inserted through umbilical port. 0-degree scope for initial inspection and general viewing. 30-degree scope for viewing behind organs and into tight spaces",
+      specifications: "5mm or 10mm diameter options. Full HD 1080p resolution. Autoclavable lens system. LED or xenon light source compatibility. Anti-fog coating standard",
+      image: "laparoscopic_surgica_ea48bdf4.jpg",
+      setupTips: ["Warm scope to prevent fogging", "White balance before use", "Have anti-fog solution ready", "Check light source intensity"]
     },
     "Graspers (atraumatic)": {
       name: "Atraumatic Graspers",
       category: "Grasping Instrument",
-      description: "Gentle grasping forceps designed to minimize tissue damage",
-      contents: ["5mm graspers", "Fenestrated tips", "Locking mechanism"],
-      usage: "Gentle tissue manipulation and organ retraction",
-      specifications: "Non-crushing tips, multiple jaw configurations available"
+      description: "Gentle grasping forceps designed to minimize tissue damage during laparoscopic procedures. Features fenestrated or serrated jaws for secure grip without crushing delicate tissues",
+      contents: ["5mm diameter shafts", "Fenestrated atraumatic tips", "360-degree rotation capability", "Locking ratchet mechanism", "Insulated shaft for electrocautery safety"],
+      usage: "Primary use for gentle tissue manipulation, organ retraction, and gallbladder fundus grasping. Essential for maintaining traction during dissection while minimizing tissue trauma",
+      specifications: "Standard 5mm diameter, 34-37cm length (45cm for bariatric). Autoclavable stainless steel construction. Multiple jaw patterns: fenestrated, wave, Maryland dissector",
+      image: "laparoscopic_surgica_d230030e.jpg",
+      setupTips: ["Have multiple graspers available for assistant", "Check jaw alignment before use", "Ensure proper insulation for electrocautery", "Position within easy reach for frequent use"]
     },
     "Clips (titanium/absorbable)": {
       name: "Surgical Clips",
@@ -118,12 +136,14 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       specifications: "Various sizes available, puncture-resistant material"
     },
     "Harmonic scalpel or LigaSure": {
-      name: "Ultrasonic Energy Device",
+      name: "Harmonic Ultrasonic Scalpel",
       category: "Energy Device",
-      description: "Advanced energy device for cutting and coagulation",
-      contents: ["Generator", "Handpiece", "Blade assembly", "Foot pedal"],
-      usage: "Simultaneous cutting and coagulation with minimal thermal spread",
-      specifications: "Ultrasonic frequency, precise energy delivery"
+      description: "Advanced ultrasonic cutting and coagulation device that converts electrical energy to mechanical vibration at 55,500 Hz. Provides simultaneous cutting and sealing with minimal thermal spread",
+      contents: ["Ultrasonic generator unit", "Piezoelectric handpiece", "Interchangeable blade assemblies (hook, shear, blade)", "Foot pedal activation", "Irrigation capability"],
+      usage: "Primary cutting and vessel sealing instrument for laparoscopic procedures. Seals vessels up to 5mm diameter (shears) or 2mm (hook/blade). Eliminates need for clips on smaller vessels",
+      specifications: "Operating frequency: 55,500 Hz. Minimal lateral thermal spread (2-3mm). No smoke production. Precise tissue effect with reduced operating time. Compatible with standard 5mm trocars",
+      image: "harmonic_scalpel_ult_e37fe3a8.jpg",
+      setupTips: ["Test activation before procedure", "Have backup electrocautery available", "Ensure proper blade selection for procedure", "Irrigation ready for tissue cooling"]
     },
     "Trocars": {
       name: "Surgical Trocars",
@@ -173,6 +193,19 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       usage: "Secure needle grip during suturing procedures",
       specifications: "Precision-ground tips, various lengths available"
     }
+  };
+
+  // Get instrument image based on filename
+  const getInstrumentImage = (imageName: string) => {
+    const imageMap: Record<string, string> = {
+      "laparoscopic_surgica_2f77ae4e.jpg": laparoscopicSetImage,
+      "laparoscopic_surgica_d230030e.jpg": grasperImage,
+      "laparoscopic_surgica_4e4a2a75.jpg": trocarImage,
+      "laparoscopic_surgica_ea48bdf4.jpg": laparoscopeImage,
+      "laparoscopic_surgica_47f97ae1.jpg": electrocauteryImage,
+      "harmonic_scalpel_ult_e37fe3a8.jpg": harmonicScalpelImage
+    };
+    return imageMap[imageName] || null;
   };
 
   // Handle instrument click
@@ -708,6 +741,17 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
                   {instrumentDetails[selectedInstrument as keyof typeof instrumentDetails].category}
                 </Badge>
               </div>
+
+              {/* Instrument Image */}
+              {(instrumentDetails[selectedInstrument as keyof typeof instrumentDetails] as any).image && (
+                <div>
+                  <img 
+                    src={getInstrumentImage((instrumentDetails[selectedInstrument as keyof typeof instrumentDetails] as any).image)} 
+                    alt={instrumentDetails[selectedInstrument as keyof typeof instrumentDetails].name}
+                    className="w-full h-48 object-cover rounded-lg border"
+                  />
+                </div>
+              )}
               
               <div>
                 <h4 className="font-semibold text-sm mb-2">Description</h4>
@@ -741,6 +785,24 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
                   {instrumentDetails[selectedInstrument as keyof typeof instrumentDetails].specifications}
                 </p>
               </div>
+
+              {/* Setup Tips */}
+              {(instrumentDetails[selectedInstrument as keyof typeof instrumentDetails] as any).setupTips && (
+                <div>
+                  <h4 className="font-semibold text-sm mb-2 flex items-center gap-2">
+                    <Lightbulb className="w-4 h-4 text-yellow-500" />
+                    Setup Tips
+                  </h4>
+                  <div className="space-y-1">
+                    {(instrumentDetails[selectedInstrument as keyof typeof instrumentDetails] as any).setupTips.map((tip: string, index: number) => (
+                      <div key={index} className="flex items-start gap-2 text-sm">
+                        <div className="w-2 h-2 bg-yellow-500 rounded-full flex-shrink-0 mt-1.5"></div>
+                        <span className="text-muted-foreground">{tip}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
           

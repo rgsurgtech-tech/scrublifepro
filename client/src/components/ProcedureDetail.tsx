@@ -5,7 +5,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowLeft, Star, Download, Share, Clock, AlertCircle, CheckCircle, Eye, FileText, Wrench, User, Pill } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { ArrowLeft, Star, Download, Share, Clock, AlertCircle, CheckCircle, Eye, FileText, Wrench, User, Pill, Info } from "lucide-react";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
@@ -21,6 +22,8 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
   const [activeTab, setActiveTab] = useState("overview");
   const [isFavorite, setIsFavorite] = useState(procedure?.isFavorite || false);
   const [personalNotes, setPersonalNotes] = useState("");
+  const [selectedInstrument, setSelectedInstrument] = useState<string | null>(null);
+  const [showInstrumentDialog, setShowInstrumentDialog] = useState(false);
 
   // Get procedure ID - handle both mock and real procedure data
   const procedureId = procedure?.id || "mock-procedure-1";
@@ -48,6 +51,136 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
   }, [existingNotes]);
 
   // Save notes mutation
+  // Instrument details database
+  const instrumentDetails = {
+    "Major laparoscopy set": {
+      name: "Major Laparoscopy Set",
+      category: "Surgical Set",
+      description: "Complete instrument set for laparoscopic procedures",
+      contents: ["5mm and 10mm trocars", "Laparoscopic graspers", "Laparoscopic scissors", "Clip appliers", "Irrigation/aspiration"],
+      usage: "Used for minimally invasive surgical procedures through small incisions",
+      specifications: "Sterile, reusable instruments designed for laparoscopic surgery"
+    },
+    "Basic laparotomy set": {
+      name: "Basic Laparotomy Set", 
+      category: "Surgical Set",
+      description: "Standard open surgical instrument set",
+      contents: ["Scalpels", "Forceps", "Hemostats", "Retractors", "Scissors", "Needle holders"],
+      usage: "Used for open abdominal surgical procedures",
+      specifications: "Sterile, reusable surgical instruments for open surgery"
+    },
+    "Electrocautery": {
+      name: "Electrocautery Unit",
+      category: "Energy Device", 
+      description: "Device that uses electrical current to cut tissue and control bleeding",
+      contents: ["Generator unit", "Handpiece", "Foot pedal", "Return electrode pad"],
+      usage: "Tissue cutting and hemostasis during surgery",
+      specifications: "Monopolar and bipolar modes, adjustable power settings"
+    },
+    "5mm and 10mm trocars (4 total)": {
+      name: "Laparoscopic Trocars",
+      category: "Access Port",
+      description: "Cannulas that provide access ports for laparoscopic instruments",
+      contents: ["10mm primary trocar", "Three 5mm secondary trocars", "Safety shields", "CO2 valves"],
+      usage: "Create sealed access points for laparoscopic instruments",
+      specifications: "Disposable or reusable, with safety mechanisms to prevent injury"
+    },
+    "Laparoscope (0° and 30°)": {
+      name: "Laparoscope Camera System",
+      category: "Visualization",
+      description: "High-definition camera system for laparoscopic visualization",
+      contents: ["0-degree scope", "30-degree scope", "Light cable", "Camera head"],
+      usage: "Provides visual guidance during laparoscopic procedures",
+      specifications: "HD video capability, autoclavable, fiber optic illumination"
+    },
+    "Graspers (atraumatic)": {
+      name: "Atraumatic Graspers",
+      category: "Grasping Instrument",
+      description: "Gentle grasping forceps designed to minimize tissue damage",
+      contents: ["5mm graspers", "Fenestrated tips", "Locking mechanism"],
+      usage: "Gentle tissue manipulation and organ retraction",
+      specifications: "Non-crushing tips, multiple jaw configurations available"
+    },
+    "Clips (titanium/absorbable)": {
+      name: "Surgical Clips",
+      category: "Hemostasis",
+      description: "Small clips used to occlude blood vessels and ducts",
+      contents: ["Titanium clips", "Absorbable clips", "Clip applier"],
+      usage: "Vessel ligation and duct occlusion",
+      specifications: "MRI-compatible titanium or bioabsorbable materials"
+    },
+    "Endocatch bag": {
+      name: "Specimen Retrieval Bag",
+      category: "Retrieval Device",
+      description: "Sterile bag for safe specimen removal during laparoscopy",
+      contents: ["Deployable bag", "Drawstring closure", "Handle mechanism"],
+      usage: "Contains specimens during extraction to prevent contamination",
+      specifications: "Various sizes available, puncture-resistant material"
+    },
+    "Harmonic scalpel or LigaSure": {
+      name: "Ultrasonic Energy Device",
+      category: "Energy Device",
+      description: "Advanced energy device for cutting and coagulation",
+      contents: ["Generator", "Handpiece", "Blade assembly", "Foot pedal"],
+      usage: "Simultaneous cutting and coagulation with minimal thermal spread",
+      specifications: "Ultrasonic frequency, precise energy delivery"
+    },
+    "Trocars": {
+      name: "Surgical Trocars",
+      category: "Access Device",
+      description: "Sharp-pointed instruments for creating surgical access",
+      contents: ["Trocar assemblies", "Safety shields", "Cannulas"],
+      usage: "Initial access for minimally invasive procedures",
+      specifications: "Various sizes from 3mm to 15mm"
+    },
+    "Veress needle": {
+      name: "Veress Insufflation Needle",
+      category: "Insufflation",
+      description: "Safety needle for creating pneumoperitoneum",
+      contents: ["Spring-loaded needle", "Safety mechanism", "Gas connection"],
+      usage: "Safe insufflation of CO2 for laparoscopic procedures",
+      specifications: "Spring-loaded tip prevents organ injury"
+    },
+    "CO2 line": {
+      name: "CO2 Insufflation Line",
+      category: "Insufflation",
+      description: "Tubing system for delivering CO2 gas",
+      contents: ["Gas tubing", "Connectors", "Flow regulator"],
+      usage: "Delivers CO2 for pneumoperitoneum creation",
+      specifications: "Sterile, single-use, pressure-rated tubing"
+    },
+    "Scissors": {
+      name: "Laparoscopic Scissors",
+      category: "Cutting Instrument",
+      description: "Precision cutting instruments for laparoscopic surgery",
+      contents: ["Curved scissors", "Straight scissors", "Monopolar capability"],
+      usage: "Tissue dissection and cutting during laparoscopy",
+      specifications: "Insulated for electrocautery use, various tip configurations"
+    },
+    "Suture": {
+      name: "Surgical Sutures",
+      category: "Closure Material",
+      description: "Thread-like materials used to close surgical incisions",
+      contents: ["Absorbable sutures", "Non-absorbable sutures", "Various needle types"],
+      usage: "Tissue approximation and wound closure",
+      specifications: "Multiple materials available: silk, nylon, polyglactin"
+    },
+    "Needle holders": {
+      name: "Needle Holders",
+      category: "Suturing Instrument", 
+      description: "Instruments designed to grasp and manipulate surgical needles",
+      contents: ["Locking mechanism", "Tungsten carbide inserts", "Various sizes"],
+      usage: "Secure needle grip during suturing procedures",
+      specifications: "Precision-ground tips, various lengths available"
+    }
+  };
+
+  // Handle instrument click
+  const handleInstrumentClick = (instrumentName: string) => {
+    setSelectedInstrument(instrumentName);
+    setShowInstrumentDialog(true);
+  };
+
   const saveNotesMutation = useMutation({
     mutationFn: async (content: string) => {
       const response = await apiRequest('POST', '/api/user/notes', {
@@ -380,7 +513,14 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
                   <h4 className="font-semibold text-sm mb-2">Basic Sets</h4>
                   <div className="flex flex-wrap gap-2">
                     {procedure_data.instruments.basicSet.map((instrument: string, index: number) => (
-                      <Badge key={index} variant="secondary" className="text-xs">
+                      <Badge 
+                        key={index} 
+                        variant="secondary" 
+                        className="text-xs cursor-pointer hover-elevate transition-colors"
+                        onClick={() => handleInstrumentClick(instrument)}
+                        data-testid={`badge-instrument-${instrument.toLowerCase().replace(/\s/g, '-')}`}
+                      >
+                        <Info className="w-3 h-3 mr-1" />
                         {instrument}
                       </Badge>
                     ))}
@@ -390,9 +530,14 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
                   <h4 className="font-semibold text-sm mb-2">Special Instruments</h4>
                   <div className="space-y-1">
                     {procedure_data.instruments.specialInstruments.map((instrument: string, index: number) => (
-                      <div key={index} className="flex items-center gap-2 text-sm">
-                        <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0"></div>
-                        {instrument}
+                      <div 
+                        key={index} 
+                        className="flex items-center gap-2 text-sm cursor-pointer hover-elevate p-2 rounded-md transition-colors"
+                        onClick={() => handleInstrumentClick(instrument)}
+                        data-testid={`item-instrument-${instrument.toLowerCase().replace(/\s/g, '-')}`}
+                      >
+                        <Info className="w-4 h-4 text-primary flex-shrink-0" />
+                        <span className="underline-offset-4 hover:underline">{instrument}</span>
                       </div>
                     ))}
                   </div>
@@ -411,7 +556,14 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
                   <h4 className="font-semibold text-sm mb-2">Essential Items</h4>
                   <div className="flex flex-wrap gap-2">
                     {procedure_data.mayoSetup.essentials.map((item: string, index: number) => (
-                      <Badge key={index} variant="outline" className="text-xs">
+                      <Badge 
+                        key={index} 
+                        variant="outline" 
+                        className="text-xs cursor-pointer hover-elevate transition-colors"
+                        onClick={() => handleInstrumentClick(item)}
+                        data-testid={`badge-mayo-${item.toLowerCase().replace(/\s/g, '-')}`}
+                      >
+                        <Info className="w-3 h-3 mr-1" />
                         {item}
                       </Badge>
                     ))}
@@ -440,7 +592,14 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
                       <p className="text-sm text-muted-foreground mb-2">{step.description}</p>
                       <div className="flex flex-wrap gap-1">
                         {step.instruments.map((instrument: string, index: number) => (
-                          <Badge key={index} variant="outline" className="text-xs">
+                          <Badge 
+                            key={index} 
+                            variant="outline" 
+                            className="text-xs cursor-pointer hover-elevate transition-colors"
+                            onClick={() => handleInstrumentClick(instrument)}
+                            data-testid={`badge-step-instrument-${instrument.toLowerCase().replace(/\s/g, '-')}`}
+                          >
+                            <Info className="w-3 h-3 mr-1" />
                             {instrument}
                           </Badge>
                         ))}
@@ -527,6 +686,75 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
           </TabsContent>
         </Tabs>
       </div>
+
+      {/* Instrument Details Modal */}
+      <Dialog open={showInstrumentDialog} onOpenChange={setShowInstrumentDialog}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Info className="h-5 w-5 text-primary" />
+              Instrument Details
+            </DialogTitle>
+            <DialogDescription>
+              Detailed information about this surgical instrument
+            </DialogDescription>
+          </DialogHeader>
+          
+          {selectedInstrument && instrumentDetails[selectedInstrument as keyof typeof instrumentDetails] && (
+            <div className="space-y-4">
+              <div>
+                <h3 className="font-semibold text-lg">{instrumentDetails[selectedInstrument as keyof typeof instrumentDetails].name}</h3>
+                <Badge variant="outline" className="mt-1">
+                  {instrumentDetails[selectedInstrument as keyof typeof instrumentDetails].category}
+                </Badge>
+              </div>
+              
+              <div>
+                <h4 className="font-semibold text-sm mb-2">Description</h4>
+                <p className="text-sm text-muted-foreground">
+                  {instrumentDetails[selectedInstrument as keyof typeof instrumentDetails].description}
+                </p>
+              </div>
+              
+              <div>
+                <h4 className="font-semibold text-sm mb-2">Contents/Components</h4>
+                <div className="space-y-1">
+                  {instrumentDetails[selectedInstrument as keyof typeof instrumentDetails].contents.map((item: string, index: number) => (
+                    <div key={index} className="flex items-center gap-2 text-sm">
+                      <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0"></div>
+                      {item}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              <div>
+                <h4 className="font-semibold text-sm mb-2">Usage</h4>
+                <p className="text-sm text-muted-foreground">
+                  {instrumentDetails[selectedInstrument as keyof typeof instrumentDetails].usage}
+                </p>
+              </div>
+              
+              <div>
+                <h4 className="font-semibold text-sm mb-2">Specifications</h4>
+                <p className="text-sm text-muted-foreground">
+                  {instrumentDetails[selectedInstrument as keyof typeof instrumentDetails].specifications}
+                </p>
+              </div>
+            </div>
+          )}
+          
+          {selectedInstrument && !instrumentDetails[selectedInstrument as keyof typeof instrumentDetails] && (
+            <div className="text-center py-6">
+              <AlertCircle className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
+              <h3 className="font-semibold mb-2">Information Not Available</h3>
+              <p className="text-sm text-muted-foreground">
+                Detailed information for "{selectedInstrument}" is not currently available in our database.
+              </p>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

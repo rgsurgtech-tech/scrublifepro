@@ -33,7 +33,9 @@ interface ForumPost {
   updatedAt: string;
 }
 
-const formSchema = insertForumPostSchema.extend({
+const formSchema = insertForumPostSchema.omit({
+  authorId: true // Will be set server-side from authenticated user
+}).extend({
   tags: insertForumPostSchema.shape.tags.optional()
 });
 
@@ -96,33 +98,90 @@ const categories = [
 ];
 
 export default function CommunityForum({ onBack }: CommunityForumProps) {
+  const { user } = useAuth();
+  const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [showNewPost, setShowNewPost] = useState(false);
-  const [newPost, setNewPost] = useState({
-    title: "",
-    content: "",
-    category: "",
-    tags: ""
+
+  // Fetch forum posts
+  const { data: posts, isLoading: postsLoading } = useQuery<ForumPost[]>({
+    queryKey: ['/api/forum/posts'],
+    queryFn: async () => {
+      const response = await fetch('/api/forum/posts');
+      if (!response.ok) throw new Error('Failed to fetch posts');
+      return response.json();
+    },
   });
 
-  const filteredPosts = mockPosts.filter(post => {
+  // Form for creating new posts
+  const form = useForm<InsertForumPost>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      title: "",
+      content: "",
+      specialty: "",
+      tags: []
+    }
+  });
+
+  // Create new post mutation
+  const createPostMutation = useMutation({
+    mutationFn: async (postData: InsertForumPost) => {
+      const response = await apiRequest('POST', '/api/forum/posts', postData);
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/forum/posts'] });
+      setShowNewPost(false);
+      form.reset();
+      toast({
+        title: 'Post created!',
+        description: 'Your post has been published to the community.'
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: 'Failed to create post',
+        description: error.message,
+        variant: 'destructive'
+      });
+    }
+  });
+
+  const onSubmit = (data: InsertForumPost) => {
+    console.log('Form submitted', { user, data });
+    if (!user) {
+      console.log('User not authenticated, showing toast');
+      toast({
+        title: 'Authentication required',
+        description: 'Please sign in to create posts.',
+        variant: 'destructive'
+      });
+      return;
+    }
+    console.log('Creating post mutation');
+    createPostMutation.mutate(data);
+  };
+
+  // Use real data if available, fallback to mock data
+  const postsToUse = posts || mockPosts;
+  
+  const filteredPosts = postsToUse.filter((post: any) => {
     const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          post.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         post.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+                         (post.tags && post.tags.some((tag: string) => tag.toLowerCase().includes(searchQuery.toLowerCase())));
     const matchesCategory = selectedCategory === "All" || 
                            post.specialty === selectedCategory ||
                            (selectedCategory === "Questions" && post.title.includes("?")) ||
-                           (selectedCategory === "Tips & Tricks" && post.tags.includes("tips")) ||
-                           (selectedCategory === "Protocols" && post.tags.includes("protocols"));
+                           (selectedCategory === "Tips & Tricks" && post.tags && post.tags.includes("tips")) ||
+                           (selectedCategory === "Protocols" && post.tags && post.tags.includes("protocols"));
     return matchesSearch && matchesCategory;
   });
 
-  const handleNewPost = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('New post submitted:', newPost);
-    setShowNewPost(false);
-    setNewPost({ title: "", content: "", category: "", tags: "" });
+  // Helper function to convert tags string to array
+  const parseTagsString = (tagsString: string): string[] => {
+    return tagsString.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
   };
 
   return (
@@ -154,6 +213,14 @@ export default function CommunityForum({ onBack }: CommunityForumProps) {
         />
       </div>
 
+      {/* Loading State */}
+      {postsLoading && (
+        <div className="text-center py-8">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-2 text-sm text-muted-foreground">Loading discussions...</p>
+        </div>
+      )}
+
       {/* Categories */}
       <div className="flex flex-wrap gap-2 mb-6">
         {categories.map((category) => (
@@ -179,52 +246,89 @@ export default function CommunityForum({ onBack }: CommunityForumProps) {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleNewPost} className="space-y-4">
-              <div className="space-y-2">
-                <Input
-                  placeholder="Post title..."
-                  value={newPost.title}
-                  onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
-                  data-testid="input-post-title"
-                  required
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="title"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          placeholder="Post title..."
+                          data-testid="input-post-title"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </div>
-              <div className="space-y-2">
-                <Textarea
-                  placeholder="What would you like to discuss? Remember - no patient-identifying information!"
-                  value={newPost.content}
-                  onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
-                  className="min-h-[100px]"
-                  data-testid="textarea-post-content"
-                  required
+                <FormField
+                  control={form.control}
+                  name="content"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Textarea
+                          placeholder="What would you like to discuss? Remember - no patient-identifying information!"
+                          className="min-h-[100px]"
+                          data-testid="textarea-post-content"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                <Input
-                  placeholder="Category (e.g., General Surgery)"
-                  value={newPost.category}
-                  onChange={(e) => setNewPost({ ...newPost, category: e.target.value })}
-                  data-testid="input-post-category"
-                />
-                <Input
-                  placeholder="Tags (comma separated)"
-                  value={newPost.tags}
-                  onChange={(e) => setNewPost({ ...newPost, tags: e.target.value })}
-                  data-testid="input-post-tags"
-                />
-              </div>
-              <div className="flex gap-2">
-                <Button type="submit" data-testid="button-submit-post">Post</Button>
-                <Button 
-                  type="button" 
-                  variant="outline" 
-                  onClick={() => setShowNewPost(false)}
-                  data-testid="button-cancel-post"
-                >
-                  Cancel
-                </Button>
-              </div>
-            </form>
+                <div className="grid grid-cols-2 gap-2">
+                  <FormField
+                    control={form.control}
+                    name="specialty"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            placeholder="Category (e.g., General Surgery)"
+                            data-testid="input-post-category"
+                            {...field}
+                            value={field.value || ""}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <div>
+                    <Input
+                      placeholder="Tags (comma separated)"
+                      data-testid="input-post-tags"
+                      onChange={(e) => {
+                        const tags = parseTagsString(e.target.value);
+                        form.setValue('tags', tags);
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <Button 
+                    type="submit" 
+                    disabled={createPostMutation.isPending}
+                    data-testid="button-submit-post"
+                  >
+                    {createPostMutation.isPending ? 'Posting...' : 'Post'}
+                  </Button>
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    onClick={() => setShowNewPost(false)}
+                    data-testid="button-cancel-post"
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </form>
+            </Form>
           </CardContent>
         </Card>
       )}

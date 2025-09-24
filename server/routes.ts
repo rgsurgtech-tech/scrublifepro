@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import bcrypt from "bcryptjs";
+import { z } from "zod";
 import { storage } from "./storage";
 import { insertUserSchema, insertUserNoteSchema, insertForumPostSchema } from "@shared/schema";
 
@@ -278,15 +279,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   app.post("/api/forum/posts", requireAuth, async (req: any, res) => {
     try {
-      const postData = insertForumPostSchema.parse({
-        ...req.body,
+      // Create schema that doesn't require authorId since we'll set it from session
+      const clientPostSchema = insertForumPostSchema.omit({ authorId: true });
+      const validatedData = clientPostSchema.parse(req.body);
+      
+      // Add authorId from authenticated session
+      const postData = {
+        ...validatedData,
         authorId: req.user.id
-      });
+      };
       
       const post = await storage.createForumPost(postData);
       res.json(post);
     } catch (error) {
       console.error('Create forum post error:', error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: 'Invalid input', details: error.errors });
+      }
       res.status(500).json({ error: "Failed to create post" });
     }
   });

@@ -280,11 +280,11 @@ export default function Home() {
             <span className="text-xl font-bold text-white">SurgiPrep</span>
           </div>
           <div className="flex items-center gap-2 text-white">
-            <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+            <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center cursor-pointer hover-elevate" onClick={() => setLocation('/profile')} data-testid="button-account-bubble">
               <Users className="w-4 h-4" />
             </div>
             <span className="text-sm">{user.firstName} {user.lastName}, CST</span>
-            <Button variant="ghost" size="icon" className="text-white hover:bg-white/10" data-testid="button-user-menu">
+            <Button variant="ghost" size="icon" className="text-white hover:bg-white/10" onClick={() => setLocation('/profile')} data-testid="button-user-menu">
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
               </svg>

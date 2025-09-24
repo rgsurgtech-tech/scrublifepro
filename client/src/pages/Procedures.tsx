@@ -76,15 +76,12 @@ export default function Procedures() {
   const specialtyId = detailParams?.specialtyId || listParams?.specialtyId;
   const procedureId = detailParams?.procedureId;
 
-  const { data: specialty, isLoading: specialtyLoading } = useQuery<Specialty>({
-    queryKey: ['/api/specialties', specialtyId],
-    queryFn: async () => {
-      const response = await fetch(`/api/specialties/${specialtyId}`);
-      if (!response.ok) throw new Error('Failed to fetch specialty');
-      return response.json();
-    },
-    enabled: !!specialtyId,
+  // Fetch all specialties and find the one we need
+  const { data: allSpecialties, isLoading: specialtiesLoading } = useQuery<Specialty[]>({
+    queryKey: ['/api/specialties'],
   });
+  
+  const specialty = allSpecialties?.find(s => s.id === specialtyId);
 
   const { data: procedures, isLoading: proceduresLoading } = useQuery<Procedure[]>({
     queryKey: ['/api/procedures', specialtyId],
@@ -107,7 +104,7 @@ export default function Procedures() {
     enabled: !!procedureId && isDetailView,
   });
 
-  if (isLoading || specialtyLoading || proceduresLoading || (isDetailView && procedureLoading)) {
+  if (isLoading || specialtiesLoading || proceduresLoading || (isDetailView && procedureLoading)) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">

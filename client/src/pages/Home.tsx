@@ -114,7 +114,11 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="text-center glass-card bg-transparent backdrop-blur-xl border-white/10">
+            <Card 
+              className="text-center glass-card bg-transparent backdrop-blur-xl border-white/10 cursor-pointer hover-elevate" 
+              onClick={() => setLocation('/community')}
+              data-testid="card-professional-community"
+            >
               <CardHeader>
                 <Users className="h-12 w-12 text-primary mx-auto mb-4" />
                 <CardTitle className="text-lg text-white">Professional Community</CardTitle>
@@ -341,7 +345,11 @@ export default function Home() {
                 </CardContent>
               </Card>
               
-              <Card className="glass-card bg-transparent backdrop-blur-xl border-white/10 hover-elevate cursor-pointer" data-testid="card-community">
+              <Card 
+                className="glass-card bg-transparent backdrop-blur-xl border-white/10 hover-elevate cursor-pointer" 
+                onClick={() => setLocation('/community')}
+                data-testid="card-community"
+              >
                 <CardContent className="p-4">
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center">
@@ -411,7 +419,11 @@ export default function Home() {
             </CardContent>
           </Card>
 
-          <Card className="hover-elevate cursor-pointer" data-testid="card-community">
+          <Card 
+            className="hover-elevate cursor-pointer" 
+            onClick={() => setLocation('/community')}
+            data-testid="card-community-forum"
+          >
             <CardHeader>
               <Users className="h-8 w-8 text-primary mb-2" />
               <CardTitle>Community Forum</CardTitle>

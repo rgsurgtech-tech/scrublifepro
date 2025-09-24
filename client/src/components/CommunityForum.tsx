@@ -1,20 +1,46 @@
 import { useState } from "react";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Search, Plus, MessageCircle, ThumbsUp, Clock, Pin, CheckCircle } from "lucide-react";
+import { insertForumPostSchema, type InsertForumPost } from "@shared/schema";
+import { apiRequest, queryClient } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface CommunityForumProps {
   onBack: () => void;
 }
 
-// TODO: Remove mock data when implementing real backend
+interface ForumPost {
+  id: string;
+  authorId: string;
+  title: string;
+  content: string;
+  specialty: string | null;
+  tags: string[];
+  isPinned: boolean;
+  replyCount: number;
+  likeCount: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+const formSchema = insertForumPostSchema.extend({
+  tags: insertForumPostSchema.shape.tags.optional()
+});
+
+// Mock data for existing component functionality
 const mockPosts = [
   {
-    id: 1,
+    id: "1",
     title: "Tips for difficult gallbladder cases?",
     content: "Having trouble with some challenging lap choles lately. Any veteran techs have advice for tricky anatomy situations?",
     author: "TechSarah_5yrs",
@@ -28,7 +54,7 @@ const mockPosts = [
     tags: ["laparoscopic", "gallbladder", "tips"]
   },
   {
-    id: 2,
+    id: "2", 
     title: "PINNED: New instrument cleaning protocols",
     content: "Updated protocols for cleaning laparoscopic instruments per new hospital guidelines. Please review and discuss any questions.",
     author: "AdminTech",
@@ -42,7 +68,7 @@ const mockPosts = [
     tags: ["protocols", "cleaning", "instruments"]
   },
   {
-    id: 3,
+    id: "3",
     title: "Orthopedic surgeon preferences database",
     content: "Starting a thread to collect common orthopedic surgeon preferences. Please share (no patient info obviously!) typical requests you see.",
     author: "OrthoBones",
@@ -54,20 +80,6 @@ const mockPosts = [
     likes: 28,
     isPinned: false,
     tags: ["orthopedics", "preferences", "surgeons"]
-  },
-  {
-    id: 4,
-    title: "Best practice for mayo stand organization?",
-    content: "New tech here! What's your go-to mayo stand setup for general cases? Pictures would be amazing if allowed!",
-    author: "NewTech_Learning",
-    authorInitials: "N",
-    isVerified: false,
-    specialty: "General Surgery",
-    timeAgo: "5 hours ago",
-    replies: 31,
-    likes: 19,
-    isPinned: false,
-    tags: ["mayo-stand", "organization", "newbie"]
   }
 ];
 

@@ -146,52 +146,64 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       setupTips: ["Test activation before procedure", "Have backup electrocautery available", "Ensure proper blade selection for procedure", "Irrigation ready for tissue cooling"]
     },
     "Trocars": {
-      name: "Surgical Trocars",
+      name: "Laparoscopic Trocar System",
       category: "Access Device",
-      description: "Sharp-pointed instruments for creating surgical access",
-      contents: ["Trocar assemblies", "Safety shields", "Cannulas"],
-      usage: "Initial access for minimally invasive procedures",
-      specifications: "Various sizes from 3mm to 15mm"
+      description: "Sharp-pointed cannulated instruments that provide access ports for laparoscopic surgery. Create sealed entry points while maintaining pneumoperitoneum",
+      contents: ["One 10-12mm primary umbilical trocar", "Three 5mm secondary working trocars", "Safety shields with spring-loaded tips", "CO2 stopcock valves", "Reduction sleeves for smaller instruments"],
+      usage: "Primary trocar inserted at umbilicus for camera. Secondary trocars placed under direct visualization for working instruments. Maintains sealed access while allowing instrument exchange",
+      specifications: "Disposable or reusable options. Safety mechanisms include spring-loaded shields and visual confirmation systems. Various tip designs: pyramidal, conical, or bladed for different tissue types",
+      image: "laparoscopic_surgica_4e4a2a75.jpg",
+      setupTips: ["Check all valves before insertion", "Have various sizes available", "Ensure CO2 connections are secure", "Position for optimal triangulation"]
     },
     "Veress needle": {
       name: "Veress Insufflation Needle",
       category: "Insufflation",
-      description: "Safety needle for creating pneumoperitoneum",
-      contents: ["Spring-loaded needle", "Safety mechanism", "Gas connection"],
-      usage: "Safe insufflation of CO2 for laparoscopic procedures",
-      specifications: "Spring-loaded tip prevents organ injury"
+      description: "Safety needle with spring-loaded mechanism for creating pneumoperitoneum. Designed to prevent organ injury during CO2 insufflation with automatic retraction feature",
+      contents: ["Spring-loaded safety needle (2.0mm)", "Luer-lock gas connection", "Stopcock for gas control", "Safety mechanism with tactile feedback", "Disposable sterile packaging"],
+      usage: "Primary method for creating pneumoperitoneum by blind insertion technique. Essential for establishing working space before trocar placement in laparoscopic surgery",
+      specifications: "2.0mm diameter needle with spring-loaded obturator. Automatic retraction upon entering peritoneal cavity. Maximum insufflation pressure 25 mmHg. Single-use disposable",
+      image: "laparoscopic_surgica_2f77ae4e.jpg",
+      setupTips: ["Test spring mechanism before insertion", "Ensure proper patient positioning for insertion", "Monitor insufflation pressure carefully", "Have alternative access method ready", "Verify proper placement with aspiration test"]
     },
     "CO2 line": {
       name: "CO2 Insufflation Line",
       category: "Insufflation",
-      description: "Tubing system for delivering CO2 gas",
-      contents: ["Gas tubing", "Connectors", "Flow regulator"],
-      usage: "Delivers CO2 for pneumoperitoneum creation",
-      specifications: "Sterile, single-use, pressure-rated tubing"
+      description: "Sterile tubing system for delivering CO2 gas from insufflator to patient. Essential component for creating and maintaining pneumoperitoneum during laparoscopic procedures",
+      contents: ["High-pressure CO2 tubing", "Luer-lock connectors", "In-line filter system", "Flow regulator valve", "Pressure monitoring sensors"],
+      usage: "Delivers controlled CO2 flow from insufflator to Veress needle or trocars. Maintains pneumoperitoneum pressure at 12-15 mmHg throughout procedure",
+      specifications: "Single-use sterile system, pressure rated to 30 mmHg. Temperature compensated for warmed CO2. Includes safety pressure relief valves and flow monitoring",
+      image: "laparoscopic_surgica_2f77ae4e.jpg",
+      setupTips: ["Check all connections for proper seal", "Ensure CO2 cylinder levels are adequate", "Test pressure alarms before procedure", "Prime line to remove air bubbles", "Monitor CO2 flow rates throughout case"]
     },
     "Scissors": {
       name: "Laparoscopic Scissors",
       category: "Cutting Instrument",
-      description: "Precision cutting instruments for laparoscopic surgery",
-      contents: ["Curved scissors", "Straight scissors", "Monopolar capability"],
-      usage: "Tissue dissection and cutting during laparoscopy",
-      specifications: "Insulated for electrocautery use, various tip configurations"
+      description: "Precision cutting instruments for laparoscopic surgery with electrosurgical capability. Available in monopolar and bipolar configurations for precise tissue cutting and dissection",
+      contents: ["Curved laparoscopic scissors (monopolar)", "Straight laparoscopic scissors", "Metzenbaum-type curved tips", "Hook scissors with L-blade", "Micro scissors for fine dissection"],
+      usage: "Primary cutting instrument for tissue dissection, adhesiolysis, suture cutting, and fibrous band division. Essential for delicate tissue planes and precision cutting tasks",
+      specifications: "5mm shaft diameter, 36cm working length, insulated to jaw tips. Monopolar capability with standard electrocautery generators. Curved or straight jaw options",
+      image: "laparoscopic_surgica_ea48bdf4.jpg",
+      setupTips: ["Test scissors action before procedure begins", "Ensure electrocautery settings are appropriate", "Have backup scissors available", "Position within easy reach for frequent use", "Check insulation integrity before each case"]
     },
     "Suture": {
-      name: "Surgical Sutures",
+      name: "Laparoscopic Surgical Sutures",
       category: "Closure Material",
-      description: "Thread-like materials used to close surgical incisions",
-      contents: ["Absorbable sutures", "Non-absorbable sutures", "Various needle types"],
-      usage: "Tissue approximation and wound closure",
-      specifications: "Multiple materials available: silk, nylon, polyglactin"
+      description: "Specialized suture materials designed for laparoscopic procedures with enhanced handling characteristics. Available in absorbable and non-absorbable materials for various tissue types",
+      contents: ["2-0 Vicryl (polyglactin) absorbable", "0 PDS (polydioxanone) long-term absorbable", "2-0 Silk non-absorbable for ties", "Barbed sutures for continuous closure", "Various needle types (curved, straight, cutting, taper)"],
+      usage: "Primary closure of fascial defects, vessel ligation with ties, tissue approximation, and hemostasis. Essential for port site closure and internal suturing during laparoscopic procedures",
+      specifications: "Multiple materials: Vicryl (7-14 day absorption), PDS (180+ day absorption), Silk (permanent). Needle types: 1/2 circle taper, 3/8 circle cutting. Lengths 12-36 inches",
+      image: "laparoscopic_surgica_d230030e.jpg",
+      setupTips: ["Pre-cut sutures to appropriate lengths", "Have various needle types ready", "Use barbed sutures for continuous closure", "Keep sutures organized by type and size", "Consider tissue type when selecting material"]
     },
     "Needle holders": {
-      name: "Needle Holders",
+      name: "Laparoscopic Needle Drivers",
       category: "Suturing Instrument", 
-      description: "Instruments designed to grasp and manipulate surgical needles",
-      contents: ["Locking mechanism", "Tungsten carbide inserts", "Various sizes"],
-      usage: "Secure needle grip during suturing procedures",
-      specifications: "Precision-ground tips, various lengths available"
+      description: "Precision needle holders designed for laparoscopic suturing with secure needle grip and optimal hand positioning. Essential for intracorporeal and extracorporeal suturing techniques",
+      contents: ["Curved jaw needle driver (most common)", "Straight jaw needle driver", "Self-righting needle driver with rotation", "Barbed suture compatible drivers", "Micro needle drivers for fine work"],
+      usage: "Precise needle manipulation for suturing, knot tying, and closure techniques. Critical for securing anastomoses, tissue approximation, and hemostasis suturing",
+      specifications: "5mm diameter, 36cm length, carbide jaw inserts for durability. Ratchet locking mechanism with precise grip pressure. Compatible with all needle sizes 0-6",
+      image: "laparoscopic_surgica_d230030e.jpg",
+      setupTips: ["Test jaw alignment and ratchet function", "Have multiple drivers available for continuous suturing", "Position for both surgeon and assistant use", "Check carbide insert condition"]
     }
   };
 
@@ -746,7 +758,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
               {(instrumentDetails[selectedInstrument as keyof typeof instrumentDetails] as any).image && (
                 <div>
                   <img 
-                    src={getInstrumentImage((instrumentDetails[selectedInstrument as keyof typeof instrumentDetails] as any).image)} 
+                    src={getInstrumentImage((instrumentDetails[selectedInstrument as keyof typeof instrumentDetails] as any).image) || ''} 
                     alt={instrumentDetails[selectedInstrument as keyof typeof instrumentDetails].name}
                     className="w-full h-48 object-cover rounded-lg border"
                   />

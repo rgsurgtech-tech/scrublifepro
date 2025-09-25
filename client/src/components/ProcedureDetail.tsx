@@ -288,6 +288,160 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       image: harmonicScalpelImage,
       setupTips: ["Test activation before procedure", "Have backup electrocautery available", "Ensure proper blade selection for procedure", "Irrigation ready for tissue cooling"]
     },
+    "General surgery set": {
+      name: "General Surgery Set",
+      category: "Surgical Set",
+      description: "Comprehensive instrument set for open general surgical procedures including all essential tools for abdominal and general surgery",
+      contents: ["Scalpels with various blade sizes (#10, #11, #15)", "Adson forceps with teeth", "Debakey forceps", "Allis clamps", "Kocher clamps", "Metzenbaum scissors", "Mayo scissors", "Needle holders (Olsen-Hegar, Mayo-Hegar)", "Army-Navy retractors", "Richardson retractors"],
+      usage: "Standard instrument set for open general surgery procedures including appendectomy, hernia repair, bowel surgery, and general abdominal procedures",
+      specifications: "Stainless steel construction, autoclavable, various sizes available. Includes cutting, grasping, clamping, and retracting instruments",
+      image: laparoscopicSetImage,
+      setupTips: ["Organize by function", "Check instrument sharpness", "Have extra blades available", "Ensure proper sterilization", "Arrange for surgeon preference"]
+    },
+    "Morcellator": {
+      name: "Power Morcellator",
+      category: "Cutting Device",
+      description: "Electric surgical device for cutting tissue into smaller pieces for removal through small incisions. Features rotating cylindrical cutting blade with suction",
+      contents: ["Electric motor unit", "Cutting blade assembly", "Various diameter tubes (12mm, 15mm)", "Suction attachment", "Safety guards", "Foot pedal control"],
+      usage: "Used to divide large tissue specimens into smaller fragments for removal through small laparoscopic ports. Commonly used in appendectomy for specimen extraction",
+      specifications: "Variable speed control, disposable cutting blades, integrated suction, safety mechanisms to prevent inadvertent activation",
+      image: electrocauteryImage,
+      setupTips: ["Test device before use", "Ensure proper blade attachment", "Have backup blades ready", "Check suction function", "Review safety protocols"]
+    },
+    // Orthopedic Surgery Instruments
+    "Oscillating saw": {
+      name: "Orthopedic Oscillating Saw",
+      category: "Cutting Tool",
+      description: "High-speed oscillating saw for precise bone cutting during orthopedic procedures with minimal heat generation",
+      contents: ["Electric motor unit", "Various blade attachments", "Depth guides", "Irrigation attachment", "Safety guards"],
+      usage: "Primary tool for bone cuts during joint replacement, fracture repair, and osteotomies. Provides precise cuts with minimal bone damage",
+      specifications: "Variable speed 0-18,000 oscillations/min, sterile disposable blades, integrated irrigation, ergonomic design",
+      image: electrocauteryImage,
+      setupTips: ["Test saw before procedure", "Have multiple blade types ready", "Ensure irrigation is functioning", "Check depth guides", "Maintain steady pressure"]
+    },
+    "Reciprocating saw": {
+      name: "Orthopedic Reciprocating Saw",
+      category: "Cutting Tool", 
+      description: "Heavy-duty reciprocating saw for larger bone cuts and revision procedures requiring aggressive bone removal",
+      contents: ["Electric motor", "Reciprocating blade system", "Various blade lengths", "Protective guards", "Suction attachment"],
+      usage: "Used for revision surgeries, large bone cuts, and prosthesis removal. Provides powerful cutting for dense bone structures",
+      specifications: "High torque motor, variable speed control, sterile single-use blades, safety clutch mechanism",
+      image: electrocauteryImage,
+      setupTips: ["Select appropriate blade length", "Test motor function", "Ensure secure blade attachment", "Have irrigation ready", "Use proper protective equipment"]
+    },
+    "Drill and bits": {
+      name: "Orthopedic Drill System",
+      category: "Drilling Tool",
+      description: "Precision drill system for creating holes in bone for screws, pins, and other orthopedic hardware",
+      contents: ["High-speed drill motor", "Various drill bit sizes", "Depth control guides", "Pin drivers", "Irrigation sleeves"],
+      usage: "Creates precise holes for screw placement, guide pin insertion, and hardware attachment during orthopedic procedures",
+      specifications: "Variable speed 0-1200 RPM, sterile single-use bits, depth control, ergonomic handle design",
+      image: trocarImage,
+      setupTips: ["Organize bits by size", "Test drill speed", "Use depth guides", "Maintain irrigation", "Check bit sharpness"]
+    },
+    // Cardiac Surgery Instruments
+    "Prosthetic valves": {
+      name: "Cardiac Prosthetic Valves",
+      category: "Implant Device",
+      description: "Artificial heart valves for replacement of diseased native valves, available in mechanical and biological options",
+      contents: ["Valve prosthesis", "Sewing ring", "Valve sizers", "Insertion tools", "Sizing guides"],
+      usage: "Replacement of diseased mitral, aortic, tricuspid, or pulmonary valves to restore proper cardiac function",
+      specifications: "Various sizes 19-33mm, mechanical or bioprosthetic options, MRI compatible designs available",
+      image: grasperImage,
+      setupTips: ["Verify correct valve size", "Handle with care", "Keep sterile until insertion", "Have multiple sizes available", "Test valve function"]
+    },
+    "Valve sizers": {
+      name: "Cardiac Valve Sizers",
+      category: "Measuring Tool",
+      description: "Precision measuring devices to determine correct prosthetic valve size during cardiac surgery",
+      contents: ["Graduated sizing obturators", "Multiple size options", "Insertion handles", "Size marking system"],
+      usage: "Accurate measurement of valve annulus to ensure proper prosthetic valve fit and function",
+      specifications: "Graduated sizes 19-33mm, color-coded system, autoclavable stainless steel construction",
+      image: grasperImage,
+      setupTips: ["Start with estimated size", "Test multiple sizes", "Ensure complete seating", "Note size for prosthesis", "Handle gently to avoid damage"]
+    },
+    "Cardioplegia": {
+      name: "Cardioplegia Delivery System",
+      category: "Perfusion Equipment",
+      description: "System for delivering cardioplegic solution to arrest and protect the heart during cardiac surgery",
+      contents: ["Delivery cannulas", "Temperature control", "Pressure monitoring", "Solution mixing chamber", "Flow control valves"],
+      usage: "Delivers protective solution to arrest heart and maintain myocardial protection during cardiopulmonary bypass",
+      specifications: "Temperature range 4-37°C, pressure monitoring, variable flow rates, multiple delivery options",
+      image: laparoscopicSetImage,
+      setupTips: ["Test temperature control", "Verify solution composition", "Check all connections", "Monitor delivery pressure", "Maintain sterile technique"]
+    },
+    "Heart-lung machine": {
+      name: "Cardiopulmonary Bypass Machine",
+      category: "Life Support",
+      description: "Extracorporeal circulation device that temporarily takes over heart and lung function during cardiac surgery",
+      contents: ["Oxygenator", "Pump heads", "Heat exchanger", "Arterial and venous cannulas", "Monitoring systems"],
+      usage: "Maintains circulation and oxygenation while the heart is stopped, allowing for precise cardiac surgical procedures",
+      specifications: "Flow rates 1-8 L/min, temperature control, integrated monitoring, safety alarms, gas exchange capability",
+      image: laparoscopicSetImage,
+      setupTips: ["Complete pre-procedure checklist", "Test all alarms", "Prime tubing system", "Verify gas supply", "Monitor closely throughout procedure"]
+    },
+    // Neurosurgery Instruments
+    "Drill": {
+      name: "Neurosurgical Drill System",
+      category: "Drilling Tool",
+      description: "High-speed precision drill for creating burr holes and craniotomies in neurosurgical procedures",
+      contents: ["Variable speed drill motor", "Craniotomy attachments", "Burr hole bits", "Perforator bits", "Footswitch control"],
+      usage: "Creates precise openings in skull for craniotomies, burr holes, and hardware placement in neurosurgical procedures",
+      specifications: "Variable speed 0-80,000 RPM, irrigation capability, precision depth control, sterile single-use bits",
+      image: trocarImage,
+      setupTips: ["Test drill speed", "Ensure irrigation flow", "Have multiple bit sizes ready", "Check depth control", "Maintain sterile technique"]
+    },
+    "Craniotomes": {
+      name: "Craniotomy Instruments",
+      category: "Cutting Tool",
+      description: "Specialized instruments for creating and removing bone flaps during craniotomies",
+      contents: ["Craniotomy saw", "Bone rongeurs", "Bone wax", "Dura protectors", "Bone flap clamps"],
+      usage: "Safely create cranial openings while protecting underlying brain tissue during neurosurgical access",
+      specifications: "Oscillating saw design, integrated dura protection, variable cutting depths, ergonomic handles",
+      image: electrocauteryImage,
+      setupTips: ["Protect dura during cutting", "Have bone wax ready", "Check saw blade condition", "Ensure hemostasis", "Plan flap replacement"]
+    },
+    "Brain retractors": {
+      name: "Neurosurgical Brain Retractors",
+      category: "Retraction System",
+      description: "Gentle retraction system for exposing brain tissue while minimizing trauma during neurosurgical procedures",
+      contents: ["Self-retaining retractors", "Brain spatulas", "Micro retractors", "Flexible retractor arms", "Table-mounted systems"],
+      usage: "Provides optimal surgical exposure while protecting delicate brain tissue from retraction injury",
+      specifications: "Atraumatic design, adjustable tension, various blade widths, stable positioning systems",
+      image: grasperImage,
+      setupTips: ["Use minimal retraction force", "Reposition frequently", "Monitor tissue perfusion", "Have various sizes available", "Check stability"]
+    },
+    "Ultrasonic aspirator": {
+      name: "Neurosurgical Ultrasonic Aspirator",
+      category: "Ablation Device",
+      description: "Ultrasonic device for fragmenting and aspirating brain tumors while preserving normal tissue",
+      contents: ["Ultrasonic generator", "Aspiration handpieces", "Various tip sizes", "Irrigation system", "Suction collection"],
+      usage: "Selective removal of abnormal brain tissue (tumors) while preserving normal brain structures and vasculature",
+      specifications: "Ultrasonic frequency 25-40 kHz, variable amplitude control, integrated irrigation and suction",
+      image: harmonicScalpelImage,
+      setupTips: ["Test ultrasonic function", "Select appropriate tip", "Ensure suction flow", "Monitor tissue response", "Have irrigation ready"]
+    },
+    "Neuronavigation": {
+      name: "Stereotactic Navigation System",
+      category: "Navigation Technology",
+      description: "Computer-guided navigation system for precise localization during neurosurgical procedures",
+      contents: ["Navigation computer", "Tracking cameras", "Reference arrays", "Pointing devices", "Registration tools"],
+      usage: "Provides real-time 3D guidance for precise targeting of brain lesions and anatomical structures",
+      specifications: "Sub-millimeter accuracy, real-time tracking, integration with imaging data, multiple registration methods",
+      image: laparoscopicSetImage,
+      setupTips: ["Complete system calibration", "Register patient anatomy", "Verify accuracy", "Update registration as needed", "Maintain line of sight"]
+    },
+    // Additional common aliases for better matching
+    "Scalpel": {
+      name: "Surgical Scalpel",
+      category: "Cutting Instrument",
+      description: "Precision cutting instrument with disposable blade for surgical incisions",
+      contents: ["Scalpel handle", "Disposable blades (#10, #11, #15)", "Blade remover", "Safety cap"],
+      usage: "Primary cutting instrument for making surgical incisions with precise control",
+      specifications: "Stainless steel construction, various blade types for different cuts, ergonomic handle design",
+      image: grasperImage,
+      setupTips: ["Select appropriate blade", "Handle with care", "Dispose properly", "Keep spare blades available", "Test sharpness"]
+    },
     "Needle holders": {
       name: "Laparoscopic Needle Drivers",
       category: "Suturing Instrument", 

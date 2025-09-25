@@ -184,9 +184,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ error: "Procedure not found" });
       }
       
-      // Record user activity if authenticated
+      // Record user activity if authenticated (non-blocking)
       if (req.session.userId) {
-        await storage.recordUserActivity(req.session.userId, id);
+        try {
+          await storage.recordUserActivity(req.session.userId, id);
+        } catch (error) {
+          // Don't fail the request if activity recording fails
+          console.warn('Failed to record user activity:', error);
+        }
       }
       
       res.json(procedure);

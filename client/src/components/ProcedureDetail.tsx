@@ -61,6 +61,46 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
   // Save notes mutation
   // Instrument details database with enhanced information
   const instrumentDetails = {
+    // Add shorter name aliases that match mayo setup and procedure steps
+    "Trocars": {
+      name: "Laparoscopic Trocar System",
+      category: "Access Port",
+      description: "Disposable access ports for laparoscopic surgery with safety mechanisms and gas seals",
+      contents: ["10mm primary trocar with camera port", "Three 5mm working ports", "Safety shields", "CO2 seals", "Retractable blade system"],
+      usage: "Creates pneumoperitoneum access and maintains working ports throughout surgery. Primary port for camera, secondary ports for instruments",
+      specifications: "Disposable single-use system. 10mm camera port, 5mm working ports. Spring-loaded safety shield, universal threading",
+      image: trocarImage,
+      setupTips: ["Verify trocar seal integrity", "Use gentle twisting motion during insertion", "Ensure proper angle for optimal visualization", "Have backup trocars available"]
+    },
+    "Clips": {
+      name: "Surgical Clips",
+      category: "Hemostatic Device", 
+      description: "Titanium and absorbable clips for vessel and duct occlusion with precise application",
+      contents: ["Titanium clips (small, medium, large)", "Absorbable clips for temporary occlusion", "Clip applier with reload cartridges", "Clip remover (backup)"],
+      usage: "Secure occlusion of cystic artery and duct during cholecystectomy. Provides permanent hemostasis without electrocautery burns",
+      specifications: "Titanium clips: MRI safe, permanent implant. Absorbable clips: 7-14 day absorption. Size range: 5-15mm jaw opening",
+      setupTips: ["Load clips before procedure starts", "Have multiple sizes available", "Check clip applier jaw alignment", "Keep clips organized by size"]
+    },
+    "Laparoscope": {
+      name: "Laparoscopic Camera System",
+      category: "Visualization",
+      description: "High-definition laparoscopic camera system with 0° and 30° viewing angles for optimal surgical visualization",
+      contents: ["0° laparoscope for direct viewing", "30° laparoscope for angled views", "High-definition camera head", "LED light source", "Anti-fog solution"],
+      usage: "Primary visualization tool for laparoscopic surgery. 0° for initial inspection, 30° for viewing behind structures and achieving critical view",
+      specifications: "10mm diameter, HD 1080p resolution, autoclavable lens system, LED illumination 5000K color temperature",
+      image: laparoscopeImage,
+      setupTips: ["White balance before insertion", "Apply anti-fog solution", "Check light intensity", "Have backup laparoscope ready"]
+    },
+    "Graspers": {
+      name: "Atraumatic Graspers",
+      category: "Manipulation Tool",
+      description: "Precision grasping instruments designed for delicate tissue handling without perforation or trauma",
+      contents: ["Maryland dissector graspers", "Fenestrated graspers for gallbladder", "Wave graspers for improved grip", "DeBakey atraumatic tips"],
+      usage: "Primary use for gentle tissue manipulation, organ retraction, and gallbladder fundus grasping. Essential for maintaining traction during dissection while minimizing tissue trauma",
+      specifications: "Standard 5mm diameter, 34-37cm length (45cm for bariatric). Autoclavable stainless steel construction. Multiple jaw patterns: fenestrated, wave, Maryland dissector",
+      image: grasperImage,
+      setupTips: ["Have multiple graspers available for assistant", "Check jaw alignment before use", "Ensure proper insulation for electrocautery", "Position within easy reach for frequent use"]
+    },
     "Major laparoscopy set": {
       name: "Major Laparoscopy Set",
       category: "Surgical Set",
@@ -145,16 +185,6 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       image: harmonicScalpelImage,
       setupTips: ["Test activation before procedure", "Have backup electrocautery available", "Ensure proper blade selection for procedure", "Irrigation ready for tissue cooling"]
     },
-    "Trocars": {
-      name: "Laparoscopic Trocar System",
-      category: "Access Device",
-      description: "Sharp-pointed cannulated instruments that provide access ports for laparoscopic surgery. Create sealed entry points while maintaining pneumoperitoneum",
-      contents: ["One 10-12mm primary umbilical trocar", "Three 5mm secondary working trocars", "Safety shields with spring-loaded tips", "CO2 stopcock valves", "Reduction sleeves for smaller instruments"],
-      usage: "Primary trocar inserted at umbilicus for camera. Secondary trocars placed under direct visualization for working instruments. Maintains sealed access while allowing instrument exchange",
-      specifications: "Disposable or reusable options. Safety mechanisms include spring-loaded shields and visual confirmation systems. Various tip designs: pyramidal, conical, or bladed for different tissue types",
-      image: trocarImage,
-      setupTips: ["Check all valves before insertion", "Have various sizes available", "Ensure CO2 connections are secure", "Position for optimal triangulation"]
-    },
     "Veress needle": {
       name: "Veress Insufflation Needle",
       category: "Insufflation",
@@ -194,6 +224,69 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       specifications: "Multiple materials: Vicryl (7-14 day absorption), PDS (180+ day absorption), Silk (permanent). Needle types: 1/2 circle taper, 3/8 circle cutting. Lengths 12-36 inches",
       image: grasperImage,
       setupTips: ["Pre-cut sutures to appropriate lengths", "Have various needle types ready", "Use barbed sutures for continuous closure", "Keep sutures organized by type and size", "Consider tissue type when selecting material"]
+    },
+    // Additional aliases for instruments that appear in the procedure data
+    "Laparoscopic set": {
+      name: "Major Laparoscopy Set",
+      category: "Surgical Set",
+      description: "Complete instrument set for laparoscopic procedures including all essential tools for minimally invasive surgery",
+      contents: ["5mm and 10mm trocars", "Laparoscopic graspers (Maryland, DeBakey, Wave)", "Laparoscopic Metz scissors", "Clip appliers with titanium clips", "L-hook electrocautery", "Suction/irrigation system"],
+      usage: "Used for minimally invasive surgical procedures through small keyhole incisions. Provides complete surgical capability for procedures like cholecystectomy, appendectomy, and hernia repair",
+      specifications: "Sterile, reusable instruments with autoclave capability. Standard 5mm diameter for working ports, 10-12mm for specimen extraction",
+      image: laparoscopicSetImage,
+      setupTips: ["Arrange instruments by frequency of use", "Have backup clips readily available", "Test all electrical connections before procedure", "Ensure camera white balance is optimized"]
+    },
+    "Bariatric instruments": {
+      name: "Bariatric Surgery Set",
+      category: "Specialized Set",
+      description: "Extended length instruments designed specifically for bariatric surgery with enhanced reach and durability",
+      contents: ["45cm length graspers", "Extended electrocautery devices", "Long laparoscopic scissors", "Bariatric clip appliers", "Reinforced suction systems"],
+      usage: "Specialized instruments for bariatric procedures requiring extended reach due to increased tissue depth and specialized techniques",
+      specifications: "Extended length (45cm) instruments, reinforced construction, compatible with standard trocars"
+    },
+    "Clip applier": {
+      name: "Surgical Clip Applier",
+      category: "Hemostatic Device", 
+      description: "Precision clip application device for vessel and duct occlusion during laparoscopic procedures",
+      contents: ["Clip applier handle", "Various clip sizes (small, medium, large)", "Reload cartridges", "Clip removal forceps"],
+      usage: "Precise application of titanium clips for permanent vessel occlusion during laparoscopic surgery",
+      specifications: "Autoclavable, reloadable cartridge system, fits standard 5mm ports"
+    },
+    "Staplers": {
+      name: "Linear Staplers",
+      category: "Stapling Device",
+      description: "Linear cutting staplers for tissue transection and anastomosis in bariatric procedures",
+      contents: ["60mm linear stapler", "Various cartridge heights", "Reload cartridges", "Stapler anvil"],
+      usage: "Primary tool for gastric sleeve creation and tissue division in bariatric surgery",
+      specifications: "60mm staple line, multiple cartridge heights (2.5mm, 3.5mm, 4.8mm), single-use cartridges"
+    },
+    "Bougie": {
+      name: "Bougie Dilator",
+      category: "Sizing Tool",
+      description: "Calibration tool used to ensure proper gastric sleeve diameter during bariatric procedures",
+      contents: ["32-40 French bougie tubes", "Measurement markings", "Flexible tip design"],
+      usage: "Inserted through the mouth to calibrate gastric sleeve size and ensure consistent diameter during stapling",
+      specifications: "Single-use, graduated markings, flexible design for patient safety"
+    },
+    "Harmonic device": {
+      name: "Harmonic Ultrasonic Scalpel",
+      category: "Energy Device",
+      description: "Advanced ultrasonic cutting and coagulation device providing superior hemostasis with minimal thermal spread",
+      contents: ["Ultrasonic generator", "5mm harmonic scalpel handpiece", "Hook and shears attachments", "Foot pedal activation"],
+      usage: "Simultaneous cutting and coagulation for precise tissue dissection. Ideal for thick tissue division with excellent hemostatic control and minimal smoke production",
+      specifications: "55.5 kHz ultrasonic frequency, 5mm diameter, minimal lateral thermal spread (2mm), autoclavable handpieces",
+      image: harmonicScalpelImage,
+      setupTips: ["Test activation before insertion", "Use appropriate power settings for tissue type", "Keep blade clean during procedure", "Have backup energy device available"]
+    },
+    "Harmonic scalpel": {
+      name: "Harmonic Ultrasonic Scalpel",
+      category: "Energy Device",
+      description: "Advanced ultrasonic cutting and coagulation device that converts electrical energy to mechanical vibration at 55,500 Hz. Provides simultaneous cutting and sealing with minimal thermal spread",
+      contents: ["Ultrasonic generator unit", "Piezoelectric handpiece", "Interchangeable blade assemblies (hook, shear, blade)", "Foot pedal activation", "Irrigation capability"],
+      usage: "Primary cutting and vessel sealing instrument for laparoscopic procedures. Seals vessels up to 5mm diameter (shears) or 2mm (hook/blade). Eliminates need for clips on smaller vessels",
+      specifications: "Operating frequency: 55,500 Hz. Minimal lateral thermal spread (2-3mm). No smoke production. Precise tissue effect with reduced operating time. Compatible with standard 5mm trocars",
+      image: harmonicScalpelImage,
+      setupTips: ["Test activation before procedure", "Have backup electrocautery available", "Ensure proper blade selection for procedure", "Irrigation ready for tissue cooling"]
     },
     "Needle holders": {
       name: "Laparoscopic Needle Drivers",

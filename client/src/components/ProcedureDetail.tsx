@@ -68,7 +68,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       contents: ["5mm and 10mm trocars", "Laparoscopic graspers (Maryland, DeBakey, Wave)", "Laparoscopic Metz scissors", "Clip appliers with titanium clips", "L-hook electrocautery", "Suction/irrigation system"],
       usage: "Used for minimally invasive surgical procedures through small keyhole incisions. Provides complete surgical capability for procedures like cholecystectomy, appendectomy, and hernia repair",
       specifications: "Sterile, reusable instruments with autoclave capability. Standard 5mm diameter for working ports, 10-12mm for specimen extraction",
-      image: "laparoscopic_surgica_2f77ae4e.jpg",
+      image: laparoscopicSetImage,
       setupTips: ["Arrange instruments by frequency of use", "Have backup clips readily available", "Test all electrical connections before procedure", "Ensure camera white balance is optimized"]
     },
     "Basic laparotomy set": {
@@ -86,7 +86,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       contents: ["RF generator with digital display", "L-hook electrocautery electrode", "Monopolar and bipolar handpieces", "Foot pedal with dual activation", "Grounding pad for patient safety"],
       usage: "Primary cutting and coagulation for tissue dissection. L-hook electrode ideal for gallbladder dissection from liver bed. Provides precise control of bleeding vessels during laparoscopic procedures",
       specifications: "Adjustable power settings 1-100W. Pure cut, blend, and coag modes. Patient return electrode monitoring. Isolated output for patient safety. Compatible with all laparoscopic instruments",
-      image: "laparoscopic_surgica_47f97ae1.jpg",
+      image: electrocauteryImage,
       setupTips: ["Verify grounding pad placement", "Set appropriate power levels", "Have suction ready for smoke evacuation", "Check electrode tip condition"]
     },
     "5mm and 10mm trocars (4 total)": {
@@ -96,7 +96,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       contents: ["One 10-12mm primary umbilical trocar", "Three 5mm secondary working trocars", "Safety shields with spring-loaded tips", "CO2 stopcock valves", "Reduction sleeves for smaller instruments"],
       usage: "Primary trocar inserted at umbilicus for camera. Secondary trocars placed under direct visualization for working instruments. Maintains sealed access while allowing instrument exchange",
       specifications: "Disposable or reusable options. Safety mechanisms include spring-loaded shields and visual confirmation systems. Various tip designs: pyramidal, conical, or bladed for different tissue types",
-      image: "laparoscopic_surgica_4e4a2a75.jpg",
+      image: trocarImage,
       setupTips: ["Check all valves before insertion", "Have various sizes available", "Ensure CO2 connections are secure", "Position for optimal triangulation"]
     },
     "Laparoscope (0° and 30°)": {
@@ -106,7 +106,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       contents: ["0-degree straight scope for direct viewing", "30-degree angled scope for enhanced visualization", "Fiber optic light cable", "HD camera head with zoom capability", "Anti-fog warming system"],
       usage: "Primary visualization tool inserted through umbilical port. 0-degree scope for initial inspection and general viewing. 30-degree scope for viewing behind organs and into tight spaces",
       specifications: "5mm or 10mm diameter options. Full HD 1080p resolution. Autoclavable lens system. LED or xenon light source compatibility. Anti-fog coating standard",
-      image: "laparoscopic_surgica_ea48bdf4.jpg",
+      image: laparoscopeImage,
       setupTips: ["Warm scope to prevent fogging", "White balance before use", "Have anti-fog solution ready", "Check light source intensity"]
     },
     "Graspers (atraumatic)": {
@@ -116,7 +116,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       contents: ["5mm diameter shafts", "Fenestrated atraumatic tips", "360-degree rotation capability", "Locking ratchet mechanism", "Insulated shaft for electrocautery safety"],
       usage: "Primary use for gentle tissue manipulation, organ retraction, and gallbladder fundus grasping. Essential for maintaining traction during dissection while minimizing tissue trauma",
       specifications: "Standard 5mm diameter, 34-37cm length (45cm for bariatric). Autoclavable stainless steel construction. Multiple jaw patterns: fenestrated, wave, Maryland dissector",
-      image: "laparoscopic_surgica_d230030e.jpg",
+      image: grasperImage,
       setupTips: ["Have multiple graspers available for assistant", "Check jaw alignment before use", "Ensure proper insulation for electrocautery", "Position within easy reach for frequent use"]
     },
     "Clips (titanium/absorbable)": {
@@ -142,7 +142,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       contents: ["Ultrasonic generator unit", "Piezoelectric handpiece", "Interchangeable blade assemblies (hook, shear, blade)", "Foot pedal activation", "Irrigation capability"],
       usage: "Primary cutting and vessel sealing instrument for laparoscopic procedures. Seals vessels up to 5mm diameter (shears) or 2mm (hook/blade). Eliminates need for clips on smaller vessels",
       specifications: "Operating frequency: 55,500 Hz. Minimal lateral thermal spread (2-3mm). No smoke production. Precise tissue effect with reduced operating time. Compatible with standard 5mm trocars",
-      image: "harmonic_scalpel_ult_e37fe3a8.jpg",
+      image: harmonicScalpelImage,
       setupTips: ["Test activation before procedure", "Have backup electrocautery available", "Ensure proper blade selection for procedure", "Irrigation ready for tissue cooling"]
     },
     "Trocars": {
@@ -152,7 +152,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       contents: ["One 10-12mm primary umbilical trocar", "Three 5mm secondary working trocars", "Safety shields with spring-loaded tips", "CO2 stopcock valves", "Reduction sleeves for smaller instruments"],
       usage: "Primary trocar inserted at umbilicus for camera. Secondary trocars placed under direct visualization for working instruments. Maintains sealed access while allowing instrument exchange",
       specifications: "Disposable or reusable options. Safety mechanisms include spring-loaded shields and visual confirmation systems. Various tip designs: pyramidal, conical, or bladed for different tissue types",
-      image: "laparoscopic_surgica_4e4a2a75.jpg",
+      image: trocarImage,
       setupTips: ["Check all valves before insertion", "Have various sizes available", "Ensure CO2 connections are secure", "Position for optimal triangulation"]
     },
     "Veress needle": {
@@ -162,7 +162,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       contents: ["Spring-loaded safety needle (2.0mm)", "Luer-lock gas connection", "Stopcock for gas control", "Safety mechanism with tactile feedback", "Disposable sterile packaging"],
       usage: "Primary method for creating pneumoperitoneum by blind insertion technique. Essential for establishing working space before trocar placement in laparoscopic surgery",
       specifications: "2.0mm diameter needle with spring-loaded obturator. Automatic retraction upon entering peritoneal cavity. Maximum insufflation pressure 25 mmHg. Single-use disposable",
-      image: "laparoscopic_surgica_2f77ae4e.jpg",
+      image: laparoscopicSetImage,
       setupTips: ["Test spring mechanism before insertion", "Ensure proper patient positioning for insertion", "Monitor insufflation pressure carefully", "Have alternative access method ready", "Verify proper placement with aspiration test"]
     },
     "CO2 line": {
@@ -172,7 +172,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       contents: ["High-pressure CO2 tubing", "Luer-lock connectors", "In-line filter system", "Flow regulator valve", "Pressure monitoring sensors"],
       usage: "Delivers controlled CO2 flow from insufflator to Veress needle or trocars. Maintains pneumoperitoneum pressure at 12-15 mmHg throughout procedure",
       specifications: "Single-use sterile system, pressure rated to 30 mmHg. Temperature compensated for warmed CO2. Includes safety pressure relief valves and flow monitoring",
-      image: "laparoscopic_surgica_2f77ae4e.jpg",
+      image: laparoscopicSetImage,
       setupTips: ["Check all connections for proper seal", "Ensure CO2 cylinder levels are adequate", "Test pressure alarms before procedure", "Prime line to remove air bubbles", "Monitor CO2 flow rates throughout case"]
     },
     "Scissors": {
@@ -182,7 +182,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       contents: ["Curved laparoscopic scissors (monopolar)", "Straight laparoscopic scissors", "Metzenbaum-type curved tips", "Hook scissors with L-blade", "Micro scissors for fine dissection"],
       usage: "Primary cutting instrument for tissue dissection, adhesiolysis, suture cutting, and fibrous band division. Essential for delicate tissue planes and precision cutting tasks",
       specifications: "5mm shaft diameter, 36cm working length, insulated to jaw tips. Monopolar capability with standard electrocautery generators. Curved or straight jaw options",
-      image: "laparoscopic_surgica_ea48bdf4.jpg",
+      image: laparoscopeImage,
       setupTips: ["Test scissors action before procedure begins", "Ensure electrocautery settings are appropriate", "Have backup scissors available", "Position within easy reach for frequent use", "Check insulation integrity before each case"]
     },
     "Suture": {
@@ -192,7 +192,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       contents: ["2-0 Vicryl (polyglactin) absorbable", "0 PDS (polydioxanone) long-term absorbable", "2-0 Silk non-absorbable for ties", "Barbed sutures for continuous closure", "Various needle types (curved, straight, cutting, taper)"],
       usage: "Primary closure of fascial defects, vessel ligation with ties, tissue approximation, and hemostasis. Essential for port site closure and internal suturing during laparoscopic procedures",
       specifications: "Multiple materials: Vicryl (7-14 day absorption), PDS (180+ day absorption), Silk (permanent). Needle types: 1/2 circle taper, 3/8 circle cutting. Lengths 12-36 inches",
-      image: "laparoscopic_surgica_d230030e.jpg",
+      image: grasperImage,
       setupTips: ["Pre-cut sutures to appropriate lengths", "Have various needle types ready", "Use barbed sutures for continuous closure", "Keep sutures organized by type and size", "Consider tissue type when selecting material"]
     },
     "Needle holders": {
@@ -202,22 +202,14 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       contents: ["Curved jaw needle driver (most common)", "Straight jaw needle driver", "Self-righting needle driver with rotation", "Barbed suture compatible drivers", "Micro needle drivers for fine work"],
       usage: "Precise needle manipulation for suturing, knot tying, and closure techniques. Critical for securing anastomoses, tissue approximation, and hemostasis suturing",
       specifications: "5mm diameter, 36cm length, carbide jaw inserts for durability. Ratchet locking mechanism with precise grip pressure. Compatible with all needle sizes 0-6",
-      image: "laparoscopic_surgica_d230030e.jpg",
+      image: grasperImage,
       setupTips: ["Test jaw alignment and ratchet function", "Have multiple drivers available for continuous suturing", "Position for both surgeon and assistant use", "Check carbide insert condition"]
     }
   };
 
-  // Get instrument image based on filename
-  const getInstrumentImage = (imageName: string) => {
-    const imageMap: Record<string, string> = {
-      "laparoscopic_surgica_2f77ae4e.jpg": laparoscopicSetImage,
-      "laparoscopic_surgica_d230030e.jpg": grasperImage,
-      "laparoscopic_surgica_4e4a2a75.jpg": trocarImage,
-      "laparoscopic_surgica_ea48bdf4.jpg": laparoscopeImage,
-      "laparoscopic_surgica_47f97ae1.jpg": electrocauteryImage,
-      "harmonic_scalpel_ult_e37fe3a8.jpg": harmonicScalpelImage
-    };
-    return imageMap[imageName] || null;
+  // Get instrument image directly from instrumentDetails
+  const getInstrumentImage = (instrument: any) => {
+    return instrument?.image || null;
   };
 
   // Handle instrument click
@@ -758,7 +750,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
               {(instrumentDetails[selectedInstrument as keyof typeof instrumentDetails] as any).image && (
                 <div>
                   <img 
-                    src={getInstrumentImage((instrumentDetails[selectedInstrument as keyof typeof instrumentDetails] as any).image) || ''} 
+                    src={getInstrumentImage(instrumentDetails[selectedInstrument as keyof typeof instrumentDetails]) || ''} 
                     alt={instrumentDetails[selectedInstrument as keyof typeof instrumentDetails].name}
                     className="w-full h-48 object-cover rounded-lg border"
                   />

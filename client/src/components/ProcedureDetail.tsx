@@ -114,10 +114,12 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
     "Basic laparotomy set": {
       name: "Basic Laparotomy Set", 
       category: "Surgical Set",
-      description: "Standard open surgical instrument set",
-      contents: ["Scalpels", "Forceps", "Hemostats", "Retractors", "Scissors", "Needle holders"],
-      usage: "Used for open abdominal surgical procedures",
-      specifications: "Sterile, reusable surgical instruments for open surgery"
+      description: "Essential instruments for open abdominal surgical procedures requiring access to peritoneal cavity and comprehensive surgical capability",
+      contents: ["Large Richardson retractors", "Intestinal clamps (Doyen, Allen)", "Long instruments (45cm)", "Laparotomy sponges", "Deep suction devices", "Closure materials", "Large hemostats", "Extended needle holders"],
+      usage: "Standard set for open abdominal surgeries, emergency procedures, trauma surgery, and when laparoscopic approach is not suitable. Provides complete surgical capability for major abdominal access",
+      specifications: "Extended length instruments 30-45cm, heavy-duty construction for deep tissue work, various retractor sizes for optimal exposure, steam sterilizable, stainless steel construction",
+      image: grasperImage,
+      setupTips: ["Organize instruments by depth and function", "Check all retractor mechanisms before procedure", "Ensure adequate exposure tools for deep abdominal work", "Have irrigation system ready", "Plan closure materials in advance", "Position large instruments for easy access"]
     },
     "Electrocautery": {
       name: "Electrosurgical Unit (ESU)",
@@ -442,16 +444,16 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       image: grasperImage,
       setupTips: ["Select appropriate blade", "Handle with care", "Dispose properly", "Keep spare blades available", "Test sharpness"]
     },
-    // Basic Sets - Common across all specialties
+    // Basic Sets - Common across all specialties  
     "Major laparoscopy set": {
-      name: "Major Laparoscopy Instrument Set",
-      category: "Basic Set",
-      description: "Comprehensive set of instruments for minimally invasive laparoscopic procedures including trocars, graspers, and cutting devices",
-      contents: ["5mm and 12mm trocars", "Atraumatic graspers", "Curved scissors", "Hook cautery", "Needle drivers", "Clip appliers", "Specimen bags"],
-      usage: "Primary instrument set for all laparoscopic procedures including cholecystectomy, appendectomy, and other minimally invasive surgeries",
-      specifications: "Sterile disposable and reusable options, various lengths 33-45cm, ergonomic handles, multiple jaw configurations",
+      name: "Major Laparoscopy Set",
+      category: "Surgical Set",
+      description: "Complete instrument set for laparoscopic procedures including all essential tools for minimally invasive surgery",
+      contents: ["5mm and 10mm trocars", "Laparoscopic graspers (Maryland, DeBakey, Wave)", "Laparoscopic Metz scissors", "Clip appliers with titanium clips", "L-hook electrocautery", "Suction/irrigation system"],
+      usage: "Used for minimally invasive surgical procedures through small keyhole incisions. Provides complete surgical capability for procedures like cholecystectomy, appendectomy, and hernia repair",
+      specifications: "Complete laparoscopic instrument set with 5mm and 10mm instruments, reusable and disposable options, HD camera compatible, CO2 insufflation system",
       image: laparoscopicSetImage,
-      setupTips: ["Organize by length and function", "Test all moving parts", "Ensure electrical connections", "Have backup instruments ready", "Check camera and light systems"]
+      setupTips: ["Arrange instruments by frequency of use", "Have backup clips readily available", "Test all electrical connections before procedure", "Ensure camera white balance is optimized"]
     },
     "Major orthopedic set": {
       name: "Major Orthopedic Instrument Set", 
@@ -462,16 +464,6 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       specifications: "Stainless steel construction, various sizes, heavy-duty design for bone work, autoclave compatible",
       image: grasperImage,
       setupTips: ["Arrange by procedure sequence", "Check sharp cutting edges", "Ensure all sizes available", "Test power tool connections", "Organize implant-specific tools separately"]
-    },
-    "General surgery set": {
-      name: "General Surgery Instrument Set",
-      category: "Basic Set", 
-      description: "Standard collection of cutting, grasping, and suturing instruments for general surgical procedures",
-      contents: ["Scalpels", "Forceps", "Scissors", "Hemostats", "Retractors", "Needle holders", "Towel clamps", "Sponge sticks"],
-      usage: "Primary instrument set for open general surgical procedures including appendectomy, hernia repair, and soft tissue surgeries",
-      specifications: "Stainless steel, various sizes from delicate to heavy patterns, ergonomic designs, steam sterilizable",
-      image: grasperImage,
-      setupTips: ["Arrange in order of use", "Check instrument function", "Have multiple sizes ready", "Organize cutting instruments separately", "Ensure adequate lighting"]
     },
     "Cardiovascular set": {
       name: "Cardiovascular Surgery Set",
@@ -492,16 +484,6 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       specifications: "Ultra-precise construction, minimal magnetic interference, ergonomic handles, various tip configurations",
       image: harmonicScalpelImage,
       setupTips: ["Handle with ultimate care", "Check bipolar function", "Test suction systems", "Organize micro instruments", "Maintain sterile field integrity"]
-    },
-    "Basic laparotomy set": {
-      name: "Basic Laparotomy Instrument Set", 
-      category: "Basic Set",
-      description: "Essential instruments for open abdominal surgical procedures requiring access to peritoneal cavity",
-      contents: ["Large retractors", "Intestinal clamps", "Long instruments", "Abdominal pads", "Suction devices", "Closure materials"],
-      usage: "Standard set for open abdominal surgeries, emergency procedures, and when laparoscopic approach is not suitable",
-      specifications: "Extended length instruments, heavy-duty construction, various retractor sizes, steam sterilizable",
-      image: grasperImage,
-      setupTips: ["Organize by size and function", "Check retractor mechanisms", "Ensure adequate exposure tools", "Have irrigation ready", "Plan closure materials"]
     },
     // Essential Items - Mayo Stand Setup
     "Vascular instruments": {

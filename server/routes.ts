@@ -40,6 +40,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Set session
       req.session.userId = user.id;
+      console.log('🔧 Registration - Setting session userId:', user.id, 'sessionId:', req.sessionID);
       
       res.json({ user: userResponse });
     } catch (error) {
@@ -70,6 +71,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Set session
       req.session.userId = user.id;
+      console.log('🔧 Login - Setting session userId:', user.id, 'sessionId:', req.sessionID);
       
       // Don't send password back
       const { password: _, ...userResponse } = user;
@@ -86,24 +88,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (err) {
         return res.status(500).json({ error: "Logout failed" });
       }
-      res.clearCookie('connect.sid');
+      res.clearCookie('surgiprep.sid', { 
+        path: '/', 
+        sameSite: 'lax' 
+      });
       res.json({ message: "Logged out successfully" });
     });
   });
   
   app.get("/api/auth/me", async (req, res) => {
     try {
+      console.log('🔧 Auth check - sessionId:', req.sessionID, 'userId:', req.session.userId, 'hasSession:', !!req.session);
+      
       if (!req.session.userId) {
         return res.status(401).json({ error: "Not authenticated" });
       }
       
       const user = await storage.getUserById(req.session.userId);
       if (!user) {
+        console.log('🔧 Auth check - User not found for userId:', req.session.userId);
         return res.status(401).json({ error: "User not found" });
       }
       
       // Don't send password back
       const { password, ...userResponse } = user;
+      console.log('🔧 Auth check - Success for user:', userResponse.email);
       
       res.json({ user: userResponse });
     } catch (error) {

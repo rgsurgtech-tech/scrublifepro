@@ -1,4 +1,7 @@
 import { useState } from "react";
+import * as React from "react";
+import { useMutation } from '@tanstack/react-query';
+import { useLocation } from 'wouter';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -8,20 +11,39 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { User, Settings, CreditCard, Bell, Shield, Moon, Download, Star, LogOut, Crown } from "lucide-react";
+import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
+import { apiRequest } from '@/lib/queryClient';
 
 interface UserProfileProps {
   onBack: () => void;
 }
 
 export default function UserProfile({ onBack }: UserProfileProps) {
+  const { user, refetch } = useAuth();
+  const [, setLocation] = useLocation();
+  const { toast } = useToast();
+
   const [userInfo, setUserInfo] = useState({
     firstName: "Jane",
-    lastName: "Smith",
+    lastName: "Smith", 
     email: "jane.smith@hospital.com",
     certificationNumber: "12345",
     yearsExperience: "5-10",
     primarySpecialty: "General Surgery"
   });
+
+  // Sync userInfo with real auth data when user loads
+  React.useEffect(() => {
+    if (user) {
+      setUserInfo(prev => ({
+        ...prev,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email
+      }));
+    }
+  }, [user]);
 
   const [settings, setSettings] = useState({
     notifications: true,
@@ -30,15 +52,40 @@ export default function UserProfile({ onBack }: UserProfileProps) {
     communityNotifications: true
   });
 
-  // TODO: Remove mock data when implementing real backend
-  const userTier: 'free' | 'standard' | 'premium' = "standard";
-  const selectedSpecialties = ["General Surgery", "Orthopedics", "Gynecology"];
+  // Use real user data
+  const userTier = user?.subscriptionTier || 'free';
+  const selectedSpecialties = user?.selectedSpecialties || ["General Surgery", "Orthopedics", "Gynecology"];
   const usageStats = {
     proceduresViewed: 127,
     notesCreated: 23,
     communityPosts: 8,
     daysActive: 45
   };
+
+  // Logout mutation
+  const logoutMutation = useMutation({
+    mutationFn: async () => {
+      const response = await apiRequest('POST', '/api/auth/logout');
+      return response.status === 200;
+    },
+    onSuccess: () => {
+      // Refetch auth state to update UI
+      refetch();
+      toast({
+        title: 'Signed out successfully',
+        description: 'You have been logged out of your account.'
+      });
+      // Redirect to home page
+      setLocation('/');
+    },
+    onError: (error: Error) => {
+      toast({
+        title: 'Sign out failed',
+        description: error.message,
+        variant: 'destructive'
+      });
+    }
+  });
 
   const handleProfileUpdate = (e: React.FormEvent) => {
     e.preventDefault();
@@ -333,7 +380,8 @@ export default function UserProfile({ onBack }: UserProfileProps) {
           <Button 
             variant="destructive" 
             className="w-full" 
-            onClick={() => console.log('Sign out clicked')}
+            onClick={() => logoutMutation.mutate()}
+            disabled={logoutMutation.isPending}
             data-testid="button-sign-out"
           >
             <LogOut className="h-4 w-4 mr-2" />

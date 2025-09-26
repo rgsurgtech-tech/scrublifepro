@@ -973,19 +973,22 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
 
       {/* Instrument Details Modal */}
       <Dialog open={showInstrumentDialog} onOpenChange={setShowInstrumentDialog}>
-        <DialogContent className="max-w-lg">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Info className="h-5 w-5 text-primary" />
-              Instrument Details
-            </DialogTitle>
-            <DialogDescription>
-              Detailed information about this surgical instrument
-            </DialogDescription>
-          </DialogHeader>
+        <DialogContent className="max-w-lg max-h-[85vh] p-0">
+          <div className="p-6 pb-4">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <Info className="h-5 w-5 text-primary" />
+                Instrument Details
+              </DialogTitle>
+              <DialogDescription>
+                Detailed information about this surgical instrument
+              </DialogDescription>
+            </DialogHeader>
+          </div>
           
-          {selectedInstrument && instrumentDetails[selectedInstrument as keyof typeof instrumentDetails] && (
-            <div className="space-y-4">
+          <div className="max-h-[calc(85vh-8rem)] overflow-y-auto px-6 pb-6">
+            {selectedInstrument && instrumentDetails[selectedInstrument as keyof typeof instrumentDetails] && (
+              <div className="space-y-4">
               <div>
                 <h3 className="font-semibold text-lg">{instrumentDetails[selectedInstrument as keyof typeof instrumentDetails].name}</h3>
                 <Badge variant="outline" className="mt-1">
@@ -1057,15 +1060,16 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
             </div>
           )}
           
-          {selectedInstrument && !instrumentDetails[selectedInstrument as keyof typeof instrumentDetails] && (
-            <div className="text-center py-6">
-              <AlertCircle className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
-              <h3 className="font-semibold mb-2">Information Not Available</h3>
-              <p className="text-sm text-muted-foreground">
-                Detailed information for "{selectedInstrument}" is not currently available in our database.
-              </p>
-            </div>
-          )}
+            {selectedInstrument && !instrumentDetails[selectedInstrument as keyof typeof instrumentDetails] && (
+              <div className="text-center py-6">
+                <AlertCircle className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
+                <h3 className="font-semibold mb-2">Information Not Available</h3>
+                <p className="text-sm text-muted-foreground">
+                  Detailed information for "{selectedInstrument}" is not currently available in our database.
+                </p>
+              </div>
+            )}
+          </div>
         </DialogContent>
       </Dialog>
     </div>

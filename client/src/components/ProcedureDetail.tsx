@@ -442,6 +442,229 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       image: grasperImage,
       setupTips: ["Select appropriate blade", "Handle with care", "Dispose properly", "Keep spare blades available", "Test sharpness"]
     },
+    // Basic Sets - Common across all specialties
+    "Major laparoscopy set": {
+      name: "Major Laparoscopy Instrument Set",
+      category: "Basic Set",
+      description: "Comprehensive set of instruments for minimally invasive laparoscopic procedures including trocars, graspers, and cutting devices",
+      contents: ["5mm and 12mm trocars", "Atraumatic graspers", "Curved scissors", "Hook cautery", "Needle drivers", "Clip appliers", "Specimen bags"],
+      usage: "Primary instrument set for all laparoscopic procedures including cholecystectomy, appendectomy, and other minimally invasive surgeries",
+      specifications: "Sterile disposable and reusable options, various lengths 33-45cm, ergonomic handles, multiple jaw configurations",
+      image: laparoscopicSetImage,
+      setupTips: ["Organize by length and function", "Test all moving parts", "Ensure electrical connections", "Have backup instruments ready", "Check camera and light systems"]
+    },
+    "Major orthopedic set": {
+      name: "Major Orthopedic Instrument Set", 
+      category: "Basic Set",
+      description: "Comprehensive collection of bone and joint instruments for major orthopedic procedures including joint replacements and fracture repairs",
+      contents: ["Bone cutting instruments", "Retractors", "Reduction forceps", "Bone holding clamps", "Periosteal elevators", "Reamers", "Rasps"],
+      usage: "Essential instrument set for major orthopedic surgeries including total joint replacements, fracture repairs, and spinal procedures",
+      specifications: "Stainless steel construction, various sizes, heavy-duty design for bone work, autoclave compatible",
+      image: grasperImage,
+      setupTips: ["Arrange by procedure sequence", "Check sharp cutting edges", "Ensure all sizes available", "Test power tool connections", "Organize implant-specific tools separately"]
+    },
+    "General surgery set": {
+      name: "General Surgery Instrument Set",
+      category: "Basic Set", 
+      description: "Standard collection of cutting, grasping, and suturing instruments for general surgical procedures",
+      contents: ["Scalpels", "Forceps", "Scissors", "Hemostats", "Retractors", "Needle holders", "Towel clamps", "Sponge sticks"],
+      usage: "Primary instrument set for open general surgical procedures including appendectomy, hernia repair, and soft tissue surgeries",
+      specifications: "Stainless steel, various sizes from delicate to heavy patterns, ergonomic designs, steam sterilizable",
+      image: grasperImage,
+      setupTips: ["Arrange in order of use", "Check instrument function", "Have multiple sizes ready", "Organize cutting instruments separately", "Ensure adequate lighting"]
+    },
+    "Cardiovascular set": {
+      name: "Cardiovascular Surgery Set",
+      category: "Basic Set",
+      description: "Specialized instruments for cardiac and vascular surgical procedures requiring precision and hemostasis",
+      contents: ["Vascular clamps", "Cardiovascular scissors", "DeBakey forceps", "Potts scissors", "Aortic punches", "Valve retractors"],
+      usage: "Essential for cardiac surgeries, bypass procedures, valve replacements, and major vascular operations",
+      specifications: "Precision-machined, atraumatic tips, spring-loaded handles, various jaw configurations for different vessel sizes",
+      image: harmonicScalpelImage,
+      setupTips: ["Handle with extreme care", "Check clamp alignment", "Test spring mechanisms", "Organize by vessel size", "Have multiple backup instruments"]
+    },
+    "Craniotomy set": {
+      name: "Craniotomy Instrument Set",
+      category: "Basic Set",
+      description: "Specialized neurosurgical instruments for cranial procedures requiring precision and brain tissue protection",
+      contents: ["Cranial rongeurs", "Brain spatulas", "Micro scissors", "Bipolar forceps", "Suction devices", "Hemostatic clips"],
+      usage: "Primary set for neurosurgical procedures including tumor resection, aneurysm clipping, and brain tissue manipulation",
+      specifications: "Ultra-precise construction, minimal magnetic interference, ergonomic handles, various tip configurations",
+      image: harmonicScalpelImage,
+      setupTips: ["Handle with ultimate care", "Check bipolar function", "Test suction systems", "Organize micro instruments", "Maintain sterile field integrity"]
+    },
+    "Basic laparotomy set": {
+      name: "Basic Laparotomy Instrument Set", 
+      category: "Basic Set",
+      description: "Essential instruments for open abdominal surgical procedures requiring access to peritoneal cavity",
+      contents: ["Large retractors", "Intestinal clamps", "Long instruments", "Abdominal pads", "Suction devices", "Closure materials"],
+      usage: "Standard set for open abdominal surgeries, emergency procedures, and when laparoscopic approach is not suitable",
+      specifications: "Extended length instruments, heavy-duty construction, various retractor sizes, steam sterilizable",
+      image: grasperImage,
+      setupTips: ["Organize by size and function", "Check retractor mechanisms", "Ensure adequate exposure tools", "Have irrigation ready", "Plan closure materials"]
+    },
+    // Essential Items - Mayo Stand Setup
+    "Vascular instruments": {
+      name: "Vascular Surgery Instruments",
+      category: "Essential Items",
+      description: "Precision instruments specifically designed for delicate vascular procedures and anastomoses",
+      contents: ["DeBakey forceps", "Potts scissors", "Vascular clamps", "Vessel loops", "Bulldog clamps", "Patch scissors"],
+      usage: "Critical for all vascular procedures including arterial repairs, bypass grafts, and microvascular anastomoses",
+      specifications: "Atraumatic surfaces, spring-loaded mechanisms, various sizes for different vessel diameters",
+      image: harmonicScalpelImage,
+      setupTips: ["Handle with extreme delicacy", "Check clamp pressure", "Organize by vessel size", "Test spring mechanisms", "Have irrigation available"]
+    },
+    "Grafts": {
+      name: "Vascular Grafts and Conduits",
+      category: "Essential Items", 
+      description: "Synthetic and biological conduits used for vascular reconstruction and bypass procedures",
+      contents: ["PTFE grafts", "Dacron grafts", "Saphenous vein grafts", "Radial artery grafts", "Umbilical vein grafts"],
+      usage: "Used to restore blood flow in vascular reconstruction, bypass surgery, and arterial repair procedures",
+      specifications: "Various diameters 4-28mm, different lengths, biocompatible materials, some pre-sealed options",
+      image: laparoscopicSetImage,
+      setupTips: ["Keep moist until use", "Select appropriate diameter", "Check for leaks", "Handle gently", "Have multiple sizes available"]
+    },
+    "Cannulae": {
+      name: "Surgical Cannulae System",
+      category: "Essential Items",
+      description: "Tubular instruments for fluid drainage, irrigation, and access during surgical procedures",
+      contents: ["Arterial cannulae", "Venous cannulae", "Cardioplegia cannulae", "Suction cannulae", "Irrigation cannulae"],
+      usage: "Provides access for perfusion, drainage, irrigation, and medication delivery during complex surgeries",
+      specifications: "Various sizes and shapes, biocompatible materials, some with inflatable cuffs, sterile single-use",
+      image: trocarImage,
+      setupTips: ["Check patency before use", "Select appropriate size", "Test connections", "Ensure secure placement", "Monitor for clotting"]
+    },
+    "Microsurgical instruments": {
+      name: "Microsurgical Instrument Set",
+      category: "Essential Items",
+      description: "Ultra-precise instruments for microscopic surgical procedures requiring extreme accuracy",
+      contents: ["Micro forceps", "Micro scissors", "Micro needle holders", "Vessel dilators", "Micro clamps", "Jeweler's forceps"],
+      usage: "Essential for reconstructive surgery, neurosurgery, ophthalmology, and any procedure requiring microscopic precision",
+      specifications: "Ultra-fine tips, spring handles, anti-magnetic, various angulations, ultra-smooth surfaces",
+      image: harmonicScalpelImage,
+      setupTips: ["Handle with utmost care", "Use under magnification", "Keep tips protected", "Check alignment frequently", "Have backup instruments"]
+    },
+    "Bipolar": {
+      name: "Bipolar Electrocautery System",
+      category: "Essential Items",
+      description: "Precision electrosurgical device for coagulation and cutting with minimal tissue damage and precise control",
+      contents: ["Bipolar forceps", "Generator unit", "Foot pedal", "Various tip designs", "Irrigation attachments"],
+      usage: "Primary hemostatic device for delicate procedures, especially in neurosurgery, microsurgery, and areas requiring precision",
+      specifications: "Variable power settings, precision tips, integrated irrigation, foot pedal control, various tip geometries",
+      image: electrocauteryImage,
+      setupTips: ["Test power settings", "Check tip condition", "Ensure clean contacts", "Have irrigation ready", "Use lowest effective power"]
+    },
+    "Hemostatic agents": {
+      name: "Hemostatic Agents and Materials",
+      category: "Essential Items",
+      description: "Advanced materials and agents used to achieve rapid hemostasis and bleeding control during surgery",
+      contents: ["Gelfoam", "Surgicel", "Bone wax", "Thrombin", "Fibrin sealant", "Hemostatic powder"],
+      usage: "Critical for controlling bleeding from various tissue types including bone, soft tissue, and vascular structures",
+      specifications: "Bioabsorbable materials, sterile preparation, various forms (powder, sheets, liquid), rapid action",
+      image: harmonicScalpelImage,
+      setupTips: ["Keep dry until use", "Apply with pressure", "Don't oversaturate", "Have multiple types ready", "Follow manufacturer instructions"]
+    },
+    "Fine instruments": {
+      name: "Fine Surgical Instruments",
+      category: "Essential Items",
+      description: "Delicate instruments for procedures requiring precision handling of fine tissues and structures",
+      contents: ["Fine forceps", "Micro scissors", "Delicate retractors", "Fine sutures", "Precision clamps", "Nerve hooks"],
+      usage: "Essential for endocrine surgery, microsurgery, pediatric procedures, and any surgery requiring delicate tissue handling",
+      specifications: "Ultra-fine construction, smooth surfaces, spring mechanisms, various tip configurations, lightweight design",
+      image: harmonicScalpelImage,
+      setupTips: ["Handle with extreme care", "Use magnification when possible", "Keep tips aligned", "Have multiple sizes", "Protect from damage"]
+    },
+    "Nerve monitor": {
+      name: "Nerve Monitoring System",
+      category: "Essential Items",
+      description: "Electrophysiological monitoring system for real-time nerve function assessment during surgery",
+      contents: ["Monitoring electrodes", "Stimulator probe", "Display unit", "Audio feedback", "Recording cables"],
+      usage: "Critical for procedures near critical nerves, especially thyroid, parathyroid, and spinal surgeries",
+      specifications: "Real-time monitoring, audio and visual feedback, stimulation parameters, sterile probe covers",
+      image: laparoscopicSetImage,
+      setupTips: ["Test system before procedure", "Apply electrodes properly", "Check all connections", "Set appropriate thresholds", "Monitor continuously"]
+    },
+    // Special Instruments across specialties
+    "Cutting guides": {
+      name: "Surgical Cutting Guides",
+      category: "Special Instruments",
+      description: "Precision guides for accurate bone cuts and implant placement during orthopedic procedures",
+      contents: ["Femoral cutting guides", "Tibial guides", "Angular alignment guides", "Resection blocks", "Drill guides"],
+      usage: "Ensures precise bone cuts and proper implant alignment during joint replacement and reconstruction procedures",
+      specifications: "Patient-specific options available, stainless steel construction, multiple angle settings, autoclave compatible",
+      image: trocarImage,
+      setupTips: ["Verify correct size", "Check alignment marks", "Secure properly", "Use steady pressure", "Confirm measurements"]
+    },
+    "Trials": {
+      name: "Trial Implant Components",
+      category: "Special Instruments",
+      description: "Test components used to verify fit, size, and function before final implant placement",
+      contents: ["Trial stems", "Trial heads", "Trial cups", "Spacers", "Size verificators"],
+      usage: "Critical for testing implant fit, range of motion, and stability before inserting final prosthetic components",
+      specifications: "Exact replica of final implants, various sizes, easy insertion/removal, radiopaque markers",
+      image: grasperImage,
+      setupTips: ["Test multiple sizes", "Check range of motion", "Verify stability", "Document final size", "Handle carefully to avoid scratching"]
+    },
+    "Cement supplies": {
+      name: "Bone Cement Mixing System",
+      category: "Special Instruments",
+      description: "Complete system for preparing and applying bone cement during orthopedic implant procedures",
+      contents: ["Cement mixer", "Cement gun", "Pressurizer", "Brushes", "Pulse lavage", "Cement restrictors"],
+      usage: "Essential for cementing orthopedic implants, ensuring proper cement penetration and implant fixation",
+      specifications: "Vacuum mixing capability, various delivery tips, pressure application system, sterile packaging",
+      image: laparoscopicSetImage,
+      setupTips: ["Prepare cement per protocol", "Work quickly before setting", "Apply pressure evenly", "Remove excess cement", "Maintain position until set"]
+    },
+    "Energy devices": {
+      name: "Advanced Energy Devices",
+      category: "Special Instruments", 
+      description: "Advanced electrosurgical devices for precise cutting and coagulation with minimal thermal damage",
+      contents: ["LigaSure device", "Harmonic scalpel", "PlasmaKinetic device", "Advanced bipolar", "Microwave ablation"],
+      usage: "Primary devices for tissue sealing, cutting, and ablation procedures requiring precision and hemostasis",
+      specifications: "Multiple energy modalities, precise temperature control, vessel sealing capability, foot pedal control",
+      image: harmonicScalpelImage,
+      setupTips: ["Select appropriate device", "Test function before use", "Use correct activation time", "Allow cooling between uses", "Follow safety protocols"]
+    },
+    "Specimen bags": {
+      name: "Surgical Specimen Retrieval Bags",
+      category: "Special Instruments",
+      description: "Sterile containment bags for safe removal of surgical specimens during minimally invasive procedures",
+      contents: ["Various sized bags", "Deployment mechanisms", "Closure systems", "Extraction devices", "Specimen containers"],
+      usage: "Essential for containing and removing tissue specimens during laparoscopic and robotic procedures",
+      specifications: "Various sizes, tear-resistant materials, secure closure systems, transparent options available",
+      image: grasperImage,
+      setupTips: ["Select appropriate size", "Deploy carefully", "Ensure complete containment", "Check for tears", "Remove through largest port"]
+    },
+    "Specimen containers": {
+      name: "Surgical Specimen Containers",
+      category: "Special Instruments",
+      description: "Sterile containers for proper handling, preservation, and transport of surgical specimens for pathological examination",
+      contents: ["Formalin containers", "Fresh specimen containers", "Frozen section containers", "Culture containers", "Special fixatives"],
+      usage: "Critical for proper specimen handling to ensure accurate pathological diagnosis and patient care",
+      specifications: "Various sizes, leak-proof design, proper fixative ratios, labeling systems, sterile preparation",
+      image: grasperImage,
+      setupTips: ["Label immediately", "Use appropriate fixative", "Document specimen source", "Handle gently", "Transport promptly"]
+    },
+    "Marking sutures": {
+      name: "Surgical Marking Sutures",
+      category: "Special Instruments",
+      description: "Colored sutures used to identify specific anatomical structures or mark surgical margins during procedures",
+      contents: ["Various colored sutures", "Different materials", "Multiple sizes", "Marking clips", "Radiopaque markers"],
+      usage: "Used to mark surgical margins, identify structures, and provide reference points for pathological examination",
+      specifications: "Non-reactive materials, permanent marking, various colors and sizes, biocompatible options",
+      image: harmonicScalpelImage,
+      setupTips: ["Use consistent color coding", "Document marking system", "Apply securely", "Avoid tissue damage", "Communicate with pathology"]
+    },
+    "Doppler": {
+      name: "Doppler Ultrasound Probe",
+      category: "Special Instruments", 
+      description: "Ultrasonic device for real-time assessment of blood flow and vessel patency during vascular procedures",
+      contents: ["Doppler probe", "Audio amplifier", "Coupling gel", "Sterile probe covers", "Various frequency options"],
+      usage: "Essential for verifying blood flow, locating vessels, and confirming anastomotic patency during vascular procedures",
+      specifications: "Multiple frequency options, audio feedback, sterile probe covers, battery operation, waterproof design",
+      image: laparoscopicSetImage,
+      setupTips: ["Apply adequate gel", "Use appropriate frequency", "Listen for flow signals", "Check probe function", "Maintain sterile technique"]
+    },
     "Needle holders": {
       name: "Laparoscopic Needle Drivers",
       category: "Suturing Instrument", 

@@ -108,7 +108,7 @@ export default function LoginForm({ onBack, onSuccess }: LoginFormProps) {
                       required
                     />
                   </div>
-                  <Button type="submit" className="w-full" data-testid="button-signin">
+                  <Button type="submit" variant="default" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold" data-testid="button-signin">
                     Sign In
                   </Button>
                 </form>
@@ -240,7 +240,8 @@ export default function LoginForm({ onBack, onSuccess }: LoginFormProps) {
                   
                   <Button 
                     type="submit" 
-                    className="w-full" 
+                    variant="default"
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold" 
                     disabled={!signupData.agreeToTerms}
                     data-testid="button-signup"
                   >

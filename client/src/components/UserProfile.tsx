@@ -185,7 +185,12 @@ export default function UserProfile({ onBack }: UserProfileProps) {
               </Badge>
             ))}
           </div>
-          <Button variant="outline" size="sm" data-testid="button-manage-specialties">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={() => setLocation('/specialties')}
+            data-testid="button-manage-specialties"
+          >
             Manage Specialties
           </Button>
         </CardContent>
@@ -355,19 +360,54 @@ export default function UserProfile({ onBack }: UserProfileProps) {
           <CardTitle className="text-base">Quick Actions</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
-          <Button variant="outline" className="w-full justify-start" data-testid="button-subscription">
+          <Button 
+            variant="outline" 
+            className="w-full justify-start" 
+            onClick={() => setLocation('/subscribe')}
+            data-testid="button-subscription"
+          >
             <CreditCard className="h-4 w-4 mr-3" />
             Manage Subscription
           </Button>
-          <Button variant="outline" className="w-full justify-start" data-testid="button-offline-content">
+          <Button 
+            variant="outline" 
+            className="w-full justify-start" 
+            onClick={() => {
+              toast({
+                title: 'Offline Content',
+                description: 'Offline content management feature coming soon! Stay tuned for updates.',
+              });
+            }}
+            data-testid="button-offline-content"
+          >
             <Download className="h-4 w-4 mr-3" />
             Manage Offline Content
           </Button>
-          <Button variant="outline" className="w-full justify-start" data-testid="button-privacy">
+          <Button 
+            variant="outline" 
+            className="w-full justify-start" 
+            onClick={() => {
+              toast({
+                title: 'Privacy & Security',
+                description: 'Privacy and security settings coming soon! Your data is already protected with industry-standard encryption.',
+              });
+            }}
+            data-testid="button-privacy"
+          >
             <Shield className="h-4 w-4 mr-3" />
             Privacy & Security
           </Button>
-          <Button variant="outline" className="w-full justify-start" data-testid="button-support">
+          <Button 
+            variant="outline" 
+            className="w-full justify-start" 
+            onClick={() => {
+              toast({
+                title: 'Help & Support',
+                description: 'Help documentation and support chat coming soon! For now, contact support@surgiprep.com for assistance.',
+              });
+            }}
+            data-testid="button-support"
+          >
             <Star className="h-4 w-4 mr-3" />
             Help & Support
           </Button>

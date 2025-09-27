@@ -83,7 +83,22 @@ export class DatabaseStorage implements IStorage {
 
   // Specialties
   async getAllSpecialties(): Promise<Specialty[]> {
-    return await db.select().from(specialties).orderBy(specialties.name);
+    // Get specialties with actual procedure counts
+    const result = await db
+      .select({
+        id: specialties.id,
+        name: specialties.name,
+        description: specialties.description,
+        icon: specialties.icon,
+        procedureCount: sql<number>`CAST(COUNT(${procedures.id}) AS INTEGER)`,
+        color: specialties.color,
+      })
+      .from(specialties)
+      .leftJoin(procedures, eq(specialties.id, procedures.specialtyId))
+      .groupBy(specialties.id, specialties.name, specialties.description, specialties.icon, specialties.color)
+      .orderBy(specialties.name);
+    
+    return result;
   }
 
   async getSpecialtyById(id: string): Promise<Specialty | null> {

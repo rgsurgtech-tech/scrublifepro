@@ -105,7 +105,12 @@ export default function Specialties() {
                   <CardTitle className="text-lg font-semibold">
                     {specialty.name}
                   </CardTitle>
-                  <Badge variant="secondary" className="mt-1">
+                  <Badge 
+                    variant="secondary" 
+                    className="mt-1 cursor-pointer hover:bg-secondary/80" 
+                    onClick={() => setLocation(`/procedures/${specialty.id}`)}
+                    data-testid={`badge-procedures-${specialty.id}`}
+                  >
                     {specialty.procedureCount} procedures
                   </Badge>
                 </div>

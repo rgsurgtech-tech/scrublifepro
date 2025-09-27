@@ -90,8 +90,9 @@ export default function Home() {
                 Browse Procedures
               </Button>
               <Button 
-                variant="outline" 
+                variant="secondary" 
                 size="lg"
+                className="bg-white/20 backdrop-blur-md border-white/30 text-white hover:bg-white/30 hover:text-white font-semibold"
                 onClick={() => setLocation('/auth')}
                 data-testid="button-sign-in"
               >

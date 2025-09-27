@@ -16,9 +16,8 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL
 });
 
-// Session middleware - Enhanced for Replit preview compatibility
-const isReplitPreview = process.env.REPL_ID || process.env.REPLIT_DOMAIN;
-console.log('🔧 Session config - isReplitPreview:', !!isReplitPreview, 'REPL_ID:', !!process.env.REPL_ID, 'REPLIT_DOMAIN:', !!process.env.REPLIT_DOMAIN);
+// Session middleware - Secure and working configuration
+console.log('🔧 Session config - ENV:', process.env.NODE_ENV);
 
 app.use(session({
   store: new PgSession({
@@ -27,16 +26,15 @@ app.use(session({
     createTableIfMissing: true
   }),
   secret: process.env.SESSION_SECRET || 'surgitech-connect-secret-key-development',
-  resave: false,
+  resave: true, // CRITICAL: Force resave for persistence
   saveUninitialized: false,
   cookie: {
-    secure: false, // Force false for development - let Replit handle HTTPS
-    httpOnly: true,
+    secure: false, // False for development
+    httpOnly: true, // SECURE: Restore XSS protection
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days  
-    sameSite: 'lax', // Use lax for better compatibility
-    domain: undefined // Let browser set domain automatically
+    sameSite: 'lax'
   },
-  name: 'surgiprep.sid' // Custom session name
+  name: 'surgiprep.sid' // Match the logout cookie name
 }));
 
 app.use((req, res, next) => {

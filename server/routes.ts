@@ -42,6 +42,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       req.session.userId = user.id;
       console.log('🔧 Registration - Setting session userId:', user.id, 'sessionId:', req.sessionID);
       
+      // Force session save to ensure persistence
+      req.session.save((err) => {
+        if (err) console.error('Session save error:', err);
+        else console.log('✅ Session saved successfully');
+      });
+      
       res.json({ user: userResponse });
     } catch (error) {
       console.error('Registration error:', error);
@@ -72,6 +78,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Set session
       req.session.userId = user.id;
       console.log('🔧 Login - Setting session userId:', user.id, 'sessionId:', req.sessionID);
+      
+      // Force session save to ensure persistence
+      req.session.save((err) => {
+        if (err) console.error('Session save error:', err);
+        else console.log('✅ Session saved successfully');
+      });
       
       // Don't send password back
       const { password: _, ...userResponse } = user;

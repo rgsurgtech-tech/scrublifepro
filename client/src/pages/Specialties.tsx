@@ -152,7 +152,7 @@ export default function Specialties() {
             <CardContent className="p-6 text-center">
               <div className="text-3xl font-bold text-primary mb-2">
                 {user?.subscriptionTier === 'premium' ? 'Unlimited' : 
-                 user?.subscriptionTier === 'standard' ? '3' : user ? '1' : 'Sign up for access'}
+                 user?.subscriptionTier === 'standard' ? '3' : user ? '1' : 'Unlimited'}
               </div>
               <p className="text-white/80">Available to You</p>
             </CardContent>

@@ -4,7 +4,15 @@ import bcrypt from "bcryptjs";
 import { z } from "zod";
 import Stripe from "stripe";
 import { storage } from "./storage";
-import { insertUserSchema, insertUserNoteSchema, insertForumPostSchema } from "@shared/schema";
+import { 
+  insertUserSchema, 
+  insertUserNoteSchema, 
+  insertForumPostSchema,
+  insertVideoSchema,
+  insertVideoCategorySchema,
+  insertVideoProgressSchema,
+  insertVideoCommentSchema
+} from "@shared/schema";
 
 // Initialize Stripe - From javascript_stripe integration
 if (!process.env.STRIPE_SECRET_KEY) {
@@ -466,6 +474,204 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error: any) {
       console.error('Update subscription tier error:', error);
       res.status(500).json({ error: "Failed to update subscription tier" });
+    }
+  });
+
+  // Video library routes
+  // Video categories
+  app.get("/api/video-categories", async (req, res) => {
+    try {
+      const categories = await storage.getAllVideoCategories();
+      res.json(categories);
+    } catch (error) {
+      console.error('Get video categories error:', error);
+      res.status(500).json({ error: "Failed to get video categories" });
+    }
+  });
+
+  app.get("/api/video-categories/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const category = await storage.getVideoCategoryById(id);
+      
+      if (!category) {
+        return res.status(404).json({ error: "Video category not found" });
+      }
+      
+      res.json(category);
+    } catch (error) {
+      console.error('Get video category error:', error);
+      res.status(500).json({ error: "Failed to get video category" });
+    }
+  });
+
+  // Videos
+  app.get("/api/videos", async (req, res) => {
+    try {
+      const { category, specialtyId, procedureId, search } = req.query;
+      
+      let videos;
+      if (search && typeof search === 'string') {
+        videos = await storage.searchVideos(search);
+      } else if (category && typeof category === 'string') {
+        videos = await storage.getVideosByCategory(category);
+      } else if (specialtyId && typeof specialtyId === 'string') {
+        videos = await storage.getVideosBySpecialty(specialtyId);
+      } else if (procedureId && typeof procedureId === 'string') {
+        videos = await storage.getVideosByProcedure(procedureId);
+      } else {
+        videos = await storage.getAllVideos();
+      }
+      
+      res.json(videos);
+    } catch (error) {
+      console.error('Get videos error:', error);
+      res.status(500).json({ error: "Failed to get videos" });
+    }
+  });
+
+  app.get("/api/videos/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const video = await storage.getVideoById(id);
+      
+      if (!video) {
+        return res.status(404).json({ error: "Video not found" });
+      }
+      
+      // Increment view count (non-blocking)
+      try {
+        await storage.incrementVideoViews(id);
+      } catch (error) {
+        console.warn('Failed to increment video views:', error);
+      }
+      
+      res.json(video);
+    } catch (error) {
+      console.error('Get video error:', error);
+      res.status(500).json({ error: "Failed to get video" });
+    }
+  });
+
+  // Video user interactions (protected)
+  app.get("/api/user/video-favorites", requireAuth, async (req: any, res) => {
+    try {
+      const favorites = await storage.getUserVideoFavorites(req.user.id);
+      res.json(favorites);
+    } catch (error) {
+      console.error('Get video favorites error:', error);
+      res.status(500).json({ error: "Failed to get video favorites" });
+    }
+  });
+
+  app.post("/api/user/video-favorites/:videoId", requireAuth, async (req: any, res) => {
+    try {
+      const { videoId } = req.params;
+      await storage.addVideoFavorite(req.user.id, videoId);
+      res.json({ message: "Added to video favorites" });
+    } catch (error) {
+      console.error('Add video favorite error:', error);
+      res.status(500).json({ error: "Failed to add video favorite" });
+    }
+  });
+
+  app.delete("/api/user/video-favorites/:videoId", requireAuth, async (req: any, res) => {
+    try {
+      const { videoId } = req.params;
+      await storage.removeVideoFavorite(req.user.id, videoId);
+      res.json({ message: "Removed from video favorites" });
+    } catch (error) {
+      console.error('Remove video favorite error:', error);
+      res.status(500).json({ error: "Failed to remove video favorite" });
+    }
+  });
+
+  app.post("/api/user/video-likes/:videoId", requireAuth, async (req: any, res) => {
+    try {
+      const { videoId } = req.params;
+      const liked = await storage.toggleVideoLike(req.user.id, videoId);
+      res.json({ liked, message: liked ? "Video liked" : "Video unliked" });
+    } catch (error) {
+      console.error('Toggle video like error:', error);
+      res.status(500).json({ error: "Failed to toggle video like" });
+    }
+  });
+
+  // Video progress tracking (protected)
+  app.get("/api/user/video-progress/:videoId", requireAuth, async (req: any, res) => {
+    try {
+      const { videoId } = req.params;
+      const progress = await storage.getUserVideoProgress(req.user.id, videoId);
+      res.json(progress);
+    } catch (error) {
+      console.error('Get video progress error:', error);
+      res.status(500).json({ error: "Failed to get video progress" });
+    }
+  });
+
+  app.post("/api/user/video-progress", requireAuth, async (req: any, res) => {
+    try {
+      const progressData = insertVideoProgressSchema.parse({
+        ...req.body,
+        userId: req.user.id
+      });
+      
+      const progress = await storage.updateVideoProgress(progressData);
+      res.json(progress);
+    } catch (error) {
+      console.error('Update video progress error:', error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: 'Invalid input', details: error.errors });
+      }
+      res.status(500).json({ error: "Failed to update video progress" });
+    }
+  });
+
+  // Video comments
+  app.get("/api/videos/:videoId/comments", async (req, res) => {
+    try {
+      const { videoId } = req.params;
+      const comments = await storage.getVideoComments(videoId);
+      res.json(comments);
+    } catch (error) {
+      console.error('Get video comments error:', error);
+      res.status(500).json({ error: "Failed to get video comments" });
+    }
+  });
+
+  app.post("/api/videos/:videoId/comments", requireAuth, async (req: any, res) => {
+    try {
+      const { videoId } = req.params;
+      const commentData = insertVideoCommentSchema.parse({
+        ...req.body,
+        videoId,
+        authorId: req.user.id
+      });
+      
+      const comment = await storage.createVideoComment(commentData);
+      res.json(comment);
+    } catch (error) {
+      console.error('Create video comment error:', error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: 'Invalid input', details: error.errors });
+      }
+      res.status(500).json({ error: "Failed to create video comment" });
+    }
+  });
+
+  app.delete("/api/videos/:videoId/comments/:commentId", requireAuth, async (req: any, res) => {
+    try {
+      const { commentId } = req.params;
+      const deleted = await storage.deleteVideoComment(commentId, req.user.id);
+      
+      if (!deleted) {
+        return res.status(404).json({ error: "Comment not found or not authorized" });
+      }
+      
+      res.json({ message: "Comment deleted" });
+    } catch (error) {
+      console.error('Delete video comment error:', error);
+      res.status(500).json({ error: "Failed to delete video comment" });
     }
   });
 

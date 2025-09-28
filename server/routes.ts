@@ -204,6 +204,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
+  // Get all procedures for testing purposes
+  app.get("/api/procedures/all", async (req, res) => {
+    try {
+      const procedures = await storage.getAllProcedures();
+      res.json(procedures);
+    } catch (error) {
+      console.error('Get all procedures error:', error);
+      res.status(500).json({ error: "Failed to get all procedures" });
+    }
+  });
+  
   app.get("/api/procedures/:id", async (req, res) => {
     try {
       const { id } = req.params;

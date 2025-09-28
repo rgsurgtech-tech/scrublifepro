@@ -8,6 +8,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import Home from "@/pages/Home";
 import Specialties from "@/pages/Specialties";
 import Procedures from "@/pages/Procedures";
+import VideoLibrary from "@/pages/VideoLibrary";
 import Community from "@/pages/Community";
 import Profile from "@/pages/Profile";
 import Notes from "@/pages/Notes";
@@ -23,6 +24,7 @@ function Router() {
       <Route path="/specialties" component={Specialties} />
       <Route path="/procedures/:specialtyId" component={Procedures} />
       <Route path="/procedures/:specialtyId/:procedureId" component={Procedures} />
+      <Route path="/videos" component={VideoLibrary} />
       <Route path="/community" component={Community} />
       <Route path="/profile" component={Profile} />
       <Route path="/notes" component={Notes} />

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Home, Search, FileText, Users, User } from "lucide-react";
+import { Home, Search, FileText, Play, Users, User } from "lucide-react";
 
 interface BottomNavigationProps {
   activeTab: string;
@@ -11,6 +11,7 @@ const navItems = [
   { id: 'home', label: 'Home', icon: Home },
   { id: 'search', label: 'Search', icon: Search },
   { id: 'procedures', label: 'Procedures', icon: FileText },
+  { id: 'videos', label: 'Videos', icon: Play },
   { id: 'community', label: 'Community', icon: Users, hasNotification: true },
   { id: 'profile', label: 'Profile', icon: User }
 ];

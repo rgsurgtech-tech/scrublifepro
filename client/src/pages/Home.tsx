@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Stethoscope, Users, BookOpen, Shield, Search, Heart, Bone, Brain, Eye, Baby, Activity, Scissors, Target, Wind, Wrench, Truck, Repeat, Zap, Dna } from 'lucide-react';
+import { Stethoscope, Users, BookOpen, Shield, Search, Heart, Bone, Brain, Eye, Baby, Activity, Scissors, Target, Wind, Wrench, Truck, Repeat, Zap, Dna, Play } from 'lucide-react';
 import surgicalBg from '@assets/stock_images/surgical_operating_r_269f4a87.jpg';
 
 // Icon mapping for specialties
@@ -412,6 +412,18 @@ export default function Home() {
             <CardContent>
               <p className="text-sm text-white/70">
                 Access surgical procedure guides for your specialties
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="glass-card bg-transparent backdrop-blur-xl border-white/10 hover-elevate cursor-pointer" onClick={() => setLocation('/videos')} data-testid="card-video-library">
+            <CardHeader>
+              <Play className="h-8 w-8 text-primary mb-2" />
+              <CardTitle className="text-white">Video Library</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-white/70">
+                Watch educational surgical videos and demonstrations
               </p>
             </CardContent>
           </Card>

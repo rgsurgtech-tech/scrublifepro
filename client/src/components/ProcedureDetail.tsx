@@ -355,26 +355,6 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       setupTips: ["Organize bits by size", "Test drill speed", "Use depth guides", "Maintain irrigation", "Check bit sharpness"]
     },
     // Cardiac Surgery Instruments
-    "Prosthetic valves": {
-      name: "Cardiac Prosthetic Valves",
-      category: "Implant Device",
-      description: "Artificial heart valves for replacement of diseased native valves, available in mechanical and biological options",
-      contents: ["Valve prosthesis", "Sewing ring", "Valve sizers", "Insertion tools", "Sizing guides"],
-      usage: "Replacement of diseased mitral, aortic, tricuspid, or pulmonary valves to restore proper cardiac function",
-      specifications: "Various sizes 19-33mm, mechanical or bioprosthetic options, MRI compatible designs available",
-      image: grasperImage,
-      setupTips: ["Verify correct valve size", "Handle with care", "Keep sterile until insertion", "Have multiple sizes available", "Test valve function"]
-    },
-    "Valve sizers": {
-      name: "Cardiac Valve Sizers",
-      category: "Measuring Tool",
-      description: "Precision measuring devices to determine correct prosthetic valve size during cardiac surgery",
-      contents: ["Graduated sizing obturators", "Multiple size options", "Insertion handles", "Size marking system"],
-      usage: "Accurate measurement of valve annulus to ensure proper prosthetic valve fit and function",
-      specifications: "Graduated sizes 19-33mm, color-coded system, autoclavable stainless steel construction",
-      image: grasperImage,
-      setupTips: ["Start with estimated size", "Test multiple sizes", "Ensure complete seating", "Note size for prosthesis", "Handle gently to avoid damage"]
-    },
     "Cardioplegia": {
       name: "Cardioplegia Delivery System",
       category: "Perfusion Equipment",
@@ -457,46 +437,36 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       image: grasperImage,
       setupTips: ["Select appropriate blade", "Handle with care", "Dispose properly", "Keep spare blades available", "Test sharpness"]
     },
-    // Basic Sets - Common across all specialties  
-    "Major laparoscopy set": {
-      name: "Major Laparoscopy Set",
-      category: "Surgical Set",
-      description: "Complete instrument set for laparoscopic procedures including all essential tools for minimally invasive surgery",
-      contents: ["5mm and 10mm trocars", "Laparoscopic graspers (Maryland, DeBakey, Wave)", "Laparoscopic Metz scissors", "Clip appliers with titanium clips", "L-hook electrocautery", "Suction/irrigation system"],
-      usage: "Used for minimally invasive surgical procedures through small keyhole incisions. Provides complete surgical capability for procedures like cholecystectomy, appendectomy, and hernia repair",
-      specifications: "Complete laparoscopic instrument set with 5mm and 10mm instruments, reusable and disposable options, HD camera compatible, CO2 insufflation system",
-      image: laparoscopicSetImage,
-      setupTips: ["Arrange instruments by frequency of use", "Have backup clips readily available", "Test all electrical connections before procedure", "Ensure camera white balance is optimized"]
-    },
+    // Basic Sets - Common across all specialties
     "Major orthopedic set": {
       name: "Major Orthopedic Instrument Set", 
       category: "Basic Set",
-      description: "Comprehensive collection of bone and joint instruments for major orthopedic procedures including joint replacements and fracture repairs",
-      contents: ["Bone cutting instruments", "Retractors", "Reduction forceps", "Bone holding clamps", "Periosteal elevators", "Reamers", "Rasps"],
-      usage: "Essential instrument set for major orthopedic surgeries including total joint replacements, fracture repairs, and spinal procedures",
-      specifications: "Stainless steel construction, various sizes, heavy-duty design for bone work, autoclave compatible",
+      description: "Comprehensive collection of heavy-duty bone and joint instruments for major orthopedic procedures including joint replacements, fracture repairs, and complex bone work",
+      contents: ["Oscillating and reciprocating saws", "Large bone cutting forceps", "Hohmann retractors (various sizes)", "Reduction forceps and clamps", "Bone holding clamps", "Periosteal elevators", "Reamers and rasps", "Osteotomes and chisels"],
+      usage: "Essential instrument set for major orthopedic surgeries including total joint replacements, complex fracture repairs, spinal procedures, and any surgery requiring substantial bone work",
+      specifications: "Heavy-duty stainless steel construction, multiple sizes for different bone types, reinforced design for high-stress bone work, autoclave compatible, corrosion resistant",
       image: grasperImage,
-      setupTips: ["Arrange by procedure sequence", "Check sharp cutting edges", "Ensure all sizes available", "Test power tool connections", "Organize implant-specific tools separately"]
+      setupTips: ["Arrange instruments by surgical sequence", "Check all sharp cutting edges for sharpness", "Ensure complete size range is available", "Test all power tool connections", "Organize implant-specific tools separately by manufacturer"]
     },
     "Cardiovascular set": {
       name: "Cardiovascular Surgery Set",
       category: "Basic Set",
-      description: "Specialized instruments for cardiac and vascular surgical procedures requiring precision and hemostasis",
-      contents: ["Vascular clamps", "Cardiovascular scissors", "DeBakey forceps", "Potts scissors", "Aortic punches", "Valve retractors"],
-      usage: "Essential for cardiac surgeries, bypass procedures, valve replacements, and major vascular operations",
-      specifications: "Precision-machined, atraumatic tips, spring-loaded handles, various jaw configurations for different vessel sizes",
+      description: "Comprehensive specialized instruments for cardiac and vascular surgical procedures requiring precision and hemostasis with advanced materials and design",
+      contents: ["DeBakey vascular forceps (multiple lengths)", "Potts cardiovascular scissors", "Cardiovascular needle holders", "Satinsky vascular clamps", "Bulldogs clamps (various sizes)", "Valve retractors", "Aortic punches", "Vessel loops"],
+      usage: "Essential instrument set for all cardiac surgeries, bypass procedures, valve replacements, vascular reconstructions, and major cardiovascular operations requiring precision handling",
+      specifications: "Premium grade stainless steel, atraumatic tips with precision machining, spring-loaded handles, various jaw configurations optimized for different vessel sizes, MRI compatible",
       image: harmonicScalpelImage,
-      setupTips: ["Handle with extreme care", "Check clamp alignment", "Test spring mechanisms", "Organize by vessel size", "Have multiple backup instruments"]
+      setupTips: ["Handle with extreme care to maintain precision", "Check clamp alignment and spring tension", "Test all spring mechanisms before procedure", "Organize instruments by vessel size and function", "Have multiple backup instruments readily available"]
     },
     "Craniotomy set": {
       name: "Craniotomy Instrument Set",
       category: "Basic Set",
-      description: "Specialized neurosurgical instruments for cranial procedures requiring precision and brain tissue protection",
-      contents: ["Cranial rongeurs", "Brain spatulas", "Micro scissors", "Bipolar forceps", "Suction devices", "Hemostatic clips"],
-      usage: "Primary set for neurosurgical procedures including tumor resection, aneurysm clipping, and brain tissue manipulation",
-      specifications: "Ultra-precise construction, minimal magnetic interference, ergonomic handles, various tip configurations",
+      description: "Ultra-specialized neurosurgical instruments for cranial procedures requiring maximum precision and brain tissue protection with advanced materials and ergonomic design",
+      contents: ["Kerrison rongeurs (various sizes)", "Brain spatulas (flat and curved)", "Micro scissors (straight and curved)", "Bipolar forceps (fine and standard)", "Neurosurgical suction devices", "Aneurysm clips", "Nerve hooks", "Micro retractors"],
+      usage: "Primary instrument set for neurosurgical procedures including tumor resection, aneurysm clipping, brain tissue manipulation, and delicate intracranial work requiring ultimate precision",
+      specifications: "Ultra-precise titanium and stainless steel construction, minimal magnetic interference for MRI compatibility, ergonomic non-slip handles, various tip configurations for different anatomical areas",
       image: harmonicScalpelImage,
-      setupTips: ["Handle with ultimate care", "Check bipolar function", "Test suction systems", "Organize micro instruments", "Maintain sterile field integrity"]
+      setupTips: ["Handle with ultimate care to maintain precision", "Check bipolar electrocautery function", "Test all suction systems and pressures", "Organize micro instruments by size", "Maintain absolute sterile field integrity"]
     },
     // Essential Items - Mayo Stand Setup
     "Vascular instruments": {
@@ -669,6 +639,346 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       specifications: "5mm diameter, 36cm length, carbide jaw inserts for durability. Ratchet locking mechanism with precise grip pressure. Compatible with all needle sizes 0-6",
       image: grasperImage,
       setupTips: ["Test jaw alignment and ratchet function", "Have multiple drivers available for continuous suturing", "Position for both surgeon and assistant use", "Check carbide insert condition"]
+    },
+    // ORTHOPEDIC SURGERY INSTRUMENTS
+    "Power tools": {
+      name: "Orthopedic Power Tool System",
+      category: "Power Equipment",
+      description: "High-speed electric and pneumatic tools for bone cutting, drilling, and reaming during orthopedic procedures with precision control and safety features",
+      contents: ["Oscillating saw with variable speed", "Reciprocating saw system", "High-speed drill with multiple chuck sizes", "Reaming system with various bit sizes", "Irrigation attachments", "Depth stops and guides"],
+      usage: "Essential for bone cutting, drilling pilot holes, reaming medullary canals, and creating precise bone cuts during joint replacements and fracture repairs",
+      specifications: "Variable speed control 0-18,000 RPM, sterile disposable attachments, integrated irrigation system, ergonomic design with anti-vibration, autoclave compatible handpieces",
+      image: electrocauteryImage,
+      setupTips: ["Test all power connections before procedure", "Have backup power sources available", "Check irrigation flow", "Ensure proper bit attachment", "Have multiple bit sizes ready"]
+    },
+    "Implant-specific instruments": {
+      name: "Implant-Specific Instrument Sets",
+      category: "Specialized Equipment",
+      description: "Manufacturer-specific instruments designed for precise implant placement, sizing, and alignment during joint replacement procedures",
+      contents: ["Implant-specific cutting guides", "Trial components and sizers", "Insertion and extraction tools", "Alignment guides and jigs", "Impaction tools", "Specialized reamers"],
+      usage: "Critical for accurate implant placement, proper sizing, and optimal alignment during total joint replacements. Ensures implant compatibility and longevity",
+      specifications: "Manufacturer-specific designs, precision tolerances, various implant system compatibility, sterile packaging, single-use and reusable options",
+      image: grasperImage,
+      setupTips: ["Verify implant system compatibility", "Check all trial sizes available", "Ensure instruments are complete", "Have backup sizes ready", "Follow manufacturer protocols"]
+    },
+    // CARDIOVASCULAR SURGERY INSTRUMENTS
+    "Aortic surgery set": {
+      name: "Aortic Surgery Instrument Set",
+      category: "Cardiovascular Set",
+      description: "Specialized instruments for complex aortic procedures including aneurysm repair, valve replacement, and aortic reconstruction requiring precision and hemostatic control",
+      contents: ["Aortic cross clamps (various sizes)", "Side-biting vascular clamps", "Aortic punches (3-8mm)", "DeBakey aortic forceps", "Potts aortic scissors", "Aortic root retractors", "Valve retractors", "Aortic cannulae"],
+      usage: "Essential for all aortic surgical procedures including valve replacements, aneurysm repairs, root reconstructions, and bypass grafting involving the aortic system",
+      specifications: "Premium grade stainless steel, atraumatic jaw surfaces, precise spring mechanisms, various clamp sizes 30-70mm, autoclave compatible, magnetic resonance safe",
+      image: harmonicScalpelImage,
+      setupTips: ["Test all clamp mechanisms before procedure", "Have multiple clamp sizes readily available", "Check spring tension and alignment", "Organize by size and function", "Handle with extreme care to prevent damage"]
+    },
+    "Vascular clamps": {
+      name: "Vascular Clamp System",
+      category: "Hemostatic Device",
+      description: "Precision clamping instruments designed for temporary occlusion of blood vessels during vascular procedures with minimal vessel trauma and secure hemostasis",
+      contents: ["Bulldog clamps (small vessels)", "DeBakey peripheral vascular clamps", "Satinsky partial occlusion clamps", "Fogarty clamps", "Vessel loops for gentle retraction", "Rubber shods for protection"],
+      usage: "Critical for controlling blood flow during vascular anastomoses, bypass procedures, and vessel repairs. Provides temporary hemostasis while maintaining vessel integrity",
+      specifications: "Spring-loaded mechanisms, atraumatic serrated jaws, various sizes 20-100mm, precise pressure control, stainless steel construction with smooth action",
+      image: harmonicScalpelImage,
+      setupTips: ["Test spring action before use", "Select appropriate size for vessel", "Apply minimum pressure necessary", "Use vessel loops when possible", "Have backup clamps available"]
+    },
+    "Graft materials": {
+      name: "Vascular Graft Materials",
+      category: "Implant Material",
+      description: "Biocompatible conduits and patches used for vascular reconstruction, bypass procedures, and vessel repair with various synthetic and biological options",
+      contents: ["PTFE grafts (Gore-Tex) 4-28mm", "Dacron grafts (woven/knitted)", "Saphenous vein grafts (autologous)", "Bovine pericardial patches", "PTFE patches for vessel repair", "Collagen-sealed grafts"],
+      usage: "Used for arterial bypass procedures, aneurysm repair, vessel reconstruction, and patch angioplasty. Provides durable blood flow restoration with biocompatible materials",
+      specifications: "Various diameters 4-28mm, different lengths available, porosity options for tissue ingrowth, pre-sealed options available, sterilized and ready for implantation",
+      image: laparoscopicSetImage,
+      setupTips: ["Keep grafts moist until implantation", "Select appropriate diameter", "Handle gently to prevent damage", "Check for leaks before anastomosis", "Have multiple sizes available"]
+    },
+    "Cardiac surgery set": {
+      name: "Cardiac Surgery Instrument Set",
+      category: "Cardiovascular Set",
+      description: "Comprehensive collection of specialized instruments for cardiac procedures including valve surgery, bypass grafting, and congenital heart repairs",
+      contents: ["Cardiovascular scissors (Potts, Metzenbaum)", "DeBakey forceps (various lengths)", "Valve retractors and holders", "Cardioplegia cannulae", "Aortic root retractors", "Sternal retractors", "Internal mammary artery retractors"],
+      usage: "Primary instrument set for all cardiac surgical procedures including CABG, valve replacements, septal defect repairs, and complex cardiac reconstructions",
+      specifications: "Ultra-precision instruments, magnetic resonance compatible, various lengths for deep cardiac work, spring mechanisms for delicate handling, autoclave compatible",
+      image: harmonicScalpelImage,
+      setupTips: ["Arrange instruments by procedure phase", "Test all retractor mechanisms", "Have backup instruments readily available", "Organize by surgeon preference", "Check all springs and hinges"]
+    },
+    "Sternal saw": {
+      name: "Sternal Saw System",
+      category: "Cutting Device",
+      description: "Precision oscillating saw specifically designed for median sternotomy with depth control and safety features to prevent injury to underlying cardiac structures",
+      contents: ["Oscillating saw motor", "Sternal saw blades (various widths)", "Depth guards and limiters", "Sternal retractor system", "Bone wax for hemostasis", "Sternal closure wires"],
+      usage: "Primary tool for creating median sternotomy incision for cardiac surgery access. Provides precise bone cutting while protecting underlying heart and great vessels",
+      specifications: "Variable speed oscillation, depth control mechanisms, sterile disposable blades, integrated safety features, ergonomic design for precise control",
+      image: electrocauteryImage,
+      setupTips: ["Test saw function before procedure", "Check depth guard settings", "Have backup blades available", "Ensure proper patient positioning", "Have bone wax readily available"]
+    },
+    "Bypass pump": {
+      name: "Cardiopulmonary Bypass System",
+      category: "Life Support Equipment",
+      description: "Extracorporeal circulation system that temporarily replaces heart and lung function during cardiac surgery, maintaining perfusion and oxygenation",
+      contents: ["Heart-lung machine console", "Oxygenator membrane", "Arterial and venous cannulae", "Pump heads and tubing", "Heat exchanger", "Cardioplegia delivery system", "Monitoring systems"],
+      usage: "Essential for cardiac procedures requiring cardioplegic arrest. Maintains systemic circulation and oxygenation while allowing surgeon to operate on motionless heart",
+      specifications: "Flow rates 1-8 L/min, temperature control 15-40°C, integrated monitoring, safety alarms, biocompatible materials, precise flow and pressure control",
+      image: laparoscopicSetImage,
+      setupTips: ["Complete comprehensive safety checklist", "Prime all tubing circuits", "Test all monitoring alarms", "Verify blood compatibility", "Maintain constant communication with surgeon"]
+    },
+    // OPHTHALMOLOGY INSTRUMENTS
+    "Phacoemulsification system": {
+      name: "Phacoemulsification Surgery System",
+      category: "Ophthalmic Equipment",
+      description: "Advanced ultrasonic system for cataract removal using high-frequency vibrations to emulsify and aspirate lens material through micro-incisions",
+      contents: ["Phacoemulsification console", "Ultrasonic handpiece", "Irrigation/aspiration system", "Various tip sizes and designs", "Foot pedal with multiple functions", "Fluidics management system"],
+      usage: "Primary technology for cataract surgery, allowing removal of clouded natural lens through small incisions with minimal trauma and rapid healing",
+      specifications: "Ultrasonic frequency 28-40 kHz, variable power settings, advanced fluidics control, multiple tip configurations, integrated monitoring systems",
+      image: laparoscopicSetImage,
+      setupTips: ["Prime all fluid lines completely", "Test ultrasonic function", "Verify tip attachment", "Check fluidics parameters", "Have backup tips available"]
+    },
+    "Basic eye instruments": {
+      name: "Basic Ophthalmic Instrument Set",
+      category: "Ophthalmic Set",
+      description: "Essential instruments for basic eye surgery procedures including cataract extraction, corneal procedures, and anterior segment surgery",
+      contents: ["Ophthalmic scissors (curved and straight)", "Micro forceps (toothed and smooth)", "Speculum for eye positioning", "Cannulas for irrigation", "Micro needle holders", "Lens manipulation tools"],
+      usage: "Standard instrument set for anterior segment eye surgery, providing precise manipulation capabilities for delicate ocular tissues and structures",
+      specifications: "Ultra-fine construction, smooth surfaces, spring mechanisms, various tip configurations, autoclave compatible, magnetic resonance safe",
+      image: harmonicScalpelImage,
+      setupTips: ["Handle with extreme delicacy", "Check tip alignment under magnification", "Use only under operating microscope", "Have multiple sizes available", "Maintain optimal lighting"]
+    },
+    "Microscope": {
+      name: "Surgical Operating Microscope",
+      category: "Visualization Equipment",
+      description: "High-magnification optical system providing enhanced visualization for microsurgical procedures requiring extreme precision and detail",
+      contents: ["Main microscope unit with zoom optics", "Dual-head viewing system", "High-intensity LED illumination", "Video camera attachment", "Motorized focusing system", "Various objective lenses"],
+      usage: "Essential for microsurgery, ophthalmology, neurosurgery, and any procedure requiring magnified visualization of fine anatomical structures",
+      specifications: "Magnification range 4x-40x, LED illumination with variable intensity, HD video capability, motorized controls, ergonomic design",
+      image: laparoscopicSetImage,
+      setupTips: ["Complete optical alignment check", "Adjust interpupillary distance", "Test all controls", "Verify camera function", "Ensure proper positioning"]
+    },
+    // OBSTETRICS & GYNECOLOGY INSTRUMENTS
+    "OB/GYN set": {
+      name: "Obstetrics & Gynecology Instrument Set",
+      category: "Specialty Set",
+      description: "Comprehensive instrument set for obstetric and gynecologic procedures including delivery, cesarean section, and gynecologic surgery",
+      contents: ["Long instruments for deep pelvic work", "Heaney clamps for vascular control", "Kocher clamps for tissue manipulation", "Long needle holders", "Retractors (Balfour, Richardson)", "Cord clamps and scissors", "Placental forceps"],
+      usage: "Essential for cesarean sections, hysterectomies, ovarian procedures, and all obstetric and gynecologic surgical interventions requiring specialized instruments",
+      specifications: "Extended length instruments for deep access, robust construction for tissue manipulation, autoclave compatible, various sizes for different procedures",
+      image: harmonicScalpelImage,
+      setupTips: ["Organize by procedure type", "Have pediatric sizes ready for delivery", "Check clamp mechanisms", "Prepare cord care supplies", "Ensure adequate retraction"]
+    },
+    "Delivery instruments": {
+      name: "Obstetric Delivery Instrument Set",
+      category: "Delivery Equipment",
+      description: "Specialized instruments for assisted vaginal delivery and immediate newborn care with safety and efficiency focus",
+      contents: ["Forceps (various types)", "Vacuum extraction devices", "Episiotomy scissors", "Cord clamps (multiple types)", "Baby blankets and warming devices", "Suction devices for airway"],
+      usage: "Used for assisted delivery when complications arise, episiotomy repair, cord clamping, and immediate newborn resuscitation and care",
+      specifications: "Atraumatic design for maternal and fetal safety, sterile packaging, various sizes for different clinical situations, rapid deployment capability",
+      image: grasperImage,
+      setupTips: ["Have multiple forcep sizes ready", "Test vacuum system function", "Prepare warming equipment", "Check suction capability", "Have resuscitation equipment available"]
+    },
+    "Major gynecologic set": {
+      name: "Major Gynecologic Surgery Set",
+      category: "Gynecologic Set",
+      description: "Comprehensive instrument set for complex gynecologic procedures including hysterectomies, cancer surgeries, and reconstructive procedures",
+      contents: ["Long instruments for deep pelvic work", "Heaney clamps and Kocher clamps", "Curved and straight Mayo scissors", "Long needle holders", "Weighted retractors", "Vaginal speculums", "Uterine manipulators"],
+      usage: "Essential for total abdominal hysterectomy, radical procedures, ovarian surgeries, and complex gynecologic reconstructions requiring extended reach",
+      specifications: "Extended length construction for deep pelvic access, heavy-duty design for tissue manipulation, various clamp sizes, autoclave compatible",
+      image: harmonicScalpelImage,
+      setupTips: ["Organize instruments by procedure phase", "Have weighted retractors ready", "Check clamp mechanisms thoroughly", "Prepare uterine manipulation tools", "Ensure adequate visualization"]
+    },
+    // NEUROSURGERY INSTRUMENTS
+    "Neuro monitoring": {
+      name: "Neurophysiological Monitoring System",
+      category: "Monitoring Equipment",
+      description: "Advanced electrophysiological monitoring system for real-time assessment of nervous system function during neurosurgical procedures",
+      contents: ["EEG monitoring electrodes", "EMG recording systems", "Evoked potential equipment", "Nerve stimulation probes", "Real-time display monitors", "Audio feedback systems"],
+      usage: "Critical for monitoring brain and nerve function during neurosurgery, providing immediate feedback on neurological status and preventing injury",
+      specifications: "Multi-channel recording capability, real-time processing, audio and visual alarms, sterile electrode systems, integrated data recording",
+      image: laparoscopicSetImage,
+      setupTips: ["Complete system calibration", "Apply electrodes correctly", "Test all monitoring channels", "Set appropriate alarm thresholds", "Maintain continuous monitoring"]
+    },
+    // UROLOGY INSTRUMENTS
+    "Cystoscopy set": {
+      name: "Cystoscopy Instrument Set",
+      category: "Endoscopic Equipment",
+      description: "Complete cystoscopic system for diagnostic and therapeutic procedures of the urinary tract with advanced visualization and intervention capabilities",
+      contents: ["Flexible and rigid cystoscopes", "Light source and camera system", "Irrigation system with flow control", "Biopsy forceps and baskets", "Guidewires and catheters", "Electrocautery attachments"],
+      usage: "Essential for urinary tract evaluation, stone removal, tumor biopsy, stent placement, and various therapeutic urological interventions",
+      specifications: "High-definition optics, variable angle viewing, integrated irrigation, compatible with multiple working instruments, autoclave compatible components",
+      image: laparoscopicSetImage,
+      setupTips: ["Test optical clarity", "Check irrigation flow", "Verify camera function", "Have various working instruments ready", "Ensure proper patient positioning"]
+    },
+    "TURP resectoscope": {
+      name: "Transurethral Resection Resectoscope",
+      category: "Electrosurgical Device",
+      description: "Specialized resectoscope for transurethral resection of prostate with electrocautery capability and continuous irrigation for tissue removal",
+      contents: ["Resectoscope with working element", "Loop electrodes (various sizes)", "Continuous flow system", "Electrocautery generator", "Tissue evacuator", "Irrigation fluid management"],
+      usage: "Primary instrument for TURP procedures, allowing precise removal of prostate tissue while maintaining hemostasis and clear visualization",
+      specifications: "Electrocautery capability with cutting and coagulation modes, continuous irrigation system, various loop sizes, integrated tissue removal",
+      image: electrocauteryImage,
+      setupTips: ["Test electrocautery settings", "Verify irrigation flow", "Check loop electrode condition", "Prepare tissue evacuation", "Monitor fluid balance"]
+    },
+    // ENT SURGERY INSTRUMENTS
+    "ENT instrument set": {
+      name: "Otolaryngology Instrument Set",
+      category: "ENT Set",
+      description: "Comprehensive instrument set for ear, nose, and throat surgical procedures including microsurgery and endoscopic techniques",
+      contents: ["Ear speculums (various sizes)", "Nasal speculums and retractors", "Micro scissors and forceps", "Suction devices with fine tips", "Endoscopes (nasal and laryngeal)", "Adenoid curettes", "Tonsil snares and elevators"],
+      usage: "Essential for tonsillectomy, adenoidectomy, sinus surgery, ear procedures, and complex head and neck surgical interventions",
+      specifications: "Ultra-fine construction for delicate tissues, various sizes for pediatric and adult patients, endoscopic compatibility, autoclave safe",
+      image: harmonicScalpelImage,
+      setupTips: ["Organize by anatomical region", "Have pediatric sizes available", "Test endoscopic equipment", "Check suction function", "Prepare hemostatic agents"]
+    },
+    "Mouth gag": {
+      name: "Oral Surgery Mouth Gag System",
+      category: "Positioning Device",
+      description: "Specialized mouth opening and positioning device for oral and throat surgery providing optimal exposure and airway protection",
+      contents: ["Boyle-Davis mouth gag", "Various blade sizes", "Tongue depressors", "Pharyngeal packs", "Bite blocks", "Positioning accessories"],
+      usage: "Essential for tonsillectomy, adenoidectomy, and other oral cavity procedures requiring sustained mouth opening and tongue control",
+      specifications: "Self-retaining mechanism, atraumatic blade design, various sizes for different age groups, stable positioning, easy adjustment",
+      image: grasperImage,
+      setupTips: ["Select appropriate size for patient", "Test opening mechanism", "Protect teeth and soft tissues", "Ensure adequate exposure", "Have pharyngeal packing ready"]
+    },
+    // THORACIC SURGERY INSTRUMENTS
+    "Thoracic set": {
+      name: "Thoracic Surgery Instrument Set",
+      category: "Thoracic Set",
+      description: "Specialized instruments for chest surgery including lung procedures, esophageal surgery, and mediastinal operations with enhanced reach and precision",
+      contents: ["Long instruments for deep chest work", "Rib retractors and spreaders", "Lung grasping forceps", "Long electrocautery devices", "Chest tube insertion sets", "Stapling devices for lung tissue"],
+      usage: "Essential for thoracotomy, lobectomy, pneumonectomy, esophageal procedures, and any surgery requiring access to thoracic cavity structures",
+      specifications: "Extended length for deep access, robust construction for tissue manipulation, various sizes, autoclave compatible, ergonomic design",
+      image: harmonicScalpelImage,
+      setupTips: ["Organize by surgical phase", "Have chest tube equipment ready", "Check retractor function", "Prepare lung isolation equipment", "Ensure adequate instrumentation"]
+    },
+    "Video equipment": {
+      name: "Video-Assisted Surgery System",
+      category: "Visualization Equipment",
+      description: "Advanced video system for minimally invasive surgery providing high-definition visualization and recording capabilities for various procedures",
+      contents: ["HD camera systems", "Various endoscopes and thoracoscopes", "Light sources with adjustable intensity", "Video monitors and recording", "Image enhancement software", "Wireless transmission capability"],
+      usage: "Critical for VATS (Video-Assisted Thoracoscopic Surgery), laparoscopy, arthroscopy, and any minimally invasive procedure requiring video guidance",
+      specifications: "4K HD resolution capability, multiple input sources, recording and streaming options, enhanced image processing, compatible with various scopes",
+      image: laparoscopicSetImage,
+      setupTips: ["Test all video connections", "Adjust image quality settings", "Check recording function", "Verify scope compatibility", "Ensure adequate lighting"]
+    },
+    // ADDITIONAL MISSING INSTRUMENTS FROM DATABASE
+    "Aortic clamps": {
+      name: "Aortic Cross-Clamps",
+      category: "Aortic Clamp",
+      description: "Specialized clamps designed specifically for aortic cross-clamping during cardiac surgery with precise jaw design for optimal aortic control",
+      contents: ["Aortic cross-clamps (various sizes 30-70mm)", "Angled aortic clamps", "Straight aortic clamps", "Side-biting aortic clamps", "Pediatric aortic clamps"],
+      usage: "Essential for aortic valve replacement, aortic root procedures, and any cardiac surgery requiring temporary aortic occlusion for cardioplegic arrest",
+      specifications: "Precision-machined jaws for aortic anatomy, spring-loaded mechanism, various sizes 30-70mm, atraumatic serrations, autoclave compatible",
+      image: harmonicScalpelImage,
+      setupTips: ["Test clamp mechanism before use", "Select appropriate size for aorta", "Handle with extreme care", "Check jaw alignment", "Have multiple sizes available"]
+    },
+    "Valve replacement instruments": {
+      name: "Cardiac Valve Replacement Set",
+      category: "Valve Surgery",
+      description: "Comprehensive instrument set specifically designed for cardiac valve replacement procedures with precision tools for valve handling and placement",
+      contents: ["Valve holders and positioners", "Valve sizers (multiple sizes)", "Suture guides", "Valve retractors", "Pledget forceps", "Valve cutting scissors"],
+      usage: "Essential for aortic and mitral valve replacement procedures, providing precise valve positioning and secure implantation",
+      specifications: "Precision construction for delicate valve handling, various sizes for different valve types, autoclave compatible, minimal tissue trauma design",
+      image: harmonicScalpelImage,
+      setupTips: ["Organize by valve type", "Have complete sizer sets", "Check valve holders", "Prepare suture materials", "Handle prostheses carefully"]
+    },
+    "Cardiopulmonary bypass": {
+      name: "Cardiopulmonary Bypass Circuit",
+      category: "Life Support System",
+      description: "Complete extracorporeal circulation system providing heart and lung function during cardiac surgery with comprehensive monitoring and safety features",
+      contents: ["Heart-lung machine", "Oxygenator", "Arterial and venous cannulae", "Pump tubing", "Heat exchanger", "Cardioplegia delivery", "Safety monitoring"],
+      usage: "Essential for cardiac procedures requiring cardioplegic arrest, maintaining systemic circulation while allowing complex cardiac repairs",
+      specifications: "Complete bypass capability, temperature control, integrated monitoring, safety alarms, biocompatible materials, precise flow control",
+      image: laparoscopicSetImage,
+      setupTips: ["Complete safety checklist", "Prime all circuits", "Test monitoring systems", "Verify cannula sizes", "Maintain constant communication"]
+    },
+    "Aortic valve prostheses": {
+      name: "Aortic Valve Prostheses",
+      category: "Implant Device",
+      description: "Replacement aortic valve prostheses including mechanical and bioprosthetic options for aortic valve replacement procedures",
+      contents: ["Mechanical valves (various sizes)", "Bioprosthetic valves", "Valve sizers", "Implantation tools", "Suture guides", "Valve holders"],
+      usage: "Primary implants for aortic valve replacement in patients with aortic stenosis or regurgitation requiring valve replacement therapy",
+      specifications: "Various sizes 19-29mm, mechanical and tissue options, CE marked, sterile packaging, comprehensive sizing system",
+      image: grasperImage,
+      setupTips: ["Verify correct size", "Handle with extreme care", "Use proper holders", "Check valve function", "Follow manufacturer protocols"]
+    },
+    "Valve sizers": {
+      name: "Cardiac Valve Sizers",
+      category: "Sizing Device",
+      description: "Precision sizing instruments for determining optimal valve prosthesis size during cardiac valve replacement procedures",
+      contents: ["Aortic valve sizers (19-29mm)", "Mitral valve sizers", "Tricuspid sizers", "Measuring guides", "Reference charts"],
+      usage: "Critical for determining correct prosthetic valve size, ensuring optimal fit and function during valve replacement procedures",
+      specifications: "Precise sizing increments, easy-to-read markings, autoclave compatible, various valve types, color-coded sizing",
+      image: grasperImage,
+      setupTips: ["Use gentle pressure", "Try multiple sizes", "Document selected size", "Handle carefully", "Follow sizing protocols"]
+    },
+    "Cardioplegia setup": {
+      name: "Cardioplegia Delivery System",
+      category: "Cardiac Protection",
+      description: "Comprehensive system for delivering cardioplegic solution to arrest and protect the myocardium during cardiac procedures",
+      contents: ["Cardioplegia cannulae", "Delivery tubing", "Temperature monitoring", "Pressure controls", "Solution mixing", "Flow regulators"],
+      usage: "Essential for myocardial protection during cardiac surgery, delivering protective solution to arrest heart and maintain tissue viability",
+      specifications: "Temperature controlled delivery, pressure monitoring, multiple delivery routes, integrated mixing, safety alarms",
+      image: laparoscopicSetImage,
+      setupTips: ["Test temperature control", "Check all connections", "Verify solution composition", "Monitor delivery pressure", "Prime system completely"]
+    },
+    "Deairing needles": {
+      name: "Cardiac Deairing Needle System",
+      category: "Air Removal",
+      description: "Specialized needles and suction systems for removing air from cardiac chambers and great vessels during cardiac surgery",
+      contents: ["Deairing needles (various sizes)", "Suction tubing", "Needle holders", "Air evacuation system", "Positioning devices"],
+      usage: "Critical for removing air emboli from cardiac chambers and vessels, preventing neurological complications during cardiac procedures",
+      specifications: "Various needle sizes, high-flow suction capability, precise positioning, sterile system, rapid air removal",
+      image: trocarImage,
+      setupTips: ["Test suction pressure", "Have multiple needle sizes", "Position for optimal access", "Monitor air removal", "Use systematic approach"]
+    },
+    // ADDITIONAL MISSING INSTRUMENTS FOR DIFFERENT PROCEDURE VARIATIONS
+    "Valve retractors": {
+      name: "Cardiac Valve Retractors",
+      category: "Retraction System",
+      description: "Specialized retraction instruments designed for optimal exposure during cardiac valve procedures with atraumatic blade design",
+      contents: ["Mitral valve retractors", "Aortic valve retractors", "Self-retaining retractors", "Adjustable blade retractors", "Table-mounted systems"],
+      usage: "Essential for providing optimal surgical exposure during valve replacement and repair procedures, ensuring clear visualization of valve structures",
+      specifications: "Atraumatic blade design, various sizes for different valve types, self-retaining capability, stable positioning, easy adjustment",
+      image: grasperImage,
+      setupTips: ["Select appropriate retractor for valve type", "Position for optimal exposure", "Use minimal retraction force", "Check stability", "Have multiple sizes available"]
+    },
+    "Prosthetic valves": {
+      name: "Cardiac Prosthetic Valves",
+      category: "Implant Device",
+      description: "Artificial heart valves for replacement of diseased native valves, available in mechanical and biological options with comprehensive sizing",
+      contents: ["Mechanical valves (various sizes)", "Bioprosthetic valves", "Valve sizers", "Insertion tools", "Suture guides", "Valve holders"],
+      usage: "Replacement of diseased mitral, aortic, tricuspid, or pulmonary valves to restore proper cardiac function and improve patient outcomes",
+      specifications: "Various sizes 19-33mm, mechanical or bioprosthetic options, MRI compatible designs available, sterile packaging, comprehensive sizing system",
+      image: grasperImage,
+      setupTips: ["Verify correct valve size", "Handle with extreme care", "Keep sterile until insertion", "Have multiple sizes available", "Test valve function before implantation"]
+    },
+    "Suture materials": {
+      name: "Cardiac Surgery Suture Materials",
+      category: "Closure Materials",
+      description: "Specialized suture materials designed for cardiac surgery with enhanced handling characteristics and biocompatibility",
+      contents: ["Pledgeted sutures for valve surgery", "Non-pledgeted sutures", "Various needle types", "Suture scissors", "Suture organizers", "Temporary sutures"],
+      usage: "Critical for secure closure of cardiac structures, valve attachment, and hemostasis during cardiac surgical procedures",
+      specifications: "Various materials (Prolene, Ethibond, Ti-Cron), multiple sizes, pledgeted and non-pledgeted options, cardiovascular needles",
+      image: harmonicScalpelImage,
+      setupTips: ["Organize by suture type", "Have pledgeted options ready", "Pre-cut appropriate lengths", "Keep sutures organized", "Have multiple needle types available"]
+    },
+    "Valve instruments": {
+      name: "General Valve Surgery Instruments",
+      category: "Valve Surgery Set",
+      description: "Comprehensive instrument set for general valve procedures including repair and replacement with precision handling tools",
+      contents: ["Valve scissors", "Valve forceps", "Commissurotomy knife", "Valve dilators", "Measuring devices", "Valve hooks"],
+      usage: "Essential for valve repair procedures, commissurotomy, valve assessment, and general valve manipulation during cardiac surgery",
+      specifications: "Precision construction, various sizes, autoclave compatible, designed for delicate valve tissue handling",
+      image: harmonicScalpelImage,
+      setupTips: ["Organize by procedure type", "Have repair and replacement tools ready", "Check instrument sharpness", "Handle with care", "Have backup instruments available"]
+    },
+    "Bypass equipment": {
+      name: "Cardiopulmonary Bypass Equipment",
+      category: "Life Support Equipment",
+      description: "Essential equipment for establishing and maintaining cardiopulmonary bypass during cardiac surgery procedures",
+      contents: ["Bypass cannulae", "Pump tubing", "Oxygenator", "Heat exchanger", "Arterial and venous lines", "Monitoring equipment"],
+      usage: "Provides complete cardiopulmonary support during cardiac surgery, allowing for precise surgical procedures on the arrested heart",
+      specifications: "Complete bypass capability, integrated monitoring, temperature control, biocompatible materials, safety systems",
+      image: laparoscopicSetImage,
+      setupTips: ["Complete equipment check", "Prime all lines", "Test monitoring systems", "Verify connections", "Have backup equipment ready"]
     }
   };
 

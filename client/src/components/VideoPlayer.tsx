@@ -276,11 +276,7 @@ export default function VideoPlayer({ video }: VideoPlayerProps) {
       <div className="space-y-6">
         {/* Video Player */}
         <Card className="overflow-hidden bg-black/20 backdrop-blur-md border-white/10">
-          <div 
-            className="relative aspect-video bg-black group"
-            onMouseEnter={() => setShowControls(true)}
-            onMouseLeave={() => setShowControls(false)}
-          >
+          <div className="relative aspect-video bg-black">
             {isYouTubeEmbed ? (
               <iframe
                 className="w-full h-full"
@@ -292,7 +288,11 @@ export default function VideoPlayer({ video }: VideoPlayerProps) {
                 data-testid={`video-player-${video.id}`}
               />
             ) : (
-              <>
+              <div 
+                className="relative group w-full h-full"
+                onMouseEnter={() => setShowControls(true)}
+                onMouseLeave={() => setShowControls(false)}
+              >
                 <video
                   ref={videoRef}
                   className="w-full h-full object-contain"
@@ -301,107 +301,107 @@ export default function VideoPlayer({ video }: VideoPlayerProps) {
                   data-testid={`video-player-${video.id}`}
                 />
                 
-                {/* Video Controls Overlay - Only show for regular videos */}
+                {/* Video Controls Overlay */}
                 <div className={`absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0'}`}>
-            {/* Center Play Button */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30"
-                onClick={togglePlay}
-                data-testid="button-play-pause"
-              >
-                {isPlaying ? (
-                  <Pause className="w-8 h-8 text-white" />
-                ) : (
-                  <Play className="w-8 h-8 text-white ml-1" />
-                )}
-              </Button>
-            </div>
+                  {/* Center Play Button */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30"
+                      onClick={togglePlay}
+                      data-testid="button-play-pause"
+                    >
+                      {isPlaying ? (
+                        <Pause className="w-8 h-8 text-white" />
+                      ) : (
+                        <Play className="w-8 h-8 text-white ml-1" />
+                      )}
+                    </Button>
+                  </div>
 
-            {/* Bottom Controls */}
-            <div className="absolute bottom-0 left-0 right-0 p-4 space-y-2">
-              {/* Progress Bar */}
-              <Slider
-                value={[currentTime]}
-                max={duration || 100}
-                step={1}
-                onValueChange={handleSeek}
-                className="w-full"
-                data-testid="slider-progress"
-              />
-              
-              {/* Control Buttons */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={togglePlay}
-                    className="text-white hover:bg-white/20"
-                  >
-                    {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                  </Button>
-                  
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => skip(-10)}
-                    className="text-white hover:bg-white/20"
-                    data-testid="button-rewind"
-                  >
-                    <RotateCcw className="w-4 h-4" />
-                  </Button>
-                  
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => skip(10)}
-                    className="text-white hover:bg-white/20"
-                    data-testid="button-forward"
-                  >
-                    <RotateCw className="w-4 h-4" />
-                  </Button>
-                  
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={toggleMute}
-                    className="text-white hover:bg-white/20"
-                    data-testid="button-mute"
-                  >
-                    {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-                  </Button>
-                  
-                  <div className="w-20">
+                  {/* Bottom Controls */}
+                  <div className="absolute bottom-0 left-0 right-0 p-4 space-y-2">
+                    {/* Progress Bar */}
                     <Slider
-                      value={[volume]}
-                      max={1}
-                      step={0.1}
-                      onValueChange={handleVolumeChange}
+                      value={[currentTime]}
+                      max={duration || 100}
+                      step={1}
+                      onValueChange={handleSeek}
                       className="w-full"
+                      data-testid="slider-progress"
                     />
+                    
+                    {/* Control Buttons */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={togglePlay}
+                          className="text-white hover:bg-white/20"
+                        >
+                          {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+                        </Button>
+                        
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => skip(-10)}
+                          className="text-white hover:bg-white/20"
+                          data-testid="button-rewind"
+                        >
+                          <RotateCcw className="w-4 h-4" />
+                        </Button>
+                        
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => skip(10)}
+                          className="text-white hover:bg-white/20"
+                          data-testid="button-forward"
+                        >
+                          <RotateCw className="w-4 h-4" />
+                        </Button>
+                        
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={toggleMute}
+                          className="text-white hover:bg-white/20"
+                          data-testid="button-mute"
+                        >
+                          {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                        </Button>
+                        
+                        <div className="w-20">
+                          <Slider
+                            value={[volume]}
+                            max={1}
+                            step={0.1}
+                            onValueChange={handleVolumeChange}
+                            className="w-full"
+                          />
+                        </div>
+                        
+                        <span className="text-white text-sm font-mono">
+                          {formatTime(currentTime)} / {formatTime(duration)}
+                        </span>
+                      </div>
+                      
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={toggleFullscreen}
+                        className="text-white hover:bg-white/20"
+                        data-testid="button-fullscreen"
+                      >
+                        <Maximize className="w-4 h-4" />
+                      </Button>
+                    </div>
                   </div>
-                  
-                  <span className="text-white text-sm font-mono">
-                    {formatTime(currentTime)} / {formatTime(duration)}
-                  </span>
                 </div>
-                
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={toggleFullscreen}
-                  className="text-white hover:bg-white/20"
-                  data-testid="button-fullscreen"
-                >
-                  <Maximize className="w-4 h-4" />
-                </Button>
-                  </div>
-                </div>
-                </div>
-              </>
+              </div>
             )}
           </div>
         </Card>

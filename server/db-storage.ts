@@ -10,6 +10,12 @@ import {
   forumPosts,
   forumReplies,
   postLikes,
+  videoCategories,
+  videos,
+  videoProgress,
+  videoFavorites,
+  videoLikes,
+  videoComments,
   User, 
   InsertUser, 
   Specialty, 
@@ -19,7 +25,15 @@ import {
   ForumPost, 
   InsertForumPost, 
   ForumReply, 
-  InsertForumReply 
+  InsertForumReply,
+  VideoCategory,
+  Video,
+  InsertVideo,
+  InsertVideoCategory,
+  VideoProgress,
+  InsertVideoProgress,
+  VideoComment,
+  InsertVideoComment
 } from '@shared/schema';
 import { IStorage } from './storage';
 
@@ -340,6 +354,242 @@ export class DatabaseStorage implements IStorage {
           .where(eq(forumPosts.id, postId));
       }
     });
+  }
+
+  // Video library methods
+  async getAllVideoCategories(): Promise<VideoCategory[]> {
+    return await db.select()
+      .from(videoCategories)
+      .orderBy(videoCategories.sortOrder, videoCategories.name);
+  }
+
+  async getVideoCategoryById(id: string): Promise<VideoCategory | null> {
+    const result = await db.select().from(videoCategories).where(eq(videoCategories.id, id)).limit(1);
+    return result[0] || null;
+  }
+
+  async createVideoCategory(category: InsertVideoCategory): Promise<VideoCategory> {
+    const result = await db.insert(videoCategories).values(category).returning();
+    return result[0];
+  }
+
+  async getAllVideos(): Promise<Video[]> {
+    return await db.select()
+      .from(videos)
+      .where(eq(videos.isPublished, true))
+      .orderBy(desc(videos.createdAt));
+  }
+
+  async getVideoById(id: string): Promise<Video | null> {
+    const result = await db.select().from(videos).where(eq(videos.id, id)).limit(1);
+    return result[0] || null;
+  }
+
+  async getVideosByCategory(categoryId: string): Promise<Video[]> {
+    return await db.select()
+      .from(videos)
+      .where(and(
+        eq(videos.category, categoryId),
+        eq(videos.isPublished, true)
+      ))
+      .orderBy(desc(videos.createdAt));
+  }
+
+  async getVideosBySpecialty(specialtyId: string): Promise<Video[]> {
+    return await db.select()
+      .from(videos)
+      .where(and(
+        eq(videos.specialtyId, specialtyId),
+        eq(videos.isPublished, true)
+      ))
+      .orderBy(desc(videos.createdAt));
+  }
+
+  async getVideosByProcedure(procedureId: string): Promise<Video[]> {
+    return await db.select()
+      .from(videos)
+      .where(and(
+        eq(videos.procedureId, procedureId),
+        eq(videos.isPublished, true)
+      ))
+      .orderBy(desc(videos.createdAt));
+  }
+
+  async searchVideos(query: string): Promise<Video[]> {
+    const searchTerm = `%${query.toLowerCase()}%`;
+    return await db.select()
+      .from(videos)
+      .where(and(
+        or(
+          ilike(videos.title, searchTerm),
+          ilike(videos.description, searchTerm)
+        ),
+        eq(videos.isPublished, true)
+      ))
+      .orderBy(desc(videos.createdAt))
+      .limit(20);
+  }
+
+  async createVideo(video: InsertVideo): Promise<Video> {
+    const result = await db.insert(videos).values(video).returning();
+    return result[0];
+  }
+
+  async updateVideo(id: string, updates: Partial<Video>): Promise<Video | null> {
+    const result = await db.update(videos)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(videos.id, id))
+      .returning();
+    return result[0] || null;
+  }
+
+  async deleteVideo(id: string): Promise<boolean> {
+    const result = await db.delete(videos).where(eq(videos.id, id));
+    return result.rowCount > 0;
+  }
+
+  async incrementVideoViews(videoId: string): Promise<void> {
+    await db.update(videos)
+      .set({ views: sql`views + 1` })
+      .where(eq(videos.id, videoId));
+  }
+
+  // Video user interactions
+  async getUserVideoProgress(userId: string, videoId: string): Promise<VideoProgress | null> {
+    const result = await db.select()
+      .from(videoProgress)
+      .where(and(
+        eq(videoProgress.userId, userId),
+        eq(videoProgress.videoId, videoId)
+      ))
+      .limit(1);
+    return result[0] || null;
+  }
+
+  async updateVideoProgress(progress: InsertVideoProgress): Promise<VideoProgress> {
+    const existing = await this.getUserVideoProgress(progress.userId, progress.videoId);
+    
+    if (existing) {
+      const result = await db.update(videoProgress)
+        .set({ 
+          progressTime: progress.progressTime,
+          completed: progress.completed,
+          lastWatchedAt: new Date()
+        })
+        .where(and(
+          eq(videoProgress.userId, progress.userId),
+          eq(videoProgress.videoId, progress.videoId)
+        ))
+        .returning();
+      return result[0];
+    } else {
+      const result = await db.insert(videoProgress).values(progress).returning();
+      return result[0];
+    }
+  }
+
+  async getUserVideoFavorites(userId: string): Promise<Video[]> {
+    const result = await db.select({
+      id: videos.id,
+      title: videos.title,
+      description: videos.description,
+      duration: videos.duration,
+      thumbnailUrl: videos.thumbnailUrl,
+      videoUrl: videos.videoUrl,
+      category: videos.category,
+      specialtyId: videos.specialtyId,
+      procedureId: videos.procedureId,
+      difficulty: videos.difficulty,
+      tags: videos.tags,
+      accessTier: videos.accessTier,
+      cmeCredits: videos.cmeCredits,
+      certificationRequired: videos.certificationRequired,
+      isPublished: videos.isPublished,
+      views: videos.views,
+      likes: videos.likes,
+      uploadedBy: videos.uploadedBy,
+      verifiedBy: videos.verifiedBy,
+      verifiedAt: videos.verifiedAt,
+      createdAt: videos.createdAt,
+      updatedAt: videos.updatedAt,
+    })
+      .from(videoFavorites)
+      .innerJoin(videos, eq(videoFavorites.videoId, videos.id))
+      .where(eq(videoFavorites.userId, userId))
+      .orderBy(desc(videoFavorites.createdAt));
+    
+    return result;
+  }
+
+  async addVideoFavorite(userId: string, videoId: string): Promise<void> {
+    await db.insert(videoFavorites).values({ userId, videoId }).onConflictDoNothing();
+  }
+
+  async removeVideoFavorite(userId: string, videoId: string): Promise<void> {
+    await db.delete(videoFavorites)
+      .where(and(
+        eq(videoFavorites.userId, userId),
+        eq(videoFavorites.videoId, videoId)
+      ));
+  }
+
+  async toggleVideoLike(userId: string, videoId: string): Promise<boolean> {
+    return await db.transaction(async (tx) => {
+      // Check if like exists
+      const existingLike = await tx.select()
+        .from(videoLikes)
+        .where(and(
+          eq(videoLikes.userId, userId),
+          eq(videoLikes.videoId, videoId)
+        ))
+        .limit(1);
+
+      if (existingLike.length > 0) {
+        // Remove like
+        await tx.delete(videoLikes)
+          .where(and(
+            eq(videoLikes.userId, userId),
+            eq(videoLikes.videoId, videoId)
+          ));
+        
+        await tx.update(videos)
+          .set({ likes: sql`likes - 1` })
+          .where(eq(videos.id, videoId));
+          
+        return false; // Unliked
+      } else {
+        // Add like
+        await tx.insert(videoLikes).values({ userId, videoId });
+        
+        await tx.update(videos)
+          .set({ likes: sql`likes + 1` })
+          .where(eq(videos.id, videoId));
+          
+        return true; // Liked
+      }
+    });
+  }
+
+  // Video comments
+  async getVideoComments(videoId: string): Promise<VideoComment[]> {
+    return await db.select()
+      .from(videoComments)
+      .where(eq(videoComments.videoId, videoId))
+      .orderBy(videoComments.createdAt);
+  }
+
+  async createVideoComment(comment: InsertVideoComment): Promise<VideoComment> {
+    const result = await db.insert(videoComments).values(comment).returning();
+    return result[0];
+  }
+
+  async deleteVideoComment(commentId: string, userId: string): Promise<boolean> {
+    const result = await db.delete(videoComments)
+      .where(and(
+        eq(videoComments.id, commentId),
+        eq(videoComments.authorId, userId)
+      ));
+    return result.rowCount > 0;
   }
 }
 

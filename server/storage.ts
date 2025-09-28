@@ -1,4 +1,4 @@
-import { User, InsertUser, Specialty, Procedure, UserNote, InsertUserNote, ForumPost, InsertForumPost, ForumReply, InsertForumReply } from "@shared/schema";
+import { User, InsertUser, Specialty, Procedure, UserNote, InsertUserNote, ForumPost, InsertForumPost, ForumReply, InsertForumReply, VideoCategory, Video, InsertVideo, InsertVideoCategory, VideoProgress, InsertVideoProgress, VideoComment, InsertVideoComment } from "@shared/schema";
 
 export interface IStorage {
   // User management (keeping existing methods for compatibility)
@@ -41,6 +41,35 @@ export interface IStorage {
   createForumReply(reply: InsertForumReply): Promise<ForumReply>;
   likeForumPost(userId: string, postId: string): Promise<void>;
   unlikeForumPost(userId: string, postId: string): Promise<void>;
+  
+  // Video library
+  getAllVideoCategories(): Promise<VideoCategory[]>;
+  getVideoCategoryById(id: string): Promise<VideoCategory | null>;
+  createVideoCategory(category: InsertVideoCategory): Promise<VideoCategory>;
+  
+  getAllVideos(): Promise<Video[]>;
+  getVideoById(id: string): Promise<Video | null>;
+  getVideosByCategory(categoryId: string): Promise<Video[]>;
+  getVideosBySpecialty(specialtyId: string): Promise<Video[]>;
+  getVideosByProcedure(procedureId: string): Promise<Video[]>;
+  searchVideos(query: string): Promise<Video[]>;
+  createVideo(video: InsertVideo): Promise<Video>;
+  updateVideo(id: string, updates: Partial<Video>): Promise<Video | null>;
+  deleteVideo(id: string): Promise<boolean>;
+  incrementVideoViews(videoId: string): Promise<void>;
+  
+  // Video user interactions
+  getUserVideoProgress(userId: string, videoId: string): Promise<VideoProgress | null>;
+  updateVideoProgress(progress: InsertVideoProgress): Promise<VideoProgress>;
+  getUserVideoFavorites(userId: string): Promise<Video[]>;
+  addVideoFavorite(userId: string, videoId: string): Promise<void>;
+  removeVideoFavorite(userId: string, videoId: string): Promise<void>;
+  toggleVideoLike(userId: string, videoId: string): Promise<boolean>;
+  
+  // Video comments
+  getVideoComments(videoId: string): Promise<VideoComment[]>;
+  createVideoComment(comment: InsertVideoComment): Promise<VideoComment>;
+  deleteVideoComment(commentId: string, userId: string): Promise<boolean>;
 }
 
 // Note: MemStorage class kept for compatibility but not used
@@ -150,6 +179,95 @@ export class MemStorage implements IStorage {
   }
 
   async unlikeForumPost(userId: string, postId: string): Promise<void> {
+    throw new Error('Use database storage instead');
+  }
+
+  // Video library
+  async getAllVideoCategories(): Promise<VideoCategory[]> {
+    throw new Error('Use database storage instead');
+  }
+
+  async getVideoCategoryById(id: string): Promise<VideoCategory | null> {
+    throw new Error('Use database storage instead');
+  }
+
+  async createVideoCategory(category: InsertVideoCategory): Promise<VideoCategory> {
+    throw new Error('Use database storage instead');
+  }
+
+  async getAllVideos(): Promise<Video[]> {
+    throw new Error('Use database storage instead');
+  }
+
+  async getVideoById(id: string): Promise<Video | null> {
+    throw new Error('Use database storage instead');
+  }
+
+  async getVideosByCategory(categoryId: string): Promise<Video[]> {
+    throw new Error('Use database storage instead');
+  }
+
+  async getVideosBySpecialty(specialtyId: string): Promise<Video[]> {
+    throw new Error('Use database storage instead');
+  }
+
+  async getVideosByProcedure(procedureId: string): Promise<Video[]> {
+    throw new Error('Use database storage instead');
+  }
+
+  async searchVideos(query: string): Promise<Video[]> {
+    throw new Error('Use database storage instead');
+  }
+
+  async createVideo(video: InsertVideo): Promise<Video> {
+    throw new Error('Use database storage instead');
+  }
+
+  async updateVideo(id: string, updates: Partial<Video>): Promise<Video | null> {
+    throw new Error('Use database storage instead');
+  }
+
+  async deleteVideo(id: string): Promise<boolean> {
+    throw new Error('Use database storage instead');
+  }
+
+  async incrementVideoViews(videoId: string): Promise<void> {
+    throw new Error('Use database storage instead');
+  }
+
+  async getUserVideoProgress(userId: string, videoId: string): Promise<VideoProgress | null> {
+    throw new Error('Use database storage instead');
+  }
+
+  async updateVideoProgress(progress: InsertVideoProgress): Promise<VideoProgress> {
+    throw new Error('Use database storage instead');
+  }
+
+  async getUserVideoFavorites(userId: string): Promise<Video[]> {
+    throw new Error('Use database storage instead');
+  }
+
+  async addVideoFavorite(userId: string, videoId: string): Promise<void> {
+    throw new Error('Use database storage instead');
+  }
+
+  async removeVideoFavorite(userId: string, videoId: string): Promise<void> {
+    throw new Error('Use database storage instead');
+  }
+
+  async toggleVideoLike(userId: string, videoId: string): Promise<boolean> {
+    throw new Error('Use database storage instead');
+  }
+
+  async getVideoComments(videoId: string): Promise<VideoComment[]> {
+    throw new Error('Use database storage instead');
+  }
+
+  async createVideoComment(comment: InsertVideoComment): Promise<VideoComment> {
+    throw new Error('Use database storage instead');
+  }
+
+  async deleteVideoComment(commentId: string, userId: string): Promise<boolean> {
     throw new Error('Use database storage instead');
   }
 }

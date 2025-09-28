@@ -83,32 +83,13 @@ export default function VideoLibrary() {
       data-testid={`card-video-${video.id}`}
     >
       <div className="relative aspect-video bg-black rounded-t-lg overflow-hidden">
-        {video.thumbnailUrl ? (
-          <img
-            src={video.thumbnailUrl}
-            alt={video.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-        ) : (
-          <div className="w-full h-full bg-gradient-to-br from-cyan-600/20 to-purple-600/20 flex items-center justify-center">
-            <Play className="w-12 h-12 text-white/60" />
+        <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center">
+          <div className="text-center space-y-2">
+            <div className="w-12 h-12 mx-auto rounded-full bg-white/10 flex items-center justify-center">
+              <Play className="w-6 h-6 text-white/50" />
+            </div>
+            <div className="text-white/70 text-sm font-medium">Coming Soon</div>
           </div>
-        )}
-        
-        {/* Play overlay */}
-        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30"
-          >
-            <Play className="w-8 h-8 text-white ml-1" />
-          </Button>
-        </div>
-        
-        {/* Duration badge */}
-        <div className="absolute bottom-2 right-2 bg-black/70 backdrop-blur-sm text-white text-xs px-2 py-1 rounded">
-          {formatDuration(video.duration)}
         </div>
         
         {/* CME badge */}
@@ -146,21 +127,10 @@ export default function VideoLibrary() {
           )}
         </div>
         
-        <div className="flex items-center justify-between text-gray-400 text-xs">
-          <div className="flex items-center gap-3">
-            <span className="flex items-center gap-1">
-              <Eye className="w-3 h-3" />
-              {(video.views || 0).toLocaleString()}
-            </span>
-            <span className="flex items-center gap-1">
-              <Heart className="w-3 h-3" />
-              {(video.likes || 0).toLocaleString()}
-            </span>
-          </div>
-          <span className="flex items-center gap-1">
-            <Clock className="w-3 h-3" />
-            {formatDuration(video.duration)}
-          </span>
+        <div className="text-center">
+          <Badge className="bg-amber-500/20 text-amber-300 border-amber-500/30">
+            Coming Soon
+          </Badge>
         </div>
       </CardContent>
     </Card>
@@ -174,20 +144,13 @@ export default function VideoLibrary() {
     >
       <div className="flex gap-4 p-4">
         <div className="relative w-32 h-20 bg-black rounded overflow-hidden flex-shrink-0">
-          {video.thumbnailUrl ? (
-            <img
-              src={video.thumbnailUrl}
-              alt={video.title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-            />
-          ) : (
-            <div className="w-full h-full bg-gradient-to-br from-cyan-600/20 to-purple-600/20 flex items-center justify-center">
-              <Play className="w-6 h-6 text-white/60" />
+          <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center">
+            <div className="text-center">
+              <div className="w-8 h-8 mx-auto rounded-full bg-white/10 flex items-center justify-center mb-1">
+                <Play className="w-4 h-4 text-white/50" />
+              </div>
+              <div className="text-white/70 text-xs">Coming Soon</div>
             </div>
-          )}
-          
-          <div className="absolute bottom-1 right-1 bg-black/70 backdrop-blur-sm text-white text-xs px-1 py-0.5 rounded">
-            {formatDuration(video.duration)}
           </div>
         </div>
         
@@ -216,15 +179,10 @@ export default function VideoLibrary() {
             )}
           </div>
           
-          <div className="flex items-center gap-4 text-gray-400 text-xs">
-            <span className="flex items-center gap-1">
-              <Eye className="w-3 h-3" />
-              {(video.views || 0).toLocaleString()} views
-            </span>
-            <span className="flex items-center gap-1">
-              <Heart className="w-3 h-3" />
-              {(video.likes || 0)} likes
-            </span>
+          <div className="flex justify-start">
+            <Badge className="bg-amber-500/20 text-amber-300 border-amber-500/30 text-xs">
+              Coming Soon
+            </Badge>
           </div>
         </div>
       </div>
@@ -413,11 +371,7 @@ export default function VideoLibrary() {
         <DialogContent className="max-w-7xl w-full h-[90vh] bg-slate-900/95 backdrop-blur-md border-white/10 p-0">
           <div className="h-full overflow-y-auto p-6">
             {selectedVideo && (
-              <VideoPlayer
-                video={selectedVideo}
-                userId={undefined} // Will be set from auth context
-                isAuthenticated={false} // Will be set from auth context
-              />
+              <VideoPlayer video={selectedVideo} />
             )}
           </div>
         </DialogContent>

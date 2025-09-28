@@ -101,7 +101,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6 mb-16">
             <Card 
               className="text-center glass-card bg-transparent backdrop-blur-xl border-white/10 cursor-pointer hover-elevate" 
               onClick={() => setLocation('/specialties')}
@@ -154,6 +154,22 @@ export default function Home() {
               <CardContent>
                 <p className="text-sm text-white/70">
                   Secure, compliant platform designed for healthcare professionals
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card 
+              className="text-center glass-card bg-transparent backdrop-blur-xl border-white/10 cursor-pointer hover-elevate" 
+              onClick={() => setLocation('/videos')}
+              data-testid="card-video-library"
+            >
+              <CardHeader>
+                <Play className="h-12 w-12 text-primary mx-auto mb-4" />
+                <CardTitle className="text-lg text-white">Video Library</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-white/70">
+                  Watch educational surgical videos and technique demonstrations
                 </p>
               </CardContent>
             </Card>

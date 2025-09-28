@@ -263,6 +263,9 @@ export default function VideoPlayer({ video }: VideoPlayerProps) {
     }
   };
 
+  // Check if this is a YouTube embed URL
+  const isYouTubeEmbed = video.videoUrl.includes('youtube.com/embed/');
+
   return (
     <SubscriptionGate 
       requiredTier={video.accessTier as 'free' | 'standard' | 'premium'}
@@ -273,21 +276,33 @@ export default function VideoPlayer({ video }: VideoPlayerProps) {
       <div className="space-y-6">
         {/* Video Player */}
         <Card className="overflow-hidden bg-black/20 backdrop-blur-md border-white/10">
-        <div 
-          className="relative aspect-video bg-black group"
-          onMouseEnter={() => setShowControls(true)}
-          onMouseLeave={() => setShowControls(false)}
-        >
-          <video
-            ref={videoRef}
-            className="w-full h-full object-contain"
-            src={video.videoUrl}
-            poster={video.thumbnailUrl || undefined}
-            data-testid={`video-player-${video.id}`}
-          />
-          
-          {/* Video Controls Overlay */}
-          <div className={`absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0'}`}>
+          <div 
+            className="relative aspect-video bg-black group"
+            onMouseEnter={() => setShowControls(true)}
+            onMouseLeave={() => setShowControls(false)}
+          >
+            {isYouTubeEmbed ? (
+              <iframe
+                className="w-full h-full"
+                src={video.videoUrl}
+                title={video.title}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                data-testid={`video-player-${video.id}`}
+              />
+            ) : (
+              <>
+                <video
+                  ref={videoRef}
+                  className="w-full h-full object-contain"
+                  src={video.videoUrl}
+                  poster={video.thumbnailUrl || undefined}
+                  data-testid={`video-player-${video.id}`}
+                />
+                
+                {/* Video Controls Overlay - Only show for regular videos */}
+                <div className={`absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0'}`}>
             {/* Center Play Button */}
             <div className="absolute inset-0 flex items-center justify-center">
               <Button
@@ -383,11 +398,13 @@ export default function VideoPlayer({ video }: VideoPlayerProps) {
                 >
                   <Maximize className="w-4 h-4" />
                 </Button>
-              </div>
-            </div>
+                  </div>
+                </div>
+                </div>
+              </>
+            )}
           </div>
-        </div>
-      </Card>
+        </Card>
 
       {/* Video Information */}
       <Card className="bg-white/5 backdrop-blur-md border-white/10">

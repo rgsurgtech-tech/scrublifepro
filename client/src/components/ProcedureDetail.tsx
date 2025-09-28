@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
+import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { ArrowLeft, Star, Download, Share, Clock, AlertCircle, CheckCircle, Eye, FileText, Wrench, User, Pill, Info, Lightbulb } from "lucide-react";
+import { ArrowLeft, Star, Download, Share, Clock, AlertCircle, CheckCircle, Eye, FileText, Wrench, User, Pill, Info, Lightbulb, Play } from "lucide-react";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
@@ -27,6 +28,7 @@ interface ProcedureDetailProps {
 export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailProps) {
   const { user } = useAuth();
   const { toast } = useToast();
+  const [, setLocation] = useLocation();
   const [activeTab, setActiveTab] = useState("overview");
   const [isFavorite, setIsFavorite] = useState(procedure?.isFavorite || false);
   const [personalNotes, setPersonalNotes] = useState("");
@@ -49,6 +51,17 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       return response.json();
     },
     enabled: !!user && !!procedureId
+  });
+
+  // Fetch related videos for this procedure
+  const { data: relatedVideos, isLoading: videosLoading } = useQuery({
+    queryKey: ['/api/videos', 'procedure', procedureId],
+    queryFn: async () => {
+      const response = await fetch(`/api/videos?procedureId=${procedureId}`);
+      if (!response.ok) throw new Error('Failed to fetch related videos');
+      return response.json();
+    },
+    enabled: !!procedureId
   });
 
   // Update local notes state when data is fetched
@@ -892,7 +905,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       {/* Content */}
       <div className="p-4">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-4 mb-6">
+          <TabsList className="grid w-full grid-cols-5 mb-6">
             <TabsTrigger value="overview" className="text-xs" data-testid="tab-overview">
               <Eye className="h-3 w-3 mr-1" />
               Overview
@@ -904,6 +917,10 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
             <TabsTrigger value="procedure" className="text-xs" data-testid="tab-procedure">
               <FileText className="h-3 w-3 mr-1" />
               Procedure
+            </TabsTrigger>
+            <TabsTrigger value="videos" className="text-xs" data-testid="tab-videos">
+              <Play className="h-3 w-3 mr-1" />
+              Videos
             </TabsTrigger>
             <TabsTrigger value="notes" className="text-xs" data-testid="tab-notes">
               <User className="h-3 w-3 mr-1" />
@@ -1119,6 +1136,68 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
                     </div>
                   ))}
                 </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="videos" className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Related Videos</CardTitle>
+                <CardDescription className="text-xs">
+                  Educational videos and demonstrations related to this procedure
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {videosLoading ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {[1, 2, 3, 4].map((i) => (
+                      <div key={i} className="animate-pulse">
+                        <div className="bg-muted rounded-md aspect-video mb-2"></div>
+                        <div className="h-4 bg-muted rounded mb-1"></div>
+                        <div className="h-3 bg-muted rounded w-2/3"></div>
+                      </div>
+                    ))}
+                  </div>
+                ) : relatedVideos && relatedVideos.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {relatedVideos.map((video: any) => (
+                      <Card key={video.id} className="overflow-hidden hover-elevate cursor-pointer">
+                        <div className="relative">
+                          <div className="aspect-video bg-muted flex items-center justify-center">
+                            <Play className="h-8 w-8 text-muted-foreground" />
+                          </div>
+                          <div className="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
+                            {video.duration || '10:30'}
+                          </div>
+                        </div>
+                        <CardContent className="p-3">
+                          <h4 className="font-medium text-sm mb-1 line-clamp-2">{video.title}</h4>
+                          <p className="text-xs text-muted-foreground line-clamp-2">{video.description}</p>
+                          <div className="flex items-center justify-between mt-2">
+                            <Badge variant="secondary" className="text-xs">
+                              {video.category?.name || 'Procedure'}
+                            </Badge>
+                            <span className="text-xs text-muted-foreground">
+                              {video.views || 0} views
+                            </span>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <Play className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
+                    <h3 className="font-medium text-sm mb-1">No Related Videos</h3>
+                    <p className="text-xs text-muted-foreground mb-4">
+                      There are currently no videos available for this procedure.
+                    </p>
+                    <Button variant="outline" size="sm" onClick={() => setLocation('/videos')}>
+                      Browse Video Library
+                    </Button>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>

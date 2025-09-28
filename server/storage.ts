@@ -47,12 +47,12 @@ export interface IStorage {
   getVideoCategoryById(id: string): Promise<VideoCategory | null>;
   createVideoCategory(category: InsertVideoCategory): Promise<VideoCategory>;
   
-  getAllVideos(): Promise<Video[]>;
+  getAllVideos(userSubscriptionTier?: string): Promise<Video[]>;
   getVideoById(id: string): Promise<Video | null>;
-  getVideosByCategory(categoryId: string): Promise<Video[]>;
-  getVideosBySpecialty(specialtyId: string): Promise<Video[]>;
-  getVideosByProcedure(procedureId: string): Promise<Video[]>;
-  searchVideos(query: string): Promise<Video[]>;
+  getVideosByCategory(categoryId: string, userSubscriptionTier?: string): Promise<Video[]>;
+  getVideosBySpecialty(specialtyId: string, userSubscriptionTier?: string): Promise<Video[]>;
+  getVideosByProcedure(procedureId: string, userSubscriptionTier?: string): Promise<Video[]>;
+  searchVideos(query: string, userSubscriptionTier?: string): Promise<Video[]>;
   createVideo(video: InsertVideo): Promise<Video>;
   updateVideo(id: string, updates: Partial<Video>): Promise<Video | null>;
   deleteVideo(id: string): Promise<boolean>;

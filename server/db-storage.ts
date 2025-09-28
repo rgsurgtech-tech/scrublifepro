@@ -1,4 +1,4 @@
-import { eq, and, ilike, or, desc, sql } from 'drizzle-orm';
+import { eq, and, ilike, or, desc, sql, inArray } from 'drizzle-orm';
 import { db } from './db';
 import { 
   users, 
@@ -357,6 +357,25 @@ export class DatabaseStorage implements IStorage {
   }
 
   // Video library methods
+  
+  // Helper method to get accessible access tiers based on user subscription
+  private getAccessibleTiers(userSubscriptionTier?: string): string[] {
+    if (!userSubscriptionTier) {
+      return ['free']; // Unauthenticated users can only see free content
+    }
+    
+    switch (userSubscriptionTier) {
+      case 'free':
+        return ['free'];
+      case 'standard':
+        return ['free', 'standard'];
+      case 'premium':
+        return ['free', 'standard', 'premium'];
+      default:
+        return ['free'];
+    }
+  }
+
   async getAllVideoCategories(): Promise<VideoCategory[]> {
     return await db.select()
       .from(videoCategories)
@@ -373,10 +392,15 @@ export class DatabaseStorage implements IStorage {
     return result[0];
   }
 
-  async getAllVideos(): Promise<Video[]> {
+  async getAllVideos(userSubscriptionTier?: string): Promise<Video[]> {
+    const accessibleTiers = this.getAccessibleTiers(userSubscriptionTier);
+    
     return await db.select()
       .from(videos)
-      .where(eq(videos.isPublished, true))
+      .where(and(
+        eq(videos.isPublished, true),
+        inArray(videos.accessTier, accessibleTiers)
+      ))
       .orderBy(desc(videos.createdAt));
   }
 
@@ -385,38 +409,49 @@ export class DatabaseStorage implements IStorage {
     return result[0] || null;
   }
 
-  async getVideosByCategory(categoryId: string): Promise<Video[]> {
+  async getVideosByCategory(categoryId: string, userSubscriptionTier?: string): Promise<Video[]> {
+    const accessibleTiers = this.getAccessibleTiers(userSubscriptionTier);
+    
     return await db.select()
       .from(videos)
       .where(and(
         eq(videos.category, categoryId),
-        eq(videos.isPublished, true)
+        eq(videos.isPublished, true),
+        inArray(videos.accessTier, accessibleTiers)
       ))
       .orderBy(desc(videos.createdAt));
   }
 
-  async getVideosBySpecialty(specialtyId: string): Promise<Video[]> {
+  async getVideosBySpecialty(specialtyId: string, userSubscriptionTier?: string): Promise<Video[]> {
+    const accessibleTiers = this.getAccessibleTiers(userSubscriptionTier);
+    
     return await db.select()
       .from(videos)
       .where(and(
         eq(videos.specialtyId, specialtyId),
-        eq(videos.isPublished, true)
+        eq(videos.isPublished, true),
+        inArray(videos.accessTier, accessibleTiers)
       ))
       .orderBy(desc(videos.createdAt));
   }
 
-  async getVideosByProcedure(procedureId: string): Promise<Video[]> {
+  async getVideosByProcedure(procedureId: string, userSubscriptionTier?: string): Promise<Video[]> {
+    const accessibleTiers = this.getAccessibleTiers(userSubscriptionTier);
+    
     return await db.select()
       .from(videos)
       .where(and(
         eq(videos.procedureId, procedureId),
-        eq(videos.isPublished, true)
+        eq(videos.isPublished, true),
+        inArray(videos.accessTier, accessibleTiers)
       ))
       .orderBy(desc(videos.createdAt));
   }
 
-  async searchVideos(query: string): Promise<Video[]> {
+  async searchVideos(query: string, userSubscriptionTier?: string): Promise<Video[]> {
     const searchTerm = `%${query.toLowerCase()}%`;
+    const accessibleTiers = this.getAccessibleTiers(userSubscriptionTier);
+    
     return await db.select()
       .from(videos)
       .where(and(
@@ -424,7 +459,8 @@ export class DatabaseStorage implements IStorage {
           ilike(videos.title, searchTerm),
           ilike(videos.description, searchTerm)
         ),
-        eq(videos.isPublished, true)
+        eq(videos.isPublished, true),
+        inArray(videos.accessTier, accessibleTiers)
       ))
       .orderBy(desc(videos.createdAt))
       .limit(20);

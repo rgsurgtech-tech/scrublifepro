@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, Filter, Grid, List, Play, Clock, Eye, Heart, BookOpen } from 'lucide-react';
+import { Search, Filter, Grid, List, Play, Clock, Eye, Heart, BookOpen, Crown, Star } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -132,9 +132,16 @@ export default function VideoLibrary() {
           <Badge className={getDifficultyColor(video.difficulty)}>
             {video.difficulty}
           </Badge>
-          {video.accessTier !== 'free' && (
-            <Badge className="bg-amber-500/20 text-amber-300 border-amber-500/30">
-              {video.accessTier}
+          {video.accessTier === 'standard' && (
+            <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30 flex items-center gap-1">
+              <Star className="w-3 h-3" />
+              Standard
+            </Badge>
+          )}
+          {video.accessTier === 'premium' && (
+            <Badge className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border-purple-500/30 flex items-center gap-1">
+              <Crown className="w-3 h-3" />
+              Premium
             </Badge>
           )}
         </div>

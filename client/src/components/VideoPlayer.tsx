@@ -8,17 +8,18 @@ import { Textarea } from '@/components/ui/textarea';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/contexts/AuthContext';
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import SubscriptionGate from '@/components/SubscriptionGate';
 import type { Video, VideoComment, VideoProgress } from '@shared/schema';
 
 interface VideoPlayerProps {
   video: Video;
-  userId?: string;
-  isAuthenticated: boolean;
 }
 
-export default function VideoPlayer({ video, userId, isAuthenticated }: VideoPlayerProps) {
+export default function VideoPlayer({ video }: VideoPlayerProps) {
+  const { user } = useAuth();
   const { toast } = useToast();
   const videoRef = useRef<HTMLVideoElement>(null);
   const progressUpdateRef = useRef<NodeJS.Timeout>();
@@ -34,13 +35,13 @@ export default function VideoPlayer({ video, userId, isAuthenticated }: VideoPla
 
   // Fetch video progress for authenticated users
   const { data: userProgress } = useQuery<VideoProgress>({
-    queryKey: ['video-progress', video.id, userId],
+    queryKey: ['video-progress', video.id, user?.id],
     queryFn: async () => {
       const response = await fetch(`/api/user/video-progress/${video.id}`);
       if (!response.ok) throw new Error('Failed to fetch video progress');
       return response.json();
     },
-    enabled: isAuthenticated && !!userId,
+    enabled: !!user?.id,
   });
 
   // Fetch video comments
@@ -149,7 +150,7 @@ export default function VideoPlayer({ video, userId, isAuthenticated }: VideoPla
       setCurrentTime(video.currentTime);
       
       // Save progress every 5 seconds
-      if (isAuthenticated && userId) {
+      if (user?.id) {
         clearTimeout(progressUpdateRef.current);
         progressUpdateRef.current = setTimeout(() => {
           const completed = video.currentTime >= video.duration * 0.95; // 95% watched = completed
@@ -164,7 +165,7 @@ export default function VideoPlayer({ video, userId, isAuthenticated }: VideoPla
 
     const handleEnded = () => {
       setIsPlaying(false);
-      if (isAuthenticated && userId) {
+      if (user?.id) {
         updateProgressMutation.mutate({
           videoId: video.id,
           progressTime: video.duration,
@@ -183,7 +184,7 @@ export default function VideoPlayer({ video, userId, isAuthenticated }: VideoPla
       video.removeEventListener('ended', handleEnded);
       clearTimeout(progressUpdateRef.current);
     };
-  }, [video.id, isAuthenticated, userId, userProgress]);
+  }, [video.id, user?.id, userProgress]);
 
   const togglePlay = () => {
     const video = videoRef.current;
@@ -263,9 +264,15 @@ export default function VideoPlayer({ video, userId, isAuthenticated }: VideoPla
   };
 
   return (
-    <div className="space-y-6">
-      {/* Video Player */}
-      <Card className="overflow-hidden bg-black/20 backdrop-blur-md border-white/10">
+    <SubscriptionGate 
+      requiredTier={video.accessTier as 'free' | 'standard' | 'premium'}
+      title={`${video.accessTier === 'standard' ? 'Standard' : 'Premium'} Video Access Required`}
+      description={`This video requires a ${video.accessTier} subscription to watch.`}
+      showPreview={true}
+    >
+      <div className="space-y-6">
+        {/* Video Player */}
+        <Card className="overflow-hidden bg-black/20 backdrop-blur-md border-white/10">
         <div 
           className="relative aspect-video bg-black group"
           onMouseEnter={() => setShowControls(true)}
@@ -409,7 +416,7 @@ export default function VideoPlayer({ video, userId, isAuthenticated }: VideoPla
             </div>
             
             {/* Action Buttons */}
-            {isAuthenticated && (
+            {user && (
               <div className="flex gap-2">
                 <Button
                   variant="outline"
@@ -465,7 +472,7 @@ export default function VideoPlayer({ video, userId, isAuthenticated }: VideoPla
         
         <CardContent className="space-y-4">
           {/* Add Comment */}
-          {isAuthenticated ? (
+          {user ? (
             <div className="space-y-2">
               <Textarea
                 placeholder="Add a comment..."
@@ -523,5 +530,6 @@ export default function VideoPlayer({ video, userId, isAuthenticated }: VideoPla
         </CardContent>
       </Card>
     </div>
+    </SubscriptionGate>
   );
 }

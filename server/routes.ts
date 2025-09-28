@@ -510,17 +510,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { category, specialtyId, procedureId, search } = req.query;
       
+      // Get user subscription tier if authenticated
+      let userSubscriptionTier: string | undefined;
+      if (req.session.userId) {
+        const user = await storage.getUserById(req.session.userId);
+        userSubscriptionTier = user?.subscriptionTier;
+      }
+      
       let videos;
       if (search && typeof search === 'string') {
-        videos = await storage.searchVideos(search);
+        videos = await storage.searchVideos(search, userSubscriptionTier);
       } else if (category && typeof category === 'string') {
-        videos = await storage.getVideosByCategory(category);
+        videos = await storage.getVideosByCategory(category, userSubscriptionTier);
       } else if (specialtyId && typeof specialtyId === 'string') {
-        videos = await storage.getVideosBySpecialty(specialtyId);
+        videos = await storage.getVideosBySpecialty(specialtyId, userSubscriptionTier);
       } else if (procedureId && typeof procedureId === 'string') {
-        videos = await storage.getVideosByProcedure(procedureId);
+        videos = await storage.getVideosByProcedure(procedureId, userSubscriptionTier);
       } else {
-        videos = await storage.getAllVideos();
+        videos = await storage.getAllVideos(userSubscriptionTier);
       }
       
       res.json(videos);

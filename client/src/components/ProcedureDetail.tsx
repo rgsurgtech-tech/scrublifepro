@@ -979,6 +979,208 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       specifications: "Complete bypass capability, integrated monitoring, temperature control, biocompatible materials, safety systems",
       image: laparoscopicSetImage,
       setupTips: ["Complete equipment check", "Prime all lines", "Test monitoring systems", "Verify connections", "Have backup equipment ready"]
+    },
+    // GENERAL SURGERY INSTRUMENTS - BATCH 1
+    "Retractors": {
+      name: "Surgical Retractors Set",
+      category: "Exposure Tools",
+      description: "Comprehensive collection of retractors for tissue retraction and surgical field exposure during general surgical procedures",
+      contents: ["Richardson retractors", "Deaver retractors", "Army-Navy retractors", "Ribbon retractors", "Self-retaining retractors", "Balfour retractors"],
+      usage: "Essential for maintaining surgical exposure by holding back tissue, organs, and wound edges during all general surgical procedures",
+      specifications: "Various sizes and types, stainless steel construction, autoclavable, manual and self-retaining options available",
+      image: grasperImage,
+      setupTips: ["Have multiple sizes available", "Test self-retaining mechanisms", "Organize by size", "Ensure clean surfaces", "Check for proper function"]
+    },
+    "Hemostats": {
+      name: "Hemostatic Forceps",
+      category: "Clamping Instruments",
+      description: "Essential clamping instruments for controlling bleeding and grasping vessels during surgical procedures",
+      contents: ["Kelly clamps", "Mosquito clamps", "Crile clamps", "Curved and straight hemostats", "Pean clamps"],
+      usage: "Used for clamping blood vessels, controlling bleeding, and grasping tissue during all types of surgical procedures",
+      specifications: "Various sizes 5-8 inches, curved and straight options, ratcheted handles, stainless steel, autoclavable",
+      image: grasperImage,
+      setupTips: ["Test ratchet mechanisms", "Have multiple sizes ready", "Organize by size and curve", "Ensure tips align properly", "Keep in pairs"]
+    },
+    "Forceps": {
+      name: "Surgical Forceps Set",
+      category: "Grasping Instruments",
+      description: "Precision grasping instruments for tissue handling and manipulation during surgical procedures",
+      contents: ["Adson forceps", "DeBakey forceps", "Russian forceps", "Tissue forceps", "Dressing forceps", "Toothed and non-toothed options"],
+      usage: "Essential for gentle tissue handling, grasping delicate structures, and precise manipulation during surgery",
+      specifications: "Various sizes 4-12 inches, toothed and non-toothed tips, stainless steel, autoclavable, ergonomic design",
+      image: grasperImage,
+      setupTips: ["Check tip alignment", "Have both toothed and smooth options", "Organize by size", "Test gripping action", "Handle with care"]
+    },
+    "Suction": {
+      name: "Surgical Suction System",
+      category: "Fluid Management",
+      description: "Complete suction apparatus for removing blood, fluids, and debris from the surgical field",
+      contents: ["Yankauer suction tips", "Frazier suction tips", "Poole suction", "Suction tubing", "Various tip sizes", "Suction canister"],
+      usage: "Critical for maintaining clear surgical field by removing blood, irrigation fluid, and debris during all surgical procedures",
+      specifications: "Multiple tip sizes, adjustable suction pressure, sterile disposable tips, compatible with standard suction units",
+      image: laparoscopicSetImage,
+      setupTips: ["Test suction pressure", "Have multiple tip sizes available", "Check tubing connections", "Ensure adequate canister size", "Keep tips clear"]
+    },
+    "Bowel clamps": {
+      name: "Intestinal Clamps",
+      category: "Bowel Instruments",
+      description: "Specialized atraumatic clamps designed for gentle handling and occlusion of bowel segments during gastrointestinal surgery",
+      contents: ["Doyen clamps", "Allen clamps", "Soft bowel clamps", "Intestinal clamps", "Non-crushing clamps"],
+      usage: "Essential for bowel resection, anastomosis, and temporary occlusion of intestinal segments while minimizing tissue trauma",
+      specifications: "Atraumatic design, various lengths, gentle compression, stainless steel, autoclavable, non-crushing jaws",
+      image: grasperImage,
+      setupTips: ["Use gentle pressure only", "Have multiple sizes ready", "Check jaw alignment", "Avoid prolonged clamping", "Test before use"]
+    },
+    "Anastomotic staplers": {
+      name: "Surgical Staplers for Anastomosis",
+      category: "Stapling Devices",
+      description: "Advanced stapling devices for creating secure anastomoses during bowel and gastrointestinal surgical procedures",
+      contents: ["Circular staplers (various sizes)", "Linear staplers", "End-to-end anastomosis staplers", "Cartridges (various sizes)", "Sizing instruments"],
+      usage: "Used for creating bowel anastomoses, gastrointestinal connections, and secure tissue approximation during resection procedures",
+      specifications: "Multiple sizes (21mm-33mm), single-use devices, integrated cutting mechanism, color-coded cartridges, leak-test capability",
+      image: harmonicScalpelImage,
+      setupTips: ["Select appropriate size", "Test fire mechanism", "Have backup available", "Check cartridge loading", "Follow manufacturer protocol"]
+    },
+    "Drainage systems": {
+      name: "Surgical Drain Systems",
+      category: "Post-operative Drainage",
+      description: "Complete drainage systems for removing fluid collections and preventing accumulation post-operatively",
+      contents: ["Jackson-Pratt drains", "Blake drains", "Penrose drains", "Hemovac drains", "Chest tubes", "Drainage bags"],
+      usage: "Essential for post-operative fluid management, preventing seroma/hematoma formation, and monitoring surgical site drainage",
+      specifications: "Various sizes and types, closed suction systems, passive drainage options, sterile packaging, easy-to-monitor collection",
+      image: trocarImage,
+      setupTips: ["Select appropriate drain type", "Check vacuum function", "Ensure secure connections", "Document placement", "Test suction capability"]
+    },
+    "Mesh (polypropylene)": {
+      name: "Surgical Mesh for Hernia Repair",
+      category: "Implant Material",
+      description: "Biocompatible polypropylene mesh used for reinforcement during hernia repairs and abdominal wall reconstruction",
+      contents: ["Various mesh sizes", "Lightweight mesh", "Medium-weight mesh", "Pre-shaped mesh", "Fixation devices"],
+      usage: "Essential for hernia repair providing strong reinforcement and reducing recurrence rates in inguinal, umbilical, and ventral hernias",
+      specifications: "Polypropylene material, various sizes 6x11cm to 30x30cm, monofilament or multifilament, porous design for tissue ingrowth",
+      image: harmonicScalpelImage,
+      setupTips: ["Select appropriate size", "Trim to fit if needed", "Handle with sterile technique", "Have fixation devices ready", "Avoid contamination"]
+    },
+    "Colonoscope": {
+      name: "Flexible Colonoscope",
+      category: "Endoscopic Equipment",
+      description: "Flexible endoscopic instrument for visualization and diagnostic/therapeutic procedures of the colon and large intestine",
+      contents: ["Flexible colonoscope", "Light source", "Video processor", "Biopsy forceps", "Polypectomy snares", "Irrigation system"],
+      usage: "Used for diagnostic colonoscopy, polyp removal, biopsy collection, and therapeutic interventions in the colon",
+      specifications: "Variable stiffness, 4-way tip deflection, HD imaging, 160cm length, integrated water jet, compatible biopsy channel",
+      image: laparoscopicSetImage,
+      setupTips: ["Test all functions before procedure", "Ensure proper cleaning", "Check light source", "Have biopsy tools ready", "Verify irrigation"]
+    },
+    "Endoscope": {
+      name: "Flexible Endoscope System",
+      category: "Endoscopic Equipment",
+      description: "Versatile flexible endoscope for various diagnostic and therapeutic endoscopic procedures",
+      contents: ["Flexible endoscope", "Video system", "Light source", "Working channel tools", "Irrigation equipment", "Image capture system"],
+      usage: "Essential for minimally invasive visualization and intervention in gastrointestinal, respiratory, and urological procedures",
+      specifications: "HD imaging, variable working length, multiple channel options, autoclavable or high-level disinfection, ergonomic controls",
+      image: laparoscopicSetImage,
+      setupTips: ["Complete functional check", "Test image quality", "Check working channels", "Ensure proper sterilization", "Have backup scope ready"]
+    },
+    // COMMONLY USED INSTRUMENTS - BATCH 2
+    "Linear staplers": {
+      name: "Linear Cutting Staplers",
+      category: "Stapling Devices",
+      description: "Advanced linear stapling devices for tissue division and sealing in open and laparoscopic procedures",
+      contents: ["Linear stapler handles", "Various cartridge sizes (30mm-100mm)", "Reloads", "Articulating options", "Vascular cartridges"],
+      usage: "Essential for tissue transection with simultaneous stapling, used in bowel resection, lung resection, and gastric procedures",
+      specifications: "Multiple sizes, color-coded cartridges for tissue thickness, integrated cutting mechanism, manual and powered options",
+      image: harmonicScalpelImage,
+      setupTips: ["Select appropriate cartridge for tissue thickness", "Test firing mechanism", "Have backup cartridges", "Check staple formation", "Follow manufacturer guidelines"]
+    },
+    "GIA staplers": {
+      name: "Gastrointestinal Anastomosis Staplers",
+      category: "Stapling Devices",
+      description: "Specialized staplers for creating side-to-side anastomoses in gastrointestinal surgery",
+      contents: ["GIA stapler", "Various cartridge lengths", "Reload cartridges", "Loading units", "Sizing instruments"],
+      usage: "Used for creating gastrointestinal anastomoses, bowel resections, and lung resections with simultaneous stapling and cutting",
+      specifications: "Multiple lengths 60mm-100mm, color-coded for tissue thickness, disposable loading units, consistent staple formation",
+      image: harmonicScalpelImage,
+      setupTips: ["Choose correct cartridge length", "Verify proper loading", "Test before use", "Have multiple reloads available", "Check staple line integrity"]
+    },
+    "Endoscopic staplers": {
+      name: "Laparoscopic Stapling Devices",
+      category: "Minimally Invasive Staplers",
+      description: "Advanced endoscopic staplers for laparoscopic and thoracoscopic tissue division and anastomosis",
+      contents: ["Endoscopic stapler", "Articulating head options", "Various cartridges", "Reload units", "5mm and 12mm options"],
+      usage: "Essential for minimally invasive surgery including bariatric, colorectal, and thoracic procedures requiring tissue stapling",
+      specifications: "360° articulation, multiple cartridge colors, 45mm-60mm lengths, compatible with standard ports, powered and manual options",
+      image: harmonicScalpelImage,
+      setupTips: ["Select appropriate articulation", "Test rotation mechanism", "Have adequate reloads", "Check firing mechanism", "Ensure proper port placement"]
+    },
+    "Circular staplers": {
+      name: "Circular Anastomosis Staplers",
+      category: "Stapling Devices",
+      description: "Specialized circular staplers for creating end-to-end or end-to-side anastomoses in gastrointestinal surgery",
+      contents: ["Circular stapler", "Anvils (various sizes 21mm-33mm)", "Sizing instruments", "Loading unit", "Test firing mechanism"],
+      usage: "Critical for creating circular anastomoses in colorectal surgery, esophageal surgery, and gastrointestinal reconstructions",
+      specifications: "Sizes 21mm-33mm diameter, integrated cutting mechanism, single-use devices, leak-test capability, consistent staple formation",
+      image: harmonicScalpelImage,
+      setupTips: ["Select appropriate anvil size", "Test anastomosis integrity", "Have backup sizes", "Verify staple formation", "Perform leak test"]
+    },
+    "Drain": {
+      name: "Surgical Drain",
+      category: "Drainage Device",
+      description: "Post-operative drainage device for removing fluid collections and monitoring surgical site drainage",
+      contents: ["Drain tube", "Collection reservoir", "Fixation device", "Connector tubing", "Drainage bag"],
+      usage: "Used for preventing fluid accumulation, monitoring post-operative bleeding, and facilitating healing after surgical procedures",
+      specifications: "Various sizes and types, closed suction or passive drainage, sterile packaging, easy emptying and monitoring",
+      image: trocarImage,
+      setupTips: ["Select appropriate drain type and size", "Secure properly", "Document output", "Monitor for complications", "Maintain sterility"]
+    },
+    "Drains": {
+      name: "Surgical Drainage Set",
+      category: "Drainage Devices",
+      description: "Comprehensive set of drainage devices for various surgical applications and post-operative management",
+      contents: ["Multiple drain types", "Various sizes", "Collection systems", "Fixation sutures", "Drainage bags"],
+      usage: "Essential for managing post-operative fluid collections across all surgical specialties",
+      specifications: "Jackson-Pratt, Blake, Hemovac, and Penrose drains, various sizes, closed suction systems available",
+      image: trocarImage,
+      setupTips: ["Have multiple drain types ready", "Select based on procedure", "Ensure proper placement", "Secure adequately", "Monitor output carefully"]
+    },
+    "Irrigation": {
+      name: "Surgical Irrigation System",
+      category: "Irrigation Equipment",
+      description: "Complete irrigation system for surgical site cleansing and debris removal during procedures",
+      contents: ["Irrigation fluid (saline)", "Bulb syringes", "Pulsed lavage system", "Irrigation tubing", "Splash basin"],
+      usage: "Critical for wound cleansing, debris removal, maintaining clear surgical field, and preventing infection",
+      specifications: "Sterile normal saline, adjustable pressure delivery, pulsatile or continuous irrigation, various volume options",
+      image: laparoscopicSetImage,
+      setupTips: ["Use warm irrigation fluid", "Test pressure settings", "Have adequate fluid volume", "Maintain sterility", "Use appropriate delivery system"]
+    },
+    "Self-retaining retractors": {
+      name: "Self-Retaining Retractor System",
+      category: "Retraction Equipment",
+      description: "Advanced retractor systems that maintain exposure without manual holding, freeing surgical team hands",
+      contents: ["Balfour retractor", "Bookwalter retractor", "Iron Intern", "Various blade sizes", "Table attachment systems"],
+      usage: "Essential for maintaining sustained surgical exposure in abdominal, thoracic, and pelvic procedures",
+      specifications: "Multiple blade configurations, ratcheted arms, stable positioning, autoclavable components, modular systems",
+      image: grasperImage,
+      setupTips: ["Assemble before draping", "Select appropriate blades", "Position securely", "Test locking mechanisms", "Adjust gradually"]
+    },
+    "Hysteroscope": {
+      name: "Hysteroscopy System",
+      category: "Gynecologic Endoscopy",
+      description: "Specialized endoscopic system for visualization and treatment of intrauterine pathology",
+      contents: ["Hysteroscope (rigid or flexible)", "Light source", "Video system", "Distention media", "Operative instruments", "Fluid management system"],
+      usage: "Used for diagnostic and operative hysteroscopy including polyp removal, fibroid resection, and endometrial ablation",
+      specifications: "Diagnostic and operative scopes, various angles (0°, 12°, 30°), continuous flow systems, integrated electrosurgery",
+      image: laparoscopicSetImage,
+      setupTips: ["Check distention system", "Test visualization", "Prepare operative instruments", "Monitor fluid balance", "Have backup equipment"]
+    },
+    "Resectoscope": {
+      name: "Urologic Resectoscope",
+      category: "Endoscopic Equipment",
+      description: "Specialized endoscopic instrument for transurethral resection procedures in urology",
+      contents: ["Resectoscope", "Working element", "Loop electrodes", "Irrigation system", "Video equipment", "Electrosurgical unit"],
+      usage: "Essential for TURP (transurethral resection of prostate) and TURBT (bladder tumor resection) procedures",
+      specifications: "Continuous flow design, various loop sizes, integrated video, monopolar or bipolar options, precise cutting control",
+      image: laparoscopicSetImage,
+      setupTips: ["Test loop function", "Check irrigation flow", "Verify electrosurgical settings", "Have backup loops", "Monitor fluid balance"]
     }
   };
 

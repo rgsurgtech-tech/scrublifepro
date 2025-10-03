@@ -180,7 +180,9 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       description: "Small clips used to occlude blood vessels and ducts",
       contents: ["Titanium clips", "Absorbable clips", "Clip applier"],
       usage: "Vessel ligation and duct occlusion",
-      specifications: "MRI-compatible titanium or bioabsorbable materials"
+      specifications: "MRI-compatible titanium or bioabsorbable materials",
+      image: grasperImage,
+      setupTips: ["Have multiple clip sizes available", "Test clip applier before use", "Check MRI compatibility if needed", "Prepare both titanium and absorbable options"]
     },
     "Endocatch bag": {
       name: "Specimen Retrieval Bag",
@@ -188,7 +190,9 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       description: "Sterile bag for safe specimen removal during laparoscopy",
       contents: ["Deployable bag", "Drawstring closure", "Handle mechanism"],
       usage: "Contains specimens during extraction to prevent contamination",
-      specifications: "Various sizes available, puncture-resistant material"
+      specifications: "Various sizes available, puncture-resistant material",
+      image: grasperImage,
+      setupTips: ["Select appropriate bag size", "Deploy completely before specimen insertion", "Close drawstring securely", "Extract through adequate port size"]
     },
     "Harmonic scalpel or LigaSure": {
       name: "Harmonic Ultrasonic Scalpel",
@@ -257,7 +261,9 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       description: "Extended length instruments designed specifically for bariatric surgery with enhanced reach and durability",
       contents: ["45cm length graspers", "Extended electrocautery devices", "Long laparoscopic scissors", "Bariatric clip appliers", "Reinforced suction systems"],
       usage: "Specialized instruments for bariatric procedures requiring extended reach due to increased tissue depth and specialized techniques",
-      specifications: "Extended length (45cm) instruments, reinforced construction, compatible with standard trocars"
+      specifications: "Extended length (45cm) instruments, reinforced construction, compatible with standard trocars",
+      image: laparoscopicSetImage,
+      setupTips: ["Verify extended length instruments", "Test reinforced components", "Have adequate port sizes", "Prepare backup instruments", "Check reach before procedure"]
     },
     "Clip applier": {
       name: "Surgical Clip Applier",
@@ -265,7 +271,9 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       description: "Precision clip application device for vessel and duct occlusion during laparoscopic procedures",
       contents: ["Clip applier handle", "Various clip sizes (small, medium, large)", "Reload cartridges", "Clip removal forceps"],
       usage: "Precise application of titanium clips for permanent vessel occlusion during laparoscopic surgery",
-      specifications: "Autoclavable, reloadable cartridge system, fits standard 5mm ports"
+      specifications: "Autoclavable, reloadable cartridge system, fits standard 5mm ports",
+      image: grasperImage,
+      setupTips: ["Load clips before procedure", "Have multiple sizes ready", "Test clip deployment", "Keep reload cartridges available", "Check clip position before release"]
     },
     "Staplers": {
       name: "Linear Staplers",
@@ -273,7 +281,9 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       description: "Linear cutting staplers for tissue transection and anastomosis in bariatric procedures",
       contents: ["60mm linear stapler", "Various cartridge heights", "Reload cartridges", "Stapler anvil"],
       usage: "Primary tool for gastric sleeve creation and tissue division in bariatric surgery",
-      specifications: "60mm staple line, multiple cartridge heights (2.5mm, 3.5mm, 4.8mm), single-use cartridges"
+      specifications: "60mm staple line, multiple cartridge heights (2.5mm, 3.5mm, 4.8mm), single-use cartridges",
+      image: harmonicScalpelImage,
+      setupTips: ["Select appropriate cartridge height", "Check tissue thickness", "Fire stapler smoothly", "Inspect staple line", "Have reinforcement available"]
     },
     "Bougie": {
       name: "Bougie Dilator",
@@ -281,7 +291,9 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       description: "Calibration tool used to ensure proper gastric sleeve diameter during bariatric procedures",
       contents: ["32-40 French bougie tubes", "Measurement markings", "Flexible tip design"],
       usage: "Inserted through the mouth to calibrate gastric sleeve size and ensure consistent diameter during stapling",
-      specifications: "Single-use, graduated markings, flexible design for patient safety"
+      specifications: "Single-use, graduated markings, flexible design for patient safety",
+      image: trocarImage,
+      setupTips: ["Select appropriate French size", "Lubricate before insertion", "Advance gently", "Verify position fluoroscopically", "Remove carefully after stapling"]
     },
     "Harmonic device": {
       name: "Harmonic Ultrasonic Scalpel",
@@ -2288,6 +2300,26 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
     }
   };
 
+  // Helper function to get instrument details with case-insensitive matching
+  const getInstrumentDetails = (instrumentName: string) => {
+    // First try exact match
+    if (instrumentDetails[instrumentName as keyof typeof instrumentDetails]) {
+      return instrumentDetails[instrumentName as keyof typeof instrumentDetails];
+    }
+    
+    // Try case-insensitive match
+    const normalizedName = instrumentName.toLowerCase().trim();
+    const matchingKey = Object.keys(instrumentDetails).find(
+      key => key.toLowerCase().trim() === normalizedName
+    );
+    
+    if (matchingKey) {
+      return instrumentDetails[matchingKey as keyof typeof instrumentDetails];
+    }
+    
+    return null;
+  };
+
   // Get instrument image directly from instrumentDetails
   const getInstrumentImage = (instrument: any) => {
     return instrument?.image || null;
@@ -2887,21 +2919,21 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
           </div>
           
           <div className="max-h-[calc(85vh-8rem)] overflow-y-auto px-6 pb-6">
-            {selectedInstrument && instrumentDetails[selectedInstrument as keyof typeof instrumentDetails] && (
+            {selectedInstrument && getInstrumentDetails(selectedInstrument) && (
               <div className="space-y-4">
               <div>
-                <h3 className="font-semibold text-lg">{instrumentDetails[selectedInstrument as keyof typeof instrumentDetails].name}</h3>
+                <h3 className="font-semibold text-lg">{getInstrumentDetails(selectedInstrument)!.name}</h3>
                 <Badge variant="outline" className="mt-1">
-                  {instrumentDetails[selectedInstrument as keyof typeof instrumentDetails].category}
+                  {getInstrumentDetails(selectedInstrument)!.category}
                 </Badge>
               </div>
 
               {/* Instrument Image */}
-              {(instrumentDetails[selectedInstrument as keyof typeof instrumentDetails] as any).image && (
+              {getInstrumentDetails(selectedInstrument)?.image && (
                 <div>
                   <img 
-                    src={getInstrumentImage(instrumentDetails[selectedInstrument as keyof typeof instrumentDetails]) || ''} 
-                    alt={instrumentDetails[selectedInstrument as keyof typeof instrumentDetails].name}
+                    src={getInstrumentImage(getInstrumentDetails(selectedInstrument)) || ''} 
+                    alt={getInstrumentDetails(selectedInstrument)!.name}
                     className="w-full h-48 object-cover rounded-lg border"
                   />
                 </div>
@@ -2910,14 +2942,14 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
               <div>
                 <h4 className="font-semibold text-sm mb-2">Description</h4>
                 <p className="text-sm text-muted-foreground">
-                  {instrumentDetails[selectedInstrument as keyof typeof instrumentDetails].description}
+                  {getInstrumentDetails(selectedInstrument)!.description}
                 </p>
               </div>
               
               <div>
                 <h4 className="font-semibold text-sm mb-2">Contents/Components</h4>
                 <div className="space-y-1">
-                  {instrumentDetails[selectedInstrument as keyof typeof instrumentDetails].contents.map((item: string, index: number) => (
+                  {getInstrumentDetails(selectedInstrument)!.contents.map((item: string, index: number) => (
                     <div key={index} className="flex items-center gap-2 text-sm">
                       <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0"></div>
                       {item}
@@ -2929,26 +2961,26 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
               <div>
                 <h4 className="font-semibold text-sm mb-2">Usage</h4>
                 <p className="text-sm text-muted-foreground">
-                  {instrumentDetails[selectedInstrument as keyof typeof instrumentDetails].usage}
+                  {getInstrumentDetails(selectedInstrument)!.usage}
                 </p>
               </div>
               
               <div>
                 <h4 className="font-semibold text-sm mb-2">Specifications</h4>
                 <p className="text-sm text-muted-foreground">
-                  {instrumentDetails[selectedInstrument as keyof typeof instrumentDetails].specifications}
+                  {getInstrumentDetails(selectedInstrument)!.specifications}
                 </p>
               </div>
 
               {/* Setup Tips */}
-              {(instrumentDetails[selectedInstrument as keyof typeof instrumentDetails] as any).setupTips && (
+              {getInstrumentDetails(selectedInstrument)?.setupTips && (
                 <div>
                   <h4 className="font-semibold text-sm mb-2 flex items-center gap-2">
                     <Lightbulb className="w-4 h-4 text-yellow-500" />
                     Setup Tips
                   </h4>
                   <div className="space-y-1">
-                    {(instrumentDetails[selectedInstrument as keyof typeof instrumentDetails] as any).setupTips.map((tip: string, index: number) => (
+                    {getInstrumentDetails(selectedInstrument)!.setupTips!.map((tip: string, index: number) => (
                       <div key={index} className="flex items-start gap-2 text-sm">
                         <div className="w-2 h-2 bg-yellow-500 rounded-full flex-shrink-0 mt-1.5"></div>
                         <span className="text-muted-foreground">{tip}</span>
@@ -2960,7 +2992,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
             </div>
           )}
           
-            {selectedInstrument && !instrumentDetails[selectedInstrument as keyof typeof instrumentDetails] && (
+            {selectedInstrument && !getInstrumentDetails(selectedInstrument) && (
               <div className="text-center py-6">
                 <AlertCircle className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
                 <h3 className="font-semibold mb-2">Information Not Available</h3>

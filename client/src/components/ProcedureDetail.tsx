@@ -1483,6 +1483,320 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       specifications: "Continuous flow design, flow rates 3-10 L/min, portable controllers, alarm systems, battery backup",
       image: harmonicScalpelImage,
       setupTips: ["Handle pump carefully", "De-air completely", "Secure all connections", "Test controller", "Position driveline appropriately"]
+    },
+    // NEUROSURGERY INSTRUMENTS - BATCH 5
+    "Cranial drill": {
+      name: "Neurosurgical Cranial Drill System",
+      category: "Neurosurgical Power Tools",
+      description: "High-speed drill system for cranial bone work during neurosurgical procedures",
+      contents: ["Drill console", "Handpiece", "Various drill bits", "Burr attachments", "Perforator", "Craniotome"],
+      usage: "Essential for creating burr holes, craniotomy bone flaps, and precise bone removal in neurosurgery",
+      specifications: "Variable speed 0-80,000 RPM, irrigation capability, autoclavable handpiece, torque control, ergonomic design",
+      image: electrocauteryImage,
+      setupTips: ["Test drill function", "Have multiple bits ready", "Check irrigation", "Verify foot pedal", "Prepare backup handpiece"]
+    },
+    "Burr holes": {
+      name: "Cranial Burr Hole Instruments",
+      category: "Cranial Access",
+      description: "Specialized instruments for creating burr holes in the skull for neurosurgical access",
+      contents: ["Hudson brace", "Burr drill bits", "Perforator", "Templates", "Measuring guides"],
+      usage: "Used for creating precise openings in skull for ICP monitoring, EVD placement, or craniotomy access",
+      specifications: "Various bit sizes, depth guards, self-centering tips, manual and powered options",
+      image: electrocauteryImage,
+      setupTips: ["Mark placement carefully", "Use depth guard", "Irrigate while drilling", "Check dura integrity", "Have hemostatic agents ready"]
+    },
+    "Craniotomy instruments": {
+      name: "Craniotomy Surgical Set",
+      category: "Cranial Surgery",
+      description: "Complete instrument set for craniotomy procedures and bone flap creation",
+      contents: ["Craniotome", "Drill system", "Dural elevators", "Bone rongeurs", "Bone wax", "Cranial plates and screws"],
+      usage: "Essential for opening skull, accessing brain, and secure bone flap replacement in cranial surgery",
+      specifications: "Precision cutting tools, self-stopping craniotome, sterile implants, various fixation options",
+      image: electrocauteryImage,
+      setupTips: ["Plan bone flap carefully", "Protect dura", "Save bone dust", "Mark bone orientation", "Have fixation ready"]
+    },
+    "Bipolar forceps": {
+      name: "Neurosurgical Bipolar Coagulation",
+      category: "Hemostasis",
+      description: "Precision bipolar forceps for delicate neurosurgical hemostasis",
+      contents: ["Bipolar forceps (various sizes)", "Bipolar cord", "Foot pedal", "Irrigation system", "Jeweler forceps"],
+      usage: "Critical for precise hemostasis in neurosurgery without current spread to surrounding neural tissue",
+      specifications: "Bayonet and straight configurations, jeweler tips, irrigation capability, various sizes 0.5-3mm",
+      image: electrocauteryImage,
+      setupTips: ["Test before use", "Use lowest effective power", "Keep tips clean", "Irrigate frequently", "Have multiple sizes available"]
+    },
+    "Microscope": {
+      name: "Neurosurgical Operating Microscope",
+      category: "Magnification System",
+      description: "High-magnification surgical microscope for microsurgical neurosurgical procedures",
+      contents: ["Microscope", "Various objectives", "Light source", "Assistant scope", "Recording system", "Foot controls"],
+      usage: "Essential for microneurosurgery providing magnification and illumination for delicate neural procedures",
+      specifications: "Up to 40x magnification, LED illumination, HD recording, motorized focus and zoom, balanced articulating arm",
+      image: laparoscopicSetImage,
+      setupTips: ["Balance and position early", "Check light intensity", "Test foot controls", "Adjust for surgeon", "Verify assistant scope"]
+    },
+    "Microsurgical instruments": {
+      name: "Neuromicrosurgery Instrument Set",
+      category: "Microsurgery Tools",
+      description: "Ultra-fine instruments for microsurgical neurosurgical procedures under magnification",
+      contents: ["Microforceps", "Microscissors", "Microdissectors", "Nerve hooks", "Micro-needle holders", "Micro-suction tips"],
+      usage: "Used for delicate manipulation of neural tissue, vessels, and nerves during microsurgery",
+      specifications: "Precision-machined tips, various angulations, spring handles, titanium or stainless steel, 0.3-1mm tips",
+      image: grasperImage,
+      setupTips: ["Handle with extreme care", "Check tip alignment", "Organize by size", "Keep tips protected", "Have duplicates available"]
+    },
+    "Ultrasonic aspirator": {
+      name: "Cavitron Ultrasonic Surgical Aspirator (CUSA)",
+      category: "Tissue Removal",
+      description: "Ultrasonic device for selective tissue fragmentation and aspiration in neurosurgery",
+      contents: ["CUSA handpiece", "Console", "Various tips", "Irrigation system", "Foot pedal", "Aspiration tubing"],
+      usage: "Essential for tumor debulking and tissue removal while preserving vital neurovascular structures",
+      specifications: "Ultrasonic frequency 23-36 kHz, adjustable power and suction, precision tip options, integrated irrigation",
+      image: harmonicScalpelImage,
+      setupTips: ["Prime irrigation system", "Select appropriate tip", "Test power settings", "Check aspiration", "Have backup tips"]
+    },
+    "Neuronavigation system": {
+      name: "Stereotactic Navigation System",
+      category: "Surgical Navigation",
+      description: "Computer-assisted navigation for precise localization during neurosurgical procedures",
+      contents: ["Navigation workstation", "Tracking cameras", "Registration instruments", "Reference array", "Pointer probe"],
+      usage: "Provides real-time 3D guidance for precise tumor localization and trajectory planning in brain surgery",
+      specifications: "Sub-millimeter accuracy, MRI/CT integration, real-time updates, instrument tracking, multimodality fusion",
+      image: harmonicScalpelImage,
+      setupTips: ["Register patient early", "Verify accuracy", "Check camera positioning", "Calibrate instruments", "Update for brain shift"]
+    },
+    "Brain retractors": {
+      name: "Neurosurgical Brain Retraction System",
+      category: "Neural Retraction",
+      description: "Specialized retractors for gentle brain tissue retraction during neurosurgery",
+      contents: ["Self-retaining brain retractors", "Spatulas", "Cottonoids", "Retractor arms", "Greenberg system"],
+      usage: "Used for atraumatic brain retraction providing surgical corridor while minimizing neural injury",
+      specifications: "Multiple sizes and shapes, self-retaining options, adjustable arms, smooth surfaces, minimal pressure",
+      image: grasperImage,
+      setupTips: ["Use cottonoids for protection", "Apply gradually", "Minimize retraction time", "Adjust as needed", "Monitor brain relaxation"]
+    },
+    "Aneurysm clips": {
+      name: "Neurovascular Clip Appliers",
+      category: "Vascular Occlusion",
+      description: "Specialized clips and appliers for cerebral aneurysm clipping",
+      contents: ["Various clip sizes", "Temporary clips", "Permanent clips", "Clip appliers", "Clip removers"],
+      usage: "Critical for definitive aneurysm treatment by occluding aneurysm neck while preserving parent vessel",
+      specifications: "Titanium construction, MRI compatible, various configurations (straight, curved, fenestrated), closing pressures",
+      image: grasperImage,
+      setupTips: ["Have multiple clip options", "Test appliers", "Prepare temporary clips", "Check closing force", "Have clip remover ready"]
+    },
+    "Spinal instrumentation": {
+      name: "Spinal Fixation System",
+      category: "Spinal Surgery",
+      description: "Complete hardware system for spinal stabilization and fusion procedures",
+      contents: ["Pedicle screws", "Rods", "Connectors", "Bone graft materials", "Insertion instruments", "Rod benders"],
+      usage: "Essential for spinal fusion, deformity correction, and stabilization of spinal injuries",
+      specifications: "Titanium or stainless steel, various screw diameters and lengths, polyaxial heads, top-loading or side-loading",
+      image: electrocauteryImage,
+      setupTips: ["Verify correct levels", "Have multiple screw sizes", "Test rod bender", "Prepare bone graft", "Check screw placement"]
+    },
+    "Laminectomy instruments": {
+      name: "Spinal Decompression Instrument Set",
+      category: "Spinal Decompression",
+      description: "Specialized instruments for laminectomy and spinal decompression procedures",
+      contents: ["Kerrison rongeurs", "Laminectomy rongeurs", "Curettes", "Nerve root retractors", "Pituitary rongeurs"],
+      usage: "Used for removing lamina and decompressing neural elements in spinal stenosis and disc herniation",
+      specifications: "Various rongeur sizes (1mm-5mm), angled and straight, sharp cutting edges, protective footplates",
+      image: grasperImage,
+      setupTips: ["Have full range of sizes", "Check cutting edges", "Use sequential sizing", "Protect neural structures", "Have nerve retractors ready"]
+    },
+    "Endoscope": {
+      name: "Neurosurgical Endoscope System",
+      category: "Minimally Invasive Neuro",
+      description: "Rigid endoscope system for minimally invasive neurosurgical procedures",
+      contents: ["Rigid endoscope", "Camera system", "Light source", "Working channels", "Irrigation system", "Various angles"],
+      usage: "Essential for minimally invasive procedures including third ventriculostomy and skull base approaches",
+      specifications: "0° to 70° viewing angles, HD imaging, integrated working channel, 2.7-4mm diameter, autoclavable",
+      image: laparoscopicSetImage,
+      setupTips: ["Test camera function", "Check irrigation", "Have multiple angles", "Verify working channel", "Ensure clear visualization"]
+    },
+    "Stereotactic frame": {
+      name: "Stereotactic Localization Frame",
+      category: "Stereotactic Surgery",
+      description: "Precision frame for stereotactic localization and biopsy procedures",
+      contents: ["Stereotactic frame", "Arc system", "Localizing rods", "Biopsy instruments", "Fixation pins"],
+      usage: "Provides precise 3D localization for deep brain biopsies, electrode placement, and functional neurosurgery",
+      specifications: "Sub-millimeter accuracy, MRI/CT compatible, multiple trajectory options, secure skull fixation",
+      image: harmonicScalpelImage,
+      setupTips: ["Apply frame carefully", "Verify imaging alignment", "Calculate coordinates accurately", "Check trajectory", "Have backup plan"]
+    },
+    "Ventricular catheter": {
+      name: "External Ventricular Drain System",
+      category: "CSF Drainage",
+      description: "Catheter system for temporary ventricular drainage and ICP monitoring",
+      contents: ["Ventricular catheter", "Drainage system", "Pressure transducer", "Collection bag", "Tunneling device"],
+      usage: "Critical for CSF drainage, ICP monitoring, and management of hydrocephalus or intracranial hemorrhage",
+      specifications: "Radiopaque catheter, graduated markings, antimicrobial coating options, pressure monitoring capability",
+      image: trocarImage,
+      setupTips: ["Place at appropriate trajectory", "Tunnel subcutaneously", "Level transducer correctly", "Secure connections", "Set drainage height"]
+    },
+    // OB/GYN INSTRUMENTS - BATCH 6
+    "Obstetric forceps": {
+      name: "Assisted Delivery Forceps",
+      category: "Obstetric Delivery",
+      description: "Specialized forceps for assisted vaginal delivery in obstetrics",
+      contents: ["Simpson forceps", "Elliot forceps", "Piper forceps", "Kielland forceps", "Tucker-McLane forceps"],
+      usage: "Used for assisted vaginal delivery when maternal effort alone is insufficient or fetal distress occurs",
+      specifications: "Various blade designs, cephalic and pelvic curves, articulated shanks, autoclavable stainless steel",
+      image: grasperImage,
+      setupTips: ["Check articulation", "Know rotation capabilities", "Verify appropriate type", "Have multiple options", "Know application landmarks"]
+    },
+    "Vacuum extractor": {
+      name: "Obstetric Vacuum Assisted Delivery System",
+      category: "Assisted Delivery",
+      description: "Vacuum device for assisted vaginal delivery using negative pressure",
+      contents: ["Vacuum cup", "Suction pump", "Tubing", "Pressure gauge", "Various cup sizes"],
+      usage: "Alternative to forceps for assisted delivery using controlled vacuum suction on fetal scalp",
+      specifications: "Silicone or metal cups, pressure range 0.2-0.8 kg/cm², various cup sizes, manual or electric pump",
+      image: harmonicScalpelImage,
+      setupTips: ["Test vacuum pressure", "Select appropriate cup", "Check seal", "Limit application time", "Monitor cup placement"]
+    },
+    "Cesarean section instruments": {
+      name: "C-Section Surgical Set",
+      category: "Obstetric Surgery",
+      description: "Complete instrument set for cesarean delivery procedures",
+      contents: ["Scalpel handles", "Bandage scissors", "Bladder blade", "Richardson retractors", "Russian forceps", "Ring forceps"],
+      usage: "Essential for surgical delivery via cesarean section including uterine incision and repair",
+      specifications: "Large retractors, long instruments, atraumatic tissue handling, dedicated bladder protection",
+      image: grasperImage,
+      setupTips: ["Have bladder blade ready", "Prepare uterine incision instruments", "Ready closing instruments", "Organize systematically", "Have extra sponges"]
+    },
+    "Uterine curettes": {
+      name: "Endometrial Curettage Instruments",
+      category: "Gynecologic Curettage",
+      description: "Specialized curettes for endometrial sampling and D&C procedures",
+      contents: ["Sharp curettes", "Suction curettes", "Various sizes", "Endometrial biopsy pipelle", "Tenaculum"],
+      usage: "Used for diagnostic endometrial sampling, D&C procedures, and retained products removal",
+      specifications: "Various sizes and configurations, sharp and blunt options, disposable and reusable, flexible and rigid",
+      image: grasperImage,
+      setupTips: ["Sound uterus first", "Start with smaller curette", "Use systematic technique", "Have suction ready", "Check specimen adequacy"]
+    },
+    "Hysteroscope": {
+      name: "Uterine Endoscopy System",
+      category: "Gynecologic Endoscopy",
+      description: "Endoscopic system for visualization and treatment of intrauterine pathology",
+      contents: ["Hysteroscope", "Camera system", "Light source", "Distention media", "Working instruments", "Resectoscope loop"],
+      usage: "Essential for diagnostic hysteroscopy, polypectomy, myomectomy, and endometrial ablation",
+      specifications: "Diagnostic (3-5mm) and operative (7-9mm) diameters, 0° and 30° viewing angles, integrated channels",
+      image: laparoscopicSetImage,
+      setupTips: ["Check distention system", "Test optics", "Prepare working instruments", "Monitor fluid balance", "Have graspers ready"]
+    },
+    "Colposcope": {
+      name: "Cervical Magnification System",
+      category: "Gynecologic Examination",
+      description: "Binocular microscope for detailed cervical examination and biopsy guidance",
+      contents: ["Colposcope", "Light source", "Green filter", "Camera system", "Various magnifications", "Digital recording"],
+      usage: "Used for detailed cervical examination, abnormal Pap follow-up, and directed biopsy of suspicious lesions",
+      specifications: "5-40x magnification, LED illumination, green filter for vascular patterns, digital documentation, mobile base",
+      image: laparoscopicSetImage,
+      setupTips: ["Position properly", "Clean optics", "Test light source", "Apply acetic acid", "Have biopsy instruments ready"]
+    },
+    // OPHTHALMOLOGY INSTRUMENTS - BATCH 7
+    "Phacoemulsification system": {
+      name: "Ultrasonic Cataract Removal System",
+      category: "Cataract Surgery",
+      description: "Ultrasonic device for cataract fragmentation and removal during phacoemulsification",
+      contents: ["Phaco handpiece", "Console", "Irrigation/aspiration tips", "Foot pedal", "Tubing sets", "BSS solution"],
+      usage: "Essential for modern cataract surgery using ultrasonic energy to emulsify and aspirate lens material",
+      specifications: "Ultrasonic frequency 40kHz, adjustable power and vacuum, torsional and longitudinal modes, fluidic control",
+      image: harmonicScalpelImage,
+      setupTips: ["Prime tubing completely", "Test handpiece", "Set fluidics parameters", "Check foot pedal", "Have backup tips"]
+    },
+    "Intraocular lens (IOL)": {
+      name: "Artificial Lens Implant",
+      category: "Lens Implants",
+      description: "Synthetic lens for implantation following cataract extraction",
+      contents: ["IOL implant", "Inserter", "Viscoelastic", "Various powers", "Toric and multifocal options"],
+      usage: "Replaces natural lens following cataract removal, restoring visual function with precise refractive correction",
+      specifications: "Acrylic or silicone material, foldable design, various dioptric powers, UV protection, blue light filtering",
+      image: grasperImage,
+      setupTips: ["Verify correct power", "Load carefully", "Use viscoelastic", "Insert smoothly", "Position precisely in capsular bag"]
+    },
+    "Vitrectomy instruments": {
+      name: "Vitreoretinal Surgery System",
+      category: "Retinal Surgery",
+      description: "Complete system for vitreous removal and retinal surgery",
+      contents: ["Vitrector", "Console", "Endoillumination", "Laser probe", "Fluid management", "Various gauge instruments"],
+      usage: "Essential for treating retinal detachment, macular holes, vitreous hemorrhage, and diabetic retinopathy",
+      specifications: "23G, 25G, or 27G systems, high-speed cutting (up to 10,000 cpm), integrated laser, chandelier lighting",
+      image: harmonicScalpelImage,
+      setupTips: ["Prime fluidics system", "Test vitrector function", "Check illumination", "Prepare laser", "Verify IOP settings"]
+    },
+    "Slit lamp": {
+      name: "Biomicroscope Examination System",
+      category: "Ophthalmic Examination",
+      description: "Binocular microscope with slit beam for detailed anterior segment examination",
+      contents: ["Slit lamp", "Various magnifications", "Light source", "Tonometer", "Photo documentation", "Laser attachment capability"],
+      usage: "Standard for detailed examination of anterior and posterior eye segments, cornea, lens, and retina assessment",
+      specifications: "6-40x magnification, adjustable slit width and height, blue cobalt filter, red-free filter, digital imaging",
+      image: laparoscopicSetImage,
+      setupTips: ["Adjust patient position", "Set appropriate magnification", "Use proper illumination", "Document findings", "Have diagnostic drops ready"]
+    },
+    "Keratome": {
+      name: "Corneal Incision Blade",
+      category: "Ophthalmic Blades",
+      description: "Precision blade for creating corneal incisions in cataract and refractive surgery",
+      contents: ["Various width keratomes", "Angled blades", "Single-use disposable", "Sideport blades"],
+      usage: "Creates precise self-sealing corneal incisions for phacoemulsification and IOL implantation",
+      specifications: "1.8mm to 3.2mm widths, various blade angles, diamond or steel, disposable, ultra-sharp edges",
+      image: grasperImage,
+      setupTips: ["Select appropriate size", "Check blade sharpness", "Create proper architecture", "Ensure single-plane incision", "Verify water-tight seal"]
+    },
+    // ENT INSTRUMENTS - BATCH 8  
+    "Microscope (ENT)": {
+      name: "Surgical Operating Microscope for ENT",
+      category: "ENT Magnification",
+      description: "Specialized microscope for otologic and laryngeal microsurgery",
+      contents: ["Operating microscope", "Various objectives", "Integrated laser", "Video system", "Foot controls", "Assistant scope"],
+      usage: "Essential for ear surgery, vocal cord procedures, and microlaryngeal surgery requiring high magnification",
+      specifications: "Up to 25x magnification, 400mm focal length, motorized focus, integrated laser port, HD video",
+      image: laparoscopicSetImage,
+      setupTips: ["Position and balance early", "Check optics", "Test laser if needed", "Verify foot controls", "Adjust for ear or larynx"]
+    },
+    "Otoscope": {
+      name: "Ear Examination Instrument",
+      category: "Diagnostic Otology",
+      description: "Handheld device for examining the external auditory canal and tympanic membrane",
+      contents: ["Otoscope head", "Light source", "Various specula", "Insufflator attachment", "Magnification lens"],
+      usage: "Standard tool for examining ear canal, tympanic membrane, and assessing middle ear pathology",
+      specifications: "Halogen or LED light, fiber optic or direct illumination, pneumatic attachment, disposable specula",
+      image: laparoscopicSetImage,
+      setupTips: ["Select appropriate speculum", "Check light function", "Examine systematically", "Test pneumatic function", "Clean between uses"]
+    },
+    "Endoscope (Sinus/Nasal)": {
+      name: "Rigid Sinus Endoscopy System",
+      category: "Sinonasal Endoscopy",
+      description: "Rigid endoscope system for sinus surgery and nasal examination",
+      contents: ["0° endoscope", "30° endoscope", "45° and 70° scopes", "Camera system", "Light source", "Irrigation"],
+      usage: "Essential for functional endoscopic sinus surgery (FESS), diagnosis and treatment of sinus disease",
+      specifications: "2.7mm and 4mm diameter, various viewing angles, HD imaging, integrated irrigation, autoclavable",
+      image: laparoscopicSetImage,
+      setupTips: ["Have multiple angles ready", "Test camera function", "Check irrigation", "Clean lens frequently", "Use defogging solution"]
+    },
+    "Microdebrider": {
+      name: "Powered Sinus Microdebrider",
+      category: "ENT Power Tools",
+      description: "Powered instrument for precise tissue removal during sinus surgery",
+      contents: ["Microdebrider console", "Handpiece", "Various blade types", "Foot pedal", "Irrigation system"],
+      usage: "Used for polyp removal, turbinate reduction, and tissue debridement in endoscopic sinus surgery",
+      specifications: "Oscillating or rotating blades, variable speed 0-6000 RPM, forward/reverse function, integrated suction",
+      image: electrocauteryImage,
+      setupTips: ["Select appropriate blade", "Test function", "Set proper speed", "Use controlled passes", "Have irrigation ready"]
+    },
+    "Tonsil instruments": {
+      name: "Tonsillectomy Instrument Set",
+      category: "Oropharyngeal Surgery",
+      description: "Specialized instruments for tonsillectomy and adenoidectomy procedures",
+      contents: ["Mouth gag", "Tonsil snare", "Electrocautery", "Hemostatic clamps", "Suction tips", "Sponge holders"],
+      usage: "Complete set for tonsil and adenoid removal using dissection, snare, or electrocautery techniques",
+      specifications: "Self-retaining mouth gag, various snare sizes, long instruments for posterior access, pediatric and adult sizes",
+      image: grasperImage,
+      setupTips: ["Position mouth gag carefully", "Have hemostasis ready", "Prepare suction", "Use proper retraction", "Have tie materials ready"]
     }
   };
 

@@ -1797,6 +1797,192 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       specifications: "Self-retaining mouth gag, various snare sizes, long instruments for posterior access, pediatric and adult sizes",
       image: grasperImage,
       setupTips: ["Position mouth gag carefully", "Have hemostasis ready", "Prepare suction", "Use proper retraction", "Have tie materials ready"]
+    },
+    // UROLOGY & ADDITIONAL SPECIALTY INSTRUMENTS - BATCH 9
+    "Bladder neck suspension instruments": {
+      name: "Urinary Incontinence Repair Set",
+      category: "Urogynecology",
+      description: "Specialized instruments for bladder neck suspension and sling procedures",
+      contents: ["Sling passer", "Mesh material", "Tensioning device", "Cystoscope", "Trocar needles"],
+      usage: "Used for surgical treatment of stress urinary incontinence through bladder neck support",
+      specifications: "Various sling materials, minimally invasive passers, adjustable tension, biocompatible mesh",
+      image: trocarImage,
+      setupTips: ["Verify sling type", "Test passers", "Have cystoscope ready", "Check tension device", "Prepare mesh carefully"]
+    },
+    "Laser (Holmium/Thulium)": {
+      name: "Surgical Laser Systems for Urology",
+      category: "Urologic Lasers",
+      description: "High-powered laser systems for stone fragmentation and tissue ablation",
+      contents: ["Laser console", "Fiber delivery system", "Foot pedal", "Safety glasses", "Various power settings"],
+      usage: "Essential for laser lithotripsy, BPH treatment, and soft tissue ablation in urology",
+      specifications: "Holmium:YAG 2100nm or Thulium 1940nm, adjustable energy 0.2-3.0J, pulse rates up to 80Hz",
+      image: electrocauteryImage,
+      setupTips: ["Test laser before draping", "Check fiber integrity", "Set appropriate energy", "Verify safety protocols", "Have backup fiber"]
+    },
+    "Lithotripsy equipment": {
+      name: "Extracorporeal Shock Wave Lithotripsy (ESWL)",
+      category: "Stone Treatment",
+      description: "Non-invasive shock wave system for kidney and ureteral stone fragmentation",
+      contents: ["ESWL machine", "Shock wave generator", "Imaging guidance", "Water cushion", "Patient positioning"],
+      usage: "Used for non-invasive treatment of renal and ureteral calculi through focused shock waves",
+      specifications: "Electromagnetic or electrohydraulic generation, fluoroscopy or ultrasound guidance, 2000-4000 shocks per session",
+      image: harmonicScalpelImage,
+      setupTips: ["Position patient precisely", "Couple shock head properly", "Set energy levels", "Monitor stone targeting", "Track shock count"]
+    },
+    "Nephroscope": {
+      name: "Percutaneous Nephrolithotomy Scope",
+      category: "Percutaneous Urology",
+      description: "Large-bore endoscope for percutaneous kidney stone removal",
+      contents: ["Rigid nephroscope", "Access sheath", "Stone extraction forceps", "Lithotripsy device", "Irrigation system"],
+      usage: "Essential for percutaneous nephrolithotomy (PCNL) treating large renal calculi",
+      specifications: "24-30Fr diameter, various offset optics, integrated working channel, high-flow irrigation",
+      image: laparoscopicSetImage,
+      setupTips: ["Establish tract carefully", "Test optics", "Have stone forceps ready", "Check irrigation flow", "Prepare lithotripsy"]
+    },
+    "Stone baskets and graspers": {
+      name: "Ureteroscopic Stone Retrieval Devices",
+      category: "Stone Extraction",
+      description: "Specialized instruments for capturing and removing urinary stones",
+      contents: ["Nitinol stone baskets", "Dormia basket", "Stone graspers", "Retrieval forceps", "Tipless baskets"],
+      usage: "Used during ureteroscopy for capturing and extracting stones from kidney and ureter",
+      specifications: "Various basket designs, nitinol wire, tipless options, 2.2-3.0Fr compatibility, helical and flat configurations",
+      image: grasperImage,
+      setupTips: ["Select appropriate size", "Deploy basket carefully", "Avoid impaction", "Use gentle extraction", "Have multiple types ready"]
+    },
+    // BARIATRIC SURGERY INSTRUMENTS
+    "Gastric stapler": {
+      name: "Bariatric Surgical Stapling System",
+      category: "Bariatric Stapling",
+      description: "Specialized stapling devices for gastric bypass and sleeve gastrectomy",
+      contents: ["Linear stapler", "Articulating head", "Various cartridge lengths", "Tissue thickness settings", "Buttressing material"],
+      usage: "Essential for creating gastric pouch, sleeve formation, and intestinal anastomosis in bariatric surgery",
+      specifications: "Articulating or non-articulating, 60mm or 75mm length, various staple heights, reinforcement options",
+      image: harmonicScalpelImage,
+      setupTips: ["Select appropriate cartridge", "Check tissue thickness", "Use reinforcement if needed", "Fire smoothly", "Inspect staple line"]
+    },
+    "Liver retractors": {
+      name: "Hepatic Retraction System",
+      category: "Abdominal Retraction",
+      description: "Specialized retractors for liver mobilization during bariatric and upper GI surgery",
+      contents: ["Nathanson retractor", "Self-retaining liver retractor", "Table-mounted systems", "Various blade sizes"],
+      usage: "Used for retracting liver to expose gastroesophageal junction during bariatric and foregut surgery",
+      specifications: "Self-retaining design, atraumatic blade, table or body wall mounted, adjustable positioning",
+      image: grasperImage,
+      setupTips: ["Position carefully", "Avoid excessive pressure", "Secure mounting", "Check liver perfusion", "Adjust as needed"]
+    },
+    // TRANSPLANT SURGERY INSTRUMENTS
+    "Vascular anastomosis instruments": {
+      name: "Microvascular Anastomosis Set",
+      category: "Vascular Surgery",
+      description: "Precision instruments for vascular anastomosis in transplant and reconstructive surgery",
+      contents: ["Microvascular forceps", "Scissors", "Clamps", "Needle holders", "Vessel dilators", "Background material"],
+      usage: "Essential for precise vascular anastomosis during organ transplantation and microsurgery",
+      specifications: "Ultra-fine tips, various angulations, atraumatic jaws, spring-loaded handles, jeweler precision",
+      image: grasperImage,
+      setupTips: ["Handle delicately", "Organize systematically", "Keep tips protected", "Have multiple sizes", "Use proper lighting"]
+    },
+    "Perfusion cannulas": {
+      name: "Organ Preservation Cannulation System",
+      category: "Transplant Perfusion",
+      description: "Specialized cannulas for organ preservation and perfusion during transplantation",
+      contents: ["Various arterial cannulas", "Portal cannulas", "Perfusion tubing", "Connectors", "Securing devices"],
+      usage: "Used for establishing perfusion circuits during organ procurement and preservation",
+      specifications: "Multiple sizes, atraumatic tips, secure connections, sterile packaging, biocompatible materials",
+      image: trocarImage,
+      setupTips: ["Select appropriate size", "Secure cannulation", "Check flow", "Verify connections", "Monitor perfusion pressure"]
+    },
+    // COLORECTAL SURGERY INSTRUMENTS
+    "Circular stapler (EEA)": {
+      name: "End-to-End Anastomosis Circular Stapler",
+      category: "Colorectal Stapling",
+      description: "Circular stapling device for creating end-to-end or end-to-side anastomosis",
+      contents: ["Circular stapler", "Various diameter sizes", "Trocar anvil", "Sizing rings", "Single-use disposable"],
+      usage: "Essential for creating intestinal anastomosis in colorectal surgery, particularly after anterior resection",
+      specifications: "21-33mm diameter options, adjustable anvil gap, tissue compression indicator, integrated blade",
+      image: harmonicScalpelImage,
+      setupTips: ["Size anastomosis carefully", "Check tissue compression", "Fire slowly", "Inspect donuts", "Test anastomosis integrity"]
+    },
+    "Hemorrhoid instruments": {
+      name: "Hemorrhoidectomy Surgical Set",
+      category: "Anorectal Surgery",
+      description: "Specialized instruments for surgical treatment of hemorrhoids",
+      contents: ["Anoscope", "Hemorrhoid ligator", "Ferguson retractor", "Pratt speculum", "Fansler retractor"],
+      usage: "Used for various hemorrhoid procedures including banding, excision, and stapled hemorrhoidopexy",
+      specifications: "Illuminated anoscopes, various retractor sizes, ligating devices, specialized forceps",
+      image: grasperImage,
+      setupTips: ["Position patient properly", "Use adequate illumination", "Have banding device ready", "Multiple retractor sizes", "Ensure hemostasis"]
+    },
+    "Rectal retractors": {
+      name: "Anorectal Exposure System",
+      category: "Rectal Surgery",
+      description: "Specialized retractors for anorectal surgical procedures",
+      contents: ["Lone Star retractor", "Hill-Ferguson retractor", "Parks retractor", "Fansler retractor", "Pratt anal speculum"],
+      usage: "Provides optimal exposure for hemorrhoidectomy, fistulotomy, and anorectal procedures",
+      specifications: "Self-retaining options, various blade configurations, 360-degree exposure capability, illumination options",
+      image: grasperImage,
+      setupTips: ["Choose appropriate type", "Position for optimal exposure", "Use gentle retraction", "Ensure patient comfort", "Have multiple sizes"]
+    },
+    // PLASTIC/RECONSTRUCTIVE SURGERY INSTRUMENTS
+    "Skin grafting instruments": {
+      name: "Split-Thickness Skin Graft Set",
+      category: "Reconstructive Surgery",
+      description: "Complete instrument set for harvesting and placing skin grafts",
+      contents: ["Dermatome", "Skin graft mesher", "Graft carrier", "Mineral oil", "Compression bolster materials"],
+      usage: "Essential for harvesting split-thickness skin grafts and preparing them for wound coverage",
+      specifications: "Adjustable dermatome thickness settings, various mesh ratios (1:1.5, 1:3), electric or manual options",
+      image: grasperImage,
+      setupTips: ["Set appropriate thickness", "Lubricate skin", "Use smooth technique", "Mesh if needed", "Protect donor site"]
+    },
+    "Dermatome": {
+      name: "Powered Skin Graft Harvester",
+      category: "Graft Harvesting",
+      description: "Motorized device for harvesting uniform split-thickness skin grafts",
+      contents: ["Dermatome handpiece", "Battery or electric power", "Various blade widths", "Depth guards", "Lubricating oil"],
+      usage: "Used for precise harvesting of split-thickness skin grafts for burn and wound reconstruction",
+      specifications: "Adjustable depth 0.008-0.040 inches, blade widths 2-4 inches, oscillating or rotary, battery or AC powered",
+      image: electrocauteryImage,
+      setupTips: ["Check blade sharpness", "Set correct depth", "Lubricate skin well", "Use even pressure", "Maintain angle"]
+    },
+    "Tissue expanders": {
+      name: "Soft Tissue Expansion System",
+      category: "Tissue Expansion",
+      description: "Inflatable devices for gradual soft tissue expansion in reconstruction",
+      contents: ["Tissue expander", "Fill valve", "Inflation port", "Saline for filling", "Various shapes and sizes"],
+      usage: "Used for creating additional tissue for breast reconstruction, scalp coverage, and other reconstructive needs",
+      specifications: "Various volumes 50-800cc, textured or smooth, integrated or remote ports, anatomical shapes",
+      image: grasperImage,
+      setupTips: ["Create proper pocket", "Position fill port", "Initial fill appropriately", "Mark expansion schedule", "Monitor for complications"]
+    },
+    // VASCULAR SURGERY INSTRUMENTS
+    "Doppler ultrasound": {
+      name: "Intraoperative Vascular Doppler",
+      category: "Vascular Assessment",
+      description: "Handheld ultrasound for intraoperative vascular flow assessment",
+      contents: ["Doppler probe", "Audio unit", "Sterile probe covers", "Gel", "Various frequency probes"],
+      usage: "Essential for confirming vascular patency and detecting flow during vascular and transplant surgery",
+      specifications: "8-10 MHz frequency, sterile probe options, audio and visual output, continuous or pulsed wave",
+      image: harmonicScalpelImage,
+      setupTips: ["Use sterile probe cover", "Apply gel liberally", "Check all vessels", "Verify flow signals", "Document findings"]
+    },
+    "Embolectomy catheters": {
+      name: "Fogarty Balloon Embolectomy System",
+      category: "Thrombectomy",
+      description: "Balloon-tipped catheters for removing arterial emboli and thrombus",
+      contents: ["Various sized Fogarty catheters", "Inflation syringe", "Heparinized saline", "Vessel loops"],
+      usage: "Used for emergency thromboembolectomy removing acute arterial occlusions",
+      specifications: "2Fr to 7Fr sizes, latex or silicone balloons, various balloon volumes, over-the-wire capable",
+      image: trocarImage,
+      setupTips: ["Select appropriate size", "Test balloon", "Use gentle technique", "Heparinize beforehand", "Multiple passes if needed"]
+    },
+    "Shunt tubing": {
+      name: "Temporary Vascular Shunt System",
+      category: "Vascular Temporary Bypass",
+      description: "Sterile tubing for temporary vascular bypass during trauma or complex vascular surgery",
+      contents: ["Argyle or Javid shunt", "Various diameters", "Clamps", "Heparinized solution", "Securing devices"],
+      usage: "Provides temporary perfusion during vascular repair in trauma or carotid surgery",
+      specifications: "4-16mm diameters, heparin-bonded options, radiopaque markers, secure connection design",
+      image: trocarImage,
+      setupTips: ["Size vessel appropriately", "Heparinize shunt", "Secure proximally first", "Verify flow", "Monitor for displacement"]
     }
   };
 

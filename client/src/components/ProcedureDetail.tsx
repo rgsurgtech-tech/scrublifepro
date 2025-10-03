@@ -1181,6 +1181,157 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       specifications: "Continuous flow design, various loop sizes, integrated video, monopolar or bipolar options, precise cutting control",
       image: laparoscopicSetImage,
       setupTips: ["Test loop function", "Check irrigation flow", "Verify electrosurgical settings", "Have backup loops", "Monitor fluid balance"]
+    },
+    // ADDITIONAL CRITICAL INSTRUMENTS - BATCH 3
+    "Chest tube set": {
+      name: "Thoracic Drainage System",
+      category: "Chest Drainage",
+      description: "Complete system for chest tube insertion and management of pneumothorax or hemothorax",
+      contents: ["Chest tubes (various sizes 28-40Fr)", "Trocar", "Kelly clamps", "Suture material", "Drainage system", "Water seal chamber"],
+      usage: "Essential for evacuating air or fluid from pleural space in trauma, thoracic surgery, or spontaneous pneumothorax",
+      specifications: "Multiple sizes, radiopaque markings, fenestrated design, sterile packaging, compatible with standard drainage systems",
+      image: trocarImage,
+      setupTips: ["Select appropriate tube size", "Have insertion tray ready", "Test water seal system", "Prepare securing sutures", "Check drainage system"]
+    },
+    "Chest tubes": {
+      name: "Thoracostomy Tubes",
+      category: "Drainage Equipment",
+      description: "Specialized tubes for draining air, blood, or fluid from the pleural cavity",
+      contents: ["Various sized chest tubes", "Insertion equipment", "Securing devices", "Connection tubing", "Collection systems"],
+      usage: "Critical for managing pneumothorax, hemothorax, pleural effusions, and post-thoracic surgery drainage",
+      specifications: "Sizes 12Fr-40Fr, graduated markings, fenestrated or non-fenestrated, flexible material, radiopaque stripe",
+      image: trocarImage,
+      setupTips: ["Choose size based on indication", "Prepare insertion site", "Have suture ready", "Connect to drainage", "Monitor output"]
+    },
+    "Rib spreaders": {
+      name: "Thoracic Rib Retractors",
+      category: "Thoracic Retraction",
+      description: "Specialized retractors for spreading ribs and providing thoracic cavity exposure",
+      contents: ["Finochietto rib spreader", "Various blade sizes", "Ratchet mechanism", "Padding options"],
+      usage: "Essential for thoracotomy procedures providing wide exposure of thoracic cavity for lung and cardiac surgery",
+      specifications: "Stainless steel, self-retaining mechanism, various opening widths, protective padding available, autoclavable",
+      image: grasperImage,
+      setupTips: ["Apply gradually", "Use rib protection pads", "Check ratchet function", "Position carefully", "Have multiple sizes available"]
+    },
+    "Lung retractors": {
+      name: "Pulmonary Retraction Instruments",
+      category: "Lung Retraction",
+      description: "Specialized instruments for gentle retraction and manipulation of lung tissue during thoracic procedures",
+      contents: ["Lung retractors", "Malleable retractors", "Deaver retractors", "Sponge sticks", "Lung clamps"],
+      usage: "Used for atraumatic lung retraction during lobectomy, pneumonectomy, and thoracic surgical procedures",
+      specifications: "Smooth edges, various sizes, flexible options, atraumatic design, prevents lung tissue damage",
+      image: grasperImage,
+      setupTips: ["Use gentle retraction", "Protect lung tissue", "Have sponge sticks ready", "Multiple sizes available", "Avoid excessive pressure"]
+    },
+    "Arthroscope": {
+      name: "Arthroscopic Camera System",
+      category: "Joint Visualization",
+      description: "Specialized endoscope for minimally invasive joint visualization and arthroscopic procedures",
+      contents: ["Arthroscope (2.7mm, 4mm)", "30° and 70° scopes", "Camera head", "Light source", "Irrigation system", "Video monitor"],
+      usage: "Essential for diagnostic and therapeutic arthroscopy of knee, shoulder, hip, and other joints",
+      specifications: "HD imaging, various angles, integrated irrigation, autoclavable, rod lens system, excellent optics",
+      image: laparoscopicSetImage,
+      setupTips: ["Test camera before draping", "Check irrigation flow", "Have multiple angle scopes", "Verify light source", "Ensure clear visualization"]
+    },
+    "Arthroscope (30° and 70°)": {
+      name: "Angled Arthroscopic Scopes",
+      category: "Joint Endoscopy",
+      description: "Multiple angle arthroscopes for comprehensive joint visualization during arthroscopic procedures",
+      contents: ["30-degree arthroscope", "70-degree arthroscope", "Camera system", "Light cable", "Irrigation cannula"],
+      usage: "Provides varied viewing angles for complete joint examination and treatment during arthroscopic surgery",
+      specifications: "2.7mm and 4mm diameters, HD optics, autoclavable, rod lens design, integrated irrigation channel",
+      image: laparoscopicSetImage,
+      setupTips: ["Start with 30° scope", "Use 70° for posterior viewing", "Check optics clarity", "Maintain irrigation", "Have both angles ready"]
+    },
+    "Arthroscope and camera": {
+      name: "Complete Arthroscopy Visualization System",
+      category: "Arthroscopic Equipment",
+      description: "Integrated arthroscope and camera system for high-definition joint visualization",
+      contents: ["Arthroscope", "HD camera head", "Light source", "Video processor", "Monitor", "Recording capability"],
+      usage: "Complete system for arthroscopic procedures providing crystal-clear visualization of joint structures",
+      specifications: "4K HD capability, multiple scope angles, touchscreen controls, image enhancement, video documentation",
+      image: laparoscopicSetImage,
+      setupTips: ["White balance camera", "Check all connections", "Test image quality", "Adjust brightness", "Verify recording if needed"]
+    },
+    "Burr and shaver": {
+      name: "Arthroscopic Burr and Shaver System",
+      category: "Arthroscopic Power Tools",
+      description: "Powered instruments for bone and soft tissue removal during arthroscopic procedures",
+      contents: ["Power console", "Burr handpiece", "Shaver handpiece", "Various burr and blade sizes", "Foot pedal control"],
+      usage: "Essential for bone shaping, soft tissue debridement, and meniscal/labral trimming during arthroscopy",
+      specifications: "Variable speed 0-12,000 RPM, forward/reverse/oscillate modes, sterile disposable blades, ergonomic handpieces",
+      image: electrocauteryImage,
+      setupTips: ["Test power unit", "Select appropriate blade", "Check rotation direction", "Use oscillate for soft tissue", "Have multiple blade sizes"]
+    },
+    "Meniscal instruments": {
+      name: "Meniscus Repair and Resection Tools",
+      category: "Knee Arthroscopy",
+      description: "Specialized instruments for meniscal surgery including repair and partial meniscectomy",
+      contents: ["Meniscal graspers", "Biters", "Punches", "Suture passers", "Basket forceps", "Meniscal arrows"],
+      usage: "Used for meniscal tear repair, partial meniscectomy, and meniscal transplantation during knee arthroscopy",
+      specifications: "Various jaw configurations, precise cutting edges, suture passing capability, disposable and reusable options",
+      image: grasperImage,
+      setupTips: ["Have complete set available", "Test grasping function", "Organize by function", "Check cutting edges", "Prepare suture passers"]
+    },
+    "ACL reconstruction instruments": {
+      name: "Anterior Cruciate Ligament Reconstruction Set",
+      category: "Ligament Surgery",
+      description: "Complete instrument set for ACL reconstruction including tunnel preparation and graft fixation",
+      contents: ["Drill guides", "Reamers", "Guidewires", "Graft preparation tools", "Interference screws", "Fixation devices"],
+      usage: "Essential for ACL reconstruction surgery providing precise tunnel placement and secure graft fixation",
+      specifications: "Adjustable drill guides, various reamer sizes, graft sizing tools, bioabsorbable and titanium fixation options",
+      image: electrocauteryImage,
+      setupTips: ["Verify graft size", "Check drill guide angles", "Have appropriate fixation", "Test reamers", "Prepare graft station"]
+    },
+    "Rotator cuff repair instruments": {
+      name: "Shoulder Rotator Cuff Repair Set",
+      category: "Shoulder Surgery",
+      description: "Specialized instruments for arthroscopic rotator cuff repair and reconstruction",
+      contents: ["Suture anchors", "Anchor inserters", "Suture passers", "Knot pushers", "Graspers", "Tissue punches"],
+      usage: "Used for arthroscopic repair of rotator cuff tears with suture anchor fixation and tissue mobilization",
+      specifications: "Various anchor sizes, bioabsorbable and metal options, knotless and knotted techniques, specialized passers",
+      image: harmonicScalpelImage,
+      setupTips: ["Select appropriate anchors", "Test inserters", "Have multiple passers", "Organize sutures", "Prepare knot pushers"]
+    },
+    "Hip replacement instruments": {
+      name: "Total Hip Arthroplasty Instrument Set",
+      category: "Joint Replacement",
+      description: "Comprehensive instrument set for total hip replacement surgery",
+      contents: ["Acetabular reamers", "Femoral broaches", "Trial components", "Impaction tools", "Cup inserters", "Stem inserters"],
+      usage: "Essential for total hip arthroplasty providing precise bone preparation and component implantation",
+      specifications: "Multiple sizes, sequential sizing, calibrated impactors, modular trial components, navigation compatible",
+      image: electrocauteryImage,
+      setupTips: ["Organize by sizing sequence", "Have complete trial sets", "Check impactors", "Verify component sizes", "Prepare cement if needed"]
+    },
+    "Femoral and acetabular reamers": {
+      name: "Hip Reaming System",
+      category: "Joint Preparation Tools",
+      description: "Precision reamers for acetabular and femoral bone preparation during hip replacement",
+      contents: ["Acetabular reamers (various sizes)", "Femoral reamers", "T-handle drivers", "Power reamer attachment", "Sizing guides"],
+      usage: "Used for precise bone preparation creating optimal fit for hip replacement components",
+      specifications: "1mm incremental sizing, hemispherical design, sharp cutting flutes, autoclavable, compatible with power tools",
+      image: electrocauteryImage,
+      setupTips: ["Start with smaller sizes", "Increase incrementally", "Check reamer sharpness", "Use power reamer option", "Monitor bone quality"]
+    },
+    "Implant components": {
+      name: "Prosthetic Implant Components",
+      category: "Joint Replacement Implants",
+      description: "Complete set of prosthetic components for joint replacement procedures",
+      contents: ["Femoral stems", "Acetabular cups", "Tibial trays", "Femoral components", "Polyethylene inserts", "Modular heads"],
+      usage: "Primary implants for total joint arthroplasty restoring function in hip, knee, and shoulder joints",
+      specifications: "Various sizes, cemented and cementless options, modular designs, biocompatible materials, long-term durability",
+      image: grasperImage,
+      setupTips: ["Verify correct size", "Handle with care", "Check component compatibility", "Avoid contamination", "Have backup sizes"]
+    },
+    "Cement supplies": {
+      name: "Bone Cement Preparation System",
+      category: "Orthopedic Cement",
+      description: "Complete system for mixing and delivering bone cement during joint replacement procedures",
+      contents: ["PMMA cement powder", "Liquid monomer", "Mixing bowl", "Cement gun", "Pressurizer", "Cement restrictors"],
+      usage: "Essential for cemented joint arthroplasty providing secure fixation of prosthetic components to bone",
+      specifications: "Antibiotic-loaded options, controlled mixing, vacuum mixing systems, timed polymerization, radiopaque markers",
+      image: harmonicScalpelImage,
+      setupTips: ["Mix in ventilated area", "Follow timing protocol", "Use vacuum mixing", "Load cement gun properly", "Work during doughy phase"]
     }
   };
 

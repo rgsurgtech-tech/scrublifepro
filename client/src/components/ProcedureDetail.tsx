@@ -2134,6 +2134,157 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       specifications: "Variable suction pressure, large capacity canisters, graduated measurement, sterile irrigation solutions",
       image: harmonicScalpelImage,
       setupTips: ["Set appropriate suction", "Have adequate irrigation", "Use correct tip size", "Measure blood loss", "Prevent clogging"]
+    },
+    // ADDITIONAL MISSING INSTRUMENTS IDENTIFIED IN TESTING
+    "Vascular surgery set": {
+      name: "Vascular Surgical Instrument Set",
+      category: "Vascular Surgery",
+      description: "Complete instrument set for vascular surgical procedures",
+      contents: ["DeBakey forceps", "Vascular clamps", "Potts scissors", "Bulldog clamps", "Vessel dilators", "Castro-Viejo needle holder"],
+      usage: "Comprehensive set for arterial and venous surgery including bypass, endarterectomy, and vascular repairs",
+      specifications: "Atraumatic design, delicate tissue handling, various clamp pressures, fine-tipped instruments",
+      image: grasperImage,
+      setupTips: ["Organize by function", "Have multiple clamp sizes", "Check instrument tips", "Prepare vessel loops", "Have sutures ready"]
+    },
+    "Vessel loops": {
+      name: "Silastic Vessel Loops",
+      category: "Vascular Control",
+      description: "Silicone elastomer loops for atraumatic vessel isolation and retraction",
+      contents: ["Various colors (red, yellow, blue, green)", "Different widths", "Vascular tapes", "Umbilical tapes"],
+      usage: "Used for atraumatic vessel isolation, identification, and temporary occlusion during vascular surgery",
+      specifications: "Color-coded for identification, various widths (2-6mm), soft silicone material, reusable or disposable",
+      image: grasperImage,
+      setupTips: ["Select appropriate size", "Use color coding", "Apply without tension", "Secure with snaps or clamps", "Have multiple colors ready"]
+    },
+    "Microscissors": {
+      name: "Microvascular Scissors",
+      category: "Microsurgery",
+      description: "Ultra-fine scissors for delicate microvascular and microsurgical procedures",
+      contents: ["Spring-handled microscissors", "Various tip configurations", "Straight and curved", "0.3-1mm tips"],
+      usage: "Essential for precise cutting in microsurgery, nerve repair, and delicate vascular work",
+      specifications: "Ultra-sharp tips, spring-loaded handles, various angulations, titanium or stainless steel",
+      image: grasperImage,
+      setupTips: ["Handle with extreme care", "Check tip alignment", "Use under magnification", "Keep tips protected", "Have backup available"]
+    },
+    "Fine forceps": {
+      name: "Microsurgical Forceps",
+      category: "Precision Instruments",
+      description: "Delicate forceps for microsurgical tissue manipulation",
+      contents: ["Jeweler forceps", "DeBakey forceps", "Adson forceps", "Gerald forceps", "Various tip designs"],
+      usage: "Used for precise tissue handling in microsurgery, plastic surgery, and delicate procedures",
+      specifications: "0.3-1mm tips, spring or standard handles, smooth or toothed, various lengths",
+      image: grasperImage,
+      setupTips: ["Check tip alignment", "Handle delicately", "Use appropriate tip type", "Keep multiple available", "Protect tips when not in use"]
+    },
+    "Vascular sutures": {
+      name: "Cardiovascular Suture Materials",
+      category: "Suture Materials",
+      description: "Specialized sutures for vascular and cardiac anastomosis",
+      contents: ["Prolene (polypropylene)", "Various sizes 3-0 to 7-0", "Cardiovascular needles", "Double-armed sutures"],
+      usage: "Primary suture material for vascular anastomosis, cardiac surgery, and vessel repairs",
+      specifications: "Non-absorbable monofilament, minimal tissue reactivity, excellent tensile strength, blue color for visibility",
+      image: grasperImage,
+      setupTips: ["Select appropriate size", "Use cardiovascular needles", "Handle carefully", "Avoid kinking", "Have multiple sizes available"]
+    },
+    "Clamps": {
+      name: "Surgical Clamps Assortment",
+      category: "General Instruments",
+      description: "Various surgical clamps for tissue control and hemostasis",
+      contents: ["Kelly clamps", "Mosquito forceps", "Right-angle clamps", "Kocher clamps", "Allis clamps", "Babcock clamps"],
+      usage: "Multi-purpose clamps for tissue grasping, vessel occlusion, and surgical field control",
+      specifications: "Various sizes and jaw configurations, locking mechanisms, straight and curved, traumatic and atraumatic",
+      image: grasperImage,
+      setupTips: ["Organize by size and type", "Check locking mechanism", "Have adequate numbers", "Select appropriate jaw type", "Prepare for various uses"]
+    },
+    "Drill bits": {
+      name: "Surgical Drill Bit Set",
+      category: "Orthopedic Tools",
+      description: "Various drill bits for bone preparation in orthopedic and neurosurgical procedures",
+      contents: ["Twist drill bits", "K-wires", "Various diameters", "Depth gauges", "Quick-release chuck"],
+      usage: "Used for bone drilling, screw pilot holes, wire placement, and bone tunneling",
+      specifications: "Stainless steel, various diameters 1.0-4.5mm, sharp flutes, autoclavable, self-centering tips",
+      image: electrocauteryImage,
+      setupTips: ["Have complete size range", "Check bit sharpness", "Use irrigation", "Measure depth carefully", "Have backup bits"]
+    },
+    "Graft fixation devices": {
+      name: "Ligament Graft Fixation Systems",
+      category: "Sports Medicine",
+      description: "Devices for securing tendon grafts in ligament reconstruction",
+      contents: ["Interference screws", "Endobuttons", "Cross-pins", "Suture anchors", "Washers and posts"],
+      usage: "Essential for ACL/PCL reconstruction providing secure graft fixation in bone tunnels",
+      specifications: "Bioabsorbable and titanium options, various diameters, minimal graft damage, secure fixation",
+      image: grasperImage,
+      setupTips: ["Size graft appropriately", "Select correct fixation", "Have multiple options", "Check insertion tools", "Verify graft tension"]
+    },
+    "Tensioning devices": {
+      name: "Graft Tensioning and Fixation Tools",
+      category: "Ligament Surgery",
+      description: "Instruments for applying and measuring graft tension during ligament reconstruction",
+      contents: ["Tensioning boards", "Spring scales", "Fixation clamps", "Graft positioning devices"],
+      usage: "Used to apply appropriate tension to ligament grafts before final fixation",
+      specifications: "Calibrated tension measurement, secure graft holding, adjustable tension settings",
+      image: grasperImage,
+      setupTips: ["Set appropriate tension", "Cycle knee through ROM", "Verify graft position", "Secure before fixation", "Document tension used"]
+    },
+    "Fusion hardware": {
+      name: "Spinal Fusion Implant System",
+      category: "Spine Surgery",
+      description: "Complete hardware system for spinal fusion procedures",
+      contents: ["Pedicle screws", "Rods", "Interbody cages", "Bone graft", "Connectors", "Set screws"],
+      usage: "Provides rigid fixation for spinal fusion procedures across various spinal levels",
+      specifications: "Titanium or PEEK materials, various screw diameters and lengths, modular rod systems",
+      image: electrocauteryImage,
+      setupTips: ["Verify correct levels", "Have size options", "Check screw placement", "Contour rods appropriately", "Secure all connections"]
+    },
+    "Plate and screws": {
+      name: "Orthopedic Plating System",
+      category: "Fracture Fixation",
+      description: "Plates and screws for fracture fixation and bone stabilization",
+      contents: ["Various plate designs", "Cortical screws", "Locking screws", "Compression plates", "Reconstruction plates"],
+      usage: "Used for internal fixation of fractures providing stable construct for bone healing",
+      specifications: "Titanium or stainless steel, locking and non-locking options, various plate profiles and lengths",
+      image: electrocauteryImage,
+      setupTips: ["Select appropriate plate", "Contour to bone", "Use correct screw length", "Achieve compression if needed", "Verify stable fixation"]
+    },
+    "Disc instruments": {
+      name: "Intervertebral Disc Surgery Set",
+      category: "Spine Surgery",
+      description: "Specialized instruments for disc removal and preparation",
+      contents: ["Pituitary rongeurs", "Curettes", "Disc shavers", "End plate preparation", "Discectomy tools"],
+      usage: "Used for discectomy, disc preparation for fusion, and nucleus pulposus removal",
+      specifications: "Various angles and sizes, sharp cutting edges, long handles for deep access",
+      image: grasperImage,
+      setupTips: ["Have complete size range", "Use sequential sizing", "Protect neural structures", "Complete disc removal", "Prepare end plates appropriately"]
+    },
+    "Bone graft/cage": {
+      name: "Interbody Fusion Cage System",
+      category: "Spinal Implants",
+      description: "Structural cages and bone graft materials for spinal fusion",
+      contents: ["PEEK or titanium cages", "Bone graft materials", "Cage inserters", "Impactors", "Trial cages"],
+      usage: "Provides structural support and promotes fusion in interbody spinal fusion procedures",
+      specifications: "Various footprints and heights, lordotic angles, large graft windows, radiolucent or radiopaque",
+      image: grasperImage,
+      setupTips: ["Size with trials", "Pack with bone graft", "Insert carefully", "Verify position fluoroscopically", "Achieve proper lordosis"]
+    },
+    "Anterior cervical plate": {
+      name: "Anterior Cervical Plating System",
+      category: "Cervical Spine",
+      description: "Plate and screw system for anterior cervical spine stabilization",
+      contents: ["Cervical plates", "Variable angle screws", "Locking screws", "Plate holders", "Screwdrivers"],
+      usage: "Provides anterior cervical fixation following discectomy and fusion (ACDF)",
+      specifications: "Titanium construction, variable screw angles, translational or static designs, low profile",
+      image: electrocauteryImage,
+      setupTips: ["Select appropriate length", "Center on vertebral bodies", "Use locking screws", "Avoid esophagus", "Verify screw trajectory"]
+    },
+    "Drill and burr": {
+      name: "Powered Drilling and Burring System",
+      category: "Bone Preparation",
+      description: "High-speed drill and burr system for bone work",
+      contents: ["Drill handpiece", "Burr handpiece", "Various drill bits", "Cutting and diamond burrs", "Irrigation"],
+      usage: "Used for bone preparation, shaping, and removal in orthopedic and neurosurgical procedures",
+      specifications: "Variable speed control, irrigation capability, multiple handpiece options, autoclavable",
+      image: electrocauteryImage,
+      setupTips: ["Select appropriate speed", "Use irrigation", "Have multiple bits and burrs", "Protect soft tissues", "Change instruments as needed"]
     }
   };
 

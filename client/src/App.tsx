@@ -14,6 +14,7 @@ import Profile from "@/pages/Profile";
 import Notes from "@/pages/Notes";
 import Subscribe from "@/pages/Subscribe";
 import TestPage from "@/pages/TestPage";
+import BetaQR from "@/pages/BetaQR";
 import NotFound from "@/pages/not-found";
 import AuthPage from "@/pages/AuthPage";
 
@@ -31,6 +32,7 @@ function Router() {
       <Route path="/notes" component={Notes} />
       <Route path="/subscribe" component={Subscribe} />
       <Route path="/test" component={TestPage} />
+      <Route path="/qr" component={BetaQR} />
       <Route component={NotFound} />
     </Switch>
   );

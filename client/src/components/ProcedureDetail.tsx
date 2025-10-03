@@ -1983,6 +1983,157 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       specifications: "4-16mm diameters, heparin-bonded options, radiopaque markers, secure connection design",
       image: trocarImage,
       setupTips: ["Size vessel appropriately", "Heparinize shunt", "Secure proximally first", "Verify flow", "Monitor for displacement"]
+    },
+    // FINAL BATCH - CRITICAL MISCELLANEOUS INSTRUMENTS
+    "Argon beam coagulator": {
+      name: "Argon Plasma Coagulation System",
+      category: "Hemostasis Device",
+      description: "Non-contact thermal coagulation device using ionized argon gas for surface hemostasis",
+      contents: ["Argon console", "Handpiece", "Argon gas tank", "Various probes", "Foot pedal control"],
+      usage: "Provides superficial tissue coagulation for liver resection, spleen trauma, and diffuse oozing",
+      specifications: "Adjustable power 30-90W, gas flow control, non-contact application, smoke evacuation capability",
+      image: electrocauteryImage,
+      setupTips: ["Check argon supply", "Set appropriate power", "Maintain proper distance", "Use sweeping motion", "Ensure smoke evacuation"]
+    },
+    "Bone cement mixing system": {
+      name: "Polymethylmethacrylate (PMMA) Cement Mixer",
+      category: "Orthopedic Cement",
+      description: "Vacuum mixing system for preparing bone cement with reduced porosity",
+      contents: ["Vacuum mixer", "Cement cartridges", "Delivery gun", "Mixing tips", "Cement restrictors"],
+      usage: "Prepares low-porosity bone cement for implant fixation in joint replacement surgery",
+      specifications: "Vacuum mixing reduces porosity, antibiotic-loaded options, timed curing, measured delivery",
+      image: harmonicScalpelImage,
+      setupTips: ["Mix under vacuum", "Follow timing protocol", "Load gun at dough stage", "Work efficiently", "Monitor polymerization"]
+    },
+    "Tourniquet system": {
+      name: "Pneumatic Tourniquet System",
+      category: "Limb Ischemia",
+      description: "Pneumatic system for creating bloodless surgical field in extremity surgery",
+      contents: ["Tourniquet console", "Cuffs (various sizes)", "Pressure tubing", "Limb protection", "Timer"],
+      usage: "Creates bloodless field for orthopedic and extremity surgery, controls intraoperative bleeding",
+      specifications: "Automated pressure control, dual-cuff capability, timer alarm, limb occlusion pressure calculation",
+      image: harmonicScalpelImage,
+      setupTips: ["Size cuff appropriately", "Pad limb properly", "Set safe pressure", "Monitor time limits", "Document inflation time"]
+    },
+    "Nerve stimulator": {
+      name: "Peripheral Nerve Stimulator",
+      category: "Nerve Identification",
+      description: "Electrical stimulation device for identifying and testing nerve function intraoperatively",
+      contents: ["Stimulator console", "Monopolar and bipolar probes", "Ground pad", "Variable output control"],
+      usage: "Essential for nerve identification during surgery to prevent iatrogenic nerve injury",
+      specifications: "Adjustable current 0.1-5.0 mA, monopolar and bipolar modes, battery or AC powered, audio/visual feedback",
+      image: electrocauteryImage,
+      setupTips: ["Place ground pad", "Start with low current", "Use appropriate probe", "Document responses", "Test systematically"]
+    },
+    "Headlight and loupes": {
+      name: "Surgical Magnification and Illumination System",
+      category: "Visualization",
+      description: "Wearable magnification loupes with integrated LED headlight for enhanced visualization",
+      contents: ["Surgical loupes", "LED headlight", "Battery pack", "Adjustable frames", "Various magnifications"],
+      usage: "Provides magnification and focused illumination for microsurgery and detailed surgical procedures",
+      specifications: "2.5x to 6.0x magnification, LED headlight 50,000+ lux, adjustable focus, wireless battery options",
+      image: laparoscopicSetImage,
+      setupTips: ["Adjust to working distance", "Center optics", "Test light brightness", "Ensure comfort", "Have backup battery"]
+    },
+    "Smoke evacuator": {
+      name: "Surgical Smoke Evacuation System",
+      category: "OR Safety Equipment",
+      description: "Active filtration system for removing surgical smoke and aerosols from the surgical field",
+      contents: ["Evacuation unit", "Filtration system", "Tubing", "Nozzles", "ULPA filters"],
+      usage: "Protects surgical team from hazardous surgical smoke containing carcinogens and viable cellular material",
+      specifications: "HEPA/ULPA filtration, adjustable suction, quiet operation, disposable filters, footswitch control",
+      image: harmonicScalpelImage,
+      setupTips: ["Position nozzle close to source", "Activate when using energy devices", "Change filters regularly", "Minimize noise", "Ensure proper capture"]
+    },
+    "Harmonic scalpel": {
+      name: "Ultrasonic Cutting and Coagulation Device",
+      category: "Energy Device",
+      description: "Ultrasonic surgical device providing simultaneous cutting and coagulation with minimal thermal spread",
+      contents: ["Generator", "Handpiece", "Various blade configurations", "Foot pedal", "Irrigation capability"],
+      usage: "Provides precise dissection and hemostasis in laparoscopic and open surgery with minimal collateral damage",
+      specifications: "55.5 kHz frequency, adjustable power levels, minimal smoke, reduced lateral thermal damage <2mm",
+      image: harmonicScalpelImage,
+      setupTips: ["Select appropriate blade", "Test activation", "Use appropriate power", "Maintain blade contact", "Allow cooling between uses"]
+    },
+    "LigaSure device": {
+      name: "Bipolar Vessel Sealing System",
+      category: "Vessel Sealing",
+      description: "Advanced bipolar energy device for sealing vessels up to 7mm without clips or ties",
+      contents: ["LigaSure generator", "Handpieces", "Various jaw configurations", "Foot pedal", "Blunt tip sealer"],
+      usage: "Seals vessels and tissue bundles quickly and reliably in open and laparoscopic surgery",
+      specifications: "Seals vessels up to 7mm, burst pressure >3x systolic, minimal thermal spread, tissue feedback sensing",
+      image: harmonicScalpelImage,
+      setupTips: ["Choose appropriate jaw", "Achieve proper tissue compression", "Complete seal cycle", "Verify feedback tone", "No pre-coagulation needed"]
+    },
+    "Surgical robot components": {
+      name: "Robotic Surgical System Instruments",
+      category: "Robotic Surgery",
+      description: "Robotic instrument arms and accessories for minimally invasive robotic-assisted surgery",
+      contents: ["Robotic arms", "EndoWrist instruments", "Camera system", "Patient cart", "Surgeon console"],
+      usage: "Enables precision minimally invasive surgery with enhanced dexterity and 3D visualization",
+      specifications: "7 degrees of freedom, tremor filtration, motion scaling, 3D HD vision, wristed instruments",
+      image: laparoscopicSetImage,
+      setupTips: ["Dock robot carefully", "Test all arms", "Verify camera", "Check instrument articulation", "Emergency undocking ready"]
+    },
+    "Image intensifier (C-arm)": {
+      name: "Intraoperative Fluoroscopy System",
+      category: "Imaging Equipment",
+      description: "Mobile fluoroscopy unit for real-time intraoperative imaging guidance",
+      contents: ["C-arm unit", "Image intensifier", "Monitor", "Radiation shields", "Sterile drapes"],
+      usage: "Provides real-time fluoroscopic imaging for orthopedic, vascular, and interventional procedures",
+      specifications: "High-resolution imaging, pulsed and continuous modes, dose reduction features, image storage capability",
+      image: harmonicScalpelImage,
+      setupTips: ["Position before draping", "Use radiation protection", "Minimize exposure time", "Optimize image quality", "Document radiation dose"]
+    },
+    "Wound VAC system": {
+      name: "Negative Pressure Wound Therapy",
+      category: "Wound Management",
+      description: "Vacuum-assisted closure system for complex wound management and healing",
+      contents: ["Vacuum pump", "Foam dressing", "Adhesive drape", "Tubing", "Canister"],
+      usage: "Promotes wound healing through negative pressure, removes exudate, and prepares wound bed",
+      specifications: "Adjustable pressure -50 to -200 mmHg, continuous or intermittent modes, portable units available",
+      image: harmonicScalpelImage,
+      setupTips: ["Size foam appropriately", "Ensure seal integrity", "Set correct pressure", "Position away from vessels", "Monitor output"]
+    },
+    "Insufflator": {
+      name: "Laparoscopic CO2 Insufflation System",
+      category: "Laparoscopic Equipment",
+      description: "High-flow CO2 insufflator for creating and maintaining pneumoperitoneum",
+      contents: ["Insufflator console", "CO2 tank", "Pressure regulator", "Tubing", "Filters"],
+      usage: "Essential for laparoscopic surgery creating working space through controlled pneumoperitoneum",
+      specifications: "High-flow up to 40 L/min, pressure monitoring, warming capability, automatic pressure regulation",
+      image: harmonicScalpelImage,
+      setupTips: ["Verify CO2 supply", "Set pressure limit", "Use warming if available", "Monitor intra-abdominal pressure", "Have backup tank"]
+    },
+    "Specimen retrieval bags": {
+      name: "Laparoscopic Specimen Extraction System",
+      category: "Specimen Retrieval",
+      description: "Sterile bags for safe removal of specimens during minimally invasive surgery",
+      contents: ["Various sized bags", "Deployment systems", "Opening mechanism", "Drawstring closure"],
+      usage: "Contains specimens during laparoscopic extraction preventing port site contamination or seeding",
+      specifications: "10mm to 15mm introducers, expandable to accommodate large specimens, tear-resistant material",
+      image: grasperImage,
+      setupTips: ["Select appropriate size", "Deploy completely", "Secure specimen fully", "Close bag carefully", "Extract through appropriate port"]
+    },
+    "Bone wax and hemostatic agents": {
+      name: "Surgical Hemostatic Materials",
+      category: "Hemostasis Adjuncts",
+      description: "Topical hemostatic agents for controlling bone and soft tissue bleeding",
+      contents: ["Bone wax", "Gelfoam", "Surgicel", "Floseal", "Thrombin", "Tranexamic acid"],
+      usage: "Provides topical hemostasis when conventional methods are insufficient or impractical",
+      specifications: "Various formulations, absorbable and non-absorbable, flowable and sheet forms, topical application",
+      image: harmonicScalpelImage,
+      setupTips: ["Choose appropriate agent", "Apply to dry field if possible", "Use minimal amount", "Avoid intravascular use", "Document usage"]
+    },
+    "Irrigation and suction systems": {
+      name: "Surgical Irrigation and Aspiration System",
+      category: "Fluid Management",
+      description: "Complete system for surgical field irrigation and fluid/debris aspiration",
+      contents: ["Suction units", "Irrigation bottles", "Tubing", "Various suction tips", "Splash shields"],
+      usage: "Maintains clear surgical field through irrigation and removes blood, fluids, and debris via suction",
+      specifications: "Variable suction pressure, large capacity canisters, graduated measurement, sterile irrigation solutions",
+      image: harmonicScalpelImage,
+      setupTips: ["Set appropriate suction", "Have adequate irrigation", "Use correct tip size", "Measure blood loss", "Prevent clogging"]
     }
   };
 

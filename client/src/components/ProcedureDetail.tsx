@@ -1332,6 +1332,157 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       specifications: "Antibiotic-loaded options, controlled mixing, vacuum mixing systems, timed polymerization, radiopaque markers",
       image: harmonicScalpelImage,
       setupTips: ["Mix in ventilated area", "Follow timing protocol", "Use vacuum mixing", "Load cement gun properly", "Work during doughy phase"]
+    },
+    // CARDIOVASCULAR INSTRUMENTS - BATCH 4
+    "Cardioplegia delivery system": {
+      name: "Myocardial Protection System",
+      category: "Cardiac Perfusion",
+      description: "System for delivering cardioplegia solution to arrest and protect the heart during cardiac surgery",
+      contents: ["Cardioplegia pump", "Delivery catheter", "Pressure monitor", "Temperature probe", "Retrograde cannula", "Antegrade root cannula"],
+      usage: "Essential for myocardial protection during cardiac surgery by delivering cold or warm cardioplegic solution",
+      specifications: "Programmable delivery, pressure-regulated, integrated temperature control, retrograde and antegrade capability",
+      image: harmonicScalpelImage,
+      setupTips: ["Prime system completely", "Check temperature control", "Verify pressure limits", "Test both delivery methods", "Monitor K+ concentration"]
+    },
+    "Aortic cross-clamp": {
+      name: "Aortic Occlusion Clamp",
+      category: "Vascular Occlusion",
+      description: "Specialized clamp for occluding the ascending aorta during cardiopulmonary bypass",
+      contents: ["Aortic clamp", "Glover clamp", "Cooley clamp", "Various jaw lengths", "Atraumatic tips"],
+      usage: "Critical for isolating the heart during cardioplegic arrest, allowing safe performance of cardiac procedures",
+      specifications: "Stainless steel, atraumatic design, various sizes, secure locking mechanism, minimal vessel trauma",
+      image: grasperImage,
+      setupTips: ["Apply smoothly", "Avoid intimal damage", "Verify complete occlusion", "Position carefully", "Have backup clamps available"]
+    },
+    "Vascular clamps and occluders": {
+      name: "Vascular Control Instruments",
+      category: "Vascular Occlusion",
+      description: "Comprehensive set of clamps for temporary vascular occlusion during cardiac and vascular procedures",
+      contents: ["Satinsky clamps", "DeBakey clamps", "Bulldog clamps", "Vessel loops", "Umbilical tapes", "Rumel tourniquets"],
+      usage: "Used for controlled vascular occlusion, bypass graft construction, and vessel isolation during surgery",
+      specifications: "Atraumatic jaws, various sizes, partial and complete occlusion options, delicate vessel handling",
+      image: grasperImage,
+      setupTips: ["Select appropriate size", "Use minimal pressure", "Protect vessel intima", "Have multiple options available", "Check clamp function"]
+    },
+    "Cell saver": {
+      name: "Autologous Blood Recovery System",
+      category: "Blood Conservation",
+      description: "Device for collecting, filtering, and reinfusing patient's own blood during surgery",
+      contents: ["Collection reservoir", "Centrifuge bowl", "Wash solution", "Reinfusion bag", "Suction tubing", "Anticoagulant"],
+      usage: "Essential for blood conservation in cardiac and vascular surgery, reducing need for allogeneic transfusion",
+      specifications: "Automated processing, removes debris and free hemoglobin, produces washed RBCs, hematocrit optimization",
+      image: harmonicScalpelImage,
+      setupTips: ["Prime system early", "Add anticoagulant to reservoir", "Monitor bowl fill", "Check wash solution", "Label reinfusion bag"]
+    },
+    "Defibrillator paddles": {
+      name: "Internal Cardiac Defibrillation System",
+      category: "Cardiac Resuscitation",
+      description: "Sterile internal paddles for direct cardiac defibrillation during open heart surgery",
+      contents: ["Internal paddles", "Pediatric paddles", "Defibrillator unit", "Conductive gel", "Sterile cables"],
+      usage: "Used for internal cardiac defibrillation when external defibrillation is inadequate or during open procedures",
+      specifications: "Various sizes, 5-50 joules capability, pediatric and adult options, insulated handles, sterile presentation",
+      image: electrocauteryImage,
+      setupTips: ["Test before draping", "Have gel ready", "Know energy settings", "Ensure good contact", "Charge appropriately"]
+    },
+    "Pacemaker leads and generator": {
+      name: "Temporary Pacing System",
+      category: "Cardiac Pacing",
+      description: "Temporary pacing system for postoperative cardiac rhythm support",
+      contents: ["Epicardial pacing wires", "Temporary pacemaker generator", "Atrial and ventricular leads", "Connection cables"],
+      usage: "Essential for temporary pacing support following cardiac surgery to manage bradycardia or AV block",
+      specifications: "Bipolar and unipolar options, adjustable rate and output, sensing capability, battery-powered",
+      image: harmonicScalpelImage,
+      setupTips: ["Place epicardial wires", "Test capture threshold", "Secure connections", "Label atrial/ventricular", "Set appropriate parameters"]
+    },
+    "Coronary shunts": {
+      name: "Intracoronary Bypass Shunts",
+      category: "Coronary Perfusion",
+      description: "Temporary shunts for maintaining coronary perfusion during off-pump cardiac surgery",
+      contents: ["Various sized shunts", "Insertion tools", "Securing devices", "Flushing solution", "Storage case"],
+      usage: "Used in off-pump CABG to maintain distal coronary perfusion while performing anastomosis",
+      specifications: "Multiple diameters (1.0-2.5mm), silicone material, atraumatic tips, easy insertion and removal",
+      image: trocarImage,
+      setupTips: ["Size vessel appropriately", "Heparinize shunt", "Verify flow", "Secure properly", "Monitor for displacement"]
+    },
+    "Sternal retractor": {
+      name: "Median Sternotomy Retractor",
+      category: "Chest Retraction",
+      description: "Self-retaining retractor for maintaining sternal separation during cardiac surgery",
+      contents: ["Retractor frame", "Sternal blades", "Ratchet mechanism", "Sternal pads", "Various blade sizes"],
+      usage: "Essential for exposing mediastinum and heart during median sternotomy cardiac procedures",
+      specifications: "Self-retaining design, adjustable opening width, protective blade covers, stable platform",
+      image: grasperImage,
+      setupTips: ["Open gradually", "Use sternal protection", "Secure table mount", "Verify stable position", "Adjust as needed"]
+    },
+    "Rib spreader": {
+      name: "Thoracic Access Retractor",
+      category: "Chest Wall Retraction",
+      description: "Retractor for spreading ribs during thoracotomy and minimally invasive cardiac procedures",
+      contents: ["Finochietto retractor", "Various sizes", "Rib protection pads", "Ratchet mechanism", "Blade attachments"],
+      usage: "Used for rib spreading in thoracotomy approaches to heart, lungs, and mediastinal structures",
+      specifications: "Multiple sizes, self-retaining, gradual opening, rib protection, autoclavable",
+      image: grasperImage,
+      setupTips: ["Apply gradually", "Protect ribs", "Check patient tolerance", "Secure position", "Have multiple sizes"]
+    },
+    "Angioplasty balloon catheter": {
+      name: "Percutaneous Transluminal Angioplasty Catheter",
+      category: "Endovascular Intervention",
+      description: "Balloon catheter for dilating stenotic vessels in angioplasty procedures",
+      contents: ["Balloon catheter", "Inflation device", "Guidewire", "Introducer sheath", "Contrast medium"],
+      usage: "Used for percutaneous coronary and peripheral angioplasty to restore vessel patency",
+      specifications: "Various diameters and lengths, rated burst pressure, radiopaque markers, rapid exchange or over-the-wire",
+      image: trocarImage,
+      setupTips: ["Select appropriate size", "Prep inflation device", "Check balloon integrity", "Use appropriate pressure", "Monitor fluoroscopy"]
+    },
+    "Cardiac ablation catheters": {
+      name: "Radiofrequency Ablation System",
+      category: "Electrophysiology",
+      description: "Catheter system for cardiac arrhythmia ablation using radiofrequency energy",
+      contents: ["Ablation catheter", "RF generator", "Mapping system", "Temperature probe", "Irrigated tip option"],
+      usage: "Essential for treating cardiac arrhythmias through targeted tissue ablation of abnormal conduction pathways",
+      specifications: "4mm or 8mm tip, irrigated or non-irrigated, force sensing, contact monitoring, temperature controlled",
+      image: electrocauteryImage,
+      setupTips: ["Test catheter function", "Set power parameters", "Monitor tissue contact", "Check irrigation if applicable", "Verify mapping integration"]
+    },
+    "Electrophysiology mapping system": {
+      name: "3D Cardiac Mapping System",
+      category: "Cardiac Electrophysiology",
+      description: "Advanced system for 3D electroanatomic mapping during electrophysiology procedures",
+      contents: ["Mapping catheters", "Computer workstation", "Recording system", "Stimulation device", "3D reconstruction software"],
+      usage: "Used for precise mapping of cardiac electrical activity to guide ablation of arrhythmogenic substrates",
+      specifications: "High-density mapping, 3D visualization, real-time integration, activation and voltage mapping capabilities",
+      image: harmonicScalpelImage,
+      setupTips: ["Calibrate system", "Position reference catheter", "Create geometry map", "Verify catheter signals", "Document baseline rhythm"]
+    },
+    "IABP (Intra-aortic Balloon Pump)": {
+      name: "Intra-aortic Balloon Counterpulsation Device",
+      category: "Mechanical Circulatory Support",
+      description: "Mechanical circulatory support device using balloon inflation/deflation synchronized with cardiac cycle",
+      contents: ["IABP catheter", "Console", "ECG cables", "Pressure transducer", "Insertion kit", "Helium tank"],
+      usage: "Essential for temporary hemodynamic support in cardiogenic shock, high-risk PCI, or perioperative cardiac support",
+      specifications: "Various balloon sizes, ECG or pressure-triggered, adjustable augmentation ratios, fiber-optic pressure monitoring",
+      image: harmonicScalpelImage,
+      setupTips: ["Position correctly in aorta", "Verify timing on console", "Monitor augmentation", "Check helium supply", "Assess hemodynamic response"]
+    },
+    "ECMO circuit": {
+      name: "Extracorporeal Membrane Oxygenation System",
+      category: "Advanced Life Support",
+      description: "Complete circuit for extracorporeal life support providing cardiac and/or respiratory support",
+      contents: ["Membrane oxygenator", "Centrifugal pump", "Cannulae", "Tubing circuit", "Heat exchanger", "Blood gas monitor"],
+      usage: "Critical for severe cardiopulmonary failure providing temporary mechanical support for heart and/or lung function",
+      specifications: "VA or VV configuration, flow rates up to 7L/min, integrated monitoring, biocompatible surfaces, minimal priming volume",
+      image: harmonicScalpelImage,
+      setupTips: ["Prime circuit completely", "De-air thoroughly", "Check all connections", "Verify pump function", "Monitor ACT closely"]
+    },
+    "Left ventricular assist device (LVAD)": {
+      name: "Mechanical Ventricular Support System",
+      category: "Mechanical Circulatory Support",
+      description: "Implantable pump for long-term mechanical support of failing left ventricle",
+      contents: ["LVAD pump", "Inflow cannula", "Outflow graft", "Driveline", "Controller", "Power source"],
+      usage: "Used as bridge to transplant, destination therapy, or bridge to recovery in end-stage heart failure",
+      specifications: "Continuous flow design, flow rates 3-10 L/min, portable controllers, alarm systems, battery backup",
+      image: harmonicScalpelImage,
+      setupTips: ["Handle pump carefully", "De-air completely", "Secure all connections", "Test controller", "Position driveline appropriately"]
     }
   };
 

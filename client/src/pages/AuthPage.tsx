@@ -11,7 +11,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { apiRequest } from '@/lib/queryClient';
 import { Mail, Lock, User, UserPlus } from 'lucide-react';
 import surgicalBg from '@assets/stock_images/surgical_operating_r_0bf4ee15.jpg';
-import logoImage from '@assets/Gemini_Generated_Image_c5y7onc5y7onc5y7_1759609641866.png';
+import logoImage from '@assets/Gemini_Generated_Image_tdfaqktdfaqktdfa_1759614147704.png';
 
 export default function AuthPage() {
   const [, setLocation] = useLocation();

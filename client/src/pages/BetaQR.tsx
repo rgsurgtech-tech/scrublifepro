@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Download, QrCode } from "lucide-react";
-import logoImage from "@assets/Gemini_Generated_Image_c5y7onc5y7onc5y7_1759609641866.png";
+import logoImage from "@assets/Gemini_Generated_Image_tdfaqktdfaqktdfa_1759614147704.png";
 
 export default function BetaQR() {
   const appUrl = window.location.origin;

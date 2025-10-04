@@ -109,7 +109,7 @@ export default function AuthPage() {
       {/* Glass card container */}
       <div className="relative z-10 w-full max-w-md">
         <div className="text-center mb-8">
-          <img src={logoImage} alt="Scrubbable" className="h-32 mx-auto mb-4" />
+          <img src={logoImage} alt="Scrubbable" className="h-64 mx-auto mb-4" />
           <p className="text-white/90 text-lg">Your Surgical Readiness Platform</p>
         </div>
 

@@ -25,7 +25,7 @@ export default function BetaQR() {
       <Card className="max-w-lg w-full p-8 space-y-6">
         <div className="text-center space-y-2">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <img src={logoImage} alt="Scrubbable" className="h-32" />
+            <img src={logoImage} alt="Scrubbable" className="h-64" />
           </div>
           <h2 className="text-xl font-semibold text-muted-foreground">Beta Testing</h2>
           <p className="text-muted-foreground">

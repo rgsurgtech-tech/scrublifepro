@@ -289,7 +289,7 @@ export default function Home() {
         {/* Header */}
         <header className="flex items-center justify-between p-4 glass backdrop-blur-xl border-b border-white/10">
           <div className="flex items-center gap-3">
-            <img src={logoImage} alt="Scrubbable" className="h-8" />
+            <img src={logoImage} alt="Scrubbable" className="h-16" />
           </div>
           <div className="flex items-center gap-2 text-white">
             <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center cursor-pointer hover-elevate" onClick={() => setLocation('/profile')} data-testid="button-account-bubble">

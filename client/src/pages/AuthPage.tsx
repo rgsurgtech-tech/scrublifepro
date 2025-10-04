@@ -11,6 +11,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { apiRequest } from '@/lib/queryClient';
 import { Mail, Lock, User, UserPlus } from 'lucide-react';
 import surgicalBg from '@assets/stock_images/surgical_operating_r_0bf4ee15.jpg';
+import logoImage from '@assets/Gemini_Generated_Image_c5y7onc5y7onc5y7_1759609641866.png';
 
 export default function AuthPage() {
   const [, setLocation] = useLocation();
@@ -69,7 +70,7 @@ export default function AuthPage() {
       refetch();
       toast({
         title: 'Account created!',
-        description: 'Welcome to SurgiPrep. Please select your specialties to get started.'
+        description: 'Welcome to Scrubbable. Please select your specialties to get started.'
       });
       setLocation('/');
     },
@@ -107,15 +108,9 @@ export default function AuthPage() {
       
       {/* Glass card container */}
       <div className="relative z-10 w-full max-w-md">
-        {/* Medical Caduceus Icon */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-primary/20 backdrop-blur-md">
-            <svg className="w-8 h-8 text-primary" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2M21 9V7L15 10L21 13V11C21 15.97 16.97 20 12 20S3 15.97 3 11V13L9 10L3 7V9C3 14.97 7.03 19 12 19S21 14.97 21 9Z"/>
-            </svg>
-          </div>
-          <h1 className="text-4xl font-bold text-white mb-2">SurgiPrep</h1>
-          <p className="text-white/80 text-lg">Your Surgical Readiness Platform</p>
+          <img src={logoImage} alt="Scrubbable" className="h-20 mx-auto mb-4" />
+          <p className="text-white/90 text-lg">Your Surgical Readiness Platform</p>
         </div>
 
         <Card className="glass-card border-0 bg-transparent backdrop-blur-xl">

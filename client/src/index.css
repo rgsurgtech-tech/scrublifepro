@@ -326,7 +326,7 @@
     inset: -1px;
   }
 
-  /* Glassmorphism utility classes for SurgiPrep design */
+  /* Glassmorphism utility classes for Scrubbable design */
   .glass {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);

@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Download, QrCode } from "lucide-react";
+import logoImage from "@assets/Gemini_Generated_Image_c5y7onc5y7onc5y7_1759609641866.png";
 
 export default function BetaQR() {
   const appUrl = window.location.origin;
@@ -9,7 +10,7 @@ export default function BetaQR() {
   const downloadQR = () => {
     const link = document.createElement('a');
     link.href = qrCodeUrl;
-    link.download = 'surgiprep-beta-qr.png';
+    link.download = 'scrubbable-beta-qr.png';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -20,15 +21,13 @@ export default function BetaQR() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-6 flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-blue-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-6 flex items-center justify-center">
       <Card className="max-w-lg w-full p-8 space-y-6">
         <div className="text-center space-y-2">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <QrCode className="h-8 w-8 text-primary" />
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-600 to-purple-600 bg-clip-text text-transparent">
-              SurgiPrep Beta
-            </h1>
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <img src={logoImage} alt="Scrubbable" className="h-16" />
           </div>
+          <h2 className="text-xl font-semibold text-muted-foreground">Beta Testing</h2>
           <p className="text-muted-foreground">
             Scan this QR code to test the app on your mobile device
           </p>

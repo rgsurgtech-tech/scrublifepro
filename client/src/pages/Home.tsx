@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Stethoscope, Users, BookOpen, Shield, Search, Heart, Bone, Brain, Eye, Baby, Activity, Scissors, Target, Wind, Wrench, Truck, Repeat, Zap, Dna, Play } from 'lucide-react';
 import surgicalBg from '@assets/stock_images/surgical_operating_r_269f4a87.jpg';
+import logoImage from '@assets/Gemini_Generated_Image_c5y7onc5y7onc5y7_1759609641866.png';
 
 // Icon mapping for specialties
 const iconMap: { [key: string]: React.ReactNode } = {
@@ -72,13 +73,10 @@ export default function Home() {
         
         <div className="relative z-10 container mx-auto px-4 py-16">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center justify-center w-20 h-20 mb-6 rounded-full bg-primary/20 backdrop-blur-md">
-              <svg className="w-10 h-10 text-primary" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2M21 9V7L15 10L21 13V11C21 15.97 16.97 20 12 20S3 15.97 3 11V13L9 10L3 7V9C3 14.97 7.03 19 12 19S21 14.97 21 9Z"/>
-              </svg>
+            <div className="mb-8">
+              <img src={logoImage} alt="Scrubbable" className="h-24 mx-auto" />
             </div>
-            <h1 className="text-5xl font-bold text-white mb-6">SurgiPrep</h1>
-            <p className="text-xl text-white/80 max-w-2xl mx-auto mb-8">
+            <p className="text-xl text-white/90 max-w-2xl mx-auto mb-8">
               Your professional surgical technology resource and community hub
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -291,10 +289,7 @@ export default function Home() {
         {/* Header */}
         <header className="flex items-center justify-between p-4 glass backdrop-blur-xl border-b border-white/10">
           <div className="flex items-center gap-3">
-            <svg className="w-8 h-8 text-primary" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2M21 9V7L15 10L21 13V11C21 15.97 16.97 20 12 20S3 15.97 3 11V13L9 10L3 7V9C3 14.97 7.03 19 12 19S21 14.97 21 9Z"/>
-            </svg>
-            <span className="text-xl font-bold text-white">SurgiPrep</span>
+            <img src={logoImage} alt="Scrubbable" className="h-8" />
           </div>
           <div className="flex items-center gap-2 text-white">
             <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center cursor-pointer hover-elevate" onClick={() => setLocation('/profile')} data-testid="button-account-bubble">

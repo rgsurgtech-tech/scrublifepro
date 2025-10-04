@@ -211,7 +211,7 @@ export default function Subscribe() {
           <div>
             <h1 className="text-3xl font-bold">Choose Your Plan</h1>
             <p className="text-muted-foreground">
-              Upgrade your SurgiPrep experience with premium features
+              Upgrade your Scrubbable experience with premium features
             </p>
           </div>
         </div>

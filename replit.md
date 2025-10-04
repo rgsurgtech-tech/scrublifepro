@@ -1,8 +1,8 @@
-# SurgiPrep - Mobile Guide for Surgical Technologists
+# Scrubbable - Mobile Guide for Surgical Technologists
 
 ## Overview
 
-SurgiPrep is a comprehensive mobile reference guide and professional community hub designed specifically for surgical technologists. The application provides quick access to procedure guides, instrumentation references, and community knowledge sharing. It features a subscription-based model with multiple tiers (free, standard, premium) and emphasizes a premium medical aesthetic with glassmorphism design elements.
+Scrubbable is a comprehensive mobile reference guide and professional community hub designed specifically for surgical technologists. The application provides quick access to procedure guides, instrumentation references, and community knowledge sharing. It features a subscription-based model with multiple tiers (free, standard, premium) and emphasizes a premium medical aesthetic with glassmorphism design elements.
 
 ## User Preferences
 

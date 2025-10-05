@@ -85,7 +85,7 @@ app.use((req, res, next) => {
         log('✓ Production database already has data');
       }
     } catch (error) {
-      log('⚠️ Auto-seeding error:', error);
+      log('⚠️ Auto-seeding error:', String(error));
     }
   }
 

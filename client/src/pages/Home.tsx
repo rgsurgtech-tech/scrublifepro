@@ -78,12 +78,8 @@ export default function Home() {
                 src={logoImage} 
                 alt="Scrubbable" 
                 style={{ 
-                  height: '800px', 
-                  width: '800px',
-                  minHeight: '800px',
-                  minWidth: '800px',
-                  maxHeight: '800px',
-                  maxWidth: '800px',
+                  height: '400px', 
+                  width: '400px',
                   objectFit: 'contain'
                 }} 
                 className="mx-auto" 
@@ -306,12 +302,8 @@ export default function Home() {
               src={logoImage} 
               alt="Scrubbable" 
               style={{ 
-                height: '800px !important', 
-                width: '800px !important',
-                minHeight: '800px',
-                minWidth: '800px',
-                maxHeight: '800px',
-                maxWidth: '800px',
+                height: '400px', 
+                width: '400px',
                 objectFit: 'contain'
               }} 
             />

@@ -1330,4 +1330,9 @@ async function seed() {
   console.log('🎉 Database seeded successfully!');
 }
 
-seed().catch(console.error);
+export default seed;
+
+// Only run seed if this file is executed directly
+if (import.meta.url === `file://${process.argv[1]}`) {
+  seed().catch(console.error);
+}

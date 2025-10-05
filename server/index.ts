@@ -68,6 +68,27 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  // Auto-seed database in production if empty
+  if (process.env.REPLIT_DEPLOYMENT) {
+    const { db } = await import('./db');
+    const { specialties } = await import('@shared/schema');
+    
+    try {
+      const specialtyCount = await db.select().from(specialties).limit(1);
+      
+      if (specialtyCount.length === 0) {
+        log('🌱 Production database is empty, auto-seeding...');
+        const seedFn = (await import('./seed')).default;
+        await seedFn();
+        log('✅ Production database seeded successfully!');
+      } else {
+        log('✓ Production database already has data');
+      }
+    } catch (error) {
+      log('⚠️ Auto-seeding error:', error);
+    }
+  }
+
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {

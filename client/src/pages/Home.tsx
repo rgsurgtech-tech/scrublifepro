@@ -73,16 +73,16 @@ export default function Home() {
         
         <div className="relative z-10 container mx-auto px-4 py-16">
           <div className="text-center mb-16">
-            <div className="mb-8">
+            <div className="mb-8 inline-block mx-auto p-8 rounded-2xl bg-primary">
               <img 
                 src={logoImage} 
                 alt="Scrubbable" 
                 style={{ 
                   height: '400px', 
                   width: '400px',
-                  objectFit: 'contain'
+                  objectFit: 'contain',
+                  display: 'block'
                 }} 
-                className="mx-auto" 
               />
             </div>
             <p className="text-xl text-white/90 max-w-2xl mx-auto mb-8">
@@ -297,14 +297,15 @@ export default function Home() {
       <div className="relative z-10">
         {/* Header */}
         <header className="flex items-center justify-between p-4 glass backdrop-blur-xl border-b border-white/10">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 p-4 rounded-xl bg-primary">
             <img 
               src={logoImage} 
               alt="Scrubbable" 
               style={{ 
                 height: '400px', 
                 width: '400px',
-                objectFit: 'contain'
+                objectFit: 'contain',
+                display: 'block'
               }} 
             />
           </div>

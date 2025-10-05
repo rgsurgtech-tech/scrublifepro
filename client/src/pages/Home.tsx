@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Stethoscope, Users, BookOpen, Shield, Search, Heart, Bone, Brain, Eye, Baby, Activity, Scissors, Target, Wind, Wrench, Truck, Repeat, Zap, Dna, Play } from 'lucide-react';
 import surgicalBg from '@assets/stock_images/surgical_operating_r_269f4a87.jpg';
-import logoImage from '@assets/Gemini_Generated_Image_tdfaqktdfaqktdfa_1759614147704.png';
+import logoImage from '@assets/Gemini_Generated_Image_ne5nqdne5nqdne5n_1759679028939.png';
 
 // Icon mapping for specialties
 const iconMap: { [key: string]: React.ReactNode } = {

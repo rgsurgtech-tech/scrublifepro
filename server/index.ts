@@ -68,21 +68,22 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  // Auto-seed database in production if empty
+  // Auto-seed database in production if empty or incomplete
   if (process.env.REPLIT_DEPLOYMENT) {
     const { db } = await import('./db');
-    const { specialties } = await import('@shared/schema');
+    const { procedures } = await import('@shared/schema');
     
     try {
-      const specialtyCount = await db.select().from(specialties).limit(1);
+      const procedureCount = await db.select().from(procedures);
       
-      if (specialtyCount.length === 0) {
-        log('🌱 Production database is empty, auto-seeding...');
+      // Re-seed if database has fewer than 200 procedures (incomplete data)
+      if (procedureCount.length < 200) {
+        log(`🌱 Production database incomplete (${procedureCount.length} procedures), re-seeding...`);
         const seedFn = (await import('./seed')).default;
         await seedFn();
-        log('✅ Production database seeded successfully!');
+        log('✅ Production database seeded successfully with all 204 procedures!');
       } else {
-        log('✓ Production database already has data');
+        log(`✓ Production database complete with ${procedureCount.length} procedures`);
       }
     } catch (error) {
       log('⚠️ Auto-seeding error:', String(error));

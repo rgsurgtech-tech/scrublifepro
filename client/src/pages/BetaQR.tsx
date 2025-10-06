@@ -5,7 +5,7 @@ import { Download, Copy, CheckCircle, Smartphone, Shield, Zap } from "lucide-rea
 import logoImage from "@assets/20251005_173733_1759700304560.jpg";
 
 export default function BetaQR() {
-  const appUrl = "https://scrublifepro.com";
+  const appUrl = window.location.origin;
   const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=${encodeURIComponent(appUrl)}`;
   const [copied, setCopied] = useState(false);
   

@@ -5,7 +5,7 @@ import { Download, Copy, CheckCircle, Smartphone, Shield, Zap } from "lucide-rea
 import logoImage from "@assets/20251005_173733_1759700304560.jpg";
 
 export default function BetaQR() {
-  const appUrl = window.location.origin;
+  const appUrl = "https://scrublifepro.com";
   const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=${encodeURIComponent(appUrl)}`;
   const [copied, setCopied] = useState(false);
   
@@ -155,7 +155,7 @@ export default function BetaQR() {
 
                 <div className="pt-4 bg-cyan-500/10 -mx-8 px-8 -mb-8 pb-8 rounded-b-xl">
                   <p className="text-sm text-cyan-100/70 text-center">
-                    Questions? Contact us at <span className="text-cyan-400 font-medium">support@scrubbable.com</span>
+                    Questions? Contact us at <span className="text-cyan-400 font-medium">customerservice@scrublifepro.com</span>
                   </p>
                 </div>
               </div>

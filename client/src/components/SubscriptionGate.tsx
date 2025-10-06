@@ -45,12 +45,8 @@ export default function SubscriptionGate({
   const [, setLocation] = useLocation();
 
   const hasAccess = () => {
-    if (!user) return requiredTier === 'free';
-    
-    const userTier = user.subscriptionTier || 'free';
-    const tierLevels = { free: 0, standard: 1, premium: 2 };
-    
-    return tierLevels[userTier as keyof typeof tierLevels] >= tierLevels[requiredTier];
+    // Beta testing mode: grant unlimited access to everyone
+    return true;
   };
 
   if (hasAccess()) {

@@ -360,20 +360,8 @@ export class DatabaseStorage implements IStorage {
   
   // Helper method to get accessible access tiers based on user subscription
   private getAccessibleTiers(userSubscriptionTier?: string): string[] {
-    if (!userSubscriptionTier) {
-      return ['free']; // Unauthenticated users can only see free content
-    }
-    
-    switch (userSubscriptionTier) {
-      case 'free':
-        return ['free'];
-      case 'standard':
-        return ['free', 'standard'];
-      case 'premium':
-        return ['free', 'standard', 'premium'];
-      default:
-        return ['free'];
-    }
+    // Beta testing mode: grant unlimited access to all tiers for everyone
+    return ['free', 'standard', 'premium'];
   }
 
   async getAllVideoCategories(): Promise<VideoCategory[]> {

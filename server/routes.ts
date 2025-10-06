@@ -168,8 +168,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log('🌱 Manual reseed requested...');
       const seedFn = (await import('./seed')).default;
       await seedFn();
+      
+      // Get actual procedure count
+      const procedures = await storage.getAllProcedures();
       console.log('✅ Manual reseed completed!');
-      res.json({ success: true, message: 'Database reseeded successfully with all 204 procedures' });
+      res.json({ success: true, message: `Database reseeded successfully with ${procedures.length} procedures` });
     } catch (error: any) {
       console.error('❌ Manual reseed error:', error);
       res.status(500).json({ success: false, error: error.message });

@@ -1345,6 +1345,315 @@ async function seed() {
       },
       complications: ['Stroke', 'Bleeding', 'Nerve injury', 'Restenosis'],
       tips: ['Monitor neuro status', 'Use shunt if needed', 'Gentle plaque removal', 'Check distal flow']
+    },
+    // Additional General Surgery Procedures
+    {
+      name: 'Inguinal Hernia Repair',
+      specialtyId: generalSurgeryId,
+      description: 'Repair of inguinal hernia using mesh reinforcement',
+      duration: '60-90 min',
+      difficulty: 'Intermediate',
+      positioning: { title: 'Patient Positioning', steps: ['Supine position', 'Arms tucked at sides', 'Slight Trendelenburg if needed', 'Prep lower abdomen and groin', 'Ensure adequate exposure'] },
+      draping: { title: 'Draping Protocol', steps: ['Prep from umbilicus to mid-thigh', 'Groin and lower abdomen exposed', 'Standard laparotomy drape', 'Four corner draping'] },
+      instruments: { title: 'Instrumentation', basicSet: ['General surgery set', 'Self-retaining retractors'], specialInstruments: ['Mesh', 'Tacking device', 'Electrocautery', 'Atraumatic forceps', 'Suture passer'] },
+      mayoSetup: { title: 'Mayo Stand Setup', layout: 'Standard hernia repair setup with mesh accessible', essentials: ['Mesh', 'Tacking device', 'Sutures', 'Retractors', 'Electrocautery'] },
+      procedureSteps: { title: 'Procedure Steps', steps: [
+        { step: 1, title: 'Incision', description: 'Oblique incision over inguinal canal', instruments: ['Scalpel', 'Electrocautery'] },
+        { step: 2, title: 'Dissection', description: 'Expose external oblique and inguinal canal', instruments: ['Retractors', 'Forceps'] },
+        { step: 3, title: 'Hernia Reduction', description: 'Reduce hernia sac and contents', instruments: ['Forceps', 'Scissors'] },
+        { step: 4, title: 'Mesh Placement', description: 'Place and secure mesh over defect', instruments: ['Mesh', 'Tacking device'] },
+        { step: 5, title: 'Closure', description: 'Layer closure of fascia and skin', instruments: ['Sutures', 'Needle holders'] }
+      ]},
+      medications: { title: 'Medications & Solutions', items: [
+        { name: 'Local anesthetic', use: 'Infiltration', amount: '20-30mL' },
+        { name: 'Normal saline', use: 'Irrigation', amount: '500mL' }
+      ]},
+      complications: ['Recurrence', 'Nerve injury', 'Chronic pain', 'Mesh infection'],
+      tips: ['Identify all three nerves', 'Ensure mesh covers entire defect', 'Gentle tissue handling', 'Check for cord structures']
+    },
+    {
+      name: 'Thyroidectomy',
+      specialtyId: generalSurgeryId,
+      description: 'Surgical removal of thyroid gland (partial or total)',
+      duration: '90-180 min',
+      difficulty: 'Advanced',
+      positioning: { title: 'Patient Positioning', steps: ['Supine with neck extension', 'Shoulder roll for hyperextension', 'Arms tucked', 'Head stabilized', 'Prep neck and upper chest'] },
+      draping: { title: 'Draping Protocol', steps: ['Prep from mandible to nipples', 'Ear to ear laterally', 'Head drape with neck exposure', 'Split sheet draping'] },
+      instruments: { title: 'Instrumentation', basicSet: ['Thyroid set', 'Fine instruments', 'Nerve monitor'], specialInstruments: ['Harmonic scalpel', 'LigaSure', 'Nerve stimulator', 'Fine hemostats', 'Thyroid retractors', 'Suction'] },
+      mayoSetup: { title: 'Mayo Stand Setup', layout: 'Fine instruments organized for delicate dissection', essentials: ['Harmonic scalpel', 'Fine forceps', 'Thyroid retractors', 'Nerve monitor', 'Hemostats'] },
+      procedureSteps: { title: 'Procedure Steps', steps: [
+        { step: 1, title: 'Incision', description: 'Transverse cervical incision', instruments: ['Scalpel', 'Electrocautery'] },
+        { step: 2, title: 'Flap Development', description: 'Raise subplatysmal flaps', instruments: ['Electrocautery', 'Retractors'] },
+        { step: 3, title: 'Strap Division', description: 'Divide strap muscles in midline', instruments: ['Scissors', 'Electrocautery'] },
+        { step: 4, title: 'Lobe Mobilization', description: 'Mobilize thyroid lobe', instruments: ['Harmonic scalpel', 'LigaSure'] },
+        { step: 5, title: 'RLN Identification', description: 'Identify and preserve recurrent laryngeal nerve', instruments: ['Nerve monitor', 'Fine forceps'] },
+        { step: 6, title: 'Resection', description: 'Remove thyroid lobe', instruments: ['Harmonic scalpel', 'Clips'] },
+        { step: 7, title: 'Hemostasis', description: 'Achieve complete hemostasis', instruments: ['LigaSure', 'Clips'] },
+        { step: 8, title: 'Closure', description: 'Layer closure with drain placement', instruments: ['Sutures', 'Drain'] }
+      ]},
+      medications: { title: 'Medications & Solutions', items: [
+        { name: 'Lidocaine with epinephrine', use: 'Local infiltration', amount: '10-20mL' },
+        { name: 'Normal saline', use: 'Irrigation', amount: '500mL' }
+      ]},
+      complications: ['RLN injury', 'Hypocalcemia', 'Hematoma', 'Hypothyroidism'],
+      tips: ['Always identify RLN before ligation', 'Preserve parathyroids', 'Meticulous hemostasis', 'Use nerve monitor']
+    },
+    {
+      name: 'Ventral Hernia Repair',
+      specialtyId: generalSurgeryId,
+      description: 'Repair of abdominal wall hernia with mesh',
+      duration: '90-150 min',
+      difficulty: 'Intermediate',
+      positioning: { title: 'Patient Positioning', steps: ['Supine position', 'Arms extended', 'Foley catheter placement', 'Prep entire abdomen', 'Table positioning for exposure'] },
+      draping: { title: 'Draping Protocol', steps: ['Wide prep of abdomen', 'Four corner draping', 'Large laparotomy drape', 'Adhesive drapes for edge seal'] },
+      instruments: { title: 'Instrumentation', basicSet: ['Major laparotomy set', 'Self-retaining retractors'], specialInstruments: ['Large mesh', 'Tacking device', 'Mesh fixation sutures', 'Electrocautery'] },
+      mayoSetup: { title: 'Mayo Stand Setup', layout: 'Hernia mesh and fixation devices readily accessible', essentials: ['Mesh', 'Tacking device', 'Fixation sutures', 'Retractors', 'Electrocautery'] },
+      procedureSteps: { title: 'Procedure Steps', steps: [
+        { step: 1, title: 'Incision', description: 'Incision over hernia site', instruments: ['Scalpel', 'Electrocautery'] },
+        { step: 2, title: 'Sac Dissection', description: 'Dissect hernia sac from surrounding tissue', instruments: ['Scissors', 'Forceps'] },
+        { step: 3, title: 'Defect Identification', description: 'Define edges of fascial defect', instruments: ['Retractors', 'Forceps'] },
+        { step: 4, title: 'Mesh Placement', description: 'Position mesh with adequate overlap', instruments: ['Mesh', 'Tacking device'] },
+        { step: 5, title: 'Fixation', description: 'Secure mesh to fascia', instruments: ['Tacking device', 'Sutures'] },
+        { step: 6, title: 'Closure', description: 'Layer closure over mesh', instruments: ['Sutures', 'Needle holders'] }
+      ]},
+      medications: { title: 'Medications & Solutions', items: [
+        { name: 'Local anesthetic', use: 'Wound infiltration', amount: '30-50mL' },
+        { name: 'Antibiotic irrigation', use: 'Mesh soaking', amount: '500mL' }
+      ]},
+      complications: ['Recurrence', 'Mesh infection', 'Seroma', 'Chronic pain'],
+      tips: ['Ensure 5cm mesh overlap', 'Multiple fixation points', 'Consider component separation', 'Drain placement if large pocket']
+    },
+    {
+      name: 'Colectomy (Partial)',
+      specialtyId: generalSurgeryId,
+      description: 'Partial removal of colon segment',
+      duration: '120-240 min',
+      difficulty: 'Advanced',
+      positioning: { title: 'Patient Positioning', steps: ['Supine or lithotomy', 'Arms tucked', 'Sequential compression devices', 'Foley and NG tube', 'Wide prep of abdomen'] },
+      draping: { title: 'Draping Protocol', steps: ['Prep chest to thighs', 'Four corner draping', 'Large laparotomy drape', 'Ensure access to entire abdomen'] },
+      instruments: { title: 'Instrumentation', basicSet: ['Major laparotomy set', 'Bowel clamps', 'Vascular instruments'], specialInstruments: ['Surgical staplers', 'LigaSure', 'Wound protector', 'Self-retaining retractor'] },
+      mayoSetup: { title: 'Mayo Stand Setup', layout: 'Staplers and vascular instruments prominent', essentials: ['Staplers', 'Bowel clamps', 'LigaSure', 'Vascular instruments', 'Sutures'] },
+      procedureSteps: { title: 'Procedure Steps', steps: [
+        { step: 1, title: 'Laparotomy', description: 'Midline abdominal incision', instruments: ['Scalpel', 'Electrocautery'] },
+        { step: 2, title: 'Exploration', description: 'Systematic abdominal exploration', instruments: ['Retractors'] },
+        { step: 3, title: 'Mobilization', description: 'Mobilize affected colon segment', instruments: ['Electrocautery', 'Scissors'] },
+        { step: 4, title: 'Vascular Ligation', description: 'Ligate mesenteric vessels', instruments: ['LigaSure', 'Clips', 'Ties'] },
+        { step: 5, title: 'Resection', description: 'Resect diseased colon segment', instruments: ['Staplers', 'Scalpel'] },
+        { step: 6, title: 'Anastomosis', description: 'Create bowel anastomosis', instruments: ['Staplers', 'Sutures'] },
+        { step: 7, title: 'Closure', description: 'Close abdomen in layers', instruments: ['Sutures', 'Needle holders'] }
+      ]},
+      medications: { title: 'Medications & Solutions', items: [
+        { name: 'Antibiotic irrigation', use: 'Peritoneal lavage', amount: '2-3L' },
+        { name: 'IV antibiotics', use: 'Prophylaxis', amount: 'Per protocol' }
+      ]},
+      complications: ['Anastomotic leak', 'Bleeding', 'Ileus', 'Wound infection'],
+      tips: ['Ensure adequate blood supply', 'Tension-free anastomosis', 'Check for leaks', 'Document findings']
+    },
+    {
+      name: 'Splenectomy',
+      specialtyId: generalSurgeryId,
+      description: 'Surgical removal of spleen',
+      duration: '90-180 min',
+      difficulty: 'Advanced',
+      positioning: { title: 'Patient Positioning', steps: ['Supine or right lateral decubitus', 'Left side elevated', 'Arms positioned', 'Sequential compression devices', 'Prep left chest and abdomen'] },
+      draping: { title: 'Draping Protocol', steps: ['Prep from nipples to iliac crest', 'Wide draping for access', 'Laparotomy drape', 'Ensure lateral access'] },
+      instruments: { title: 'Instrumentation', basicSet: ['Major laparotomy set', 'Vascular instruments'], specialInstruments: ['Long instruments', 'Vascular staplers', 'Large hemoclips', 'Cell saver'] },
+      mayoSetup: { title: 'Mayo Stand Setup', layout: 'Vascular control instruments prominent, staplers ready', essentials: ['Vascular clamps', 'Staplers', 'Large clips', 'Long instruments', 'Sutures'] },
+      procedureSteps: { title: 'Procedure Steps', steps: [
+        { step: 1, title: 'Incision', description: 'Midline or subcostal incision', instruments: ['Scalpel', 'Electrocautery'] },
+        { step: 2, title: 'Mobilization', description: 'Mobilize spleen and ligate attachments', instruments: ['Scissors', 'LigaSure'] },
+        { step: 3, title: 'Hilar Dissection', description: 'Isolate splenic vessels', instruments: ['Vascular instruments', 'Forceps'] },
+        { step: 4, title: 'Vascular Control', description: 'Ligate splenic artery and vein', instruments: ['Staplers', 'Clips', 'Ties'] },
+        { step: 5, title: 'Removal', description: 'Remove spleen', instruments: ['Scissors', 'Forceps'] },
+        { step: 6, title: 'Hemostasis', description: 'Ensure complete hemostasis', instruments: ['Electrocautery', 'Clips'] }
+      ]},
+      medications: { title: 'Medications & Solutions', items: [
+        { name: 'Cell saver setup', use: 'Blood conservation', amount: 'As needed' },
+        { name: 'Vaccines', use: 'Post-splenectomy prophylaxis', amount: 'Per protocol' }
+      ]},
+      complications: ['Bleeding', 'Pancreatic injury', 'Left lower lobe atelectasis', 'Thrombocytosis'],
+      tips: ['Control hilum early', 'Watch for accessory spleens', 'Protect pancreatic tail', 'Consider vaccines']
+    },
+    {
+      name: 'Gastric Bypass (Roux-en-Y)',
+      specialtyId: generalSurgeryId,
+      description: 'Bariatric procedure creating small gastric pouch with intestinal bypass',
+      duration: '120-240 min',
+      difficulty: 'Advanced',
+      positioning: { title: 'Patient Positioning', steps: ['Supine position', 'Arms extended', 'Steep reverse Trendelenburg', 'Sequential compression devices', 'Foley catheter'] },
+      draping: { title: 'Draping Protocol', steps: ['Wide abdominal prep', 'Four corner draping', 'Laparoscopic draping', 'All ports accessible'] },
+      instruments: { title: 'Instrumentation', basicSet: ['Laparoscopic bariatric set', 'Multiple staplers'], specialInstruments: ['Linear staplers', 'Circular staplers', 'Liver retractor', 'Endoscope', 'Leak test dye'] },
+      mayoSetup: { title: 'Mayo Stand Setup', layout: 'Multiple staplers organized by type, liver retractor accessible', essentials: ['Staplers', 'Liver retractor', 'Leak test supplies', 'Bougie', 'Sutures'] },
+      procedureSteps: { title: 'Procedure Steps', steps: [
+        { step: 1, title: 'Port Placement', description: 'Place 5-6 laparoscopic ports', instruments: ['Trocars', 'Veress needle'] },
+        { step: 2, title: 'Gastric Pouch Creation', description: 'Create 15-30mL gastric pouch', instruments: ['Staplers', 'Bougie'] },
+        { step: 3, title: 'Roux Limb Creation', description: 'Divide jejunum and create Roux limb', instruments: ['Staplers', 'Scissors'] },
+        { step: 4, title: 'Gastrojejunostomy', description: 'Create anastomosis between pouch and Roux limb', instruments: ['Staplers', 'Sutures'] },
+        { step: 5, title: 'Jejunojejunostomy', description: 'Create side-to-side anastomosis', instruments: ['Staplers'] },
+        { step: 6, title: 'Leak Test', description: 'Test all anastomoses for leaks', instruments: ['Endoscope', 'Leak test dye'] },
+        { step: 7, title: 'Closure', description: 'Close mesenteric defects and ports', instruments: ['Sutures'] }
+      ]},
+      medications: { title: 'Medications & Solutions', items: [
+        { name: 'Methylene blue', use: 'Leak testing', amount: '50-100mL' },
+        { name: 'IV antibiotics', use: 'Prophylaxis', amount: 'Per protocol' }
+      ]},
+      complications: ['Anastomotic leak', 'Bleeding', 'Bowel obstruction', 'Marginal ulcer'],
+      tips: ['Small pouch is key', 'Tension-free anastomoses', 'Always leak test', 'Close mesenteric defects']
+    },
+    {
+      name: 'Mastectomy (Total)',
+      specialtyId: generalSurgeryId,
+      description: 'Complete removal of breast tissue',
+      duration: '90-180 min',
+      difficulty: 'Intermediate',
+      positioning: { title: 'Patient Positioning', steps: ['Supine with arm extended', 'Ipsilateral arm on armboard', 'Chest and arm prepped', 'Wide field preparation'] },
+      draping: { title: 'Draping Protocol', steps: ['Prep from neck to umbilicus', 'Midline to posterior axillary line', 'Arm draped separately', 'U-drape configuration'] },
+      instruments: { title: 'Instrumentation', basicSet: ['General surgery set', 'Mastectomy set'], specialInstruments: ['Electrocautery', 'Harmonic scalpel', 'Self-retaining retractors', 'Skin hooks', 'Drains'] },
+      mayoSetup: { title: 'Mayo Stand Setup', layout: 'Sharp dissection instruments prominent', essentials: ['Electrocautery', 'Scissors', 'Forceps', 'Retractors', 'Drains'] },
+      procedureSteps: { title: 'Procedure Steps', steps: [
+        { step: 1, title: 'Incision', description: 'Elliptical incision around breast', instruments: ['Scalpel'] },
+        { step: 2, title: 'Flap Development', description: 'Raise skin flaps to pectoralis', instruments: ['Electrocautery', 'Scissors'] },
+        { step: 3, title: 'Breast Removal', description: 'Remove breast tissue from pectoralis', instruments: ['Electrocautery', 'Forceps'] },
+        { step: 4, title: 'Axillary Dissection', description: 'Sentinel node or axillary dissection if indicated', instruments: ['Fine scissors', 'Clips'] },
+        { step: 5, title: 'Hemostasis', description: 'Achieve complete hemostasis', instruments: ['Electrocautery', 'Ties'] },
+        { step: 6, title: 'Drain Placement', description: 'Place closed suction drains', instruments: ['Drains'] },
+        { step: 7, title: 'Closure', description: 'Layer closure of skin', instruments: ['Sutures'] }
+      ]},
+      medications: { title: 'Medications & Solutions', items: [
+        { name: 'Local anesthetic', use: 'Flap infiltration', amount: '30-50mL' },
+        { name: 'Isosulfan blue', use: 'Sentinel node mapping', amount: 'If indicated' }
+      ]},
+      complications: ['Seroma', 'Hematoma', 'Skin flap necrosis', 'Lymphedema'],
+      tips: ['Thin uniform flaps', 'Preserve skin viability', 'Meticulous hemostasis', 'Secure drain placement']
+    },
+    // Additional Orthopedic Procedures
+    {
+      name: 'Hip Arthroscopy',
+      specialtyId: orthopedicsId,
+      description: 'Minimally invasive hip joint surgery',
+      duration: '60-120 min',
+      difficulty: 'Advanced',
+      positioning: { title: 'Patient Positioning', steps: ['Supine or lateral on traction table', 'Gentle traction applied', 'Fluoroscopy available', 'Perineal post padding', 'Contralateral leg positioned'] },
+      draping: { title: 'Draping Protocol', steps: ['Circumferential prep', 'Hip and thigh draped', 'Arthroscopy draping', 'Ensure portal access'] },
+      instruments: { title: 'Instrumentation', basicSet: ['Hip arthroscopy set', 'Traction table'], specialInstruments: ['Arthroscope 70°', 'Arthroscopic instruments', 'Radiofrequency device', 'Shavers', 'Suture passers'] },
+      mayoSetup: { title: 'Mayo Stand Setup', layout: 'Arthroscopic instruments organized by sequence', essentials: ['Arthroscope', 'Shavers', 'RF device', 'Suture passers', 'Cannulas'] },
+      procedureSteps: { title: 'Procedure Steps', steps: [
+        { step: 1, title: 'Traction Application', description: 'Apply controlled traction to hip', instruments: ['Traction table'] },
+        { step: 2, title: 'Portal Creation', description: 'Establish anterolateral and other portals', instruments: ['Cannulas', 'Guidewires'] },
+        { step: 3, title: 'Diagnostic Arthroscopy', description: 'Systematic joint inspection', instruments: ['Arthroscope', 'Probe'] },
+        { step: 4, title: 'Pathology Treatment', description: 'Address labral tears, FAI, loose bodies', instruments: ['Shavers', 'RF device'] },
+        { step: 5, title: 'Capsular Closure', description: 'Close capsulotomy if performed', instruments: ['Suture passers'] }
+      ]},
+      medications: { title: 'Medications & Solutions', items: [
+        { name: 'Arthroscopy fluid', use: 'Joint distension', amount: '3-6L' },
+        { name: 'Local anesthetic', use: 'Portal infiltration', amount: '20mL' }
+      ]},
+      complications: ['Nerve injury', 'Fluid extravasation', 'Traction injury', 'Instrument breakage'],
+      tips: ['Gentle traction only', 'Monitor fluid balance', 'Protect pudendal nerve', 'Systematic approach']
+    },
+    {
+      name: 'Shoulder Arthroscopy',
+      specialtyId: orthopedicsId,
+      description: 'Arthroscopic shoulder surgery for rotator cuff and labral repairs',
+      duration: '60-150 min',
+      difficulty: 'Intermediate',
+      positioning: { title: 'Patient Positioning', steps: ['Beach chair or lateral decubitus', 'Arm in traction or holder', 'Adequate shoulder exposure', 'Head stabilized', 'Pressure points padded'] },
+      draping: { title: 'Draping Protocol', steps: ['Circumferential shoulder prep', 'Arthroscopy draping', 'Arm draped free', 'Portal sites marked'] },
+      instruments: { title: 'Instrumentation', basicSet: ['Shoulder arthroscopy set', 'Suture anchors'], specialInstruments: ['Arthroscope 30°', 'Shavers', 'Suture passers', 'Anchor insertion system', 'Radiofrequency device'] },
+      mayoSetup: { title: 'Mayo Stand Setup', layout: 'Suture anchors and passers prominent', essentials: ['Arthroscope', 'Anchors', 'Suture passers', 'Shavers', 'RF device'] },
+      procedureSteps: { title: 'Procedure Steps', steps: [
+        { step: 1, title: 'Portal Placement', description: 'Create posterior, anterior, and lateral portals', instruments: ['Cannulas', 'Spinal needle'] },
+        { step: 2, title: 'Diagnostic Arthroscopy', description: 'Inspect glenohumeral and subacromial space', instruments: ['Arthroscope', 'Probe'] },
+        { step: 3, title: 'Pathology Treatment', description: 'Rotator cuff repair or labral repair', instruments: ['Shavers', 'Suture anchors'] },
+        { step: 4, title: 'Subacromial Decompression', description: 'If indicated, perform acromioplasty', instruments: ['Burr', 'Shavers'] }
+      ]},
+      medications: { title: 'Medications & Solutions', items: [
+        { name: 'Arthroscopy fluid', use: 'Joint irrigation', amount: '3-6L' },
+        { name: 'Epinephrine solution', use: 'Hemostasis', amount: 'Added to fluid' },
+        { name: 'Local block', use: 'Interscalene block', amount: 'Per anesthesia' }
+      ]},
+      complications: ['Nerve injury', 'Anchor pullout', 'Stiffness', 'Retear'],
+      tips: ['Low pump pressure', 'Systematic portal placement', 'Secure anchor fixation', 'Protect axillary nerve']
+    },
+    {
+      name: 'ACL Reconstruction',
+      specialtyId: orthopedicsId,
+      description: 'Arthroscopic anterior cruciate ligament reconstruction',
+      duration: '90-150 min',
+      difficulty: 'Advanced',
+      positioning: { title: 'Patient Positioning', steps: ['Supine with leg holder', 'Tourniquet placement', 'Contralateral leg positioned', 'Ensure full range of motion', 'Fluoroscopy available'] },
+      draping: { title: 'Draping Protocol', steps: ['Circumferential leg prep', 'Thigh tourniquet draped', 'Arthroscopy draping', 'Harvest site accessible'] },
+      instruments: { title: 'Instrumentation', basicSet: ['Knee arthroscopy set', 'ACL reconstruction set'], specialInstruments: ['Arthroscope', 'ACL guides', 'Reamers', 'Graft preparation board', 'Fixation devices', 'EndoButton, screws'] },
+      mayoSetup: { title: 'Mayo Stand Setup', layout: 'ACL guides and fixation prominent, graft prep station separate', essentials: ['Arthroscope', 'ACL guides', 'Reamers', 'Fixation devices', 'Tensioning device'] },
+      procedureSteps: { title: 'Procedure Steps', steps: [
+        { step: 1, title: 'Diagnostic Arthroscopy', description: 'Confirm ACL tear and assess menisci', instruments: ['Arthroscope', 'Probe'] },
+        { step: 2, title: 'Graft Harvest', description: 'Harvest hamstring or patellar tendon graft', instruments: ['Tendon stripper', 'Scalpel'] },
+        { step: 3, title: 'Graft Preparation', description: 'Prepare and size graft', instruments: ['Graft preparation board', 'Sutures'] },
+        { step: 4, title: 'Notch Preparation', description: 'Prepare femoral and tibial tunnels', instruments: ['Shavers', 'Burr'] },
+        { step: 5, title: 'Tunnel Drilling', description: 'Drill femoral and tibial tunnels', instruments: ['ACL guides', 'Reamers'] },
+        { step: 6, title: 'Graft Passage', description: 'Pass graft through tunnels', instruments: ['Passing sutures'] },
+        { step: 7, title: 'Graft Fixation', description: 'Fix graft with buttons/screws', instruments: ['EndoButton', 'Interference screws'] },
+        { step: 8, title: 'Tensioning', description: 'Cycle knee and tension graft', instruments: ['Tensioning device'] }
+      ]},
+      medications: { title: 'Medications & Solutions', items: [
+        { name: 'Arthroscopy fluid', use: 'Joint irrigation', amount: '6-9L' },
+        { name: 'Vancomycin powder', use: 'Infection prophylaxis', amount: '1g in tunnels' },
+        { name: 'Local anesthetic', use: 'Portal infiltration', amount: '20-30mL' }
+      ]},
+      complications: ['Graft failure', 'Tunnel malposition', 'Arthrofibrosis', 'Infection'],
+      tips: ['Anatomic tunnel placement', 'Adequate graft tension', 'Protect graft during fixation', 'Check full ROM']
+    },
+    {
+      name: 'Spinal Fusion (Lumbar)',
+      specialtyId: orthopedicsId,
+      description: 'Lumbar interbody fusion for degenerative disc disease',
+      duration: '180-360 min',
+      difficulty: 'Advanced',
+      positioning: { title: 'Patient Positioning', steps: ['Prone on Jackson table or frame', 'Abdomen free hanging', 'Pressure points well padded', 'Arms positioned', 'Fluoroscopy available'] },
+      draping: { title: 'Draping Protocol', steps: ['Wide back prep', 'Four corner draping', 'Ensure vertebral level access', 'Fluoroscopy draping'] },
+      instruments: { title: 'Instrumentation', basicSet: ['Spine set', 'Power tools'], specialInstruments: ['Pedicle screws and rods', 'Interbody cages', 'Bone graft', 'Fluoroscopy', 'Retractor system', 'Nerve monitor'] },
+      mayoSetup: { title: 'Mayo Stand Setup', layout: 'Implants organized by size, power tools accessible', essentials: ['Pedicle instruments', 'Cage trials', 'Rod benders', 'Screwdrivers', 'Bone graft'] },
+      procedureSteps: { title: 'Procedure Steps', steps: [
+        { step: 1, title: 'Exposure', description: 'Midline incision and muscle dissection', instruments: ['Electrocautery', 'Retractors'] },
+        { step: 2, title: 'Decompression', description: 'Laminectomy and foraminotomy', instruments: ['Rongeurs', 'Kerrison punches'] },
+        { step: 3, title: 'Discectomy', description: 'Remove disc material', instruments: ['Pituitary rongeurs', 'Curettes'] },
+        { step: 4, title: 'Endplate Preparation', description: 'Prepare vertebral endplates', instruments: ['Shavers', 'Curettes'] },
+        { step: 5, title: 'Cage Placement', description: 'Insert interbody cage with bone graft', instruments: ['Cage inserter', 'Bone graft'] },
+        { step: 6, title: 'Pedicle Screw Insertion', description: 'Place bilateral pedicle screws', instruments: ['Tap', 'Screwdriver', 'Fluoroscopy'] },
+        { step: 7, title: 'Rod Placement', description: 'Place and secure connecting rods', instruments: ['Rod benders', 'Set screws'] },
+        { step: 8, title: 'Final Tightening', description: 'Final construct tightening', instruments: ['Torque drivers'] }
+      ]},
+      medications: { title: 'Medications & Solutions', items: [
+        { name: 'Tranexamic acid', use: 'Reduce bleeding', amount: 'Per protocol' },
+        { name: 'Vancomycin powder', use: 'Wound prophylaxis', amount: '1-2g' },
+        { name: 'Local anesthetic', use: 'Wound infiltration', amount: '30-50mL' }
+      ]},
+      complications: ['Nerve injury', 'Dural tear', 'Screw malposition', 'Pseudarthrosis'],
+      tips: ['Confirm levels with fluoroscopy', 'Protect nerve roots', 'Adequate decompression', 'Solid construct']
+    },
+    {
+      name: 'Carpal Tunnel Release',
+      specialtyId: orthopedicsId,
+      description: 'Surgical decompression of median nerve at wrist',
+      duration: '20-30 min',
+      difficulty: 'Basic',
+      positioning: { title: 'Patient Positioning', steps: ['Supine with arm on hand table', 'Hand supinated', 'Tourniquet on arm', 'Wide angle hand table', 'Adequate lighting'] },
+      draping: { title: 'Draping Protocol', steps: ['Prep hand and forearm', 'Tourniquet wrapped', 'Hand drape', 'Arm wrapped'] },
+      instruments: { title: 'Instrumentation', basicSet: ['Hand surgery set', 'Small retractors'], specialInstruments: ['Scalpel #15', 'Fine scissors', 'Skin hooks', 'Self-retaining retractor', 'Tenotomy scissors'] },
+      mayoSetup: { title: 'Mayo Stand Setup', layout: 'Small instrument setup for delicate dissection', essentials: ['Scalpel', 'Fine scissors', 'Retractor', 'Forceps', 'Sutures'] },
+      procedureSteps: { title: 'Procedure Steps', steps: [
+        { step: 1, title: 'Incision', description: 'Longitudinal palmar incision', instruments: ['Scalpel #15'] },
+        { step: 2, title: 'Fascia Division', description: 'Divide palmar fascia', instruments: ['Scissors'] },
+        { step: 3, title: 'Ligament Release', description: 'Divide transverse carpal ligament under direct vision', instruments: ['Tenotomy scissors'] },
+        { step: 4, title: 'Nerve Inspection', description: 'Inspect and decompress median nerve', instruments: ['Retractors', 'Scissors'] },
+        { step: 5, title: 'Closure', description: 'Close skin only', instruments: ['Sutures'] }
+      ]},
+      medications: { title: 'Medications & Solutions', items: [
+        { name: 'Local anesthetic', use: 'WALANT technique', amount: '10-15mL' },
+        { name: 'Epinephrine', use: 'Hemostasis', amount: 'Mixed with local' }
+      ]},
+      complications: ['Incomplete release', 'Nerve injury', 'Pillar pain', 'Scar tenderness'],
+      tips: ['Visualize entire ligament', 'Protect median nerve branches', 'Adequate proximal release', 'Wound hemostasis']
     }
   ];
 

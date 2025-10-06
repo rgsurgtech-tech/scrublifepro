@@ -469,7 +469,7 @@ export class DatabaseStorage implements IStorage {
 
   async deleteVideo(id: string): Promise<boolean> {
     const result = await db.delete(videos).where(eq(videos.id, id));
-    return result.rowCount > 0;
+    return (result.rowCount ?? 0) > 0;
   }
 
   async incrementVideoViews(videoId: string): Promise<void> {
@@ -613,7 +613,7 @@ export class DatabaseStorage implements IStorage {
         eq(videoComments.id, commentId),
         eq(videoComments.authorId, userId)
       ));
-    return result.rowCount > 0;
+    return (result.rowCount ?? 0) > 0;
   }
 }
 

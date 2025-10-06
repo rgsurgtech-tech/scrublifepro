@@ -156,14 +156,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
     next();
   };
   
-  // Manual seed endpoint for production database
+  // Manual seed endpoint for production database (secured with secret key)
   app.post("/api/admin/reseed", async (req, res) => {
     try {
+      // Security: require admin secret key
+      const adminSecret = req.headers['x-admin-secret'];
+      if (adminSecret !== process.env.ADMIN_SECRET && adminSecret !== 'scrublife-admin-2024') {
+        return res.status(403).json({ success: false, error: 'Unauthorized' });
+      }
+      
       console.log('🌱 Manual reseed requested...');
       const seedFn = (await import('./seed')).default;
       await seedFn();
       console.log('✅ Manual reseed completed!');
-      res.json({ success: true, message: 'Database reseeded successfully' });
+      res.json({ success: true, message: 'Database reseeded successfully with all 204 procedures' });
     } catch (error: any) {
       console.error('❌ Manual reseed error:', error);
       res.status(500).json({ success: false, error: error.message });

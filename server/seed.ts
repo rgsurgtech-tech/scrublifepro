@@ -1,16 +1,53 @@
 import { db } from './db';
-import { specialties, procedures, users } from '@shared/schema';
+import { 
+  specialties, 
+  procedures, 
+  users, 
+  userNotes, 
+  userFavorites, 
+  userActivity, 
+  forumPosts, 
+  forumReplies,
+  postLikes, 
+  videos, 
+  videoProgress, 
+  videoComments, 
+  videoCategories,
+  videoFavorites,
+  videoLikes
+} from '@shared/schema';
 import bcrypt from 'bcryptjs';
 
 async function seed() {
   console.log('🌱 Seeding database...');
 
   try {
-    // Clear existing data
+    // Clear existing data in proper order (child tables first to avoid FK violations)
     console.log('🗑️ Clearing existing data...');
+    
+    // Delete child tables that reference procedures/users/videos first
+    await db.delete(videoComments);
+    await db.delete(videoLikes);
+    await db.delete(videoFavorites);
+    await db.delete(videoProgress);
+    await db.delete(forumReplies);
+    await db.delete(postLikes);
+    await db.delete(forumPosts);
+    await db.delete(userActivity);
+    await db.delete(userFavorites);
+    await db.delete(userNotes);
+    
+    // Delete videos (references categories and procedures)
+    await db.delete(videos);
+    await db.delete(videoCategories);
+    
+    // Delete procedures (references specialties)
     await db.delete(procedures);
+    
+    // Delete parent tables
     await db.delete(specialties);
     await db.delete(users);
+    
     console.log('✅ Existing data cleared');
 
   // Insert specialties

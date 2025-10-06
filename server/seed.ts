@@ -5,10 +5,13 @@ import bcrypt from 'bcryptjs';
 async function seed() {
   console.log('🌱 Seeding database...');
 
-  // Clear existing data
-  await db.delete(procedures);
-  await db.delete(specialties);
-  await db.delete(users);
+  try {
+    // Clear existing data
+    console.log('🗑️ Clearing existing data...');
+    await db.delete(procedures);
+    await db.delete(specialties);
+    await db.delete(users);
+    console.log('✅ Existing data cleared');
 
   // Insert specialties
   const specialtyData = [
@@ -1328,6 +1331,10 @@ async function seed() {
 
   console.log(`✅ Created test user: ${testUser[0].email}`);
   console.log('🎉 Database seeded successfully!');
+  } catch (error) {
+    console.error('❌ Seeding error:', error);
+    throw error;
+  }
 }
 
 export default seed;

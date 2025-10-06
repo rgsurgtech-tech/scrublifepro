@@ -156,6 +156,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
     next();
   };
   
+  // Manual seed endpoint for production database
+  app.post("/api/admin/reseed", async (req, res) => {
+    try {
+      console.log('🌱 Manual reseed requested...');
+      const seedFn = (await import('./seed')).default;
+      await seedFn();
+      console.log('✅ Manual reseed completed!');
+      res.json({ success: true, message: 'Database reseeded successfully' });
+    } catch (error: any) {
+      console.error('❌ Manual reseed error:', error);
+      res.status(500).json({ success: false, error: error.message });
+    }
+  });
+
   // Specialties routes
   app.get("/api/specialties", async (req, res) => {
     try {

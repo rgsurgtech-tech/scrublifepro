@@ -89,14 +89,15 @@ export function BetaAccessModal({ open, onAccessGranted }: BetaAccessModalProps)
             <Users className="h-6 w-6 text-cyan-400" />
             Join Scrub Life Pro Beta
           </DialogTitle>
-          <DialogDescription className="text-base">
-            <div className="flex items-center justify-between mt-2 p-3 rounded-lg bg-gradient-to-r from-cyan-950/40 to-purple-950/40 border border-cyan-500/30">
-              <span className="text-cyan-100">Only 100 users will be allowed to test the app</span>
-              <span className="font-semibold text-cyan-400" data-testid="text-spots-remaining">
-                {betaStatus.spotsRemaining} spots remaining
-              </span>
-            </div>
+          <DialogDescription>
+            <span className="text-base">Complete the form below to request beta access</span>
           </DialogDescription>
+          <div className="flex items-center justify-between mt-2 p-3 rounded-lg bg-gradient-to-r from-cyan-950/40 to-purple-950/40 border border-cyan-500/30">
+            <span className="text-cyan-100">Only 100 users will be allowed to test the app</span>
+            <span className="font-semibold text-cyan-400" data-testid="text-spots-remaining">
+              {betaStatus.spotsRemaining} spots remaining
+            </span>
+          </div>
         </DialogHeader>
 
         <Form {...form}>

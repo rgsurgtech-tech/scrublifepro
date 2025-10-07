@@ -179,6 +179,60 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Beta tester routes
+  app.get("/api/beta/status", async (req, res) => {
+    try {
+      const count = await storage.getBetaTesterCount();
+      const isFull = count >= 100;
+      res.json({ count, isFull, spotsRemaining: Math.max(0, 100 - count) });
+    } catch (error) {
+      console.error('Get beta status error:', error);
+      res.status(500).json({ error: "Failed to get beta status" });
+    }
+  });
+
+  app.post("/api/beta/signup", async (req, res) => {
+    try {
+      const { email, name, whyGoodFit, userType, expectedBenefit } = req.body;
+
+      // Check if email already registered
+      const existing = await storage.getBetaTesterByEmail(email);
+      if (existing) {
+        return res.status(400).json({ error: "Email already registered for beta" });
+      }
+
+      // Check if beta is full
+      const count = await storage.getBetaTesterCount();
+      if (count >= 100) {
+        return res.status(400).json({ error: "Beta testing is full" });
+      }
+
+      const betaTester = await storage.createBetaTester({
+        email,
+        name,
+        whyGoodFit,
+        userType,
+        expectedBenefit,
+      });
+
+      res.json({ success: true, betaTester });
+    } catch (error) {
+      console.error('Beta signup error:', error);
+      res.status(500).json({ error: "Failed to sign up for beta" });
+    }
+  });
+
+  app.get("/api/beta/check/:email", async (req, res) => {
+    try {
+      const { email } = req.params;
+      const betaTester = await storage.getBetaTesterByEmail(email);
+      res.json({ hasAccess: !!betaTester, betaTester });
+    } catch (error) {
+      console.error('Beta check error:', error);
+      res.status(500).json({ error: "Failed to check beta access" });
+    }
+  });
+
   // Specialties routes
   app.get("/api/specialties", async (req, res) => {
     try {

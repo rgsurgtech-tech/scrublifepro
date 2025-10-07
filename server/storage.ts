@@ -1,4 +1,4 @@
-import { User, InsertUser, Specialty, Procedure, UserNote, InsertUserNote, ForumPost, InsertForumPost, ForumReply, InsertForumReply, VideoCategory, Video, InsertVideo, InsertVideoCategory, VideoProgress, InsertVideoProgress, VideoComment, InsertVideoComment } from "@shared/schema";
+import { User, InsertUser, Specialty, Procedure, UserNote, InsertUserNote, ForumPost, InsertForumPost, ForumReply, InsertForumReply, VideoCategory, Video, InsertVideo, InsertVideoCategory, VideoProgress, InsertVideoProgress, VideoComment, InsertVideoComment, BetaTester, InsertBetaTester } from "@shared/schema";
 
 export interface IStorage {
   // User management (keeping existing methods for compatibility)
@@ -70,6 +70,11 @@ export interface IStorage {
   getVideoComments(videoId: string): Promise<VideoComment[]>;
   createVideoComment(comment: InsertVideoComment): Promise<VideoComment>;
   deleteVideoComment(commentId: string, userId: string): Promise<boolean>;
+  
+  // Beta testers
+  getBetaTesterByEmail(email: string): Promise<BetaTester | null>;
+  getBetaTesterCount(): Promise<number>;
+  createBetaTester(tester: InsertBetaTester): Promise<BetaTester>;
 }
 
 // Note: MemStorage class kept for compatibility but not used

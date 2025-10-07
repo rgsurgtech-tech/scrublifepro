@@ -16,6 +16,7 @@ import {
   videoFavorites,
   videoLikes,
   videoComments,
+  betaTesters,
   User, 
   InsertUser, 
   Specialty, 
@@ -33,6 +34,8 @@ import {
   VideoProgress,
   InsertVideoProgress,
   VideoComment,
+  BetaTester,
+  InsertBetaTester,
   InsertVideoComment
 } from '@shared/schema';
 import { IStorage } from './storage';
@@ -614,6 +617,32 @@ export class DatabaseStorage implements IStorage {
         eq(videoComments.authorId, userId)
       ));
     return (result.rowCount ?? 0) > 0;
+  }
+
+  // Beta testers
+  async getBetaTesterByEmail(email: string): Promise<BetaTester | null> {
+    const result = await db.select()
+      .from(betaTesters)
+      .where(eq(betaTesters.email, email))
+      .limit(1);
+    return result[0] || null;
+  }
+
+  async getBetaTesterCount(): Promise<number> {
+    const result = await db.select({ count: sql<number>`count(*)::int` })
+      .from(betaTesters);
+    return result[0]?.count || 0;
+  }
+
+  async createBetaTester(tester: InsertBetaTester): Promise<BetaTester> {
+    const count = await this.getBetaTesterCount();
+    const result = await db.insert(betaTesters)
+      .values({
+        ...tester,
+        signupNumber: count + 1,
+      })
+      .returning();
+    return result[0];
   }
 }
 

@@ -5,6 +5,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "./contexts/AuthContext";
 import { BetaBanner } from "@/components/BetaBanner";
+import { BetaAccessModal } from "@/components/BetaAccessModal";
+import { useState, useEffect } from "react";
 
 import Home from "@/pages/Home";
 import Specialties from "@/pages/Specialties";
@@ -40,12 +42,68 @@ function Router() {
 }
 
 export default function App() {
+  const [showBetaModal, setShowBetaModal] = useState(false);
+  const [isCheckingBeta, setIsCheckingBeta] = useState(true);
+
+  useEffect(() => {
+    const checkBetaAccess = async () => {
+      const betaEmail = localStorage.getItem('betaEmail');
+      
+      if (betaEmail) {
+        // Check if this email is still in beta list
+        try {
+          const response = await fetch(`/api/beta/check/${encodeURIComponent(betaEmail)}`);
+          const data = await response.json();
+          
+          if (data.hasAccess) {
+            setShowBetaModal(false);
+          } else {
+            setShowBetaModal(true);
+          }
+        } catch (error) {
+          console.error('Beta check error:', error);
+          setShowBetaModal(true);
+        }
+      } else {
+        setShowBetaModal(true);
+      }
+      
+      setIsCheckingBeta(false);
+    };
+
+    checkBetaAccess();
+  }, []);
+
+  const handleBetaAccessGranted = (email: string) => {
+    localStorage.setItem('betaEmail', email);
+    setShowBetaModal(false);
+  };
+
+  if (isCheckingBeta) {
+    return (
+      <div className="h-screen w-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-500 mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <AuthProvider>
-          <BetaBanner />
-          <Router />
+          <BetaAccessModal 
+            open={showBetaModal} 
+            onAccessGranted={handleBetaAccessGranted}
+          />
+          {!showBetaModal && (
+            <>
+              <BetaBanner />
+              <Router />
+            </>
+          )}
           <Toaster />
         </AuthProvider>
       </TooltipProvider>

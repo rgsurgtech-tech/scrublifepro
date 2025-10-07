@@ -22,6 +22,18 @@ export const users = pgTable("users", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+// Beta testers - limited to 100 users for beta testing
+export const betaTesters = pgTable("beta_testers", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  email: text("email").notNull().unique(),
+  name: text("name").notNull(),
+  whyGoodFit: text("why_good_fit").notNull(),
+  userType: text("user_type").notNull(), // "student" or "surgical_tech"
+  expectedBenefit: text("expected_benefit").notNull(),
+  signupNumber: integer("signup_number").notNull(), // 1-100
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // Surgical specialties
 export const specialties = pgTable("specialties", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -254,6 +266,12 @@ export const insertVideoCommentSchema = createInsertSchema(videoComments).omit({
   updatedAt: true,
 });
 
+export const insertBetaTesterSchema = createInsertSchema(betaTesters).omit({
+  id: true,
+  signupNumber: true,
+  createdAt: true,
+});
+
 // Type exports
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
@@ -280,3 +298,5 @@ export type InsertVideoCategory = z.infer<typeof insertVideoCategorySchema>;
 export type InsertVideo = z.infer<typeof insertVideoSchema>;
 export type InsertVideoProgress = z.infer<typeof insertVideoProgressSchema>;
 export type InsertVideoComment = z.infer<typeof insertVideoCommentSchema>;
+export type BetaTester = typeof betaTesters.$inferSelect;
+export type InsertBetaTester = z.infer<typeof insertBetaTesterSchema>;

@@ -276,6 +276,22 @@ export class MemStorage implements IStorage {
   async deleteVideoComment(commentId: string, userId: string): Promise<boolean> {
     throw new Error('Use database storage instead');
   }
+
+  async getBetaTesterByEmail(email: string): Promise<BetaTester | null> {
+    throw new Error('Use database storage instead');
+  }
+
+  async getBetaTesterCount(): Promise<number> {
+    throw new Error('Use database storage instead');
+  }
+
+  async createBetaTester(tester: InsertBetaTester): Promise<BetaTester> {
+    throw new Error('Use database storage instead');
+  }
+
+  async getAllBetaTesters(): Promise<BetaTester[]> {
+    throw new Error('Use database storage instead');
+  }
 }
 
 // Use database storage instead of in-memory storage

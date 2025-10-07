@@ -11,7 +11,8 @@ import {
   insertVideoSchema,
   insertVideoCategorySchema,
   insertVideoProgressSchema,
-  insertVideoCommentSchema
+  insertVideoCommentSchema,
+  type BetaTester
 } from "@shared/schema";
 
 // Initialize Stripe - From javascript_stripe integration

@@ -644,6 +644,13 @@ export class DatabaseStorage implements IStorage {
       .returning();
     return result[0];
   }
+
+  async getAllBetaTesters(): Promise<BetaTester[]> {
+    const result = await db.select()
+      .from(betaTesters)
+      .orderBy(betaTesters.signupNumber);
+    return result;
+  }
 }
 
 // Export the database storage instance

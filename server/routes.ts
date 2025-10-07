@@ -233,6 +233,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/beta/export", async (req, res) => {
+    try {
+      const betaTesters = await storage.getAllBetaTesters();
+      
+      // Create CSV header
+      const csvHeader = 'Signup Number,Name,Email,User Type,Why Good Fit,Expected Benefit,Signup Date\n';
+      
+      // Create CSV rows
+      const csvRows = betaTesters.map((tester: BetaTester) => {
+        const escapeCsv = (field: string) => {
+          if (field.includes(',') || field.includes('"') || field.includes('\n')) {
+            return `"${field.replace(/"/g, '""')}"`;
+          }
+          return field;
+        };
+        
+        return [
+          tester.signupNumber,
+          escapeCsv(tester.name),
+          tester.email,
+          tester.userType,
+          escapeCsv(tester.whyGoodFit),
+          escapeCsv(tester.expectedBenefit),
+          new Date(tester.createdAt).toISOString()
+        ].join(',');
+      }).join('\n');
+      
+      const csv = csvHeader + csvRows;
+      
+      // Set headers for file download
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader('Content-Disposition', 'attachment; filename=beta-testers.csv');
+      res.send(csv);
+    } catch (error) {
+      console.error('Beta export error:', error);
+      res.status(500).json({ error: "Failed to export beta testers" });
+    }
+  });
+
   // Specialties routes
   app.get("/api/specialties", async (req, res) => {
     try {

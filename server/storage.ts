@@ -75,6 +75,7 @@ export interface IStorage {
   getBetaTesterByEmail(email: string): Promise<BetaTester | null>;
   getBetaTesterCount(): Promise<number>;
   createBetaTester(tester: InsertBetaTester): Promise<BetaTester>;
+  getAllBetaTesters(): Promise<BetaTester[]>;
 }
 
 // Note: MemStorage class kept for compatibility but not used

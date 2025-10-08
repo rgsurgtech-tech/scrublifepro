@@ -68,8 +68,9 @@ export function BetaAccessModal({ open, onAccessGranted }: BetaAccessModalProps)
   const onSubmit = async (data: BetaSignupForm) => {
     setIsSubmitting(true);
     try {
-      const response = await apiRequest("/api/beta/signup", "POST", data);
-      if (response.success) {
+      const response = await apiRequest("POST", "/api/beta/signup", data);
+      const result = await response.json();
+      if (result.success) {
         onAccessGranted(data.email);
       }
     } catch (error: any) {

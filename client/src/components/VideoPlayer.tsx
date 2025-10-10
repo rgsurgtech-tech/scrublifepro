@@ -13,6 +13,7 @@ import { apiRequest, queryClient } from '@/lib/queryClient';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import SubscriptionGate from '@/components/SubscriptionGate';
 import type { Video, VideoComment, VideoProgress } from '@shared/schema';
+import { getVideoEmbedInfo } from '@/lib/videoUtils';
 
 interface VideoPlayerProps {
   video: Video;
@@ -263,12 +264,12 @@ export default function VideoPlayer({ video }: VideoPlayerProps) {
     }
   };
 
-  // Check video URL type
-  const isYouTubeEmbed = video.videoUrl?.includes('youtube.com/embed/') || video.videoUrl?.includes('youtu.be/');
-  const isVimeoEmbed = video.videoUrl?.includes('vimeo.com/');
-  const isDirectVideo = video.videoUrl?.match(/\.(mp4|webm|ogg)$/i);
-  const isOtherEmbed = video.videoUrl?.includes('/embed') && !isYouTubeEmbed && !isVimeoEmbed;
-  const isExternalResource = video.videoUrl && !isYouTubeEmbed && !isVimeoEmbed && !isDirectVideo && !isOtherEmbed;
+  // Check video URL type using shared utility
+  const embedInfo = getVideoEmbedInfo(video.videoUrl);
+  const isEmbeddable = embedInfo.isEmbeddable;
+  const embedUrl = embedInfo.embedUrl;
+  const isDirectVideo = embedInfo.type === 'direct';
+  const isExternalResource = !embedInfo.isEmbeddable;
 
   return (
     <SubscriptionGate 
@@ -288,12 +289,12 @@ export default function VideoPlayer({ video }: VideoPlayerProps) {
                 controls
                 data-testid="video-player"
               >
-                <source src={video.videoUrl} type="video/mp4" />
+                <source src={embedUrl} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
-            ) : isYouTubeEmbed || isVimeoEmbed || isOtherEmbed ? (
+            ) : isEmbeddable ? (
               <iframe
-                src={video.videoUrl}
+                src={embedUrl}
                 className="w-full h-full"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen

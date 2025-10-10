@@ -12,6 +12,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Link } from 'wouter';
 import VideoPlayer from '@/components/VideoPlayer';
 import type { Video, VideoCategory, Specialty } from '@shared/schema';
+import { getVideoEmbedInfo } from '@/lib/videoUtils';
 
 export default function VideoLibrary() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -78,13 +79,8 @@ export default function VideoLibrary() {
 
   const VideoCard = ({ video }: { video: Video }) => {
     const hasVideo = video.videoUrl && video.videoUrl.trim() !== '';
-    const isEmbeddable = hasVideo && (
-      video.videoUrl.includes('youtube.com/embed/') || 
-      video.videoUrl.includes('youtu.be/') ||
-      video.videoUrl.includes('vimeo.com/') ||
-      video.videoUrl.includes('/embed') ||
-      video.videoUrl.match(/\.(mp4|webm|ogg)$/i)
-    );
+    const embedInfo = getVideoEmbedInfo(video.videoUrl);
+    const isEmbeddable = embedInfo.isEmbeddable;
     
     return (
       <Card 
@@ -198,13 +194,8 @@ export default function VideoLibrary() {
 
   const VideoListItem = ({ video }: { video: Video }) => {
     const hasVideo = video.videoUrl && video.videoUrl.trim() !== '';
-    const isEmbeddable = hasVideo && (
-      video.videoUrl.includes('youtube.com/embed/') || 
-      video.videoUrl.includes('youtu.be/') ||
-      video.videoUrl.includes('vimeo.com/') ||
-      video.videoUrl.includes('/embed') ||
-      video.videoUrl.match(/\.(mp4|webm|ogg)$/i)
-    );
+    const embedInfo = getVideoEmbedInfo(video.videoUrl);
+    const isEmbeddable = embedInfo.isEmbeddable;
     
     return (
       <Card 

@@ -76,90 +76,73 @@ export default function VideoLibrary() {
     setSelectedSpecialty('all');
   };
 
-  const VideoCard = ({ video }: { video: Video }) => (
-    <Card 
-      className="group bg-white/5 backdrop-blur-md border-white/10 hover-elevate cursor-pointer transition-all duration-300"
-      onClick={() => setSelectedVideo(video)}
-      data-testid={`card-video-${video.id}`}
-    >
-      <div className="relative aspect-video bg-black rounded-t-lg overflow-hidden">
-        <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center">
-          <div className="text-center space-y-2">
-            <div className="w-12 h-12 mx-auto rounded-full bg-white/10 flex items-center justify-center">
-              <Play className="w-6 h-6 text-white/50" />
-            </div>
-            <div className="text-white/70 text-sm font-medium">Coming Soon</div>
-          </div>
-        </div>
-        
-        {/* CME badge */}
-        {video.cmeCredits && (
-          <div className="absolute top-2 left-2 bg-purple-600/80 backdrop-blur-sm text-white text-xs px-2 py-1 rounded">
-            {video.cmeCredits} CME
-          </div>
-        )}
-      </div>
-      
-      <CardContent className="p-4 space-y-3">
-        <h3 className="font-semibold text-white line-clamp-2 leading-tight" data-testid={`text-video-title-${video.id}`}>
-          {video.title}
-        </h3>
-        
-        <p className="text-gray-400 text-sm line-clamp-2 leading-relaxed">
-          {video.description}
-        </p>
-        
-        <div className="flex flex-wrap gap-2">
-          <Badge className={getDifficultyColor(video.difficulty)}>
-            {video.difficulty}
-          </Badge>
-          {video.accessTier === 'standard' && (
-            <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30 flex items-center gap-1">
-              <Star className="w-3 h-3" />
-              Standard
-            </Badge>
-          )}
-          {video.accessTier === 'premium' && (
-            <Badge className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border-purple-500/30 flex items-center gap-1">
-              <Crown className="w-3 h-3" />
-              Premium
-            </Badge>
-          )}
-        </div>
-        
-        <div className="text-center">
-          <Badge className="bg-amber-500/20 text-amber-300 border-amber-500/30">
-            Coming Soon
-          </Badge>
-        </div>
-      </CardContent>
-    </Card>
-  );
-
-  const VideoListItem = ({ video }: { video: Video }) => (
-    <Card 
-      className="group bg-white/5 backdrop-blur-md border-white/10 hover-elevate cursor-pointer transition-all duration-300"
-      onClick={() => setSelectedVideo(video)}
-      data-testid={`list-video-${video.id}`}
-    >
-      <div className="flex gap-4 p-4">
-        <div className="relative w-32 h-20 bg-black rounded overflow-hidden flex-shrink-0">
-          <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center">
-            <div className="text-center">
-              <div className="w-8 h-8 mx-auto rounded-full bg-white/10 flex items-center justify-center mb-1">
-                <Play className="w-4 h-4 text-white/50" />
+  const VideoCard = ({ video }: { video: Video }) => {
+    const hasVideo = video.videoUrl && video.videoUrl.trim() !== '';
+    
+    return (
+      <Card 
+        className="group bg-white/5 backdrop-blur-md border-white/10 hover-elevate cursor-pointer transition-all duration-300"
+        onClick={() => hasVideo && setSelectedVideo(video)}
+        data-testid={`card-video-${video.id}`}
+      >
+        <div className="relative aspect-video bg-black rounded-t-lg overflow-hidden">
+          {hasVideo ? (
+            <>
+              {video.thumbnailUrl ? (
+                <img 
+                  src={video.thumbnailUrl} 
+                  alt={video.title}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-cyan-900/50 to-purple-900/50 flex items-center justify-center">
+                  <div className="text-center space-y-2">
+                    <div className="w-16 h-16 mx-auto rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center group-hover:bg-white/20 transition-all">
+                      <Play className="w-8 h-8 text-white/80" />
+                    </div>
+                  </div>
+                </div>
+              )}
+              
+              {/* Overlay on hover */}
+              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <div className="w-16 h-16 rounded-full bg-cyan-600/80 backdrop-blur-sm flex items-center justify-center">
+                  <Play className="w-8 h-8 text-white" />
+                </div>
               </div>
-              <div className="text-white/70 text-xs">Coming Soon</div>
+            </>
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center">
+              <div className="text-center space-y-2">
+                <div className="w-12 h-12 mx-auto rounded-full bg-white/10 flex items-center justify-center">
+                  <Play className="w-6 h-6 text-white/50" />
+                </div>
+                <div className="text-white/70 text-sm font-medium">Coming Soon</div>
+              </div>
             </div>
-          </div>
+          )}
+          
+          {/* CME badge */}
+          {video.cmeCredits && (
+            <div className="absolute top-2 left-2 bg-purple-600/80 backdrop-blur-sm text-white text-xs px-2 py-1 rounded">
+              {video.cmeCredits} CME
+            </div>
+          )}
+          
+          {/* Duration badge */}
+          {hasVideo && video.duration && (
+            <div className="absolute bottom-2 right-2 bg-black/80 backdrop-blur-sm text-white text-xs px-2 py-1 rounded">
+              {formatDuration(video.duration)}
+            </div>
+          )}
         </div>
         
-        <div className="flex-1 space-y-2">
-          <h3 className="font-semibold text-white line-clamp-1">
+        <CardContent className="p-4 space-y-3">
+          <h3 className="font-semibold text-white line-clamp-2 leading-tight" data-testid={`text-video-title-${video.id}`}>
             {video.title}
           </h3>
           
-          <p className="text-gray-400 text-sm line-clamp-2">
+          <p className="text-gray-400 text-sm line-clamp-2 leading-relaxed">
             {video.description}
           </p>
           
@@ -167,27 +150,110 @@ export default function VideoLibrary() {
             <Badge className={getDifficultyColor(video.difficulty)}>
               {video.difficulty}
             </Badge>
-            {video.cmeCredits && (
-              <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30">
-                {video.cmeCredits} CME
+            {video.accessTier === 'standard' && (
+              <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30 flex items-center gap-1">
+                <Star className="w-3 h-3" />
+                Standard
               </Badge>
             )}
-            {video.accessTier !== 'free' && (
-              <Badge className="bg-amber-500/20 text-amber-300 border-amber-500/30">
-                {video.accessTier}
+            {video.accessTier === 'premium' && (
+              <Badge className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border-purple-500/30 flex items-center gap-1">
+                <Crown className="w-3 h-3" />
+                Premium
               </Badge>
             )}
           </div>
           
-          <div className="flex justify-start">
-            <Badge className="bg-amber-500/20 text-amber-300 border-amber-500/30 text-xs">
-              Coming Soon
-            </Badge>
+          {!hasVideo && (
+            <div className="text-center">
+              <Badge className="bg-amber-500/20 text-amber-300 border-amber-500/30">
+                Coming Soon
+              </Badge>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    );
+  };
+
+  const VideoListItem = ({ video }: { video: Video }) => {
+    const hasVideo = video.videoUrl && video.videoUrl.trim() !== '';
+    
+    return (
+      <Card 
+        className="group bg-white/5 backdrop-blur-md border-white/10 hover-elevate cursor-pointer transition-all duration-300"
+        onClick={() => hasVideo && setSelectedVideo(video)}
+        data-testid={`list-video-${video.id}`}
+      >
+        <div className="flex gap-4 p-4">
+          <div className="relative w-32 h-20 bg-black rounded overflow-hidden flex-shrink-0">
+            {hasVideo ? (
+              <>
+                {video.thumbnailUrl ? (
+                  <img 
+                    src={video.thumbnailUrl} 
+                    alt={video.title}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-cyan-900/50 to-purple-900/50 flex items-center justify-center">
+                    <Play className="w-6 h-6 text-white/80" />
+                  </div>
+                )}
+                
+                {/* Duration badge */}
+                {video.duration && (
+                  <div className="absolute bottom-1 right-1 bg-black/80 text-white text-xs px-1.5 py-0.5 rounded">
+                    {formatDuration(video.duration)}
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="w-8 h-8 mx-auto rounded-full bg-white/10 flex items-center justify-center mb-1">
+                    <Play className="w-4 h-4 text-white/50" />
+                  </div>
+                  <div className="text-white/70 text-xs">Coming Soon</div>
+                </div>
+              </div>
+            )}
+          </div>
+          
+          <div className="flex-1 space-y-2">
+            <h3 className="font-semibold text-white line-clamp-1">
+              {video.title}
+            </h3>
+            
+            <p className="text-gray-400 text-sm line-clamp-2">
+              {video.description}
+            </p>
+            
+            <div className="flex flex-wrap gap-2">
+              <Badge className={getDifficultyColor(video.difficulty)}>
+                {video.difficulty}
+              </Badge>
+              {video.cmeCredits && (
+                <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30">
+                  {video.cmeCredits} CME
+                </Badge>
+              )}
+              {video.accessTier !== 'free' && (
+                <Badge className="bg-amber-500/20 text-amber-300 border-amber-500/30">
+                  {video.accessTier}
+                </Badge>
+              )}
+              {!hasVideo && (
+                <Badge className="bg-amber-500/20 text-amber-300 border-amber-500/30 text-xs">
+                  Coming Soon
+                </Badge>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </Card>
-  );
+      </Card>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">

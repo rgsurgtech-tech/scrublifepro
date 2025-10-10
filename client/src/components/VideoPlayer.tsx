@@ -263,8 +263,11 @@ export default function VideoPlayer({ video }: VideoPlayerProps) {
     }
   };
 
-  // Check if this is a YouTube embed URL
-  const isYouTubeEmbed = video.videoUrl.includes('youtube.com/embed/');
+  // Check video URL type
+  const isYouTubeEmbed = video.videoUrl?.includes('youtube.com/embed/') || video.videoUrl?.includes('youtu.be/');
+  const isVimeoEmbed = video.videoUrl?.includes('vimeo.com/');
+  const isDirectVideo = video.videoUrl?.match(/\.(mp4|webm|ogg)$/i);
+  const isExternalResource = video.videoUrl && !isYouTubeEmbed && !isVimeoEmbed && !isDirectVideo;
 
   return (
     <SubscriptionGate 
@@ -274,20 +277,74 @@ export default function VideoPlayer({ video }: VideoPlayerProps) {
       showPreview={true}
     >
       <div className="space-y-6">
-        {/* Video Player - Coming Soon Placeholder */}
+        {/* Video Player */}
         <Card className="overflow-hidden bg-black/20 backdrop-blur-md border-white/10">
-          <div className="relative aspect-video bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center">
-            <div className="text-center space-y-4">
-              <div className="w-20 h-20 mx-auto rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
-                <Play className="w-8 h-8 text-white/60" />
+          <div className="relative aspect-video bg-gradient-to-br from-gray-900 to-gray-800">
+            {isDirectVideo ? (
+              <video
+                ref={videoRef}
+                className="w-full h-full"
+                controls
+                data-testid="video-player"
+              >
+                <source src={video.videoUrl} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            ) : isYouTubeEmbed || isVimeoEmbed ? (
+              <iframe
+                src={video.videoUrl}
+                className="w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                data-testid="video-iframe"
+              />
+            ) : isExternalResource ? (
+              <div className="w-full h-full flex items-center justify-center p-8">
+                <div className="text-center space-y-6 max-w-2xl">
+                  <div className="w-20 h-20 mx-auto rounded-full bg-cyan-600/20 backdrop-blur-sm flex items-center justify-center">
+                    <Play className="w-10 h-10 text-cyan-400" />
+                  </div>
+                  <div className="space-y-3">
+                    <h3 className="text-2xl font-semibold text-white">Educational Resource Available</h3>
+                    <p className="text-gray-300 leading-relaxed">
+                      This video is hosted on a professional surgical education platform. Click below to view the complete surgical technique video with expert commentary.
+                    </p>
+                  </div>
+                  <a
+                    href={video.videoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block"
+                  >
+                    <Button 
+                      size="lg" 
+                      className="bg-cyan-600 hover:bg-cyan-700 text-white gap-2"
+                      data-testid="button-watch-external"
+                    >
+                      <Play className="w-5 h-5" />
+                      Watch Video on External Platform
+                    </Button>
+                  </a>
+                  <p className="text-sm text-gray-400">
+                    Opens in a new window: {new URL(video.videoUrl).hostname}
+                  </p>
+                </div>
               </div>
-              <div className="space-y-2">
-                <h3 className="text-2xl font-semibold text-white">Coming Soon</h3>
-                <p className="text-gray-300 max-w-md">
-                  Video content is currently being prepared. Check back soon for educational surgical videos!
-                </p>
+            ) : (
+              <div className="w-full h-full flex items-center justify-center">
+                <div className="text-center space-y-4">
+                  <div className="w-20 h-20 mx-auto rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
+                    <Play className="w-8 h-8 text-white/60" />
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-2xl font-semibold text-white">Coming Soon</h3>
+                    <p className="text-gray-300 max-w-md">
+                      Video content is currently being prepared. Check back soon for educational surgical videos!
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </Card>
 

@@ -78,6 +78,13 @@ export default function VideoLibrary() {
 
   const VideoCard = ({ video }: { video: Video }) => {
     const hasVideo = video.videoUrl && video.videoUrl.trim() !== '';
+    const isEmbeddable = hasVideo && (
+      video.videoUrl.includes('youtube.com/embed/') || 
+      video.videoUrl.includes('youtu.be/') ||
+      video.videoUrl.includes('vimeo.com/') ||
+      video.videoUrl.includes('/embed') ||
+      video.videoUrl.match(/\.(mp4|webm|ogg)$/i)
+    );
     
     return (
       <Card 
@@ -104,12 +111,14 @@ export default function VideoLibrary() {
                 </div>
               )}
               
-              {/* Overlay on hover */}
-              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <div className="w-16 h-16 rounded-full bg-cyan-600/80 backdrop-blur-sm flex items-center justify-center">
-                  <Play className="w-8 h-8 text-white" />
+              {/* Overlay on hover - only for embeddable videos */}
+              {isEmbeddable && (
+                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <div className="w-16 h-16 rounded-full bg-cyan-600/80 backdrop-blur-sm flex items-center justify-center">
+                    <Play className="w-8 h-8 text-white" />
+                  </div>
                 </div>
-              </div>
+              )}
             </>
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center">
@@ -162,6 +171,17 @@ export default function VideoLibrary() {
                 Premium
               </Badge>
             )}
+            {isEmbeddable && (
+              <Badge className="bg-green-500/20 text-green-300 border-green-500/30 flex items-center gap-1">
+                <Play className="w-3 h-3" />
+                Watch Now
+              </Badge>
+            )}
+            {hasVideo && !isEmbeddable && (
+              <Badge className="bg-orange-500/20 text-orange-300 border-orange-500/30">
+                External Link
+              </Badge>
+            )}
           </div>
           
           {!hasVideo && (
@@ -178,6 +198,13 @@ export default function VideoLibrary() {
 
   const VideoListItem = ({ video }: { video: Video }) => {
     const hasVideo = video.videoUrl && video.videoUrl.trim() !== '';
+    const isEmbeddable = hasVideo && (
+      video.videoUrl.includes('youtube.com/embed/') || 
+      video.videoUrl.includes('youtu.be/') ||
+      video.videoUrl.includes('vimeo.com/') ||
+      video.videoUrl.includes('/embed') ||
+      video.videoUrl.match(/\.(mp4|webm|ogg)$/i)
+    );
     
     return (
       <Card 
@@ -241,6 +268,17 @@ export default function VideoLibrary() {
               {video.accessTier !== 'free' && (
                 <Badge className="bg-amber-500/20 text-amber-300 border-amber-500/30">
                   {video.accessTier}
+                </Badge>
+              )}
+              {isEmbeddable && (
+                <Badge className="bg-green-500/20 text-green-300 border-green-500/30 flex items-center gap-1 text-xs">
+                  <Play className="w-3 h-3" />
+                  Watch Now
+                </Badge>
+              )}
+              {hasVideo && !isEmbeddable && (
+                <Badge className="bg-orange-500/20 text-orange-300 border-orange-500/30 text-xs">
+                  External Link
                 </Badge>
               )}
               {!hasVideo && (

@@ -267,7 +267,8 @@ export default function VideoPlayer({ video }: VideoPlayerProps) {
   const isYouTubeEmbed = video.videoUrl?.includes('youtube.com/embed/') || video.videoUrl?.includes('youtu.be/');
   const isVimeoEmbed = video.videoUrl?.includes('vimeo.com/');
   const isDirectVideo = video.videoUrl?.match(/\.(mp4|webm|ogg)$/i);
-  const isExternalResource = video.videoUrl && !isYouTubeEmbed && !isVimeoEmbed && !isDirectVideo;
+  const isOtherEmbed = video.videoUrl?.includes('/embed') && !isYouTubeEmbed && !isVimeoEmbed;
+  const isExternalResource = video.videoUrl && !isYouTubeEmbed && !isVimeoEmbed && !isDirectVideo && !isOtherEmbed;
 
   return (
     <SubscriptionGate 
@@ -290,7 +291,7 @@ export default function VideoPlayer({ video }: VideoPlayerProps) {
                 <source src={video.videoUrl} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
-            ) : isYouTubeEmbed || isVimeoEmbed ? (
+            ) : isYouTubeEmbed || isVimeoEmbed || isOtherEmbed ? (
               <iframe
                 src={video.videoUrl}
                 className="w-full h-full"

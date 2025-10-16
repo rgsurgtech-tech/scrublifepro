@@ -2297,6 +2297,104 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       specifications: "Variable speed control, irrigation capability, multiple handpiece options, autoclavable",
       image: electrocauteryImage,
       setupTips: ["Select appropriate speed", "Use irrigation", "Have multiple bits and burrs", "Protect soft tissues", "Change instruments as needed"]
+    },
+    // PLASTIC & RECONSTRUCTIVE SURGERY INSTRUMENTS
+    "Plastic surgery set": {
+      name: "Plastic & Reconstructive Surgery Set",
+      category: "Plastic Surgery",
+      description: "Delicate instruments for plastic and reconstructive surgical procedures requiring fine precision",
+      contents: ["Fine scissors", "Micro forceps", "Skin hooks", "Undermining scissors", "Fine needle holders", "Various retractors"],
+      usage: "Essential for breast reconstruction, facial surgery, hand surgery, and all plastic surgical procedures requiring delicate tissue handling",
+      specifications: "Fine-tipped instruments, atraumatic design, various sizes for different anatomical sites, autoclavable stainless steel",
+      image: grasperImage,
+      setupTips: ["Handle instruments delicately", "Organize by size", "Have magnification available", "Ensure sharp cutting instruments", "Keep fine instruments protected"]
+    },
+    "Dermatome": {
+      name: "Skin Graft Harvesting Dermatome",
+      category: "Skin Grafting",
+      description: "Powered or manual instrument for harvesting split-thickness skin grafts",
+      contents: ["Dermatome handpiece", "Various blade widths", "Depth guards", "Mineral oil for lubrication"],
+      usage: "Used for harvesting split-thickness skin grafts for burn coverage, wound reconstruction, and donor site creation",
+      specifications: "Adjustable depth settings 0.008-0.024 inches, various widths 2-4 inches, electric or air-powered",
+      image: electrocauteryImage,
+      setupTips: ["Set appropriate depth", "Lubricate skin", "Maintain steady pressure", "Keep blade sharp", "Have dressing materials ready"]
+    },
+    // PEDIATRIC SURGERY INSTRUMENTS
+    "Pediatric surgery set": {
+      name: "Pediatric Surgical Instrument Set",
+      category: "Pediatric Surgery",
+      description: "Scaled-down instruments specifically designed for pediatric surgical procedures",
+      contents: ["Small retractors", "Fine scissors", "Pediatric clamps", "Mini needle holders", "Delicate forceps"],
+      usage: "Essential for all pediatric surgical procedures requiring appropriately sized instruments for smaller anatomical structures",
+      specifications: "Reduced size for pediatric anatomy, gentle tissue handling, various sizes for different age groups, autoclavable",
+      image: grasperImage,
+      setupTips: ["Select age-appropriate sizes", "Handle with extreme care", "Have full size range available", "Use gentle technique", "Prepare pediatric-specific equipment"]
+    },
+    // ORAL & MAXILLOFACIAL SURGERY INSTRUMENTS
+    "Maxillofacial surgery set": {
+      name: "Oral & Maxillofacial Surgery Set",
+      category: "Maxillofacial Surgery",
+      description: "Specialized instruments for oral, jaw, and facial skeletal surgery",
+      contents: ["Bone reduction forceps", "Arch bars", "Wire twisters", "Maxillary elevators", "Mandibular retractors", "Fixation plates"],
+      usage: "Essential for facial fracture repair, orthognathic surgery, TMJ procedures, and maxillofacial reconstructive surgery",
+      specifications: "Titanium fixation hardware, specialized reduction instruments, various plate and screw options, autoclavable",
+      image: electrocauteryImage,
+      setupTips: ["Have complete plate and screw sets", "Verify proper reduction", "Check occlusion frequently", "Prepare MMF equipment", "Have imaging available"]
+    },
+    // COLORECTAL SURGERY INSTRUMENTS
+    "Colorectal surgery set": {
+      name: "Colorectal Surgical Instrument Set",
+      category: "Colorectal Surgery",
+      description: "Comprehensive set for colorectal and anorectal surgical procedures",
+      contents: ["Proctoscopes", "Anal retractors", "Hemorrhoidal clamps", "Fistula probes", "Bowel clamps", "Circular staplers"],
+      usage: "Essential for hemorrhoidectomy, fistulotomy, colorectal resection, and all anorectal surgical procedures",
+      specifications: "Various retractor sizes, specialized anal instruments, atraumatic bowel handling, autoclavable stainless steel",
+      image: grasperImage,
+      setupTips: ["Prepare patient positioning equipment", "Have full range of retractors", "Check stapler sizes", "Prepare irrigation", "Have hemostatic agents ready"]
+    },
+    // TRAUMA SURGERY INSTRUMENTS
+    "Trauma surgery set": {
+      name: "Emergency Trauma Surgical Set",
+      category: "Trauma Surgery",
+      description: "Comprehensive rapid-access instruments for emergency trauma procedures",
+      contents: ["Large Richardson retractors", "Vascular clamps", "Rapid infusion equipment", "Chest tube trays", "Damage control packing"],
+      usage: "Essential for damage control laparotomy, emergency thoracotomy, and rapid life-saving trauma interventions",
+      specifications: "Rapid deployment design, versatile use, heavy-duty construction for emergency use, complete hemostasis capability",
+      image: laparoscopicSetImage,
+      setupTips: ["Have everything ready immediately", "Prepare vascular instruments", "Stock hemostatic agents", "Have rapid transfusion ready", "Prepare damage control supplies"]
+    },
+    // TRANSPLANT SURGERY INSTRUMENTS
+    "Transplant surgery set": {
+      name: "Organ Transplantation Surgical Set",
+      category: "Transplant Surgery",
+      description: "Specialized instruments for organ procurement and transplantation procedures",
+      contents: ["Vascular clamps", "Perfusion cannulas", "Organ preservation solutions", "Microsurgical instruments", "Specialized retractors"],
+      usage: "Essential for kidney, liver, pancreas, and other organ transplantation procedures requiring meticulous vascular anastomosis",
+      specifications: "Vascular-specific instruments, organ preservation equipment, microsurgical capability, cold storage systems",
+      image: harmonicScalpelImage,
+      setupTips: ["Coordinate with procurement team", "Have preservation solutions ready", "Prepare vascular anastomosis instruments", "Check perfusion equipment", "Time management critical"]
+    },
+    // SURGICAL ONCOLOGY INSTRUMENTS
+    "Oncology surgery set": {
+      name: "Surgical Oncology Instrument Set",
+      category: "Oncology Surgery",
+      description: "Comprehensive instruments for cancer resection and lymph node dissection",
+      contents: ["En bloc resection instruments", "Lymph node dissection tools", "Sentinel node localization equipment", "Electrocautery devices", "Specimen containers"],
+      usage: "Essential for wide local excision, radical resection, lymphadenectomy, and oncologic surgical procedures",
+      specifications: "Instruments for wide margins, lymphatic dissection capability, specimen handling equipment, hemostasis devices",
+      image: electrocauteryImage,
+      setupTips: ["Plan margins carefully", "Prepare sentinel node detection", "Have frozen section capability", "Label specimens properly", "Prepare reconstruction options"]
+    },
+    // ENDOCRINE SURGERY INSTRUMENTS  
+    "Endocrine surgery set": {
+      name: "Endocrine Surgical Instrument Set",
+      category: "Endocrine Surgery",
+      description: "Delicate instruments for thyroid, parathyroid, and adrenal surgery",
+      contents: ["Fine thyroid retractors", "Delicate forceps", "Nerve monitoring equipment", "Hemostatic devices", "Small vascular clamps"],
+      usage: "Essential for thyroidectomy, parathyroidectomy, adrenalectomy requiring nerve preservation and delicate dissection",
+      specifications: "Fine-tipped instruments, nerve monitoring capability, delicate vascular control, minimal tissue trauma design",
+      image: grasperImage,
+      setupTips: ["Set up nerve monitoring", "Have delicate instruments ready", "Prepare hemostatic agents", "Check parathyroid localization", "Have calcium replacement available"]
     }
   };
 

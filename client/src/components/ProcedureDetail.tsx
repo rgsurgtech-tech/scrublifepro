@@ -1335,7 +1335,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       image: grasperImage,
       setupTips: ["Verify correct size", "Handle with care", "Check component compatibility", "Avoid contamination", "Have backup sizes"]
     },
-    "Cement supplies": {
+    "Orthopedic cement system": {
       name: "Bone Cement Preparation System",
       category: "Orthopedic Cement",
       description: "Complete system for mixing and delivering bone cement during joint replacement procedures",
@@ -1537,7 +1537,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       image: electrocauteryImage,
       setupTips: ["Test before use", "Use lowest effective power", "Keep tips clean", "Irrigate frequently", "Have multiple sizes available"]
     },
-    "Microscope": {
+    "Neurosurgical microscope": {
       name: "Neurosurgical Operating Microscope",
       category: "Magnification System",
       description: "High-magnification surgical microscope for microsurgical neurosurgical procedures",
@@ -1547,7 +1547,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       image: laparoscopicSetImage,
       setupTips: ["Balance and position early", "Check light intensity", "Test foot controls", "Adjust for surgeon", "Verify assistant scope"]
     },
-    "Microsurgical instruments": {
+    "Neuromicrosurgical instruments": {
       name: "Neuromicrosurgery Instrument Set",
       category: "Microsurgery Tools",
       description: "Ultra-fine instruments for microsurgical neurosurgical procedures under magnification",
@@ -1557,7 +1557,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       image: grasperImage,
       setupTips: ["Handle with extreme care", "Check tip alignment", "Organize by size", "Keep tips protected", "Have duplicates available"]
     },
-    "Ultrasonic aspirator": {
+    "CUSA (ultrasonic aspirator)": {
       name: "Cavitron Ultrasonic Surgical Aspirator (CUSA)",
       category: "Tissue Removal",
       description: "Ultrasonic device for selective tissue fragmentation and aspiration in neurosurgery",
@@ -1577,7 +1577,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       image: harmonicScalpelImage,
       setupTips: ["Register patient early", "Verify accuracy", "Check camera positioning", "Calibrate instruments", "Update for brain shift"]
     },
-    "Brain retractors": {
+    "Neurosurgical brain retractors": {
       name: "Neurosurgical Brain Retraction System",
       category: "Neural Retraction",
       description: "Specialized retractors for gentle brain tissue retraction during neurosurgery",
@@ -1617,7 +1617,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       image: grasperImage,
       setupTips: ["Have full range of sizes", "Check cutting edges", "Use sequential sizing", "Protect neural structures", "Have nerve retractors ready"]
     },
-    "Endoscope": {
+    "Neuroendoscope": {
       name: "Neurosurgical Endoscope System",
       category: "Minimally Invasive Neuro",
       description: "Rigid endoscope system for minimally invasive neurosurgical procedures",
@@ -1688,7 +1688,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       image: grasperImage,
       setupTips: ["Sound uterus first", "Start with smaller curette", "Use systematic technique", "Have suction ready", "Check specimen adequacy"]
     },
-    "Hysteroscope": {
+    "Hysteroscopy system": {
       name: "Uterine Endoscopy System",
       category: "Gynecologic Endoscopy",
       description: "Endoscopic system for visualization and treatment of intrauterine pathology",
@@ -1709,7 +1709,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       setupTips: ["Position properly", "Clean optics", "Test light source", "Apply acetic acid", "Have biopsy instruments ready"]
     },
     // OPHTHALMOLOGY INSTRUMENTS - BATCH 7
-    "Phacoemulsification system": {
+    "Phaco system (cataract)": {
       name: "Ultrasonic Cataract Removal System",
       category: "Cataract Surgery",
       description: "Ultrasonic device for cataract fragmentation and removal during phacoemulsification",
@@ -2057,7 +2057,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       image: harmonicScalpelImage,
       setupTips: ["Position nozzle close to source", "Activate when using energy devices", "Change filters regularly", "Minimize noise", "Ensure proper capture"]
     },
-    "Harmonic scalpel": {
+    "Harmonic device (ultrasonic)": {
       name: "Ultrasonic Cutting and Coagulation Device",
       category: "Energy Device",
       description: "Ultrasonic surgical device providing simultaneous cutting and coagulation with minimal thermal spread",
@@ -2308,16 +2308,6 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       specifications: "Fine-tipped instruments, atraumatic design, various sizes for different anatomical sites, autoclavable stainless steel",
       image: grasperImage,
       setupTips: ["Handle instruments delicately", "Organize by size", "Have magnification available", "Ensure sharp cutting instruments", "Keep fine instruments protected"]
-    },
-    "Dermatome": {
-      name: "Skin Graft Harvesting Dermatome",
-      category: "Skin Grafting",
-      description: "Powered or manual instrument for harvesting split-thickness skin grafts",
-      contents: ["Dermatome handpiece", "Various blade widths", "Depth guards", "Mineral oil for lubrication"],
-      usage: "Used for harvesting split-thickness skin grafts for burn coverage, wound reconstruction, and donor site creation",
-      specifications: "Adjustable depth settings 0.008-0.024 inches, various widths 2-4 inches, electric or air-powered",
-      image: electrocauteryImage,
-      setupTips: ["Set appropriate depth", "Lubricate skin", "Maintain steady pressure", "Keep blade sharp", "Have dressing materials ready"]
     },
     // PEDIATRIC SURGERY INSTRUMENTS
     "Pediatric surgery set": {

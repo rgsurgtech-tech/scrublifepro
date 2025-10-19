@@ -123,6 +123,9 @@ export default function Subscribe() {
     if (!selectedTierData) return;
     
     try {
+      console.log('Creating checkout session for tier:', selectedTierData.name);
+      console.log('Price ID:', selectedTierData.priceId);
+      
       // Call backend to create Stripe Checkout session
       const response = await apiRequest(
         'POST',
@@ -132,12 +135,16 @@ export default function Subscribe() {
         }
       );
 
+      console.log('Response status:', response.status);
       const data = await response.json();
+      console.log('Response data:', data);
 
       // Redirect to Stripe Checkout
       if (data.url) {
+        console.log('Redirecting to:', data.url);
         window.location.href = data.url;
       } else {
+        console.error('No URL in response:', data);
         toast({
           title: "Error",
           description: "Unable to start checkout. Please try again.",
@@ -145,6 +152,7 @@ export default function Subscribe() {
         });
       }
     } catch (error: any) {
+      console.error('Checkout error:', error);
       toast({
         title: "Error",
         description: error.message || "Failed to create checkout session",

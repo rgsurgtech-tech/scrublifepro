@@ -717,14 +717,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: 'Price ID is required' });
       }
 
-      // Validate price ID (both monthly and annual)
+      // Validate price ID (both monthly and annual) - filter out empty strings
       const validPrices = [
         STRIPE_PRICES.standard, 
         STRIPE_PRICES.premium,
         STRIPE_PRICES.standardAnnual,
         STRIPE_PRICES.premiumAnnual
-      ];
+      ].filter(price => price && price.length > 0);
+      
+      console.log('🔧 Valid price IDs:', validPrices);
+      console.log('🔧 Requested price ID:', priceId);
+      
       if (!validPrices.includes(priceId)) {
+        console.error('❌ Invalid price ID received:', priceId);
+        console.error('❌ Valid prices are:', validPrices);
         return res.status(400).json({ error: 'Invalid price ID' });
       }
 

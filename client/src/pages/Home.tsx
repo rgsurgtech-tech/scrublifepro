@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Stethoscope, Users, BookOpen, Shield, Search, Heart, Bone, Brain, Eye, Baby, Activity, Scissors, Target, Wind, Wrench, Truck, Repeat, Zap, Dna, Play } from 'lucide-react';
 import surgicalBg from '@assets/stock_images/surgical_operating_r_269f4a87.jpg';
 import logoImage from '@assets/20251005_173733_1759700304560.jpg';
+import { AdSlot } from '@/components/AdSlot';
 
 // Icon mapping for specialties
 const iconMap: { [key: string]: React.ReactNode } = {
@@ -423,6 +424,13 @@ export default function Home() {
               Ready for today's cases?
             </p>
           </div>
+
+          {/* Ad Slot - Only visible to free tier users */}
+          <AdSlot 
+            slot="1234567890"
+            format="auto"
+            className="mb-8"
+          />
 
           {/* Your Specialties */}
           <div className="mb-8">

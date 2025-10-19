@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Heart, Eye, Brain, Bone, Scissors, Baby, Activity, Stethoscope, Zap, Wrench, Target, Wind, Dna, Shield, Truck, Repeat } from 'lucide-react';
 import surgicalBg from '@assets/stock_images/surgical_operating_r_269f4a87.jpg';
 import { SpecialtySelector } from '@/components/SpecialtySelector';
+import { AdSlot } from '@/components/AdSlot';
 
 // Icon mapping for specialties - matches the icon strings in the database
 const iconMap: { [key: string]: React.ReactNode } = {
@@ -151,45 +152,58 @@ export default function Specialties() {
 
         {/* Specialties Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {displayedSpecialties?.map((specialty) => (
-            <Card 
-              key={specialty.id} 
-              className="bg-white/10 backdrop-blur-md border-white/20 text-white hover-elevate"
-              data-testid={`card-specialty-${specialty.id}`}
-            >
-              <CardHeader className="flex flex-row items-center space-y-0 pb-2">
-                <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mr-3">
-                  {iconMap[specialty.icon] || <Stethoscope className="w-6 h-6" />}
-                </div>
-                <div className="flex-1">
-                  <CardTitle className="text-lg font-semibold">
-                    {specialty.name}
-                  </CardTitle>
-                  <Badge 
-                    variant="secondary" 
-                    className="mt-1 cursor-pointer hover:bg-secondary/80" 
+          {displayedSpecialties?.map((specialty, index) => (
+            <>
+              <Card 
+                key={specialty.id} 
+                className="bg-white/10 backdrop-blur-md border-white/20 text-white hover-elevate"
+                data-testid={`card-specialty-${specialty.id}`}
+              >
+                <CardHeader className="flex flex-row items-center space-y-0 pb-2">
+                  <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mr-3">
+                    {iconMap[specialty.icon] || <Stethoscope className="w-6 h-6" />}
+                  </div>
+                  <div className="flex-1">
+                    <CardTitle className="text-lg font-semibold">
+                      {specialty.name}
+                    </CardTitle>
+                    <Badge 
+                      variant="secondary" 
+                      className="mt-1 cursor-pointer hover:bg-secondary/80" 
+                      onClick={() => setLocation(`/procedures/${specialty.id}`)}
+                      data-testid={`badge-procedures-${specialty.id}`}
+                    >
+                      {specialty.procedureCount} procedures
+                    </Badge>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-white/80 text-sm mb-3">
+                    {specialty.description}
+                  </p>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="w-full bg-white/5 border-white/20 text-white hover:bg-white/10"
                     onClick={() => setLocation(`/procedures/${specialty.id}`)}
-                    data-testid={`badge-procedures-${specialty.id}`}
+                    data-testid={`button-view-procedures-${specialty.id}`}
                   >
-                    {specialty.procedureCount} procedures
-                  </Badge>
+                    View Procedures
+                  </Button>
+                </CardContent>
+              </Card>
+              
+              {/* Insert Ad After 3rd Specialty (Free users only) */}
+              {index === 2 && (
+                <div key="in-feed-ad" className="col-span-1 md:col-span-2 lg:col-span-3">
+                  <AdSlot 
+                    slot="9876543210"
+                    format="fluid"
+                    layout="in-article"
+                  />
                 </div>
-              </CardHeader>
-              <CardContent>
-                <p className="text-white/80 text-sm mb-3">
-                  {specialty.description}
-                </p>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="w-full bg-white/5 border-white/20 text-white hover:bg-white/10"
-                  onClick={() => setLocation(`/procedures/${specialty.id}`)}
-                  data-testid={`button-view-procedures-${specialty.id}`}
-                >
-                  View Procedures
-                </Button>
-              </CardContent>
-            </Card>
+              )}
+            </>
           ))}
         </div>
 

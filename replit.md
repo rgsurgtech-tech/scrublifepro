@@ -78,3 +78,22 @@ Preferred communication style: Simple, everyday language.
 - **TanStack Query**: Server state management with caching and synchronization
 - **React Hook Form**: Form validation with Zod schema validation
 - **date-fns**: Date manipulation and formatting utilities
+
+### Payment Processing and Subscriptions
+- **Stripe Integration**: Full subscription management with Stripe Checkout
+- **Subscription Tiers**: Three tiers - Free ($0), Standard ($14.99/month), Premium ($29.99/month)
+- **Webhook Handler**: Automated subscription status updates via Stripe webhooks
+- **Customer Management**: Automatic Stripe customer creation and linking to user accounts
+- **Checkout Session**: Secure redirect-based payment flow using Stripe Checkout
+- **Subscription Status Tracking**: Real-time subscription status and tier management in database
+
+## Recent Changes
+
+### Stripe Payment Integration (October 2025)
+- Implemented full Stripe Checkout integration for subscription payments
+- Created subscription products and pricing in Stripe (Standard $14.99, Premium $29.99)
+- Set up webhook endpoint for handling subscription lifecycle events
+- Configured proper success/cancel URLs for checkout flow
+- Integrated subscription tier updates with user authentication system
+- Added customer portal access for subscription management
+- Note: Stripe Checkout requires opening in new tab (not iframe) for security compliance

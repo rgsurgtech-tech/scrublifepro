@@ -16,41 +16,40 @@ export default function WelcomeScreen({ onGetStarted, onLogin }: WelcomeScreenPr
     {
       id: 'free' as const,
       name: 'Free',
-      price: 'Ad-Supported',
-      description: 'Access to one surgical specialty of your choice',
+      price: '$0/month',
+      description: 'Access to 50+ basic surgical procedures',
       features: [
-        'Full access to one specialty',
-        'Standard preference cards',
-        'Community forum access',
-        'Basic procedure guides'
+        '50+ basic procedures',
+        'Limited specialty access (3 specialties)',
+        'Community forum (read-only)',
+        'Basic instrument references'
       ],
       badge: 'Most Popular'
     },
     {
       id: 'standard' as const,
       name: 'Standard',
-      price: '$9.99/month',
-      description: 'Ad-free access to three surgical specialties',
+      price: '$14.99/month',
+      description: 'Access to 200+ procedures, 10 specialties, full community',
       features: [
-        'Access to 3 specialties',
-        'Custom preference cards',
-        'Personal notes & media',
-        'Ad-free experience',
-        'Cloud sync'
+        '200+ surgical procedures',
+        'Access to 10 specialties',
+        'Community forum (full access)',
+        'Complete instrument database',
+        'Unlimited personal notes'
       ],
       badge: 'Best Value'
     },
     {
       id: 'premium' as const,
       name: 'Premium',
-      price: '$19.99/month',
-      description: 'Unlimited access to all specialties plus premium features',
+      price: '$29.99/month',
+      description: 'Unlimited procedures, all specialties, video library',
       features: [
-        'All surgical specialties',
-        'Surgeon preference database',
-        'Facility insights',
-        'Advanced procedures',
-        'Duration estimates',
+        'Unlimited procedures',
+        'All 20 specialties',
+        'Video library access',
+        'CST verification badge',
         'Priority support'
       ],
       badge: 'Pro Choice'

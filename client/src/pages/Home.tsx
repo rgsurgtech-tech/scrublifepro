@@ -218,21 +218,21 @@ export default function Home() {
                 </div>
                 <CardHeader>
                   <CardTitle className="text-xl text-white">Standard</CardTitle>
-                  <div className="text-3xl font-bold text-white">$9.99<span className="text-lg font-normal text-white/70">/month</span></div>
+                  <div className="text-3xl font-bold text-white">$14.99<span className="text-lg font-normal text-white/70">/month</span></div>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <p className="flex items-center gap-2 text-white/70">
-                      ✓ 3 specialty access
+                      ✓ 200+ surgical procedures
                     </p>
                     <p className="flex items-center gap-2 text-white/70">
-                      ✓ Detailed procedure guides
+                      ✓ Access to 10 specialties
                     </p>
                     <p className="flex items-center gap-2 text-white/70">
-                      ✓ Personal notes & sync
+                      ✓ Community forum (full access)
                     </p>
                     <p className="flex items-center gap-2 text-white/70">
-                      ✓ Offline access
+                      ✓ Unlimited personal notes
                     </p>
                   </div>
                   <Button 
@@ -248,18 +248,18 @@ export default function Home() {
               <Card className="glass-card bg-transparent backdrop-blur-xl border-white/10" data-testid="card-pricing-premium">
                 <CardHeader>
                   <CardTitle className="text-xl text-white">Premium</CardTitle>
-                  <div className="text-3xl font-bold text-white">$19.99<span className="text-lg font-normal text-white/70">/month</span></div>
+                  <div className="text-3xl font-bold text-white">$29.99<span className="text-lg font-normal text-white/70">/month</span></div>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <p className="flex items-center gap-2 text-white/70">
-                      ✓ Unlimited specialties
+                      ✓ Unlimited procedures
                     </p>
                     <p className="flex items-center gap-2 text-white/70">
-                      ✓ All procedure content
+                      ✓ All 20 specialties
                     </p>
                     <p className="flex items-center gap-2 text-white/70">
-                      ✓ Advanced features
+                      ✓ Video library access
                     </p>
                     <p className="flex items-center gap-2 text-white/70">
                       ✓ Priority support

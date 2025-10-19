@@ -78,35 +78,39 @@ export default function Subscribe() {
   const [selectedTier, setSelectedTier] = useState<'standard' | 'premium'>('standard');
   const [showPayment, setShowPayment] = useState(false);
 
-  // Subscription tiers with Stripe price IDs (these would need to be created in Stripe Dashboard)
+  // Subscription tiers with Stripe price IDs from environment
   const tiers = [
     {
       id: 'standard' as const,
       name: 'Standard',
-      price: '$9.99/month',
-      priceId: 'price_1OWJgaA1B2C3D4E5F6G7H8I9', // Test price ID - will be created
-      description: 'Ad-free access to three surgical specialties',
+      price: '$14.99/month',
+      priceId: import.meta.env.VITE_STRIPE_STANDARD_PRICE_ID || 'price_standard', 
+      description: 'Access to 200+ procedures, 10 specialties, full community forum',
       features: [
-        'Access to 3 specialties',
-        'Custom preference cards',
-        'Personal notes & media',
-        'Ad-free experience',
-        'Cloud sync'
+        'Access to 200+ surgical procedures',
+        'Access to 10 specialties',
+        'Community forum (full access)',
+        'Complete instrument database',
+        'Personal notes (unlimited)',
+        'Procedure favorites'
       ],
       badge: 'Best Value'
     },
     {
       id: 'premium' as const,
       name: 'Premium',
-      price: '$19.99/month',
-      priceId: 'price_1OWJgbB2C3D4E5F6G7H8I9J0', // Test price ID - will be created
-      description: 'Unlimited access to all specialties plus premium features',
+      price: '$29.99/month',
+      priceId: import.meta.env.VITE_STRIPE_PREMIUM_PRICE_ID || 'price_premium',
+      description: 'Unlimited procedures, all specialties, video library, priority support',
       features: [
-        'All surgical specialties',
-        'Surgeon preference database',
-        'Facility insights',
-        'Advanced procedures',
-        'Duration estimates',
+        'Unlimited surgical procedures',
+        'All 20 specialties',
+        'Community forum (verified badge)',
+        'Complete instrument database',
+        'Video library (full access)',
+        'Unlimited notes & favorites',
+        'CST verification badge',
+        'Early access to new content',
         'Priority support'
       ],
       badge: 'Pro Choice'
@@ -118,16 +122,33 @@ export default function Subscribe() {
   const createSubscription = async () => {
     if (!selectedTierData) return;
     
-    // Demo mode: Since all users already have premium access, show success immediately
-    toast({
-      title: "✅ Subscription Activated",
-      description: `You already have ${selectedTier} access! All 1,595+ procedures and 20+ specialties are available to you.`,
-    });
-    
-    // Redirect to specialties to show access
-    setTimeout(() => {
-      setLocation('/specialties');
-    }, 2000);
+    try {
+      // Call backend to create Stripe Checkout session
+      const response: any = await apiRequest({
+        method: 'POST',
+        url: '/api/create-checkout-session',
+        data: {
+          priceId: selectedTierData.priceId
+        }
+      });
+
+      // Redirect to Stripe Checkout
+      if (response.url) {
+        window.location.href = response.url;
+      } else {
+        toast({
+          title: "Error",
+          description: "Unable to start checkout. Please try again.",
+          variant: "destructive"
+        });
+      }
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to create checkout session",
+        variant: "destructive"
+      });
+    }
   };
 
   const handleSubscriptionSuccess = () => {

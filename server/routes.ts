@@ -125,6 +125,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   });
   
+  app.post("/api/auth/change-password", async (req, res) => {
+    try {
+      if (!req.session.userId) {
+        return res.status(401).json({ error: "Not authenticated" });
+      }
+
+      const { currentPassword, newPassword } = req.body;
+      
+      if (!currentPassword || !newPassword) {
+        return res.status(400).json({ error: "Current password and new password required" });
+      }
+
+      if (newPassword.length < 6) {
+        return res.status(400).json({ error: "New password must be at least 6 characters" });
+      }
+
+      const user = await storage.getUserById(req.session.userId);
+      if (!user) {
+        return res.status(401).json({ error: "User not found" });
+      }
+
+      const validPassword = await bcrypt.compare(currentPassword, user.password);
+      if (!validPassword) {
+        return res.status(401).json({ error: "Current password is incorrect" });
+      }
+
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      await storage.updateUserPassword(user.id, hashedPassword);
+
+      res.json({ message: "Password updated successfully" });
+    } catch (error) {
+      console.error('Change password error:', error);
+      res.status(500).json({ error: "Failed to change password" });
+    }
+  });
+  
   app.get("/api/auth/me", async (req, res) => {
     try {
       console.log('🔧 Auth check - sessionId:', req.sessionID, 'userId:', req.session.userId, 'hasSession:', !!req.session);

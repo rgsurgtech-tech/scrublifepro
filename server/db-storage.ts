@@ -103,6 +103,15 @@ export class DatabaseStorage implements IStorage {
     return result[0] || null;
   }
 
+  async updateUserPassword(id: string, hashedPassword: string): Promise<void> {
+    await db.update(users)
+      .set({ 
+        password: hashedPassword,
+        updatedAt: new Date() 
+      })
+      .where(eq(users.id, id));
+  }
+
   // Specialties
   async getAllSpecialties(): Promise<Specialty[]> {
     // Get specialties with actual procedure counts

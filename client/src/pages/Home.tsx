@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLocation } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
@@ -40,11 +41,40 @@ interface Specialty {
 export default function Home() {
   const { user, isLoading } = useAuth();
   const [, setLocation] = useLocation();
+  const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'annual'>('annual'); // Default to annual (best value)
   
   // Fetch all specialties to display real data
   const { data: allSpecialties } = useQuery<Specialty[]>({
     queryKey: ['/api/specialties'],
   });
+
+  // Pricing data with both monthly and annual options
+  const pricingData = {
+    standard: {
+      monthly: 14.99,
+      annual: 149.90,
+      savings: (14.99 * 12 - 149.90).toFixed(2)
+    },
+    premium: {
+      monthly: 29.99,
+      annual: 299.90,
+      savings: (29.99 * 12 - 299.90).toFixed(2)
+    }
+  };
+
+  // Get display price based on billing period
+  const getDisplayPrice = (tier: 'standard' | 'premium') => {
+    if (billingPeriod === 'monthly') {
+      return pricingData[tier].monthly.toFixed(2);
+    } else {
+      return (pricingData[tier].annual / 12).toFixed(2);
+    }
+  };
+
+  // Get annual total
+  const getAnnualPrice = (tier: 'standard' | 'premium') => {
+    return pricingData[tier].annual.toFixed(2);
+  };
 
   if (isLoading) {
     return (
@@ -183,7 +213,39 @@ export default function Home() {
           </div>
 
           <div className="text-center">
-            <h2 className="text-3xl font-bold mb-8 text-white">Choose Your Plan</h2>
+            <h2 className="text-3xl font-bold mb-6 text-white">Choose Your Plan</h2>
+            
+            {/* Billing Period Toggle */}
+            <div className="flex justify-center mb-8">
+              <div className="inline-flex items-center gap-4 p-1 bg-white/10 backdrop-blur-xl rounded-lg">
+                <button
+                  onClick={() => setBillingPeriod('monthly')}
+                  className={`px-6 py-2 rounded-md transition-all ${
+                    billingPeriod === 'monthly'
+                      ? 'bg-white/90 text-black shadow-sm'
+                      : 'text-white hover:bg-white/5'
+                  }`}
+                  data-testid="toggle-monthly"
+                >
+                  <span className="font-medium">Monthly</span>
+                </button>
+                <button
+                  onClick={() => setBillingPeriod('annual')}
+                  className={`px-6 py-2 rounded-md transition-all flex items-center gap-2 ${
+                    billingPeriod === 'annual'
+                      ? 'bg-white/90 text-black shadow-sm'
+                      : 'text-white hover:bg-white/5'
+                  }`}
+                  data-testid="toggle-annual"
+                >
+                  <span className="font-medium">Annual</span>
+                  <Badge variant="default" className="bg-green-600 dark:bg-green-600 text-white">
+                    Save 17%
+                  </Badge>
+                </button>
+              </div>
+            </div>
+            
             <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
               <Card className="glass-card bg-transparent backdrop-blur-xl border-white/10" data-testid="card-pricing-free">
                 <CardHeader>
@@ -218,7 +280,22 @@ export default function Home() {
                 </div>
                 <CardHeader>
                   <CardTitle className="text-xl text-white">Standard</CardTitle>
-                  <div className="text-3xl font-bold text-white">$14.99<span className="text-lg font-normal text-white/70">/month</span></div>
+                  <div className="flex flex-col items-center">
+                    <div className="text-3xl font-bold text-white">
+                      ${getDisplayPrice('standard')}
+                      <span className="text-lg font-normal text-white/70">/month</span>
+                    </div>
+                    {billingPeriod === 'annual' && (
+                      <>
+                        <div className="text-sm text-white/60 mt-1">
+                          (${getAnnualPrice('standard')}/year)
+                        </div>
+                        <Badge variant="secondary" className="mt-2 bg-green-100/90 dark:bg-green-900/90 text-green-800 dark:text-green-200">
+                          Save ${pricingData.standard.savings}
+                        </Badge>
+                      </>
+                    )}
+                  </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
@@ -248,7 +325,22 @@ export default function Home() {
               <Card className="glass-card bg-transparent backdrop-blur-xl border-white/10" data-testid="card-pricing-premium">
                 <CardHeader>
                   <CardTitle className="text-xl text-white">Premium</CardTitle>
-                  <div className="text-3xl font-bold text-white">$29.99<span className="text-lg font-normal text-white/70">/month</span></div>
+                  <div className="flex flex-col items-center">
+                    <div className="text-3xl font-bold text-white">
+                      ${getDisplayPrice('premium')}
+                      <span className="text-lg font-normal text-white/70">/month</span>
+                    </div>
+                    {billingPeriod === 'annual' && (
+                      <>
+                        <div className="text-sm text-white/60 mt-1">
+                          (${getAnnualPrice('premium')}/year)
+                        </div>
+                        <Badge variant="secondary" className="mt-2 bg-green-100/90 dark:bg-green-900/90 text-green-800 dark:text-green-200">
+                          Save ${pricingData.premium.savings}
+                        </Badge>
+                      </>
+                    )}
+                  </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">

@@ -2,6 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Screenshot Protection */
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Allow selection for input fields */
+input, textarea {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+/* Prevent screenshot on mobile */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  body {
+    -webkit-touch-callout: none;
+  }
+}
+
+/* Add watermark overlay to discourage screenshots */
+body::after {
+  content: "SCRUB LIFE PRO - PROTECTED CONTENT";
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  font-size: 4rem;
+  color: rgba(128, 128, 128, 0.05);
+  pointer-events: none;
+  z-index: 9998;
+  white-space: nowrap;
+  font-weight: bold;
+}
+
 /* LIGHT MODE */
 :root {
   --button-outline: rgba(0,0,0, .10);

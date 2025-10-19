@@ -36,6 +36,12 @@ interface Specialty {
   color: string;
 }
 
+type UserSpecialtiesData = {
+  selectedSpecialties: string[];
+  subscriptionTier: string;
+  maxSpecialties: number | null;
+};
+
 export default function Specialties() {
   const { user, isLoading } = useAuth();
   const [, setLocation] = useLocation();
@@ -44,7 +50,13 @@ export default function Specialties() {
     queryKey: ['/api/specialties'],
   });
 
-  if (isLoading || specialtiesLoading) {
+  // Fetch user's selected specialties
+  const { data: userSpecialties, isLoading: userSpecialtiesLoading } = useQuery<UserSpecialtiesData>({
+    queryKey: ['/api/user/specialties'],
+    enabled: !!user, // Only fetch if user is logged in
+  });
+
+  if (isLoading || specialtiesLoading || userSpecialtiesLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -54,6 +66,13 @@ export default function Specialties() {
       </div>
     );
   }
+
+  // Filter specialties based on user's subscription tier
+  const displayedSpecialties = user && (user.subscriptionTier === 'free' || user.subscriptionTier === 'standard')
+    ? specialties?.filter(s => userSpecialties?.selectedSpecialties?.includes(s.id)) || []
+    : specialties || [];
+
+  const hasSelectedSpecialties = userSpecialties?.selectedSpecialties && userSpecialties.selectedSpecialties.length > 0;
 
 
   return (
@@ -71,27 +90,65 @@ export default function Specialties() {
       
       <div className="relative z-10 container mx-auto px-4 py-8">
         {/* Header */}
-        <div className="flex items-center mb-8">
-          <Button 
-            variant="ghost" 
-            size="icon"
-            onClick={() => setLocation('/')}
-            className="text-white hover:bg-white/10 mr-4"
-            data-testid="button-back"
-          >
-            <ArrowLeft className="w-6 h-6" />
-          </Button>
-          <div>
-            <h1 className="text-3xl font-bold text-white mb-2">Surgical Specialties</h1>
-            <p className="text-white/80">
-              Comprehensive coverage of {specialties?.length || 20} surgical specialties
-            </p>
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center">
+            <Button 
+              variant="ghost" 
+              size="icon"
+              onClick={() => setLocation('/')}
+              className="text-white hover:bg-white/10 mr-4"
+              data-testid="button-back"
+            >
+              <ArrowLeft className="w-6 h-6" />
+            </Button>
+            <div>
+              <h1 className="text-3xl font-bold text-white mb-2">Surgical Specialties</h1>
+              <p className="text-white/80">
+                {user && (user.subscriptionTier === 'free' || user.subscriptionTier === 'standard')
+                  ? `Your selected specialties (${displayedSpecialties.length} of ${userSpecialties?.maxSpecialties || 0})`
+                  : `Comprehensive coverage of ${specialties?.length || 20} surgical specialties`
+                }
+              </p>
+            </div>
           </div>
+          {/* Manage Specialties Button for Free/Standard users */}
+          {user && (user.subscriptionTier === 'free' || user.subscriptionTier === 'standard') && (
+            <Button
+              variant="outline"
+              onClick={() => setLocation('/profile')} // Can be changed to a specialty selector page
+              className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+              data-testid="button-manage-specialties"
+            >
+              Manage Specialties
+            </Button>
+          )}
         </div>
+
+        {/* Empty State for Free/Standard users with no selections */}
+        {user && (user.subscriptionTier === 'free' || user.subscriptionTier === 'standard') && !hasSelectedSpecialties && (
+          <Card className="bg-white/10 backdrop-blur-md border-white/20 text-white p-8 text-center">
+            <CardHeader>
+              <CardTitle className="text-2xl mb-4">No Specialties Selected</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-white/80 mb-6">
+                Your {user.subscriptionTier} plan allows you to select up to {userSpecialties?.maxSpecialties || 0} {userSpecialties?.maxSpecialties === 1 ? 'specialty' : 'specialties'}. 
+                Please select your specialties to get started.
+              </p>
+              <Button
+                onClick={() => setLocation('/profile')}
+                className="bg-primary hover:bg-primary/90 text-white"
+                data-testid="button-select-specialties"
+              >
+                Select Specialties
+              </Button>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Specialties Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {specialties?.map((specialty) => (
+          {displayedSpecialties?.map((specialty) => (
             <Card 
               key={specialty.id} 
               className="bg-white/10 backdrop-blur-md border-white/20 text-white hover-elevate"

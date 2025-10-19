@@ -165,6 +165,61 @@ export async function registerRoutes(app: Express): Promise<Server> {
     next();
   };
   
+  // Specialty selection routes
+  app.get("/api/user/specialties", requireAuth, async (req: any, res) => {
+    try {
+      const user = req.user;
+      res.json({ 
+        selectedSpecialties: user.selectedSpecialties || [],
+        subscriptionTier: user.subscriptionTier,
+        maxSpecialties: user.subscriptionTier === 'free' ? 1 : user.subscriptionTier === 'standard' ? 10 : null
+      });
+    } catch (error) {
+      console.error('Get specialties error:', error);
+      res.status(500).json({ error: "Failed to get specialties" });
+    }
+  });
+
+  app.post("/api/user/specialties", requireAuth, async (req: any, res) => {
+    try {
+      const user = req.user;
+      const { specialtyIds } = req.body;
+
+      if (!Array.isArray(specialtyIds)) {
+        return res.status(400).json({ error: "specialtyIds must be an array" });
+      }
+
+      // Validate limits based on subscription tier
+      const maxSpecialties = user.subscriptionTier === 'free' ? 1 : user.subscriptionTier === 'standard' ? 10 : null;
+      
+      if (maxSpecialties && specialtyIds.length > maxSpecialties) {
+        return res.status(400).json({ 
+          error: `Your ${user.subscriptionTier} plan allows a maximum of ${maxSpecialties} ${maxSpecialties === 1 ? 'specialty' : 'specialties'}`
+        });
+      }
+
+      // Verify all specialty IDs exist
+      const allSpecialties = await storage.getAllSpecialties();
+      const validSpecialtyIds = allSpecialties.map(s => s.id);
+      const invalidIds = specialtyIds.filter((id: string) => !validSpecialtyIds.includes(id));
+      
+      if (invalidIds.length > 0) {
+        return res.status(400).json({ error: "Invalid specialty IDs provided" });
+      }
+
+      // Update user's selected specialties
+      const updatedUser = await storage.updateUser(user.id, {
+        selectedSpecialties: specialtyIds
+      });
+
+      const { password, ...userResponse } = updatedUser;
+      res.json({ user: userResponse });
+    } catch (error) {
+      console.error('Update specialties error:', error);
+      res.status(500).json({ error: "Failed to update specialties" });
+    }
+  });
+  
   // Manual seed endpoint for production database (secured with secret key)
   app.post("/api/admin/reseed", async (req, res) => {
     try {

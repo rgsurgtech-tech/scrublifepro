@@ -107,7 +107,7 @@ export default function Home() {
             <div className="mb-8 inline-block mx-auto p-8 rounded-2xl bg-white">
               <img 
                 src={logoImage} 
-                alt="Scrubbable" 
+                alt="Scrub Life Pro" 
                 style={{ 
                   height: '400px', 
                   width: '400px',
@@ -393,7 +393,7 @@ export default function Home() {
           <div className="flex items-center gap-3 p-4 rounded-xl bg-white">
             <img 
               src={logoImage} 
-              alt="Scrubbable" 
+              alt="Scrub Life Pro" 
               style={{ 
                 height: '400px', 
                 width: '400px',

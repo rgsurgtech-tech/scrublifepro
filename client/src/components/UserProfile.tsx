@@ -531,7 +531,7 @@ export default function UserProfile({ onBack }: UserProfileProps) {
             onClick={() => {
               toast({
                 title: 'Help & Support',
-                description: 'Help documentation and support chat coming soon! For now, contact support@scrubbable.com for assistance.',
+                description: 'Help documentation and support chat coming soon! For now, contact support@scrublifepro.com for assistance.',
               });
             }}
             data-testid="button-support"
@@ -561,7 +561,7 @@ export default function UserProfile({ onBack }: UserProfileProps) {
       {/* App Version */}
       <div className="text-center py-4">
         <p className="text-xs text-muted-foreground">
-          Scrubbable v1.0.0
+          Scrub Life Pro v1.0.0
         </p>
       </div>
     </div>

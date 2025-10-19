@@ -129,6 +129,31 @@ Preferred communication style: Simple, everyday language.
   - Non-intrusive content protection
   - Maintains professional user experience while protecting content
 
+### Google AdSense Integration for Free Tier (October 2025)
+- **Revenue Monetization**:
+  - Integrated Google AdSense to monetize free tier users
+  - Ad-free experience remains exclusive benefit for Standard and Premium tiers
+  - Generates revenue while maintaining professional appearance with glassmorphism styling
+- **AdSlot Component**:
+  - Intelligent component that checks user subscription tier
+  - Only displays ads to free tier users (subscriptionTier === 'free')
+  - Handles AdSense script lifecycle and lazy loading for performance
+  - Styled with glassmorphism design to match platform aesthetic
+  - Includes upgrade prompt near ads to encourage conversions
+- **Strategic Ad Placements**:
+  - Home page banner ad below welcome section (auto-responsive format)
+  - Specialties page in-feed ad after 3rd specialty card (fluid/in-article format)
+  - Non-intrusive placement that doesn't disrupt user experience
+- **Implementation Details**:
+  - AdSense script integrated into client/index.html with async loading
+  - Publisher ID placeholder (ca-pub-XXXXXXXXXXXXXXXX) requires user configuration
+  - Ad units bypass screenshot protection to comply with AdSense policies
+  - Lazy loading ensures ads don't impact page performance
+- **Setup Requirements**:
+  - User must replace placeholder publisher ID in client/index.html
+  - Ad slot IDs (data-ad-slot) are placeholders and need real AdSense configuration
+  - Ads will display once AdSense account is approved and properly configured
+
 ### Annual Billing Option Added (October 2025)
 - Added monthly and annual billing options with toggle on subscribe page
 - Annual plans offer 16.7% discount (equivalent to 2 months free) - industry standard

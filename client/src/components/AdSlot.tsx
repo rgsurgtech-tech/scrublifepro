@@ -52,7 +52,7 @@ export function AdSlot({
   }
 
   // Get publisher ID from environment variable
-  const publisherId = import.meta.env.VITE_ADSENSE_PUBLISHER_ID || 'ca-pub-0000000000000000';
+  const publisherId = import.meta.env.VITE_ADSENSE_PUBLISHER_ID || 'ca-pub-2531328996093115';
 
   return (
     <div className={`ad-container ${className}`}>

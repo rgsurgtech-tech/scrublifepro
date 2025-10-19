@@ -124,17 +124,19 @@ export default function Subscribe() {
     
     try {
       // Call backend to create Stripe Checkout session
-      const response: any = await apiRequest({
-        method: 'POST',
-        url: '/api/create-checkout-session',
-        data: {
+      const response = await apiRequest(
+        'POST',
+        '/api/create-checkout-session',
+        {
           priceId: selectedTierData.priceId
         }
-      });
+      );
+
+      const data = await response.json();
 
       // Redirect to Stripe Checkout
-      if (response.url) {
-        window.location.href = response.url;
+      if (data.url) {
+        window.location.href = data.url;
       } else {
         toast({
           title: "Error",

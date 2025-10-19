@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { User, Settings, CreditCard, Bell, Shield, Moon, Download, Star, LogOut, Crown } from "lucide-react";
+import { User, Settings, CreditCard, Bell, Shield, Moon, Download, Star, LogOut, Crown, Lock } from "lucide-react";
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
 import { apiRequest } from '@/lib/queryClient';
@@ -31,6 +31,12 @@ export default function UserProfile({ onBack }: UserProfileProps) {
     certificationNumber: "12345",
     yearsExperience: "5-10",
     primarySpecialty: "General Surgery"
+  });
+
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: ""
   });
 
   // Sync userInfo with real auth data when user loads
@@ -87,6 +93,32 @@ export default function UserProfile({ onBack }: UserProfileProps) {
     }
   });
 
+  // Password change mutation
+  const changePasswordMutation = useMutation({
+    mutationFn: async (data: { currentPassword: string; newPassword: string }) => {
+      const response = await apiRequest('POST', '/api/auth/change-password', data);
+      return response;
+    },
+    onSuccess: () => {
+      toast({
+        title: 'Password changed successfully',
+        description: 'Your password has been updated.'
+      });
+      setPasswordForm({
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: ""
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: 'Password change failed',
+        description: error.message || 'Failed to change password',
+        variant: 'destructive'
+      });
+    }
+  });
+
   const handleProfileUpdate = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Profile updated:', userInfo);
@@ -95,6 +127,43 @@ export default function UserProfile({ onBack }: UserProfileProps) {
   const handleSettingsUpdate = (key: string, value: boolean) => {
     setSettings(prev => ({ ...prev, [key]: value }));
     console.log('Settings updated:', { [key]: value });
+  };
+
+  const handlePasswordChange = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Validation
+    if (!passwordForm.currentPassword || !passwordForm.newPassword || !passwordForm.confirmPassword) {
+      toast({
+        title: 'All fields required',
+        description: 'Please fill in all password fields',
+        variant: 'destructive'
+      });
+      return;
+    }
+
+    if (passwordForm.newPassword.length < 6) {
+      toast({
+        title: 'Password too short',
+        description: 'New password must be at least 6 characters',
+        variant: 'destructive'
+      });
+      return;
+    }
+
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+      toast({
+        title: 'Passwords do not match',
+        description: 'New password and confirmation must match',
+        variant: 'destructive'
+      });
+      return;
+    }
+
+    changePasswordMutation.mutate({
+      currentPassword: passwordForm.currentPassword,
+      newPassword: passwordForm.newPassword
+    });
   };
 
   return (
@@ -290,6 +359,65 @@ export default function UserProfile({ onBack }: UserProfileProps) {
 
             <Button type="submit" className="w-full" data-testid="button-update-profile">
               Update Profile
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+
+      {/* Security - Change Password */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base flex items-center gap-2">
+            <Lock className="h-4 w-4" />
+            Security
+          </CardTitle>
+          <CardDescription className="text-xs">
+            Change your account password
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handlePasswordChange} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="currentPassword" className="text-sm">Current Password</Label>
+              <Input
+                id="currentPassword"
+                type="password"
+                value={passwordForm.currentPassword}
+                onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })}
+                data-testid="input-current-password"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="newPassword" className="text-sm">New Password</Label>
+              <Input
+                id="newPassword"
+                type="password"
+                value={passwordForm.newPassword}
+                onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
+                data-testid="input-new-password"
+              />
+              <p className="text-xs text-muted-foreground">Must be at least 6 characters</p>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="confirmPassword" className="text-sm">Confirm New Password</Label>
+              <Input
+                id="confirmPassword"
+                type="password"
+                value={passwordForm.confirmPassword}
+                onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })}
+                data-testid="input-confirm-password"
+              />
+            </div>
+
+            <Button 
+              type="submit" 
+              className="w-full" 
+              disabled={changePasswordMutation.isPending}
+              data-testid="button-change-password"
+            >
+              {changePasswordMutation.isPending ? 'Changing Password...' : 'Change Password'}
             </Button>
           </form>
         </CardContent>

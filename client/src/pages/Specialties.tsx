@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLocation } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
@@ -6,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Heart, Eye, Brain, Bone, Scissors, Baby, Activity, Stethoscope, Zap, Wrench, Target, Wind, Dna, Shield, Truck, Repeat } from 'lucide-react';
 import surgicalBg from '@assets/stock_images/surgical_operating_r_269f4a87.jpg';
+import { SpecialtySelector } from '@/components/SpecialtySelector';
 
 // Icon mapping for specialties - matches the icon strings in the database
 const iconMap: { [key: string]: React.ReactNode } = {
@@ -45,6 +47,7 @@ type UserSpecialtiesData = {
 export default function Specialties() {
   const { user, isLoading } = useAuth();
   const [, setLocation] = useLocation();
+  const [showSpecialtySelector, setShowSpecialtySelector] = useState(false);
 
   const { data: specialties, isLoading: specialtiesLoading } = useQuery<Specialty[]>({
     queryKey: ['/api/specialties'],
@@ -115,7 +118,7 @@ export default function Specialties() {
           {user && (user.subscriptionTier === 'free' || user.subscriptionTier === 'standard') && (
             <Button
               variant="outline"
-              onClick={() => setLocation('/profile')} // Can be changed to a specialty selector page
+              onClick={() => setShowSpecialtySelector(true)}
               className="bg-white/10 border-white/20 text-white hover:bg-white/20"
               data-testid="button-manage-specialties"
             >
@@ -136,7 +139,7 @@ export default function Specialties() {
                 Please select your specialties to get started.
               </p>
               <Button
-                onClick={() => setLocation('/profile')}
+                onClick={() => setShowSpecialtySelector(true)}
                 className="bg-primary hover:bg-primary/90 text-white"
                 data-testid="button-select-specialties"
               >
@@ -221,6 +224,14 @@ export default function Specialties() {
           </Card>
         </div>
       </div>
+
+      {/* Specialty Selector Modal */}
+      {user && (user.subscriptionTier === 'free' || user.subscriptionTier === 'standard') && (
+        <SpecialtySelector 
+          open={showSpecialtySelector}
+          onOpenChange={setShowSpecialtySelector}
+        />
+      )}
     </div>
   );
 }

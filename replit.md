@@ -92,6 +92,43 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+### Specialty Selection System with Tier Limits (October 2025)
+- **Backend API Endpoints**: 
+  - GET /api/user/specialties - Returns user's selected specialties, tier, and max limit
+  - POST /api/user/specialties - Saves specialty selections with server-side tier validation
+- **Specialty Selector Modal Component**:
+  - Dialog-based UI for selecting specialties with checkboxes
+  - Real-time validation with toast error messages for tier limit violations
+  - Shows tier information and selection count
+  - Cancel and Save buttons with loading states
+  - Automatic query invalidation and page refresh after save
+- **Tier-Based Access Control**:
+  - Free tier: 1 specialty maximum
+  - Standard tier: 10 specialties maximum
+  - Premium tier: Unlimited access (all 20 specialties)
+- **Specialties Page Filtering**:
+  - Free/Standard users see only their selected specialties
+  - Premium users see all 20 specialties
+  - Empty state with call-to-action for users without selections
+  - "Manage Specialties" button in header for tier-restricted users
+- **User Experience**:
+  - Click specialty cards to toggle selection
+  - Visual feedback with checkmarks and ring highlights
+  - Selection summary displayed in modal
+  - Graceful error handling with toast notifications
+
+### Screenshot Protection System (October 2025)
+- **Multi-Layer Protection**:
+  - CSS-based watermarking with user-select: none
+  - JavaScript event blocking for right-click and context menus
+  - Keyboard shortcut blocking (PrintScreen, Ctrl+P, Ctrl+S, F12, DevTools)
+  - Blur event detection for screenshot tool monitoring
+- **User-Friendly Implementation**:
+  - Form fields remain selectable for usability
+  - Silent error handling for clipboard operations
+  - Non-intrusive content protection
+  - Maintains professional user experience while protecting content
+
 ### Annual Billing Option Added (October 2025)
 - Added monthly and annual billing options with toggle on subscribe page
 - Annual plans offer 16.7% discount (equivalent to 2 months free) - industry standard

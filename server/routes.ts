@@ -22,7 +22,8 @@ import {
   handleCheckoutCompleted,
   handleSubscriptionUpdated,
   handleSubscriptionDeleted,
-  handleTrialWillEnd
+  handleTrialWillEnd,
+  initializeAnnualPrices
 } from "./stripe-handlers";
 import { STRIPE_PRICES, canAccessFeature } from "./subscription-config";
 
@@ -625,8 +626,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: 'Price ID is required' });
       }
 
-      // Validate price ID
-      const validPrices = [STRIPE_PRICES.standard, STRIPE_PRICES.premium];
+      // Validate price ID (both monthly and annual)
+      const validPrices = [
+        STRIPE_PRICES.standard, 
+        STRIPE_PRICES.premium,
+        STRIPE_PRICES.standardAnnual,
+        STRIPE_PRICES.premiumAnnual
+      ];
       if (!validPrices.includes(priceId)) {
         return res.status(400).json({ error: 'Invalid price ID' });
       }
@@ -707,6 +713,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin endpoint to initialize annual prices
+  app.post('/api/admin/initialize-annual-prices', async (req, res) => {
+    try {
+      const priceIds = await initializeAnnualPrices();
+      res.json({ 
+        success: true, 
+        priceIds,
+        message: 'Annual prices initialized successfully' 
+      });
+    } catch (error: any) {
+      console.error('Initialize annual prices error:', error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+
   // Get pricing information
   app.get('/api/pricing', (req, res) => {
     res.json({
@@ -726,8 +747,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         {
           id: 'standard',
           name: 'Standard',
-          price: 14.99,
-          priceId: STRIPE_PRICES.standard,
+          monthlyPrice: 14.99,
+          annualPrice: 149.90,
+          monthlyPriceId: STRIPE_PRICES.standard,
+          annualPriceId: STRIPE_PRICES.standardAnnual,
           features: [
             'Access to 200+ surgical procedures',
             'Access to 10 specialties',
@@ -740,8 +763,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         {
           id: 'premium',
           name: 'Premium',
-          price: 29.99,
-          priceId: STRIPE_PRICES.premium,
+          monthlyPrice: 29.99,
+          annualPrice: 299.90,
+          monthlyPriceId: STRIPE_PRICES.premium,
+          annualPriceId: STRIPE_PRICES.premiumAnnual,
           features: [
             'Unlimited surgical procedures',
             'All 20 specialties',

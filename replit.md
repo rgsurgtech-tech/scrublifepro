@@ -81,13 +81,24 @@ Preferred communication style: Simple, everyday language.
 
 ### Payment Processing and Subscriptions
 - **Stripe Integration**: Full subscription management with Stripe Checkout
-- **Subscription Tiers**: Three tiers - Free ($0), Standard ($14.99/month), Premium ($29.99/month)
+- **Subscription Tiers**: Three tiers - Free ($0), Standard, Premium
+- **Flexible Billing**: Monthly or annual billing options with 16.7% discount for annual (2 months free)
+  - Standard: $14.99/month or $149.90/year
+  - Premium: $29.99/month or $299.90/year
 - **Webhook Handler**: Automated subscription status updates via Stripe webhooks
 - **Customer Management**: Automatic Stripe customer creation and linking to user accounts
 - **Checkout Session**: Secure redirect-based payment flow using Stripe Checkout
 - **Subscription Status Tracking**: Real-time subscription status and tier management in database
 
 ## Recent Changes
+
+### Annual Billing Option Added (October 2025)
+- Added monthly and annual billing options with toggle on subscribe page
+- Annual plans offer 16.7% discount (equivalent to 2 months free) - industry standard
+- Pricing: Standard $14.99/month or $149.90/year, Premium $29.99/month or $299.90/year
+- Automatic annual price creation in Stripe via initialization endpoint
+- Webhook handlers updated to recognize both monthly and annual subscriptions
+- UI shows savings breakdown and encourages annual subscriptions as default
 
 ### Production Ready - Beta Testing Removed (October 2025)
 - Removed beta testing access modal and banner
@@ -96,7 +107,7 @@ Preferred communication style: Simple, everyday language.
 
 ### Stripe Payment Integration (October 2025)
 - Implemented full Stripe Checkout integration for subscription payments
-- Created subscription products and pricing in Stripe (Standard $14.99, Premium $29.99)
+- Created subscription products and pricing in Stripe
 - Set up webhook endpoint for handling subscription lifecycle events
 - Configured proper success/cancel URLs for checkout flow with correct domain handling
 - Integrated subscription tier updates with user authentication system

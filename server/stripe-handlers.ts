@@ -1,5 +1,6 @@
 import Stripe from 'stripe';
 import { storage } from './storage';
+import { ANNUAL_PRICING } from './subscription-config';
 
 // Initialize Stripe
 if (!process.env.STRIPE_SECRET_KEY) {
@@ -9,6 +10,79 @@ if (!process.env.STRIPE_SECRET_KEY) {
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2025-08-27.basil',
 });
+
+/**
+ * Initialize annual Stripe products and prices
+ * Call this once to create annual pricing options
+ */
+export async function initializeAnnualPrices() {
+  try {
+    console.log('🔧 Checking for annual Stripe prices...');
+    
+    // Get existing products
+    const products = await stripe.products.list({ limit: 100 });
+    
+    // Find Standard and Premium products
+    const standardProduct = products.data.find(p => p.name === 'Scrub Life Pro Standard');
+    const premiumProduct = products.data.find(p => p.name === 'Scrub Life Pro Premium');
+    
+    if (!standardProduct || !premiumProduct) {
+      console.log('⚠️ Standard or Premium product not found. Please create monthly products first.');
+      return null;
+    }
+    
+    // Check if annual prices already exist
+    const standardPrices = await stripe.prices.list({ product: standardProduct.id });
+    const premiumPrices = await stripe.prices.list({ product: premiumProduct.id });
+    
+    const standardAnnualExists = standardPrices.data.some(p => p.recurring?.interval === 'year');
+    const premiumAnnualExists = premiumPrices.data.some(p => p.recurring?.interval === 'year');
+    
+    let standardAnnualPrice, premiumAnnualPrice;
+    
+    // Create Standard annual price if it doesn't exist
+    if (!standardAnnualExists) {
+      console.log('📝 Creating Standard annual price...');
+      standardAnnualPrice = await stripe.prices.create({
+        product: standardProduct.id,
+        unit_amount: Math.round(ANNUAL_PRICING.standard * 100), // Convert to cents
+        currency: 'usd',
+        recurring: {
+          interval: 'year',
+        },
+      });
+      console.log(`✅ Standard annual price created: ${standardAnnualPrice.id}`);
+    } else {
+      standardAnnualPrice = standardPrices.data.find(p => p.recurring?.interval === 'year');
+      console.log(`✅ Standard annual price already exists: ${standardAnnualPrice?.id}`);
+    }
+    
+    // Create Premium annual price if it doesn't exist
+    if (!premiumAnnualExists) {
+      console.log('📝 Creating Premium annual price...');
+      premiumAnnualPrice = await stripe.prices.create({
+        product: premiumProduct.id,
+        unit_amount: Math.round(ANNUAL_PRICING.premium * 100), // Convert to cents
+        currency: 'usd',
+        recurring: {
+          interval: 'year',
+        },
+      });
+      console.log(`✅ Premium annual price created: ${premiumAnnualPrice.id}`);
+    } else {
+      premiumAnnualPrice = premiumPrices.data.find(p => p.recurring?.interval === 'year');
+      console.log(`✅ Premium annual price already exists: ${premiumAnnualPrice?.id}`);
+    }
+    
+    return {
+      standardAnnual: standardAnnualPrice?.id,
+      premiumAnnual: premiumAnnualPrice?.id,
+    };
+  } catch (error) {
+    console.error('Error initializing annual prices:', error);
+    throw error;
+  }
+}
 
 /**
  * Create a Stripe Checkout session for subscription
@@ -111,11 +185,13 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session) 
     const subscription = await stripe.subscriptions.retrieve(subscriptionId);
     const priceId = subscription.items.data[0]?.price.id;
 
-    // Determine tier based on price ID
+    // Determine tier based on price ID (check both monthly and annual)
     let tier = 'free';
-    if (priceId === process.env.STRIPE_STANDARD_PRICE_ID) {
+    if (priceId === process.env.STRIPE_STANDARD_PRICE_ID || 
+        priceId === process.env.STRIPE_STANDARD_ANNUAL_PRICE_ID) {
       tier = 'standard';
-    } else if (priceId === process.env.STRIPE_PREMIUM_PRICE_ID) {
+    } else if (priceId === process.env.STRIPE_PREMIUM_PRICE_ID || 
+               priceId === process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID) {
       tier = 'premium';
     }
 
@@ -147,13 +223,15 @@ export async function handleSubscriptionUpdated(subscription: Stripe.Subscriptio
     const priceId = subscription.items.data[0]?.price.id;
     const status = subscription.status;
 
-    // Determine tier based on subscription status and price
+    // Determine tier based on subscription status and price (check both monthly and annual)
     let tier = 'free';
     
     if (status === 'active' || status === 'trialing') {
-      if (priceId === process.env.STRIPE_STANDARD_PRICE_ID) {
+      if (priceId === process.env.STRIPE_STANDARD_PRICE_ID || 
+          priceId === process.env.STRIPE_STANDARD_ANNUAL_PRICE_ID) {
         tier = 'standard';
-      } else if (priceId === process.env.STRIPE_PREMIUM_PRICE_ID) {
+      } else if (priceId === process.env.STRIPE_PREMIUM_PRICE_ID || 
+                 priceId === process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID) {
         tier = 'premium';
       }
     }

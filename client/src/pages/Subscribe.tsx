@@ -1,6 +1,3 @@
-// From javascript_stripe integration - subscription page
-import { useStripe, Elements, PaymentElement, useElements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
 import { useEffect, useState } from 'react';
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -11,80 +8,23 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle, ArrowLeft } from "lucide-react";
 
-// Make sure to call `loadStripe` outside of a component's render to avoid
-// recreating the `Stripe` object on every render.
-if (!import.meta.env.VITE_STRIPE_PUBLIC_KEY) {
-  throw new Error('Missing required Stripe key: VITE_STRIPE_PUBLIC_KEY');
-}
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
-
-const SubscribeForm = ({ tier, onSuccess }: { tier: string; onSuccess: () => void }) => {
-  const stripe = useStripe();
-  const elements = useElements();
-  const { toast } = useToast();
-  const [isProcessing, setIsProcessing] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsProcessing(true);
-
-    if (!stripe || !elements) {
-      return;
-    }
-
-    const { error } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        return_url: `${window.location.origin}/profile?success=true`,
-      },
-    });
-
-    if (error) {
-      toast({
-        title: "Payment Failed",
-        description: error.message,
-        variant: "destructive",
-      });
-    } else {
-      toast({
-        title: "Payment Successful",
-        description: "You are subscribed!",
-      });
-      onSuccess();
-    }
-    setIsProcessing(false);
-  }
-
-  return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <PaymentElement />
-      <Button 
-        type="submit" 
-        className="w-full" 
-        disabled={!stripe || isProcessing}
-        data-testid="button-confirm-payment"
-      >
-        {isProcessing ? 'Processing...' : `Subscribe to ${tier}`}
-      </Button>
-    </form>
-  );
-};
-
 export default function Subscribe() {
   const [, setLocation] = useLocation();
-  const { user, refetch } = useAuth();
+  const { user } = useAuth();
   const { toast } = useToast();
-  const [clientSecret, setClientSecret] = useState("");
   const [selectedTier, setSelectedTier] = useState<'standard' | 'premium'>('standard');
-  const [showPayment, setShowPayment] = useState(false);
+  const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'annual'>('annual'); // Default to annual (best value)
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Subscription tiers with Stripe price IDs from environment
+  // Subscription tiers with both monthly and annual pricing
   const tiers = [
     {
       id: 'standard' as const,
       name: 'Standard',
-      price: '$14.99/month',
-      priceId: import.meta.env.VITE_STRIPE_STANDARD_PRICE_ID || 'price_standard', 
+      monthlyPrice: 14.99,
+      annualPrice: 149.90,
+      monthlyPriceId: import.meta.env.VITE_STRIPE_STANDARD_PRICE_ID || '', 
+      annualPriceId: import.meta.env.VITE_STRIPE_STANDARD_ANNUAL_PRICE_ID || '',
       description: 'Access to 200+ procedures, 10 specialties, full community forum',
       features: [
         'Access to 200+ surgical procedures',
@@ -99,8 +39,10 @@ export default function Subscribe() {
     {
       id: 'premium' as const,
       name: 'Premium',
-      price: '$29.99/month',
-      priceId: import.meta.env.VITE_STRIPE_PREMIUM_PRICE_ID || 'price_premium',
+      monthlyPrice: 29.99,
+      annualPrice: 299.90,
+      monthlyPriceId: import.meta.env.VITE_STRIPE_PREMIUM_PRICE_ID || '',
+      annualPriceId: import.meta.env.VITE_STRIPE_PREMIUM_ANNUAL_PRICE_ID || '',
       description: 'Unlimited procedures, all specialties, video library, priority support',
       features: [
         'Unlimited surgical procedures',
@@ -119,23 +61,57 @@ export default function Subscribe() {
 
   const selectedTierData = tiers.find(tier => tier.id === selectedTier);
 
+  // Calculate savings for annual billing
+  const calculateSavings = (tier: typeof tiers[0]) => {
+    const monthlyTotal = tier.monthlyPrice * 12;
+    const savings = monthlyTotal - tier.annualPrice;
+    return savings.toFixed(2);
+  };
+
+  // Get the display price based on billing period
+  const getDisplayPrice = (tier: typeof tiers[0]) => {
+    if (billingPeriod === 'monthly') {
+      return `$${tier.monthlyPrice.toFixed(2)}/month`;
+    } else {
+      const monthlyEquivalent = tier.annualPrice / 12;
+      return `$${monthlyEquivalent.toFixed(2)}/month`;
+    }
+  };
+
+  // Get the full annual price
+  const getAnnualPrice = (tier: typeof tiers[0]) => {
+    return `$${tier.annualPrice.toFixed(2)}/year`;
+  };
+
   const createSubscription = async () => {
     if (!selectedTierData) return;
     
+    setIsLoading(true);
+    
     try {
+      // Get the appropriate price ID based on billing period
+      const priceId = billingPeriod === 'monthly' 
+        ? selectedTierData.monthlyPriceId 
+        : selectedTierData.annualPriceId;
+
+      console.log('Creating checkout session for tier:', selectedTier);
+      console.log('Billing period:', billingPeriod);
+      console.log('Price ID:', priceId);
+      
       // Call backend to create Stripe Checkout session
       const response = await apiRequest(
         'POST',
         '/api/create-checkout-session',
-        {
-          priceId: selectedTierData.priceId
-        }
+        { priceId }
       );
 
+      console.log('Response status:', response.status);
       const data = await response.json();
+      console.log('Response data:', data);
 
-      // Redirect to Stripe Checkout
+      // Redirect to Stripe Checkout (must open in new tab, not iframe)
       if (data.url) {
+        console.log('Redirecting to:', data.url);
         window.location.href = data.url;
       } else {
         toast({
@@ -150,12 +126,9 @@ export default function Subscribe() {
         description: error.message || "Failed to create checkout session",
         variant: "destructive"
       });
+    } finally {
+      setIsLoading(false);
     }
-  };
-
-  const handleSubscriptionSuccess = () => {
-    refetch(); // Refresh user data
-    setLocation('/profile?success=true');
   };
 
   if (!user) {
@@ -176,48 +149,6 @@ export default function Subscribe() {
     );
   }
 
-  if (showPayment && clientSecret) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-100 dark:from-gray-900 dark:to-slate-800">
-        <div className="container mx-auto px-4 py-8">
-          {/* Header */}
-          <div className="flex items-center gap-4 mb-6">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setShowPayment(false)}
-              data-testid="button-back"
-            >
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-            <div>
-              <h1 className="text-3xl font-bold">Complete Your Subscription</h1>
-              <p className="text-muted-foreground">
-                Subscribe to {selectedTierData?.name} - {selectedTierData?.price}
-              </p>
-            </div>
-          </div>
-
-          <div className="max-w-md mx-auto">
-            <Card>
-              <CardHeader>
-                <CardTitle>Payment Details</CardTitle>
-                <CardDescription>
-                  Complete your payment to activate your {selectedTierData?.name} subscription
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Elements stripe={stripePromise} options={{ clientSecret }}>
-                  <SubscribeForm tier={selectedTierData?.name || ''} onSuccess={handleSubscriptionSuccess} />
-                </Elements>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-100 dark:from-gray-900 dark:to-slate-800">
       <div className="container mx-auto px-4 py-8">
@@ -234,7 +165,7 @@ export default function Subscribe() {
           <div>
             <h1 className="text-3xl font-bold">Choose Your Plan</h1>
             <p className="text-muted-foreground">
-              Upgrade your Scrubbable experience with premium features
+              Upgrade your experience with premium features
             </p>
           </div>
         </div>
@@ -244,17 +175,48 @@ export default function Subscribe() {
           <CardHeader>
             <CardTitle>Current Plan</CardTitle>
             <CardDescription>
-              You are currently on the <strong>{user.subscriptionTier}</strong> plan
+              You are currently on the <strong className="capitalize">{user.subscriptionTier}</strong> plan
             </CardDescription>
           </CardHeader>
         </Card>
+
+        {/* Billing Period Toggle */}
+        <div className="flex justify-center mb-8">
+          <div className="inline-flex items-center gap-4 p-1 bg-slate-200 dark:bg-slate-800 rounded-lg">
+            <button
+              onClick={() => setBillingPeriod('monthly')}
+              className={`px-6 py-2 rounded-md transition-all ${
+                billingPeriod === 'monthly'
+                  ? 'bg-white dark:bg-slate-700 shadow-sm'
+                  : 'hover:bg-slate-100 dark:hover:bg-slate-700/50'
+              }`}
+              data-testid="toggle-monthly"
+            >
+              <span className="font-medium">Monthly</span>
+            </button>
+            <button
+              onClick={() => setBillingPeriod('annual')}
+              className={`px-6 py-2 rounded-md transition-all flex items-center gap-2 ${
+                billingPeriod === 'annual'
+                  ? 'bg-white dark:bg-slate-700 shadow-sm'
+                  : 'hover:bg-slate-100 dark:hover:bg-slate-700/50'
+              }`}
+              data-testid="toggle-annual"
+            >
+              <span className="font-medium">Annual</span>
+              <Badge variant="default" className="bg-green-600 dark:bg-green-600 text-white">
+                Save 17%
+              </Badge>
+            </button>
+          </div>
+        </div>
 
         {/* Plan Selection */}
         <div className="grid md:grid-cols-2 gap-6 mb-8">
           {tiers.map((tier) => (
             <Card 
               key={tier.id}
-              className={`cursor-pointer transition-colors ${
+              className={`cursor-pointer transition-all hover-elevate ${
                 selectedTier === tier.id ? 'ring-2 ring-primary' : ''
               } ${user.subscriptionTier === tier.id ? 'opacity-50' : ''}`}
               onClick={() => user.subscriptionTier !== tier.id && setSelectedTier(tier.id)}
@@ -264,9 +226,21 @@ export default function Subscribe() {
                 <div className="flex justify-between items-start">
                   <div>
                     <CardTitle className="text-xl">{tier.name}</CardTitle>
-                    <CardDescription className="text-lg font-semibold text-primary">
-                      {tier.price}
-                    </CardDescription>
+                    <div className="flex items-baseline gap-2 mt-1">
+                      <span className="text-2xl font-bold text-primary">
+                        {getDisplayPrice(tier)}
+                      </span>
+                      {billingPeriod === 'annual' && (
+                        <span className="text-sm text-muted-foreground">
+                          ({getAnnualPrice(tier)})
+                        </span>
+                      )}
+                    </div>
+                    {billingPeriod === 'annual' && (
+                      <Badge variant="secondary" className="mt-2 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
+                        Save ${calculateSavings(tier)} per year
+                      </Badge>
+                    )}
                   </div>
                   <Badge variant="secondary">{tier.badge}</Badge>
                 </div>
@@ -298,14 +272,18 @@ export default function Subscribe() {
           <Button
             size="lg"
             onClick={createSubscription}
-            disabled={!selectedTierData || user.subscriptionTier === selectedTier}
+            disabled={!selectedTierData || user.subscriptionTier === selectedTier || isLoading}
             data-testid="button-subscribe"
           >
-            {user.subscriptionTier === selectedTier 
+            {isLoading ? 'Loading...' : 
+             user.subscriptionTier === selectedTier 
               ? 'Already Subscribed' 
-              : `Subscribe to ${selectedTierData?.name} - ${selectedTierData?.price}`
+              : `Subscribe to ${selectedTierData?.name} - ${billingPeriod === 'monthly' ? getDisplayPrice(selectedTierData!) : getAnnualPrice(selectedTierData!)}`
             }
           </Button>
+          <p className="text-sm text-muted-foreground mt-4">
+            You'll be redirected to a secure payment page to complete your subscription
+          </p>
         </div>
       </div>
     </div>

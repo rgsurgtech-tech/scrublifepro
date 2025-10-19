@@ -111,5 +111,13 @@ export function canAccessSpecialty(userTier: string, userSpecialtyCount: number)
 // Stripe price mapping - these will be set from environment variables
 export const STRIPE_PRICES = {
   standard: process.env.STRIPE_STANDARD_PRICE_ID || '',
-  premium: process.env.STRIPE_PREMIUM_PRICE_ID || ''
+  premium: process.env.STRIPE_PREMIUM_PRICE_ID || '',
+  standardAnnual: process.env.STRIPE_STANDARD_ANNUAL_PRICE_ID || '',
+  premiumAnnual: process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID || ''
+};
+
+// Annual pricing with 16.7% discount (2 months free)
+export const ANNUAL_PRICING = {
+  standard: 149.90, // $14.99 * 10 months
+  premium: 299.90   // $29.99 * 10 months
 };

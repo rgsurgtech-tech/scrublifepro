@@ -32,7 +32,7 @@ export default function SubscriptionSuccess() {
           </p>
           <div className="flex gap-2 pt-4">
             <Button 
-              onClick={() => setLocation('/procedures')} 
+              onClick={() => setLocation('/specialties')} 
               className="flex-1"
               data-testid="button-explore-procedures"
             >

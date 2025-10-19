@@ -631,8 +631,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: 'Invalid price ID' });
       }
 
-      const baseUrl = process.env.REPL_SLUG 
-        ? `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co`
+      // Use REPLIT_DEV_DOMAIN for correct URL, fallback to localhost
+      const baseUrl = process.env.REPLIT_DEV_DOMAIN 
+        ? `https://${process.env.REPLIT_DEV_DOMAIN}`
         : 'http://localhost:5000';
 
       const session = await createCheckoutSession(
@@ -658,8 +659,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: 'No subscription found' });
       }
 
-      const baseUrl = process.env.REPL_SLUG 
-        ? `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co`
+      // Use REPLIT_DEV_DOMAIN for correct URL, fallback to localhost
+      const baseUrl = process.env.REPLIT_DEV_DOMAIN 
+        ? `https://${process.env.REPLIT_DEV_DOMAIN}`
         : 'http://localhost:5000';
 
       const session = await createPortalSession(

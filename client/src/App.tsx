@@ -16,6 +16,8 @@ import Community from "@/pages/Community";
 import Profile from "@/pages/Profile";
 import Notes from "@/pages/Notes";
 import Subscribe from "@/pages/Subscribe";
+import SubscriptionSuccess from "@/pages/SubscriptionSuccess";
+import SubscriptionCancel from "@/pages/SubscriptionCancel";
 import TestPage from "@/pages/TestPage";
 import BetaQR from "@/pages/BetaQR";
 import NotFound from "@/pages/not-found";
@@ -34,6 +36,8 @@ function Router() {
       <Route path="/profile" component={Profile} />
       <Route path="/notes" component={Notes} />
       <Route path="/subscribe" component={Subscribe} />
+      <Route path="/subscription/success" component={SubscriptionSuccess} />
+      <Route path="/subscription/cancel" component={SubscriptionCancel} />
       <Route path="/test" component={TestPage} />
       <Route path="/qr" component={BetaQR} />
       <Route component={NotFound} />

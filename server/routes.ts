@@ -14,14 +14,16 @@ import {
   insertVideoCommentSchema,
   type BetaTester
 } from "@shared/schema";
-
-// Initialize Stripe - From javascript_stripe integration
-if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
-}
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2025-08-27.basil",
-});
+import {
+  stripe,
+  createCheckoutSession,
+  createPortalSession,
+  handleCheckoutCompleted,
+  handleSubscriptionUpdated,
+  handleSubscriptionDeleted,
+  handleTrialWillEnd
+} from "./stripe-handlers";
+import { STRIPE_PRICES, canAccessFeature } from "./subscription-config";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Authentication routes
@@ -38,10 +40,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Hash password
       const hashedPassword = await bcrypt.hash(userData.password, 10);
       
-      // Create user with hashed password
+      // Create user with hashed password - starts on FREE tier
       const user = await storage.createUser({
         ...userData,
-        password: hashedPassword
+        password: hashedPassword,
+        subscriptionTier: 'free' // All new users start on free tier
       });
       
       // Don't send password back
@@ -257,7 +260,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           tester.userType,
           escapeCsv(tester.whyGoodFit),
           escapeCsv(tester.expectedBenefit),
-          new Date(tester.createdAt).toISOString()
+          tester.createdAt ? new Date(tester.createdAt).toISOString() : ''
         ].join(',');
       }).join('\n');
       
@@ -544,9 +547,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
           ? await stripe.invoices.retrieve(subscription.latest_invoice, { expand: ['payment_intent'] })
           : subscription.latest_invoice;
         
+        const paymentIntent = latestInvoice?.payment_intent as Stripe.PaymentIntent | undefined;
+        
         res.send({
           subscriptionId: subscription.id,
-          clientSecret: latestInvoice?.payment_intent?.client_secret,
+          clientSecret: paymentIntent?.client_secret,
         });
         return;
       }
@@ -583,9 +588,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ? await stripe.invoices.retrieve(subscription.latest_invoice, { expand: ['payment_intent'] })
         : subscription.latest_invoice;
       
+      const paymentIntent = latestInvoice?.payment_intent as Stripe.PaymentIntent | undefined;
+      
       res.send({
         subscriptionId: subscription.id,
-        clientSecret: latestInvoice?.payment_intent?.client_secret,
+        clientSecret: paymentIntent?.client_secret,
       });
     } catch (error: any) {
       console.error('Create subscription error:', error);

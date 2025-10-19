@@ -9,7 +9,10 @@ export interface IStorage {
   // Extended user methods
   getUserById(id: string): Promise<User | null>;
   getUserByEmail(email: string): Promise<User | null>;
+  getUserByStripeCustomerId(stripeCustomerId: string): Promise<User | null>;
   updateUser(id: string, updates: Partial<User>): Promise<User | null>;
+  updateUserStripeInfo(id: string, stripeCustomerId: string, stripeSubscriptionId: string): Promise<User | null>;
+  updateUserSubscriptionTier(id: string, subscriptionTier: string): Promise<User | null>;
   
   // Specialties
   getAllSpecialties(): Promise<Specialty[]>;
@@ -100,7 +103,19 @@ export class MemStorage implements IStorage {
     throw new Error('Use database storage instead');
   }
 
+  async getUserByStripeCustomerId(stripeCustomerId: string): Promise<User | null> {
+    throw new Error('Use database storage instead');
+  }
+
   async updateUser(id: string, updates: Partial<User>): Promise<User | null> {
+    throw new Error('Use database storage instead');
+  }
+
+  async updateUserStripeInfo(id: string, stripeCustomerId: string, stripeSubscriptionId: string): Promise<User | null> {
+    throw new Error('Use database storage instead');
+  }
+
+  async updateUserSubscriptionTier(id: string, subscriptionTier: string): Promise<User | null> {
     throw new Error('Use database storage instead');
   }
 

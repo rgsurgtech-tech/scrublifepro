@@ -67,6 +67,11 @@ export class DatabaseStorage implements IStorage {
     return result[0] || null;
   }
 
+  async getUserByStripeCustomerId(stripeCustomerId: string): Promise<User | null> {
+    const result = await db.select().from(users).where(eq(users.stripeCustomerId, stripeCustomerId)).limit(1);
+    return result[0] || null;
+  }
+
   async updateUser(id: string, updates: Partial<User>): Promise<User | null> {
     const result = await db.update(users)
       .set({ ...updates, updatedAt: new Date() })

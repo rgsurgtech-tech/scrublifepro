@@ -121,13 +121,6 @@ export default function Home() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
-                size="lg" 
-                onClick={() => setLocation('/specialties')}
-                data-testid="button-get-started"
-              >
-                Browse Procedures
-              </Button>
-              <Button 
                 variant="secondary" 
                 size="lg"
                 className="bg-white/20 backdrop-blur-md border-white/30 text-white hover:bg-white/30 hover:text-white font-semibold"
@@ -141,8 +134,7 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6 mb-16">
             <Card 
-              className="text-center glass-card bg-transparent backdrop-blur-xl border-white/10 cursor-pointer hover-elevate" 
-              onClick={() => setLocation('/specialties')}
+              className="text-center glass-card bg-transparent backdrop-blur-xl border-white/10" 
               data-testid="card-procedure-guides"
             >
               <CardHeader>

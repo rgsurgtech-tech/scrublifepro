@@ -225,6 +225,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "specialtyIds must be an array" });
       }
 
+      // FREE TIER RESTRICTION: Once a free user has selected a specialty, they cannot change it
+      if (user.subscriptionTier === 'free' && user.selectedSpecialties && user.selectedSpecialties.length > 0) {
+        // Check if they're trying to change their selection
+        const existingSelection = user.selectedSpecialties[0];
+        const newSelection = specialtyIds[0];
+        
+        if (existingSelection !== newSelection) {
+          return res.status(403).json({ 
+            error: "Free tier users cannot change their specialty selection once made. Please upgrade to Standard or Premium to change specialties."
+          });
+        }
+        
+        // If they're submitting the same selection, just return success (no-op)
+        if (existingSelection === newSelection) {
+          const { password, ...userResponse } = user;
+          return res.json({ user: userResponse });
+        }
+      }
+
       // Validate limits based on subscription tier
       const maxSpecialties = user.subscriptionTier === 'free' ? 1 : user.subscriptionTier === 'standard' ? 10 : null;
       

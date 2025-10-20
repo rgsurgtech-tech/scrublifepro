@@ -15,6 +15,7 @@ export const users = pgTable("users", {
   primarySpecialty: text("primary_specialty"),
   subscriptionTier: text("subscription_tier").notNull().default("free"), // free, standard, premium
   selectedSpecialties: text("selected_specialties").array().default(sql`ARRAY[]::text[]`),
+  specialtiesSelectedAt: timestamp("specialties_selected_at"), // Track when specialties were first selected/changed
   isVerified: boolean("is_verified").default(false), // CST verification status
   stripeCustomerId: text("stripe_customer_id"),
   stripeSubscriptionId: text("stripe_subscription_id"),

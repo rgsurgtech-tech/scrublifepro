@@ -31,10 +31,44 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // NOTE: Stripe webhook is registered in server/index.ts BEFORE express.json()
   // to preserve raw body for signature verification
   
+  // Email domain validation helper
+  const isTestOrDisposableEmail = (email: string): boolean => {
+    const testDomains = [
+      'test.com',
+      'testing.com',
+      'example.com',
+      'sample.com',
+      'demo.com',
+      'fake.com',
+      'dummy.com',
+      'temp.com',
+      'temporary.com',
+      'throwaway.com',
+      'mailinator.com',
+      'guerrillamail.com',
+      '10minutemail.com',
+      'tempmail.com',
+      'yopmail.com',
+      'maildrop.cc'
+    ];
+    
+    const domain = email.toLowerCase().split('@')[1];
+    if (!domain) return true; // Invalid email format
+    
+    return testDomains.some(testDomain => domain === testDomain || domain.endsWith('.' + testDomain));
+  };
+
   // Authentication routes
   app.post("/api/auth/register", async (req, res) => {
     try {
       const userData = insertUserSchema.parse(req.body);
+      
+      // Validate email domain - block test and disposable emails
+      if (isTestOrDisposableEmail(userData.email)) {
+        return res.status(400).json({ 
+          error: "Please use a valid email address. Test and disposable email domains are not allowed." 
+        });
+      }
       
       // Check if user already exists
       const existingUser = await storage.getUserByEmail(userData.email);
@@ -208,7 +242,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ 
         selectedSpecialties: user.selectedSpecialties || [],
         subscriptionTier: user.subscriptionTier,
-        maxSpecialties: user.subscriptionTier === 'free' ? 1 : user.subscriptionTier === 'standard' ? 10 : null
+        maxSpecialties: user.subscriptionTier === 'free' ? 1 : user.subscriptionTier === 'standard' ? 6 : null
       });
     } catch (error) {
       console.error('Get specialties error:', error);
@@ -245,7 +279,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       // Validate limits based on subscription tier
-      const maxSpecialties = user.subscriptionTier === 'free' ? 1 : user.subscriptionTier === 'standard' ? 10 : null;
+      const maxSpecialties = user.subscriptionTier === 'free' ? 1 : user.subscriptionTier === 'standard' ? 6 : null;
       
       if (maxSpecialties && specialtyIds.length > maxSpecialties) {
         return res.status(400).json({ 

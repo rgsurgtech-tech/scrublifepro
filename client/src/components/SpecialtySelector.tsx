@@ -106,7 +106,7 @@ export function SpecialtySelector({ open, onOpenChange }: SpecialtySelectorProps
   });
 
   const userTier = userSpecialties?.subscriptionTier || 'free';
-  const maxSelections = userSpecialties?.maxSpecialties || (userTier === 'free' ? 1 : userTier === 'standard' ? 10 : 999);
+  const maxSelections = userSpecialties?.maxSpecialties || (userTier === 'free' ? 1 : userTier === 'standard' ? 6 : 999);
   const canSelectMore = selectedSpecialties.length < maxSelections;
   const hasExistingSelection = userSpecialties?.selectedSpecialties && userSpecialties.selectedSpecialties.length > 0;
   const isFreeUserWithSelection = userTier === 'free' && hasExistingSelection;
@@ -208,7 +208,7 @@ export function SpecialtySelector({ open, onOpenChange }: SpecialtySelectorProps
                           ? 'Your specialty selection is permanent. Upgrade to change it.' 
                           : 'Access to 1 specialty (permanent once selected)' 
                         : userTier === 'standard' 
-                        ? 'Access to 10 specialties (can be changed anytime)' 
+                        ? 'Access to 6 specialties (can be changed anytime)' 
                         : 'Unlimited access to all specialties'
                       }
                     </p>

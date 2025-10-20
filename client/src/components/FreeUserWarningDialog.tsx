@@ -38,7 +38,7 @@ export function FreeUserWarningDialog({ open, onOpenChange, onConfirm }: FreeUse
         <div className="bg-muted/50 rounded-lg p-4 space-y-2">
           <h4 className="font-semibold text-sm">Want more flexibility?</h4>
           <ul className="text-sm space-y-1 text-muted-foreground">
-            <li>• <span className="font-medium">Standard Plan:</span> Access 10 specialties and change them anytime</li>
+            <li>• <span className="font-medium">Standard Plan:</span> Access 6 specialties and change them anytime</li>
             <li>• <span className="font-medium">Premium Plan:</span> Unlimited access to all specialties</li>
           </ul>
         </div>

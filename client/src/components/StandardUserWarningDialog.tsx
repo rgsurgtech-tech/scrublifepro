@@ -36,7 +36,7 @@ export function StandardUserWarningDialog({ open, onOpenChange, onConfirm }: Sta
               <div className="flex items-start gap-2">
                 <Calendar className="w-4 h-4 mt-0.5 text-blue-600 dark:text-blue-400 flex-shrink-0" />
                 <p className="text-sm">
-                  After 2 consecutive months, you'll be able to update your selection up to 10 specialties.
+                  After 2 consecutive months, you'll be able to update your selection up to 6 specialties.
                 </p>
               </div>
             </div>

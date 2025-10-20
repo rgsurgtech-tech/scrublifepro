@@ -296,7 +296,7 @@ export default function Home() {
                       ✓ 200+ surgical procedures
                     </p>
                     <p className="flex items-center gap-2 text-white/70">
-                      ✓ Access to 10 specialties
+                      ✓ Access to 6 specialties
                     </p>
                     <p className="flex items-center gap-2 text-white/70">
                       ✓ Community forum (full access)

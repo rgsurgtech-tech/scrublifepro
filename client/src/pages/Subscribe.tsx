@@ -25,10 +25,10 @@ export default function Subscribe() {
       annualPrice: 149.90,
       monthlyPriceId: import.meta.env.VITE_STRIPE_STANDARD_PRICE_ID || '', 
       annualPriceId: import.meta.env.VITE_STRIPE_STANDARD_ANNUAL_PRICE_ID || '',
-      description: 'Access to 200+ procedures, 10 specialties, full community forum',
+      description: 'Access to 200+ procedures, 6 specialties, full community forum',
       features: [
         'Access to 200+ surgical procedures',
-        'Access to 10 specialties',
+        'Access to 6 specialties',
         'Community forum (full access)',
         'Complete instrument database',
         'Personal notes (unlimited)',

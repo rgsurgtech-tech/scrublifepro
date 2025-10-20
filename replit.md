@@ -103,8 +103,8 @@ Preferred communication style: Simple, everyday language.
   - Cancel and Save buttons with loading states
   - Automatic query invalidation and page refresh after save
 - **Tier-Based Access Control**:
-  - Free tier: 1 specialty maximum
-  - Standard tier: 10 specialties maximum
+  - Free tier: 1 specialty maximum (permanent once selected)
+  - Standard tier: 6 specialties maximum
   - Premium tier: Unlimited access (all 20 specialties)
 - **Specialties Page Filtering**:
   - Free/Standard users see only their selected specialties
@@ -176,3 +176,52 @@ Preferred communication style: Simple, everyday language.
 - Added customer portal access for subscription management
 - Success and cancel pages implemented with proper routing
 - Note: Stripe Checkout requires opening in new tab (not iframe) for security compliance
+
+### Free User Specialty Lock Feature (October 2025)
+- **Permanent Selection for Free Tier**:
+  - Free users can select exactly 1 specialty
+  - Once selected, specialty cannot be changed unless user upgrades
+  - Warning dialog shown before first selection explaining permanence
+- **Warning Dialog**:
+  - Shows "Important: Permanent Selection" message
+  - Explains selection is permanent and cannot be changed
+  - Provides upgrade information (Standard and Premium options)
+  - Two action buttons: "View Upgrade Plans" and "I Understand, Continue"
+- **Locked UI After Selection**:
+  - Dialog title changes to "Your Selected Specialty (Locked)"
+  - Amber/warning styling with "Locked" badge
+  - Selected specialty shows lock icon instead of checkmark
+  - All other specialties grayed out and disabled
+  - Clicking disabled specialties shows upgrade prompt
+  - No "Save" button visible (only "Close")
+- **Backend Enforcement**:
+  - Server-side validation prevents specialty changes via API
+  - Returns 403 error if free user attempts to change selection
+  - Prevents any workaround attempts through direct API calls
+
+### Email Validation for Registration (October 2025)
+- **Blocked Domains**:
+  - Test domains: test.com, testing.com, example.com, sample.com, demo.com
+  - Fake domains: fake.com, dummy.com
+  - Temporary domains: temp.com, temporary.com, throwaway.com
+  - Disposable email services: mailinator.com, guerrillamail.com, 10minutemail.com, tempmail.com, yopmail.com, maildrop.cc
+- **Validation Logic**:
+  - Server-side validation during registration
+  - Blocks both exact domain matches and subdomains
+  - Returns clear error: "Please use a valid email address. Test and disposable email domains are not allowed."
+- **Valid Emails**:
+  - All legitimate email providers accepted (Gmail, Yahoo, Outlook, etc.)
+  - Custom company/organizational domains allowed
+  - Educational domains (.edu) allowed
+
+### Standard Plan Specialty Limit Adjustment (October 2025)
+- **Changed from 10 to 6 specialties**:
+  - Standard tier now allows maximum of 6 specialties (reduced from 10)
+  - Updated across all UI components: Subscribe page, Home pricing cards, Specialty Selector
+  - Backend validation enforces 6 specialty maximum for Standard users
+  - Warning dialogs and upgrade prompts updated to reflect new limit
+- **User-Facing Updates**:
+  - Subscribe page: "Access to 6 specialties" in description and features
+  - Home page pricing: "✓ Access to 6 specialties"
+  - Free user warning: "Access 6 specialties and change them anytime"
+  - Specialty selector: "Access to 6 specialties (can be changed anytime)"

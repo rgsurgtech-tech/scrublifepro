@@ -13,6 +13,8 @@ import {
   insertVideoCategorySchema,
   insertVideoProgressSchema,
   insertVideoCommentSchema,
+  insertExamSessionSchema,
+  insertUserQuestionProgressSchema,
   type BetaTester
 } from "@shared/schema";
 import {
@@ -1136,6 +1138,307 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Delete video comment error:', error);
       res.status(500).json({ error: "Failed to delete video comment" });
+    }
+  });
+
+  // ===== EXAM PREP ROUTES =====
+  
+  // Seed exam questions (one-time setup)
+  app.post("/api/exam-prep/seed", requireAuth, async (req: any, res) => {
+    try {
+      // Only allow admins or premium users to seed (for now, allow any authenticated user)
+      const { seedExamQuestions } = await import("./seed-exam-questions");
+      const result = await seedExamQuestions();
+      res.json(result);
+    } catch (error) {
+      console.error('Seed exam questions error:', error);
+      res.status(500).json({ error: "Failed to seed exam questions" });
+    }
+  });
+
+  // Get exam questions with filtering and tier-based access
+  app.get("/api/exam-prep/questions", requireAuth, async (req: any, res) => {
+    try {
+      const { domain, category, difficulty, limit = '20' } = req.query;
+      const user = req.user;
+      
+      // Enforce tier-based question limits server-side
+      const requestedLimit = parseInt(limit as string);
+      let enforcedLimit: number;
+      
+      if (user.subscriptionTier === 'free') {
+        enforcedLimit = Math.min(requestedLimit, 10);
+      } else if (user.subscriptionTier === 'standard') {
+        enforcedLimit = Math.min(requestedLimit, 50);
+      } else { // premium
+        enforcedLimit = requestedLimit;
+      }
+      
+      // Get questions from storage with tier-enforced limit
+      const questions = await storage.getExamQuestions({
+        domain: domain as string | undefined,
+        category: category as string | undefined,
+        difficulty: difficulty as string | undefined,
+        userTier: user.subscriptionTier,
+        limit: enforcedLimit
+      });
+      
+      res.json(questions);
+    } catch (error) {
+      console.error('Get exam questions error:', error);
+      res.status(500).json({ error: "Failed to get exam questions" });
+    }
+  });
+
+  // Get single question by ID
+  app.get("/api/exam-prep/questions/:id", requireAuth, async (req: any, res) => {
+    try {
+      const { id } = req.params;
+      const question = await storage.getExamQuestionById(id);
+      
+      if (!question) {
+        return res.status(404).json({ error: "Question not found" });
+      }
+      
+      res.json(question);
+    } catch (error) {
+      console.error('Get exam question error:', error);
+      res.status(500).json({ error: "Failed to get exam question" });
+    }
+  });
+
+  // Start exam session
+  app.post("/api/exam-prep/sessions/start", requireAuth, async (req: any, res) => {
+    try {
+      const { sessionType, domain, category, difficulty, questionCount = 20 } = req.body;
+      const user = req.user;
+      
+      // Validate tier access for session types
+      if (sessionType === 'timed' && user.subscriptionTier === 'free') {
+        return res.status(403).json({ 
+          error: "Timed exams require Standard or Premium subscription" 
+        });
+      }
+      
+      // Enforce tier-based question limits server-side
+      let enforcedQuestionCount: number;
+      
+      if (user.subscriptionTier === 'free') {
+        enforcedQuestionCount = Math.min(questionCount, 10);
+      } else if (user.subscriptionTier === 'standard') {
+        enforcedQuestionCount = Math.min(questionCount, 50);
+      } else { // premium
+        enforcedQuestionCount = questionCount;
+      }
+      
+      // Get random questions based on filters and tier-enforced limit
+      const questions = await storage.getExamQuestions({
+        domain,
+        category,
+        difficulty,
+        userTier: user.subscriptionTier,
+        limit: enforcedQuestionCount,
+        randomize: true
+      });
+      
+      if (questions.length === 0) {
+        return res.status(400).json({ error: "No questions available for the selected criteria" });
+      }
+      
+      // Create session
+      const sessionData = insertExamSessionSchema.parse({
+        userId: user.id,
+        sessionType,
+        domain,
+        category,
+        difficulty,
+        questionIds: questions.map(q => q.id),
+        answers: {},
+        totalQuestions: questions.length,
+        correctCount: 0,
+        completed: false
+      });
+      
+      const session = await storage.createExamSession(sessionData);
+      
+      res.json({ session, questions });
+    } catch (error) {
+      console.error('Start exam session error:', error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: 'Invalid input', details: error.errors });
+      }
+      res.status(500).json({ error: "Failed to start exam session" });
+    }
+  });
+
+  // Submit answer to question in session
+  app.patch("/api/exam-prep/sessions/:id/submit-answer", requireAuth, async (req: any, res) => {
+    try {
+      const { id } = req.params;
+      const { questionId, answer } = req.body;
+      const user = req.user;
+      
+      const session = await storage.getExamSessionById(id);
+      
+      if (!session) {
+        return res.status(404).json({ error: "Session not found" });
+      }
+      
+      if (session.userId !== user.id) {
+        return res.status(403).json({ error: "Not authorized" });
+      }
+      
+      if (session.completed) {
+        return res.status(400).json({ error: "Session already completed" });
+      }
+      
+      // Get question to check answer
+      const question = await storage.getExamQuestionById(questionId);
+      if (!question) {
+        return res.status(404).json({ error: "Question not found" });
+      }
+      
+      const isCorrect = answer === question.correctAnswer;
+      
+      // Update session answers
+      const answers = session.answers as Record<string, any> || {};
+      answers[questionId] = {
+        answer,
+        isCorrect,
+        submittedAt: new Date().toISOString()
+      };
+      
+      const correctCount = Object.values(answers).filter((a: any) => a.isCorrect).length;
+      
+      const updatedSession = await storage.updateExamSession(id, {
+        answers,
+        correctCount
+      });
+      
+      // Update user question progress
+      await storage.updateUserQuestionProgress({
+        userId: user.id,
+        questionId,
+        isCorrect
+      });
+      
+      res.json({ 
+        session: updatedSession, 
+        isCorrect,
+        correctAnswer: question.correctAnswer,
+        explanation: question.explanation
+      });
+    } catch (error) {
+      console.error('Submit answer error:', error);
+      res.status(500).json({ error: "Failed to submit answer" });
+    }
+  });
+
+  // Complete exam session
+  app.patch("/api/exam-prep/sessions/:id/complete", requireAuth, async (req: any, res) => {
+    try {
+      const { id } = req.params;
+      const { timeSpentSeconds } = req.body;
+      const user = req.user;
+      
+      const session = await storage.getExamSessionById(id);
+      
+      if (!session) {
+        return res.status(404).json({ error: "Session not found" });
+      }
+      
+      if (session.userId !== user.id) {
+        return res.status(403).json({ error: "Not authorized" });
+      }
+      
+      const updatedSession = await storage.updateExamSession(id, {
+        completed: true,
+        completedAt: new Date(),
+        timeSpentSeconds
+      });
+      
+      // Update user statistics
+      await storage.updateUserExamStatistics(user.id, {
+        sessionType: session.sessionType,
+        correctCount: session.correctCount,
+        totalQuestions: session.totalQuestions
+      });
+      
+      res.json(updatedSession);
+    } catch (error) {
+      console.error('Complete exam session error:', error);
+      res.status(500).json({ error: "Failed to complete exam session" });
+    }
+  });
+
+  // Get user's exam sessions
+  app.get("/api/exam-prep/sessions", requireAuth, async (req: any, res) => {
+    try {
+      const sessions = await storage.getUserExamSessions(req.user.id);
+      res.json(sessions);
+    } catch (error) {
+      console.error('Get exam sessions error:', error);
+      res.status(500).json({ error: "Failed to get exam sessions" });
+    }
+  });
+
+  // Get user question progress
+  app.get("/api/exam-prep/progress", requireAuth, async (req: any, res) => {
+    try {
+      const progress = await storage.getUserQuestionProgress(req.user.id);
+      res.json(progress);
+    } catch (error) {
+      console.error('Get user progress error:', error);
+      res.status(500).json({ error: "Failed to get user progress" });
+    }
+  });
+
+  // Get user exam statistics
+  app.get("/api/exam-prep/statistics", requireAuth, async (req: any, res) => {
+    try {
+      const stats = await storage.getUserExamStatistics(req.user.id);
+      res.json(stats);
+    } catch (error) {
+      console.error('Get exam statistics error:', error);
+      res.status(500).json({ error: "Failed to get exam statistics" });
+    }
+  });
+
+  // Mark question for review
+  app.patch("/api/exam-prep/progress/:questionId/mark-review", requireAuth, async (req: any, res) => {
+    try {
+      const { questionId } = req.params;
+      const { markedForReview } = req.body;
+      
+      const progress = await storage.markQuestionForReview(
+        req.user.id, 
+        questionId, 
+        markedForReview
+      );
+      
+      res.json(progress);
+    } catch (error) {
+      console.error('Mark for review error:', error);
+      res.status(500).json({ error: "Failed to mark question for review" });
+    }
+  });
+
+  // Add note to question
+  app.patch("/api/exam-prep/progress/:questionId/note", requireAuth, async (req: any, res) => {
+    try {
+      const { questionId } = req.params;
+      const { note } = req.body;
+      
+      const progress = await storage.updateQuestionNote(
+        req.user.id, 
+        questionId, 
+        note
+      );
+      
+      res.json(progress);
+    } catch (error) {
+      console.error('Update question note error:', error);
+      res.status(500).json({ error: "Failed to update question note" });
     }
   });
 

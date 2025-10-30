@@ -16,6 +16,7 @@ import Notes from "@/pages/Notes";
 import Subscribe from "@/pages/Subscribe";
 import SubscriptionSuccess from "@/pages/SubscriptionSuccess";
 import SubscriptionCancel from "@/pages/SubscriptionCancel";
+import ExamPrep from "@/pages/ExamPrep";
 import TestPage from "@/pages/TestPage";
 import BetaQR from "@/pages/BetaQR";
 import NotFound from "@/pages/not-found";
@@ -33,6 +34,7 @@ function Router() {
       <Route path="/community" component={Community} />
       <Route path="/profile" component={Profile} />
       <Route path="/notes" component={Notes} />
+      <Route path="/exam-prep" component={ExamPrep} />
       <Route path="/subscribe" component={Subscribe} />
       <Route path="/subscription/success" component={SubscriptionSuccess} />
       <Route path="/subscription/cancel" component={SubscriptionCancel} />

@@ -1,4 +1,4 @@
-import { User, InsertUser, Specialty, Procedure, UserNote, InsertUserNote, ForumPost, InsertForumPost, ForumReply, InsertForumReply, VideoCategory, Video, InsertVideo, InsertVideoCategory, VideoProgress, InsertVideoProgress, VideoComment, InsertVideoComment, BetaTester, InsertBetaTester } from "@shared/schema";
+import { User, InsertUser, Specialty, Procedure, UserNote, InsertUserNote, ForumPost, InsertForumPost, ForumReply, InsertForumReply, VideoCategory, Video, InsertVideo, InsertVideoCategory, VideoProgress, InsertVideoProgress, VideoComment, InsertVideoComment, BetaTester, InsertBetaTester, ExamQuestion, ExamSession, InsertExamSession, UserQuestionProgress, ExamStatistics } from "@shared/schema";
 
 export interface IStorage {
   // User management (keeping existing methods for compatibility)
@@ -80,6 +80,35 @@ export interface IStorage {
   getBetaTesterCount(): Promise<number>;
   createBetaTester(tester: InsertBetaTester): Promise<BetaTester>;
   getAllBetaTesters(): Promise<BetaTester[]>;
+  
+  // Exam prep
+  getExamQuestions(filters: {
+    domain?: string;
+    category?: string;
+    difficulty?: string;
+    userTier: string;
+    limit: number;
+    randomize?: boolean;
+  }): Promise<ExamQuestion[]>;
+  getExamQuestionById(id: string): Promise<ExamQuestion | null>;
+  createExamSession(session: InsertExamSession): Promise<ExamSession>;
+  getExamSessionById(id: string): Promise<ExamSession | null>;
+  updateExamSession(id: string, updates: Partial<ExamSession>): Promise<ExamSession | null>;
+  getUserExamSessions(userId: string): Promise<ExamSession[]>;
+  getUserQuestionProgress(userId: string): Promise<UserQuestionProgress[]>;
+  updateUserQuestionProgress(data: {
+    userId: string;
+    questionId: string;
+    isCorrect: boolean;
+  }): Promise<UserQuestionProgress>;
+  getUserExamStatistics(userId: string): Promise<ExamStatistics | null>;
+  updateUserExamStatistics(userId: string, data: {
+    sessionType: string;
+    correctCount: number;
+    totalQuestions: number;
+  }): Promise<ExamStatistics>;
+  markQuestionForReview(userId: string, questionId: string, markedForReview: boolean): Promise<UserQuestionProgress | null>;
+  updateQuestionNote(userId: string, questionId: string, note: string): Promise<UserQuestionProgress | null>;
 }
 
 // Note: MemStorage class kept for compatibility but not used

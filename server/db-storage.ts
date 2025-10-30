@@ -17,6 +17,10 @@ import {
   videoLikes,
   videoComments,
   betaTesters,
+  examQuestions,
+  examSessions,
+  userQuestionProgress,
+  examStatistics,
   User, 
   InsertUser, 
   Specialty, 
@@ -36,7 +40,12 @@ import {
   VideoComment,
   BetaTester,
   InsertBetaTester,
-  InsertVideoComment
+  InsertVideoComment,
+  ExamQuestion,
+  ExamSession,
+  InsertExamSession,
+  UserQuestionProgress,
+  ExamStatistics
 } from '@shared/schema';
 import { IStorage } from './storage';
 
@@ -664,6 +673,304 @@ export class DatabaseStorage implements IStorage {
       .from(betaTesters)
       .orderBy(betaTesters.signupNumber);
     return result;
+  }
+
+  // Exam prep methods
+  async getExamQuestions(filters: {
+    domain?: string;
+    category?: string;
+    difficulty?: string;
+    userTier: string;
+    limit: number;
+    randomize?: boolean;
+  }): Promise<ExamQuestion[]> {
+    let query = db.select().from(examQuestions);
+    
+    // Build WHERE conditions
+    const conditions = [];
+    
+    if (filters.domain) {
+      conditions.push(eq(examQuestions.domain, filters.domain));
+    }
+    
+    if (filters.category) {
+      conditions.push(eq(examQuestions.category, filters.category));
+    }
+    
+    if (filters.difficulty) {
+      conditions.push(eq(examQuestions.difficulty, filters.difficulty));
+    }
+    
+    // Tier-based access control
+    // Free: only 'free' tier questions (limited subset)
+    // Standard: 'free' and 'standard' tier questions
+    // Premium: all questions
+    if (filters.userTier === 'free') {
+      conditions.push(eq(examQuestions.accessTier, 'free'));
+    } else if (filters.userTier === 'standard') {
+      conditions.push(or(
+        eq(examQuestions.accessTier, 'free'),
+        eq(examQuestions.accessTier, 'standard')
+      )!);
+    }
+    // Premium gets all questions (no additional filter)
+    
+    if (conditions.length > 0) {
+      query = query.where(and(...conditions)!) as any;
+    }
+    
+    // Add random ordering if requested
+    if (filters.randomize) {
+      query = query.orderBy(sql`RANDOM()`) as any;
+    }
+    
+    // Apply limit
+    query = query.limit(filters.limit) as any;
+    
+    return await query;
+  }
+
+  async getExamQuestionById(id: string): Promise<ExamQuestion | null> {
+    const result = await db.select()
+      .from(examQuestions)
+      .where(eq(examQuestions.id, id))
+      .limit(1);
+    return result[0] || null;
+  }
+
+  async createExamSession(session: InsertExamSession): Promise<ExamSession> {
+    const result = await db.insert(examSessions).values(session).returning();
+    return result[0];
+  }
+
+  async getExamSessionById(id: string): Promise<ExamSession | null> {
+    const result = await db.select()
+      .from(examSessions)
+      .where(eq(examSessions.id, id))
+      .limit(1);
+    return result[0] || null;
+  }
+
+  async updateExamSession(id: string, updates: Partial<ExamSession>): Promise<ExamSession | null> {
+    const result = await db.update(examSessions)
+      .set(updates)
+      .where(eq(examSessions.id, id))
+      .returning();
+    return result[0] || null;
+  }
+
+  async getUserExamSessions(userId: string): Promise<ExamSession[]> {
+    return await db.select()
+      .from(examSessions)
+      .where(eq(examSessions.userId, userId))
+      .orderBy(desc(examSessions.createdAt));
+  }
+
+  async getUserQuestionProgress(userId: string): Promise<UserQuestionProgress[]> {
+    return await db.select()
+      .from(userQuestionProgress)
+      .where(eq(userQuestionProgress.userId, userId));
+  }
+
+  async updateUserQuestionProgress(data: {
+    userId: string;
+    questionId: string;
+    isCorrect: boolean;
+  }): Promise<UserQuestionProgress> {
+    // Check if progress record exists
+    const existing = await db.select()
+      .from(userQuestionProgress)
+      .where(and(
+        eq(userQuestionProgress.userId, data.userId),
+        eq(userQuestionProgress.questionId, data.questionId)
+      ))
+      .limit(1);
+
+    if (existing.length > 0) {
+      // Update existing record
+      const result = await db.update(userQuestionProgress)
+        .set({
+          timesAttempted: sql`${userQuestionProgress.timesAttempted} + 1`,
+          timesCorrect: data.isCorrect 
+            ? sql`${userQuestionProgress.timesCorrect} + 1`
+            : userQuestionProgress.timesCorrect,
+          lastAttemptCorrect: data.isCorrect,
+          lastAttemptedAt: new Date(),
+          updatedAt: new Date()
+        })
+        .where(and(
+          eq(userQuestionProgress.userId, data.userId),
+          eq(userQuestionProgress.questionId, data.questionId)
+        ))
+        .returning();
+      return result[0];
+    } else {
+      // Create new record
+      const result = await db.insert(userQuestionProgress)
+        .values({
+          userId: data.userId,
+          questionId: data.questionId,
+          timesAttempted: 1,
+          timesCorrect: data.isCorrect ? 1 : 0,
+          lastAttemptCorrect: data.isCorrect,
+          lastAttemptedAt: new Date()
+        })
+        .returning();
+      return result[0];
+    }
+  }
+
+  async getUserExamStatistics(userId: string): Promise<ExamStatistics | null> {
+    const result = await db.select()
+      .from(examStatistics)
+      .where(eq(examStatistics.userId, userId))
+      .limit(1);
+    return result[0] || null;
+  }
+
+  async updateUserExamStatistics(userId: string, data: {
+    sessionType: string;
+    correctCount: number;
+    totalQuestions: number;
+  }): Promise<ExamStatistics> {
+    const existing = await this.getUserExamStatistics(userId);
+    
+    const accuracy = Math.round((data.correctCount / data.totalQuestions) * 100);
+    
+    if (existing) {
+      // Update existing statistics
+      const newTotalAttempted = existing.totalQuestionsAttempted + data.totalQuestions;
+      const newTotalCorrect = existing.totalCorrect + data.correctCount;
+      const newTotalIncorrect = existing.totalIncorrect + (data.totalQuestions - data.correctCount);
+      const newOverallAccuracy = Math.round((newTotalCorrect / newTotalAttempted) * 100);
+      
+      const updates: Partial<ExamStatistics> = {
+        totalQuestionsAttempted: newTotalAttempted,
+        totalCorrect: newTotalCorrect,
+        totalIncorrect: newTotalIncorrect,
+        overallAccuracy: newOverallAccuracy,
+        lastStudyDate: new Date(),
+        updatedAt: new Date()
+      };
+      
+      // Update session type specific stats
+      if (data.sessionType === 'practice') {
+        updates.practiceSessionsCompleted = existing.practiceSessionsCompleted + 1;
+      } else if (data.sessionType === 'timed') {
+        updates.timedExamsCompleted = existing.timedExamsCompleted + 1;
+        
+        // Update average and best timed exam scores
+        const newAvg = Math.round(
+          ((existing.averageTimedExamScore * existing.timedExamsCompleted) + accuracy) / 
+          (existing.timedExamsCompleted + 1)
+        );
+        updates.averageTimedExamScore = newAvg;
+        
+        if (accuracy > existing.bestTimedExamScore) {
+          updates.bestTimedExamScore = accuracy;
+        }
+      }
+      
+      const result = await db.update(examStatistics)
+        .set(updates)
+        .where(eq(examStatistics.userId, userId))
+        .returning();
+      return result[0];
+    } else {
+      // Create new statistics record
+      const result = await db.insert(examStatistics)
+        .values({
+          userId,
+          totalQuestionsAttempted: data.totalQuestions,
+          totalCorrect: data.correctCount,
+          totalIncorrect: data.totalQuestions - data.correctCount,
+          overallAccuracy: accuracy,
+          practiceSessionsCompleted: data.sessionType === 'practice' ? 1 : 0,
+          timedExamsCompleted: data.sessionType === 'timed' ? 1 : 0,
+          averageTimedExamScore: data.sessionType === 'timed' ? accuracy : 0,
+          bestTimedExamScore: data.sessionType === 'timed' ? accuracy : 0,
+          studyStreak: 1,
+          lastStudyDate: new Date()
+        })
+        .returning();
+      return result[0];
+    }
+  }
+
+  async markQuestionForReview(userId: string, questionId: string, markedForReview: boolean): Promise<UserQuestionProgress | null> {
+    // Check if progress record exists
+    const existing = await db.select()
+      .from(userQuestionProgress)
+      .where(and(
+        eq(userQuestionProgress.userId, userId),
+        eq(userQuestionProgress.questionId, questionId)
+      ))
+      .limit(1);
+
+    if (existing.length > 0) {
+      // Update existing record
+      const result = await db.update(userQuestionProgress)
+        .set({
+          markedForReview,
+          updatedAt: new Date()
+        })
+        .where(and(
+          eq(userQuestionProgress.userId, userId),
+          eq(userQuestionProgress.questionId, questionId)
+        ))
+        .returning();
+      return result[0];
+    } else {
+      // Create new record
+      const result = await db.insert(userQuestionProgress)
+        .values({
+          userId,
+          questionId,
+          markedForReview,
+          timesAttempted: 0,
+          timesCorrect: 0
+        })
+        .returning();
+      return result[0];
+    }
+  }
+
+  async updateQuestionNote(userId: string, questionId: string, note: string): Promise<UserQuestionProgress | null> {
+    // Check if progress record exists
+    const existing = await db.select()
+      .from(userQuestionProgress)
+      .where(and(
+        eq(userQuestionProgress.userId, userId),
+        eq(userQuestionProgress.questionId, questionId)
+      ))
+      .limit(1);
+
+    if (existing.length > 0) {
+      // Update existing record
+      const result = await db.update(userQuestionProgress)
+        .set({
+          notes: note,
+          updatedAt: new Date()
+        })
+        .where(and(
+          eq(userQuestionProgress.userId, userId),
+          eq(userQuestionProgress.questionId, questionId)
+        ))
+        .returning();
+      return result[0];
+    } else {
+      // Create new record
+      const result = await db.insert(userQuestionProgress)
+        .values({
+          userId,
+          questionId,
+          notes: note,
+          timesAttempted: 0,
+          timesCorrect: 0
+        })
+        .returning();
+      return result[0];
+    }
   }
 }
 

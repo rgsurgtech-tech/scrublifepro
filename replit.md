@@ -2,7 +2,7 @@
 
 ## Overview
 
-Scrub Life Pro is a comprehensive mobile reference guide and professional community hub designed specifically for surgical technologists. The application provides quick access to procedure guides, instrumentation references, and community knowledge sharing. It features a subscription-based model with multiple tiers (free, standard, premium) and emphasizes a premium medical aesthetic with glassmorphism design elements.
+Scrub Life Pro is a comprehensive mobile reference guide and professional community hub for surgical technologists. It provides quick access to procedure guides, instrumentation references, and community knowledge sharing. The application features a subscription-based model (free, standard, premium) and emphasizes a premium medical aesthetic with glassmorphism design elements. The business vision is to offer a vital, accessible resource that enhances professional practice and community engagement within the surgical technology field.
 
 ## User Preferences
 
@@ -10,218 +10,77 @@ Preferred communication style: Simple, everyday language.
 
 ## System Architecture
 
-### Frontend Architecture
-- **Framework**: React with TypeScript and Vite for development tooling
-- **Styling**: Tailwind CSS with custom design system implementing glassmorphism aesthetics
-- **UI Components**: Radix UI primitives with shadcn/ui component library for consistent, accessible interfaces
-- **State Management**: TanStack Query for server state management and React Context for authentication
-- **Routing**: Wouter for lightweight client-side routing
-- **Design System**: Custom medical-themed color palette with cyan-purple gradients and glass effects
+### Frontend
+- **Framework**: React with TypeScript and Vite
+- **Styling**: Tailwind CSS with custom medical-themed glassmorphism design system
+- **UI Components**: Radix UI primitives and shadcn/ui library
+- **State Management**: TanStack Query for server state; React Context for authentication
+- **Routing**: Wouter for client-side routing
+- **Mobile-First Design**: Responsive layout, bottom navigation, touch optimization, Progressive Web App (PWA) configuration
+- **Screenshot Protection**: Multi-layered CSS/JS-based protection to safeguard content.
 
-### Backend Architecture
+### Backend
 - **Runtime**: Node.js with Express framework
-- **Database**: PostgreSQL with Drizzle ORM for type-safe database operations
-- **Authentication**: Session-based authentication with bcrypt password hashing
-- **Session Storage**: PostgreSQL-backed sessions using connect-pg-simple
-- **API Design**: RESTful API with Express routes handling authentication, user management, and content delivery
+- **Database**: PostgreSQL with Drizzle ORM
+- **Authentication**: Session-based with bcrypt password hashing; PostgreSQL-backed sessions
+- **API Design**: RESTful API for user management, content, and authentication
+- **Content Management**: Detailed surgical procedure guides, specialty organization, user-generated content, CST-verified procedures, and community moderation.
+- **CST Exam Preparation System**: Dedicated API endpoints and schema for exam questions, sessions, progress tracking, and statistics.
 
 ### Data Storage Solutions
-- **Primary Database**: PostgreSQL hosted on Neon serverless platform
-- **Schema Design**: Comprehensive surgical data model including users, specialties, procedures, notes, forums, and activity tracking
-- **Session Management**: PostgreSQL session store for persistent user sessions
-- **File Storage**: Static assets served through Vite with attached_assets directory
+- **Primary Database**: PostgreSQL hosted on Neon serverless platform.
+- **Schema**: Comprehensive model including users, specialties, procedures, notes, forums, and activity.
+- **Session Management**: PostgreSQL session store.
 
 ### Authentication and Authorization
-- **Authentication Method**: Email/password-based with session management
-- **Password Security**: bcrypt hashing with salt rounds for secure password storage
-- **Session Management**: Server-side sessions with HTTP-only cookies
-- **User Roles**: Subscription-tier based access control (free, standard, premium)
-- **Verification System**: CST certification verification for content contributors
+- **Method**: Email/password with session management.
+- **Security**: bcrypt hashing, HTTP-only cookies.
+- **User Roles**: Subscription-tier based access control (free, standard, premium).
+- **Verification**: CST certification verification for content contributors.
+- **Email Validation**: Blocks test, fake, and disposable email domains during registration.
 
-### Content Management System
-- **Procedure Database**: Detailed surgical procedure guides with step-by-step instructions
-- **Specialty Organization**: Categorized content by surgical specialties with procedure counts
-- **User-Generated Content**: Personal notes, favorites, and community forum posts
-- **Content Verification**: CST-verified procedures and community moderation system
-
-### Mobile-First Design
-- **Responsive Design**: Mobile-optimized with glassmorphism UI elements
-- **Bottom Navigation**: Primary navigation pattern with active state indicators
-- **Touch Interactions**: Optimized for mobile touch interfaces with appropriate sizing
-- **Progressive Web App**: Configured for mobile app-like experience
+### Subscription and Access Control
+- **Tier-Based Access**: Features and content access are determined by subscription tier (Free, Standard, Premium).
+- **Specialty Selection**:
+    - Free tier: 1 permanent specialty selection.
+    - Standard tier: Up to 6 changeable specialties.
+    - Premium tier: Unlimited specialties.
+- **Exam Prep Access**: Tier-based question limits and mode availability for the CST Exam Preparation System.
 
 ## External Dependencies
 
 ### Database and Infrastructure
-- **Neon Database**: Serverless PostgreSQL hosting with connection pooling
-- **Drizzle ORM**: Type-safe database operations with schema migrations
-- **WebSocket Support**: ws library for Neon serverless WebSocket connections
+- **Neon Database**: Serverless PostgreSQL hosting.
+- **Drizzle ORM**: Type-safe database operations.
+- **ws library**: For WebSocket support with Neon.
 
 ### UI and Styling
-- **Tailwind CSS**: Utility-first CSS framework with custom medical theme
-- **Radix UI**: Headless UI primitives for accessibility and keyboard navigation
-- **Lucide React**: Icon library for consistent iconography
-- **Google Fonts**: Inter font family via CDN for typography
+- **Tailwind CSS**: Utility-first CSS framework.
+- **Radix UI**: Headless UI primitives.
+- **Lucide React**: Icon library.
+- **Google Fonts**: Inter font family.
 
 ### Development Tools
-- **Vite**: Build tool with development server and hot module replacement
-- **TypeScript**: Type safety across frontend and backend
-- **ESBuild**: Fast JavaScript bundler for production builds
-- **Replit Integration**: Development environment with runtime error handling
+- **Vite**: Build tool.
+- **TypeScript**: For type safety.
+- **ESBuild**: Fast JavaScript bundler.
 
 ### Authentication and Security
-- **bcryptjs**: Password hashing and comparison utilities
-- **express-session**: Session middleware for Express applications
-- **connect-pg-simple**: PostgreSQL session store adapter
+- **bcryptjs**: Password hashing.
+- **express-session**: Session middleware.
+- **connect-pg-simple**: PostgreSQL session store adapter.
 
 ### Data Fetching and State
-- **TanStack Query**: Server state management with caching and synchronization
-- **React Hook Form**: Form validation with Zod schema validation
-- **date-fns**: Date manipulation and formatting utilities
+- **TanStack Query**: Server state management.
+- **React Hook Form**: Form validation with Zod.
+- **date-fns**: Date manipulation utilities.
 
 ### Payment Processing and Subscriptions
-- **Stripe Integration**: Full subscription management with Stripe Checkout
-- **Subscription Tiers**: Three tiers - Free ($0), Standard, Premium
-- **Flexible Billing**: Monthly or annual billing options with 16.7% discount for annual (2 months free)
-  - Standard: $14.99/month or $149.90/year
-  - Premium: $29.99/month or $299.90/year
-- **Webhook Handler**: Automated subscription status updates via Stripe webhooks
-- **Customer Management**: Automatic Stripe customer creation and linking to user accounts
-- **Checkout Session**: Secure redirect-based payment flow using Stripe Checkout
-- **Subscription Status Tracking**: Real-time subscription status and tier management in database
+- **Stripe**: Full subscription management with Stripe Checkout.
+    - Supports Free, Standard ($14.99/month or $149.90/year), and Premium ($29.99/month or $299.90/year) tiers.
+    - Monthly and annual billing options with annual discounts.
+    - Webhook handler for subscription status updates.
+    - Customer portal access.
 
-## Recent Changes
-
-### Specialty Selection System with Tier Limits (October 2025)
-- **Backend API Endpoints**: 
-  - GET /api/user/specialties - Returns user's selected specialties, tier, and max limit
-  - POST /api/user/specialties - Saves specialty selections with server-side tier validation
-- **Specialty Selector Modal Component**:
-  - Dialog-based UI for selecting specialties with checkboxes
-  - Real-time validation with toast error messages for tier limit violations
-  - Shows tier information and selection count
-  - Cancel and Save buttons with loading states
-  - Automatic query invalidation and page refresh after save
-- **Tier-Based Access Control**:
-  - Free tier: 1 specialty maximum (permanent once selected)
-  - Standard tier: 6 specialties maximum
-  - Premium tier: Unlimited access (all 20 specialties)
-- **Specialties Page Filtering**:
-  - Free/Standard users see only their selected specialties
-  - Premium users see all 20 specialties
-  - Empty state with call-to-action for users without selections
-  - "Manage Specialties" button in header for tier-restricted users
-- **User Experience**:
-  - Click specialty cards to toggle selection
-  - Visual feedback with checkmarks and ring highlights
-  - Selection summary displayed in modal
-  - Graceful error handling with toast notifications
-
-### Screenshot Protection System (October 2025)
-- **Multi-Layer Protection**:
-  - CSS-based watermarking with user-select: none
-  - JavaScript event blocking for right-click and context menus
-  - Keyboard shortcut blocking (PrintScreen, Ctrl+P, Ctrl+S, F12, DevTools)
-  - Blur event detection for screenshot tool monitoring
-- **User-Friendly Implementation**:
-  - Form fields remain selectable for usability
-  - Silent error handling for clipboard operations
-  - Non-intrusive content protection
-  - Maintains professional user experience while protecting content
-
-### Google AdSense Integration for Free Tier (October 2025)
-- **Revenue Monetization**:
-  - Integrated Google AdSense to monetize free tier users
-  - Ad-free experience remains exclusive benefit for Standard and Premium tiers
-  - Generates revenue while maintaining professional appearance with glassmorphism styling
-- **AdSlot Component**:
-  - Intelligent component that checks user subscription tier
-  - Only displays ads to free tier users (subscriptionTier === 'free')
-  - Handles AdSense script lifecycle and lazy loading for performance
-  - Styled with glassmorphism design to match platform aesthetic
-  - Includes upgrade prompt near ads to encourage conversions
-- **Strategic Ad Placements**:
-  - Home page banner ad below welcome section (auto-responsive format)
-  - Specialties page in-feed ad after 3rd specialty card (fluid/in-article format)
-  - Non-intrusive placement that doesn't disrupt user experience
-- **Implementation Details**:
-  - AdSense script integrated into client/index.html with async loading
-  - Publisher ID placeholder (ca-pub-XXXXXXXXXXXXXXXX) requires user configuration
-  - Ad units bypass screenshot protection to comply with AdSense policies
-  - Lazy loading ensures ads don't impact page performance
-- **Setup Requirements**:
-  - User must replace placeholder publisher ID in client/index.html
-  - Ad slot IDs (data-ad-slot) are placeholders and need real AdSense configuration
-  - Ads will display once AdSense account is approved and properly configured
-
-### Annual Billing Option Added (October 2025)
-- Added monthly and annual billing options with toggle on subscribe page
-- Annual plans offer 16.7% discount (equivalent to 2 months free) - industry standard
-- Pricing: Standard $14.99/month or $149.90/year, Premium $29.99/month or $299.90/year
-- Automatic annual price creation in Stripe via initialization endpoint
-- Webhook handlers updated to recognize both monthly and annual subscriptions
-- UI shows savings breakdown and encourages annual subscriptions as default
-
-### Production Ready - Beta Testing Removed (October 2025)
-- Removed beta testing access modal and banner
-- App is now publicly accessible without beta restrictions
-- Ready for live deployment and production use
-
-### Stripe Payment Integration (October 2025)
-- Implemented full Stripe Checkout integration for subscription payments
-- Created subscription products and pricing in Stripe
-- Set up webhook endpoint for handling subscription lifecycle events
-- Configured proper success/cancel URLs for checkout flow with correct domain handling
-- Integrated subscription tier updates with user authentication system
-- Added customer portal access for subscription management
-- Success and cancel pages implemented with proper routing
-- Note: Stripe Checkout requires opening in new tab (not iframe) for security compliance
-
-### Free User Specialty Lock Feature (October 2025)
-- **Permanent Selection for Free Tier**:
-  - Free users can select exactly 1 specialty
-  - Once selected, specialty cannot be changed unless user upgrades
-  - Warning dialog shown before first selection explaining permanence
-- **Warning Dialog**:
-  - Shows "Important: Permanent Selection" message
-  - Explains selection is permanent and cannot be changed
-  - Provides upgrade information (Standard and Premium options)
-  - Two action buttons: "View Upgrade Plans" and "I Understand, Continue"
-- **Locked UI After Selection**:
-  - Dialog title changes to "Your Selected Specialty (Locked)"
-  - Amber/warning styling with "Locked" badge
-  - Selected specialty shows lock icon instead of checkmark
-  - All other specialties grayed out and disabled
-  - Clicking disabled specialties shows upgrade prompt
-  - No "Save" button visible (only "Close")
-- **Backend Enforcement**:
-  - Server-side validation prevents specialty changes via API
-  - Returns 403 error if free user attempts to change selection
-  - Prevents any workaround attempts through direct API calls
-
-### Email Validation for Registration (October 2025)
-- **Blocked Domains**:
-  - Test domains: test.com, testing.com, example.com, sample.com, demo.com
-  - Fake domains: fake.com, dummy.com
-  - Temporary domains: temp.com, temporary.com, throwaway.com
-  - Disposable email services: mailinator.com, guerrillamail.com, 10minutemail.com, tempmail.com, yopmail.com, maildrop.cc
-- **Validation Logic**:
-  - Server-side validation during registration
-  - Blocks both exact domain matches and subdomains
-  - Returns clear error: "Please use a valid email address. Test and disposable email domains are not allowed."
-- **Valid Emails**:
-  - All legitimate email providers accepted (Gmail, Yahoo, Outlook, etc.)
-  - Custom company/organizational domains allowed
-  - Educational domains (.edu) allowed
-
-### Standard Plan Specialty Limit Adjustment (October 2025)
-- **Changed from 10 to 6 specialties**:
-  - Standard tier now allows maximum of 6 specialties (reduced from 10)
-  - Updated across all UI components: Subscribe page, Home pricing cards, Specialty Selector
-  - Backend validation enforces 6 specialty maximum for Standard users
-  - Warning dialogs and upgrade prompts updated to reflect new limit
-- **User-Facing Updates**:
-  - Subscribe page: "Access to 6 specialties" in description and features
-  - Home page pricing: "✓ Access to 6 specialties"
-  - Free user warning: "Access 6 specialties and change them anytime"
-  - Specialty selector: "Access to 6 specialties (can be changed anytime)"
+### Monetization
+- **Google AdSense**: Integrated for free tier users, with strategic, non-intrusive ad placements and upgrade prompts.

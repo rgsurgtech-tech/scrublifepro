@@ -273,6 +273,104 @@ export const insertBetaTesterSchema = createInsertSchema(betaTesters).omit({
   createdAt: true,
 });
 
+// Exam Prep - CST Certification Exam Questions
+export const examQuestions = pgTable("exam_questions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  domain: text("domain").notNull(), // "perioperative_care", "ancillary_duties", "basic_science"
+  category: text("category").notNull(), // "preoperative", "intraoperative", "postoperative", "anatomy", etc.
+  subcategory: text("subcategory"), // More specific categorization
+  difficulty: text("difficulty").notNull(), // "basic", "intermediate", "advanced"
+  questionType: text("question_type").notNull(), // "multiple_choice", "true_false"
+  questionText: text("question_text").notNull(),
+  options: jsonb("options").notNull(), // Array of answer options
+  correctAnswer: text("correct_answer").notNull(), // The correct answer
+  explanation: text("explanation").notNull(), // Detailed explanation of the answer
+  reference: text("reference"), // Reference to source material or textbook
+  tags: text("tags").array().default(sql`ARRAY[]::text[]`), // Additional searchable tags
+  relatedSpecialtyId: varchar("related_specialty_id").references(() => specialties.id), // Link to specialty if relevant
+  accessTier: text("access_tier").notNull().default("free"), // "free", "standard", "premium"
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Exam Sessions - Track practice and timed exam sessions
+export const examSessions = pgTable("exam_sessions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").references(() => users.id).notNull(),
+  sessionType: text("session_type").notNull(), // "practice", "timed_exam", "review"
+  domain: text("domain"), // Filter by domain or null for mixed
+  category: text("category"), // Filter by category or null for mixed
+  difficulty: text("difficulty"), // Filter by difficulty or null for mixed
+  questionIds: text("question_ids").array().notNull(), // IDs of questions in this session
+  answers: jsonb("answers").notNull(), // User's answers {questionId: answer}
+  correctCount: integer("correct_count").default(0),
+  totalQuestions: integer("total_questions").notNull(),
+  timeSpentSeconds: integer("time_spent_seconds"), // Time spent on session
+  completed: boolean("completed").default(false),
+  completedAt: timestamp("completed_at"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// User Question Progress - Track individual question performance
+export const userQuestionProgress = pgTable("user_question_progress", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").references(() => users.id).notNull(),
+  questionId: varchar("question_id").references(() => examQuestions.id).notNull(),
+  timesAttempted: integer("times_attempted").default(0),
+  timesCorrect: integer("times_correct").default(0),
+  lastAttemptCorrect: boolean("last_attempt_correct"),
+  lastAttemptedAt: timestamp("last_attempted_at"),
+  markedForReview: boolean("marked_for_review").default(false),
+  notes: text("notes"), // User's personal notes on this question
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Exam Statistics - Aggregated user performance stats
+export const examStatistics = pgTable("exam_statistics", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").references(() => users.id).notNull().unique(),
+  totalQuestionsAttempted: integer("total_questions_attempted").default(0),
+  totalCorrect: integer("total_correct").default(0),
+  totalIncorrect: integer("total_incorrect").default(0),
+  overallAccuracy: integer("overall_accuracy").default(0), // Percentage 0-100
+  practiceSessionsCompleted: integer("practice_sessions_completed").default(0),
+  timedExamsCompleted: integer("timed_exams_completed").default(0),
+  averageTimedExamScore: integer("average_timed_exam_score").default(0), // Percentage 0-100
+  bestTimedExamScore: integer("best_timed_exam_score").default(0), // Percentage 0-100
+  weakestDomain: text("weakest_domain"), // Domain needing most improvement
+  strongestDomain: text("strongest_domain"), // Best performing domain
+  studyStreak: integer("study_streak").default(0), // Consecutive days with activity
+  lastStudyDate: timestamp("last_study_date"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Insert schemas for exam prep tables
+export const insertExamQuestionSchema = createInsertSchema(examQuestions).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertExamSessionSchema = createInsertSchema(examSessions).omit({
+  id: true,
+  completedAt: true,
+  createdAt: true,
+});
+
+export const insertUserQuestionProgressSchema = createInsertSchema(userQuestionProgress).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertExamStatisticsSchema = createInsertSchema(examStatistics).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Type exports
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
@@ -301,3 +399,12 @@ export type InsertVideoProgress = z.infer<typeof insertVideoProgressSchema>;
 export type InsertVideoComment = z.infer<typeof insertVideoCommentSchema>;
 export type BetaTester = typeof betaTesters.$inferSelect;
 export type InsertBetaTester = z.infer<typeof insertBetaTesterSchema>;
+
+export type ExamQuestion = typeof examQuestions.$inferSelect;
+export type ExamSession = typeof examSessions.$inferSelect;
+export type UserQuestionProgress = typeof userQuestionProgress.$inferSelect;
+export type ExamStatistics = typeof examStatistics.$inferSelect;
+export type InsertExamQuestion = z.infer<typeof insertExamQuestionSchema>;
+export type InsertExamSession = z.infer<typeof insertExamSessionSchema>;
+export type InsertUserQuestionProgress = z.infer<typeof insertUserQuestionProgressSchema>;
+export type InsertExamStatistics = z.infer<typeof insertExamStatisticsSchema>;

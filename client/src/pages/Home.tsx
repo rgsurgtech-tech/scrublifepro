@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Stethoscope, Users, BookOpen, Shield, Search, Heart, Bone, Brain, Eye, Baby, Activity, Scissors, Target, Wind, Wrench, Truck, Repeat, Zap, Dna, Play } from 'lucide-react';
+import { Stethoscope, Users, BookOpen, Shield, Search, Heart, Bone, Brain, Eye, Baby, Activity, Scissors, Target, Wind, Wrench, Truck, Repeat, Zap, Dna, Play, GraduationCap } from 'lucide-react';
 import surgicalBg from '@assets/stock_images/surgical_operating_r_269f4a87.jpg';
 import logoImage from '@assets/20251005_173733_1759700304560.jpg';
 import { AdSlot } from '@/components/AdSlot';
@@ -200,6 +200,22 @@ export default function Home() {
               <CardContent>
                 <p className="text-sm text-white/70">
                   Watch educational surgical videos and technique demonstrations
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card 
+              className="text-center glass-card bg-transparent backdrop-blur-xl border-white/10 cursor-pointer hover-elevate" 
+              onClick={() => setLocation('/exam-prep')}
+              data-testid="card-exam-prep"
+            >
+              <CardHeader>
+                <GraduationCap className="h-12 w-12 text-primary mx-auto mb-4" />
+                <CardTitle className="text-lg text-white">CST Exam Prep</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-white/70">
+                  Practice questions and study tools for CST certification exam
                 </p>
               </CardContent>
             </Card>

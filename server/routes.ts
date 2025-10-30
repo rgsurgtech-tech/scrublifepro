@@ -1143,10 +1143,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // ===== EXAM PREP ROUTES =====
   
-  // Seed exam questions (one-time setup)
-  app.post("/api/exam-prep/seed", requireAuth, async (req: any, res) => {
+  // Seed exam questions (one-time setup - development only)
+  app.post("/api/exam-prep/seed", async (req: any, res) => {
     try {
-      // Only allow admins or premium users to seed (for now, allow any authenticated user)
+      // Only allow in development
+      if (process.env.NODE_ENV !== 'development') {
+        return res.status(403).json({ error: "Seeding is only allowed in development" });
+      }
+      
       const { seedExamQuestions } = await import("./seed-exam-questions");
       const result = await seedExamQuestions();
       res.json(result);

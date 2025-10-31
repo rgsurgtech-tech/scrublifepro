@@ -35,7 +35,7 @@ export default function TimedMode({ domain, onExit }: TimedModeProps) {
 
   // Fetch questions for the selected domain
   const { data: questions, isLoading } = useQuery<ExamQuestion[]>({
-    queryKey: ['/api/exam-prep/questions', { domain }],
+    queryKey: [`/api/exam-prep/questions?domain=${domain}`],
     enabled: !!user && !!domain
   });
 

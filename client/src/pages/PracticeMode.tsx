@@ -34,7 +34,7 @@ export default function PracticeMode({ domain, onExit }: PracticeModeProps) {
 
   // Fetch questions for the selected domain
   const { data: questions, isLoading } = useQuery<ExamQuestion[]>({
-    queryKey: ['/api/exam-prep/questions', { domain }],
+    queryKey: [`/api/exam-prep/questions?domain=${domain}`],
     enabled: !!user && !!domain
   });
 

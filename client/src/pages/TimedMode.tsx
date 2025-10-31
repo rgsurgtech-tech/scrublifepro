@@ -48,7 +48,7 @@ export default function TimedMode({ domain, onExit }: TimedModeProps) {
       correctAnswers: number;
       timeSpent: number;
     }) => {
-      return apiRequest('/api/exam-prep/sessions', 'POST', data);
+      return apiRequest('POST', '/api/exam-prep/sessions', data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/exam-prep/statistics'] });
@@ -120,7 +120,7 @@ export default function TimedMode({ domain, onExit }: TimedModeProps) {
       const answerSubmissions = Object.entries(selectedAnswers).map(([questionId, selectedAnswer]) => {
         const q = questions?.find(q => q.id === questionId);
         if (q) {
-          return apiRequest('/api/exam-prep/submit-answer', 'POST', {
+          return apiRequest('POST', '/api/exam-prep/submit-answer', {
             questionId,
             selectedAnswer,
             isCorrect: q.correctAnswer === selectedAnswer

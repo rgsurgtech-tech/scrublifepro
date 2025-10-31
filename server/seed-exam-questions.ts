@@ -2,7 +2,10 @@ import { db } from "./db";
 import { examQuestions } from "@shared/schema";
 
 // CST Exam Seed Questions - Based on NBSTSA Content Outline
-// Total: 120 questions distributed across 3 domains
+// Total: 277 questions distributed across 3 domains
+// - Perioperative Care: 154 questions (55.6%)
+// - Ancillary Duties: 52 questions (18.8%)
+// - Basic Science: 71 questions (25.6%)
 
 export const examSeedQuestions = [
   // ===== DOMAIN I: PERIOPERATIVE CARE (60.7%) - 73 questions =====

@@ -7,10 +7,16 @@ import { Brain, Clock, CheckCircle2, BookOpen, Lock, TrendingUp, Target, Award, 
 import { useAuth } from "../contexts/AuthContext";
 import { Link } from "wouter";
 import type { ExamStatistics } from "@shared/schema";
+import PracticeMode from "./PracticeMode";
+import TimedMode from "./TimedMode";
+import ReviewMode from "./ReviewMode";
+
+type StudyMode = 'practice' | 'timed' | 'review' | null;
 
 export default function ExamPrep() {
   const { user } = useAuth();
   const [selectedDomain, setSelectedDomain] = useState<string | null>(null);
+  const [activeMode, setActiveMode] = useState<StudyMode>(null);
 
   // Fetch user statistics
   const { data: stats } = useQuery<ExamStatistics>({
@@ -95,6 +101,28 @@ export default function ExamPrep() {
     if (user.subscriptionTier === "standard") return 50;
     return "Unlimited";
   };
+
+  const handleStartMode = (mode: 'practice' | 'timed' | 'review') => {
+    if (!selectedDomain) return;
+    setActiveMode(mode);
+  };
+
+  const handleExitMode = () => {
+    setActiveMode(null);
+  };
+
+  // If a mode is active, render that mode component
+  if (activeMode && selectedDomain) {
+    if (activeMode === 'practice') {
+      return <PracticeMode domain={selectedDomain} onExit={handleExitMode} />;
+    }
+    if (activeMode === 'timed') {
+      return <TimedMode domain={selectedDomain} onExit={handleExitMode} />;
+    }
+    if (activeMode === 'review') {
+      return <ReviewMode domain={selectedDomain} onExit={handleExitMode} />;
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-background/95 p-4 md:p-6">
@@ -213,6 +241,7 @@ export default function ExamPrep() {
                         <Button
                           className="w-full"
                           disabled={!selectedDomain}
+                          onClick={() => handleStartMode(mode.id as 'practice' | 'timed' | 'review')}
                           data-testid={`button-start-${mode.id}`}
                         >
                           {selectedDomain ? `Start ${mode.title}` : "Select a Domain First"}

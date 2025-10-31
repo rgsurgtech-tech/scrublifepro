@@ -104,7 +104,7 @@ export default function TimedMode({ domain, onExit }: TimedModeProps) {
     }
   };
 
-  const handleSubmitExam = () => {
+  const handleSubmitExam = async () => {
     setExamSubmitted(true);
     
     // Calculate results
@@ -115,26 +115,36 @@ export default function TimedMode({ domain, onExit }: TimedModeProps) {
 
     const timeSpent = (4 * 60 * 60) - timeRemaining;
 
-    // Submit each answer
-    Object.entries(selectedAnswers).forEach(([questionId, selectedAnswer]) => {
-      const q = questions?.find(q => q.id === questionId);
-      if (q) {
-        apiRequest('/api/exam-prep/submit-answer', 'POST', {
-          questionId,
-          selectedAnswer,
-          isCorrect: q.correctAnswer === selectedAnswer
-        });
-      }
-    });
+    // Submit each answer with error handling
+    try {
+      const answerSubmissions = Object.entries(selectedAnswers).map(([questionId, selectedAnswer]) => {
+        const q = questions?.find(q => q.id === questionId);
+        if (q) {
+          return apiRequest('/api/exam-prep/submit-answer', 'POST', {
+            questionId,
+            selectedAnswer,
+            isCorrect: q.correctAnswer === selectedAnswer
+          }).catch(err => {
+            console.error(`Failed to submit answer for question ${questionId}:`, err);
+            return null;
+          });
+        }
+        return Promise.resolve(null);
+      });
 
-    // Submit session
-    submitSessionMutation.mutate({
-      sessionType: 'timed',
-      domain,
-      questionsAttempted: answeredCount,
-      correctAnswers: correctCount,
-      timeSpent
-    });
+      await Promise.all(answerSubmissions);
+
+      // Submit session
+      submitSessionMutation.mutate({
+        sessionType: 'timed',
+        domain,
+        questionsAttempted: answeredCount,
+        correctAnswers: correctCount,
+        timeSpent
+      });
+    } catch (error) {
+      console.error('Error submitting exam answers:', error);
+    }
 
     setShowResults(true);
   };

@@ -71,7 +71,7 @@ export default function ExamPrep() {
       title: "Timed Exam",
       description: "Simulate real CST exam conditions",
       icon: Clock,
-      features: ["175 questions", "4-hour time limit", "No immediate feedback", "Real exam simulation"],
+      features: ["154 Perioperative / 52 Ancillary / 71 Basic Science questions", "4-hour time limit", "No immediate feedback", "Real exam simulation"],
       tierAccess: "standard",
       color: "purple"
     },

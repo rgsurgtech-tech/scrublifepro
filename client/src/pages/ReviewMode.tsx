@@ -28,9 +28,9 @@ export default function ReviewMode({ domain, onExit }: ReviewModeProps) {
   const { user } = useAuth();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
-  // Fetch questions for the selected domain (in real app, this would fetch only incorrect ones)
+  // Fetch questions for the selected domain (request all questions)
   const { data: questions, isLoading } = useQuery<ExamQuestion[]>({
-    queryKey: [`/api/exam-prep/questions?domain=${domain}`],
+    queryKey: [`/api/exam-prep/questions?domain=${domain}&limit=999`],
     enabled: !!user && !!domain
   });
 

@@ -33,9 +33,9 @@ export default function TimedMode({ domain, onExit }: TimedModeProps) {
   const [examSubmitted, setExamSubmitted] = useState(false);
   const [showResults, setShowResults] = useState(false);
 
-  // Fetch questions for the selected domain
+  // Fetch questions for the selected domain (request all questions for timed exam)
   const { data: questions, isLoading } = useQuery<ExamQuestion[]>({
-    queryKey: [`/api/exam-prep/questions?domain=${domain}`],
+    queryKey: [`/api/exam-prep/questions?domain=${domain}&limit=999`],
     enabled: !!user && !!domain
   });
 

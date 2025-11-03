@@ -32,9 +32,9 @@ export default function PracticeMode({ domain, onExit }: PracticeModeProps) {
   const [showExplanation, setShowExplanation] = useState<Record<string, boolean>>({});
   const [sessionCompleted, setSessionCompleted] = useState(false);
 
-  // Fetch questions for the selected domain
+  // Fetch questions for the selected domain (request all questions)
   const { data: questions, isLoading } = useQuery<ExamQuestion[]>({
-    queryKey: [`/api/exam-prep/questions?domain=${domain}`],
+    queryKey: [`/api/exam-prep/questions?domain=${domain}&limit=999`],
     enabled: !!user && !!domain
   });
 

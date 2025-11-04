@@ -31,17 +31,21 @@ export default function PracticeMode({ domain, onExit }: PracticeModeProps) {
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string>>({});
   const [showExplanation, setShowExplanation] = useState<Record<string, boolean>>({});
   const [sessionCompleted, setSessionCompleted] = useState(false);
+  // Create unique session ID once when component mounts to force fresh questions
+  const [sessionId] = useState(() => Date.now());
 
-  // Fetch questions for the selected domain (request all questions)
+  // Fetch questions for the selected domain (request all questions with randomization)
   const { data: questions, isLoading } = useQuery<ExamQuestion[]>({
-    queryKey: [`/api/exam-prep/questions?domain=${domain}&limit=999`],
-    enabled: !!user && !!domain
+    queryKey: [`/api/exam-prep/questions?domain=${domain}&limit=999&session=${sessionId}`],
+    enabled: !!user && !!domain,
+    staleTime: 0, // Always fetch fresh questions
+    cacheTime: 0  // Don't cache questions between sessions
   });
 
   // Submit answer mutation
   const submitAnswerMutation = useMutation({
     mutationFn: async (data: { questionId: string; selectedAnswer: string; isCorrect: boolean }) => {
-      return apiRequest('/api/exam-prep/submit-answer', 'POST', data);
+      return apiRequest('POST', '/api/exam-prep/submit-answer', data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/exam-prep/statistics'] });

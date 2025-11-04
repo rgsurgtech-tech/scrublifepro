@@ -1178,13 +1178,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         enforcedLimit = requestedLimit;
       }
       
-      // Get questions from storage with tier-enforced limit
+      // Get questions from storage with tier-enforced limit and randomization
       const questions = await storage.getExamQuestions({
         domain: domain as string | undefined,
         category: category as string | undefined,
         difficulty: difficulty as string | undefined,
         userTier: user.subscriptionTier,
-        limit: enforcedLimit
+        limit: enforcedLimit,
+        randomize: true // Enable random question selection for variety
       });
       
       res.json(questions);

@@ -32,11 +32,15 @@ export default function TimedMode({ domain, onExit }: TimedModeProps) {
   const [timeRemaining, setTimeRemaining] = useState(4 * 60 * 60); // 4 hours in seconds
   const [examSubmitted, setExamSubmitted] = useState(false);
   const [showResults, setShowResults] = useState(false);
+  // Create unique session ID once when component mounts to force fresh questions
+  const [sessionId] = useState(() => Date.now());
 
-  // Fetch questions for the selected domain (request all questions for timed exam)
+  // Fetch questions for the selected domain (request all questions with randomization)
   const { data: questions, isLoading } = useQuery<ExamQuestion[]>({
-    queryKey: [`/api/exam-prep/questions?domain=${domain}&limit=999`],
-    enabled: !!user && !!domain
+    queryKey: [`/api/exam-prep/questions?domain=${domain}&limit=999&session=${sessionId}`],
+    enabled: !!user && !!domain,
+    staleTime: 0, // Always fetch fresh questions
+    cacheTime: 0  // Don't cache questions between sessions
   });
 
   // Submit session mutation

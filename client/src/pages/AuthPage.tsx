@@ -129,7 +129,7 @@ export default function AuthPage() {
                   data-testid="tab-register"
                   className="text-white data-[state=active]:bg-primary data-[state=active]:text-white"
                 >
-                  Register
+                  Sign-up
                 </TabsTrigger>
               </TabsList>
               

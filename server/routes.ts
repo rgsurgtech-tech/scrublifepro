@@ -717,6 +717,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         throw new Error('No user email on file');
       }
 
+      // Prevent lifetime members from creating new subscriptions
+      if (user.hasLifetimeAccess) {
+        console.log('🚫 Lifetime member attempted to create subscription:', user.id);
+        return res.status(403).json({ 
+          error: 'You already have lifetime premium access and cannot create a new subscription.'
+        });
+      }
+
       // Create or get Stripe customer
       let customerId = user.stripeCustomerId;
       if (!customerId) {
@@ -760,6 +768,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Update subscription tier after successful payment
   app.post('/api/update-subscription-tier', requireAuth, async (req: any, res) => {
     try {
+      // Prevent lifetime members from having their tier updated
+      if (req.user.hasLifetimeAccess) {
+        console.log('🚫 Lifetime member attempted to update subscription tier:', req.user.id);
+        return res.status(403).json({ 
+          error: 'You have lifetime premium access and your tier cannot be changed.' 
+        });
+      }
+
       const { tier } = req.body;
       const user = await storage.updateUserSubscriptionTier(req.user.id, tier);
       res.json({ user });
@@ -795,6 +811,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: 'Invalid price ID' });
       }
 
+      // Prevent lifetime members from creating new subscriptions
+      if (req.user.hasLifetimeAccess) {
+        console.log('🚫 Lifetime member attempted to create checkout session:', req.user.id);
+        return res.status(403).json({ 
+          error: 'You already have lifetime premium access and cannot create a new subscription.' 
+        });
+      }
+
       // Use REPLIT_DEV_DOMAIN for correct URL, fallback to localhost
       const baseUrl = process.env.REPLIT_DEV_DOMAIN 
         ? `https://${process.env.REPLIT_DEV_DOMAIN}`
@@ -818,6 +842,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post('/api/create-portal-session', requireAuth, async (req: any, res) => {
     try {
       const user = req.user;
+
+      // Prevent lifetime members from accessing the portal to create new subscriptions
+      if (user.hasLifetimeAccess) {
+        console.log('🚫 Lifetime member attempted to access customer portal:', user.id);
+        return res.status(403).json({ 
+          error: 'You already have lifetime premium access and do not need to manage subscriptions.' 
+        });
+      }
 
       if (!user.stripeCustomerId) {
         return res.status(400).json({ error: 'No subscription found' });
@@ -847,6 +879,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       let subscriptionStatus = {
         tier: user.subscriptionTier,
+        hasLifetimeAccess: user.hasLifetimeAccess || false,
+        effectiveTier: getEffectiveTier(user),
         hasActiveSubscription: false,
         cancelAtPeriodEnd: false,
         currentPeriodEnd: null as Date | null,

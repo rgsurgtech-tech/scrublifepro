@@ -1447,6 +1447,207 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin middleware - checks if user has admin privileges
+  const requireAdmin = async (req: any, res: any, next: any) => {
+    if (!req.session.userId) {
+      return res.status(401).json({ error: "Authentication required" });
+    }
+    
+    const user = await storage.getUserById(req.session.userId);
+    if (!user) {
+      return res.status(401).json({ error: "User not found" });
+    }
+    
+    // Check if user is admin - for now, using email-based check
+    // TODO: Add proper admin role system to user schema
+    const adminEmails = process.env.ADMIN_EMAILS?.split(',') || [];
+    const isAdmin = adminEmails.includes(user.email) || user.email === 'admin@scrublifepro.com';
+    
+    if (!isAdmin) {
+      return res.status(403).json({ error: "Admin access required" });
+    }
+    
+    req.user = user;
+    next();
+  };
+
+  // ADMIN ROUTES
+
+  // Grant lifetime access to a user
+  app.post("/api/admin/lifetime-access/grant", requireAdmin, async (req: any, res) => {
+    try {
+      const { userId } = req.body;
+      
+      if (!userId) {
+        return res.status(400).json({ error: "userId is required" });
+      }
+      
+      const updatedUser = await storage.grantLifetimeAccess(userId, req.user.id);
+      
+      if (!updatedUser) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      
+      const { password, ...userResponse } = updatedUser;
+      res.json({ 
+        message: "Lifetime access granted successfully",
+        user: userResponse 
+      });
+    } catch (error) {
+      console.error('Grant lifetime access error:', error);
+      res.status(500).json({ error: "Failed to grant lifetime access" });
+    }
+  });
+
+  // Revoke lifetime access from a user
+  app.post("/api/admin/lifetime-access/revoke", requireAdmin, async (req: any, res) => {
+    try {
+      const { userId } = req.body;
+      
+      if (!userId) {
+        return res.status(400).json({ error: "userId is required" });
+      }
+      
+      const updatedUser = await storage.revokeLifetimeAccess(userId);
+      
+      if (!updatedUser) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      
+      const { password, ...userResponse } = updatedUser;
+      res.json({ 
+        message: "Lifetime access revoked successfully",
+        user: userResponse 
+      });
+    } catch (error) {
+      console.error('Revoke lifetime access error:', error);
+      res.status(500).json({ error: "Failed to revoke lifetime access" });
+    }
+  });
+
+  // Create a promotional code for influencers
+  app.post("/api/admin/promo-codes", requireAdmin, async (req: any, res) => {
+    try {
+      const {
+        code,
+        influencerName,
+        influencerContact,
+        discountType,
+        discountValue,
+        duration,
+        notes
+      } = req.body;
+      
+      // Validate required fields
+      if (!code || !influencerName || !discountType || !discountValue || !duration) {
+        return res.status(400).json({ 
+          error: "Missing required fields: code, influencerName, discountType, discountValue, duration" 
+        });
+      }
+      
+      // Create Stripe coupon first
+      const coupon = await stripe.coupons.create({
+        [discountType === 'percentage' ? 'percent_off' : 'amount_off']: discountValue,
+        currency: discountType === 'amount' ? 'usd' : undefined,
+        duration: duration as 'once' | 'forever' | 'repeating',
+        name: `${influencerName} - ${code}`
+      });
+      
+      // Create Stripe promotion code
+      const promotionCode = await stripe.promotionCodes.create({
+        coupon: coupon.id,
+        code: code.toUpperCase(),
+        active: true
+      });
+      
+      // Save to database
+      const promoCodeRecord = await storage.createInfluencerCode({
+        code: code.toUpperCase(),
+        stripePromotionCodeId: promotionCode.id,
+        stripeCouponId: coupon.id,
+        influencerName,
+        influencerContact: influencerContact || null,
+        discountType,
+        discountValue,
+        duration,
+        notes: notes || null,
+        isActive: true,
+        createdBy: req.user.id
+      });
+      
+      res.json({ 
+        message: "Promotional code created successfully",
+        promoCode: promoCodeRecord,
+        stripePromotionCode: promotionCode
+      });
+    } catch (error) {
+      console.error('Create promo code error:', error);
+      res.status(500).json({ error: "Failed to create promotional code" });
+    }
+  });
+
+  // Get all promotional codes
+  app.get("/api/admin/promo-codes", requireAdmin, async (req: any, res) => {
+    try {
+      const codes = await storage.getAllInfluencerCodes();
+      res.json(codes);
+    } catch (error) {
+      console.error('Get promo codes error:', error);
+      res.status(500).json({ error: "Failed to get promotional codes" });
+    }
+  });
+
+  // Get a specific promotional code
+  app.get("/api/admin/promo-codes/:code", requireAdmin, async (req: any, res) => {
+    try {
+      const { code } = req.params;
+      const promoCode = await storage.getInfluencerCodeByCode(code.toUpperCase());
+      
+      if (!promoCode) {
+        return res.status(404).json({ error: "Promotional code not found" });
+      }
+      
+      // Fetch Stripe promotion code details for additional info
+      const stripePromoCode = await stripe.promotionCodes.retrieve(promoCode.stripePromotionCodeId);
+      
+      res.json({
+        ...promoCode,
+        stripeDetails: stripePromoCode
+      });
+    } catch (error) {
+      console.error('Get promo code error:', error);
+      res.status(500).json({ error: "Failed to get promotional code" });
+    }
+  });
+
+  // Deactivate a promotional code
+  app.post("/api/admin/promo-codes/:id/deactivate", requireAdmin, async (req: any, res) => {
+    try {
+      const { id } = req.params;
+      
+      const promoCode = await storage.getInfluencerCodeById(id);
+      if (!promoCode) {
+        return res.status(404).json({ error: "Promotional code not found" });
+      }
+      
+      // Deactivate in Stripe
+      await stripe.promotionCodes.update(promoCode.stripePromotionCodeId, {
+        active: false
+      });
+      
+      // Deactivate in database
+      const updatedCode = await storage.deactivateInfluencerCode(id);
+      
+      res.json({ 
+        message: "Promotional code deactivated successfully",
+        promoCode: updatedCode 
+      });
+    } catch (error) {
+      console.error('Deactivate promo code error:', error);
+      res.status(500).json({ error: "Failed to deactivate promotional code" });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;

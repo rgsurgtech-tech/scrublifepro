@@ -1593,49 +1593,126 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Create a promotional code for influencers
   app.post("/api/admin/promo-codes", requireAdmin, async (req: any, res) => {
     try {
-      const {
-        code,
-        influencerName,
-        influencerContact,
-        discountType,
-        discountValue,
-        duration,
-        notes
-      } = req.body;
+      // Define Zod schema for validation
+      const promoCodeSchema = z.object({
+        code: z.string().min(1, "Code is required"),
+        influencerName: z.string().min(1, "Influencer name is required"),
+        influencerContact: z.string().optional(),
+        discountType: z.enum(["percentage", "amount"], {
+          errorMap: () => ({ message: "Discount type must be 'percentage' or 'amount'" })
+        }),
+        discountValue: z.coerce.number().positive("Discount value must be greater than 0"),
+        duration: z.enum(["once", "forever", "repeating"], {
+          errorMap: () => ({ message: "Duration must be 'once', 'forever', or 'repeating'" })
+        }),
+        notes: z.string().optional()
+      }).refine(
+        (data) => {
+          // Percentage discounts must be integers between 1 and 100
+          if (data.discountType === "percentage") {
+            return Number.isInteger(data.discountValue) && 
+                   data.discountValue >= 1 && 
+                   data.discountValue <= 100;
+          }
+          // Amount discounts must be >= $0.01 and <= $10,000
+          return data.discountValue >= 0.01 && data.discountValue <= 10000;
+        },
+        (data) => {
+          if (data.discountType === "percentage") {
+            if (!Number.isInteger(data.discountValue)) {
+              return {
+                message: "Percentage discount must be a whole number",
+                path: ["discountValue"]
+              };
+            }
+            if (data.discountValue < 1 || data.discountValue > 100) {
+              return {
+                message: "Percentage discount must be between 1 and 100",
+                path: ["discountValue"]
+              };
+            }
+          }
+          if (data.discountType === "amount") {
+            if (data.discountValue < 0.01) {
+              return {
+                message: "Amount discount must be at least $0.01",
+                path: ["discountValue"]
+              };
+            }
+            if (data.discountValue > 10000) {
+              return {
+                message: "Amount discount cannot exceed $10,000",
+                path: ["discountValue"]
+              };
+            }
+          }
+          return true;
+        }
+      );
+
+      // Validate request body
+      const validatedData = promoCodeSchema.parse(req.body);
       
-      // Validate required fields
-      if (!code || !influencerName || !discountType || !discountValue || !duration) {
+      // discountValue is already a number from z.coerce.number()
+      let numericValue = validatedData.discountValue;
+
+      // For amount discounts, round to 2 decimal places to prevent fractional cent issues
+      if (validatedData.discountType === "amount") {
+        numericValue = Math.round(numericValue * 100) / 100;
+      }
+
+      // Additional safety check - should never happen due to Zod, but defensive
+      if (numericValue <= 0) {
         return res.status(400).json({ 
-          error: "Missing required fields: code, influencerName, discountType, discountValue, duration" 
+          error: "Discount value must be greater than 0" 
         });
+      }
+
+      // For amount discounts, convert dollars to cents for Stripe
+      const stripeDiscountValue = validatedData.discountType === "amount"
+        ? Math.round(numericValue * 100) // Convert to cents
+        : numericValue; // Keep percentage as-is
+
+      // Additional safety checks for amount discounts after conversion to cents
+      if (validatedData.discountType === "amount") {
+        if (stripeDiscountValue < 1) {
+          return res.status(400).json({ 
+            error: "Amount discount must be at least $0.01" 
+          });
+        }
+        if (stripeDiscountValue > 1000000) { // $10,000 = 1,000,000 cents
+          return res.status(400).json({ 
+            error: "Amount discount cannot exceed $10,000" 
+          });
+        }
       }
       
       // Create Stripe coupon first
       const coupon = await stripe.coupons.create({
-        [discountType === 'percentage' ? 'percent_off' : 'amount_off']: discountValue,
-        currency: discountType === 'amount' ? 'usd' : undefined,
-        duration: duration as 'once' | 'forever' | 'repeating',
-        name: `${influencerName} - ${code}`
+        [validatedData.discountType === 'percentage' ? 'percent_off' : 'amount_off']: stripeDiscountValue,
+        currency: validatedData.discountType === 'amount' ? 'usd' : undefined,
+        duration: validatedData.duration,
+        name: `${validatedData.influencerName} - ${validatedData.code}`
       });
       
       // Create Stripe promotion code
       const promotionCode = await stripe.promotionCodes.create({
         coupon: coupon.id,
-        code: code.toUpperCase(),
+        code: validatedData.code.toUpperCase(),
         active: true
       });
       
-      // Save to database
+      // Save to database (store the original dollar amount, not cents)
       const promoCodeRecord = await storage.createInfluencerCode({
-        code: code.toUpperCase(),
+        code: validatedData.code.toUpperCase(),
         stripePromotionCodeId: promotionCode.id,
         stripeCouponId: coupon.id,
-        influencerName,
-        influencerContact: influencerContact || null,
-        discountType,
-        discountValue,
-        duration,
-        notes: notes || null,
+        influencerName: validatedData.influencerName,
+        influencerContact: validatedData.influencerContact || null,
+        discountType: validatedData.discountType,
+        discountValue: numericValue, // Store original value, not cents
+        duration: validatedData.duration,
+        notes: validatedData.notes || null,
         isActive: true,
         createdBy: req.user.id
       });
@@ -1647,6 +1724,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error) {
       console.error('Create promo code error:', error);
+      
+      // Handle Zod validation errors
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ 
+          error: error.errors[0].message 
+        });
+      }
+      
       res.status(500).json({ error: "Failed to create promotional code" });
     }
   });

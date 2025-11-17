@@ -41,6 +41,13 @@ export default function AdminDashboard() {
   // Fetch all promo codes
   const { data: promoCodes, isLoading: isLoadingCodes, refetch: refetchCodes } = useQuery({
     queryKey: ["/api/admin/promo-codes"],
+    retry: (failureCount, error: any) => {
+      // Don't retry on 403 errors
+      if (error?.message === "Not authorized") {
+        return false;
+      }
+      return failureCount < 3;
+    },
     queryFn: async () => {
       const response = await fetch("/api/admin/promo-codes", {
         credentials: "include",
@@ -67,6 +74,9 @@ export default function AdminDashboard() {
       const response = await fetch(`/api/users/search?email=${encodeURIComponent(email)}`, {
         credentials: "include",
       });
+      if (response.status === 403) {
+        throw new Error("FORBIDDEN");
+      }
       if (!response.ok) {
         throw new Error("User not found");
       }
@@ -79,7 +89,16 @@ export default function AdminDashboard() {
         description: `Found user: ${data.email}`,
       });
     },
-    onError: () => {
+    onError: (error: Error) => {
+      if (error.message === "FORBIDDEN") {
+        toast({
+          title: "Access Denied",
+          description: "You don't have admin privileges",
+          variant: "destructive",
+        });
+        navigate("/");
+        return;
+      }
       setSearchedUser(null);
       toast({
         title: "User Not Found",
@@ -202,12 +221,66 @@ export default function AdminDashboard() {
       return;
     }
 
+    let numericValue = parseFloat(discountValue);
+    
+    // For amount discounts, round to 2 decimal places
+    if (discountType === "amount") {
+      numericValue = Math.round(numericValue * 100) / 100;
+    }
+    
+    if (isNaN(numericValue) || numericValue <= 0) {
+      toast({
+        title: "Validation Error",
+        description: "Discount value must be a positive number",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (discountType === "percentage") {
+      if (!Number.isInteger(numericValue)) {
+        toast({
+          title: "Validation Error",
+          description: "Percentage discount must be a whole number",
+          variant: "destructive",
+        });
+        return;
+      }
+      if (numericValue < 1 || numericValue > 100) {
+        toast({
+          title: "Validation Error",
+          description: "Percentage discount must be between 1 and 100",
+          variant: "destructive",
+        });
+        return;
+      }
+    }
+
+    if (discountType === "amount") {
+      if (numericValue < 0.01) {
+        toast({
+          title: "Validation Error",
+          description: "Amount discount must be at least $0.01",
+          variant: "destructive",
+        });
+        return;
+      }
+      if (numericValue > 10000) {
+        toast({
+          title: "Validation Error",
+          description: "Amount discount cannot exceed $10,000",
+          variant: "destructive",
+        });
+        return;
+      }
+    }
+
     createPromoMutation.mutate({
       code: promoCode.trim(),
       influencerName: influencerName.trim(),
       influencerContact: influencerContact.trim() || undefined,
       discountType,
-      discountValue: parseFloat(discountValue),
+      discountValue: numericValue,
       duration,
       notes: notes.trim() || undefined,
     });

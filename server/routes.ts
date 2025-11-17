@@ -1515,6 +1515,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // ADMIN ROUTES
 
+  // Search for a user by email (admin only)
+  app.get("/api/users/search", requireAdmin, async (req: any, res) => {
+    try {
+      const { email } = req.query;
+      
+      if (!email) {
+        return res.status(400).json({ error: "Email parameter is required" });
+      }
+      
+      const user = await storage.getUserByEmail(email as string);
+      
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+      
+      const { password, ...userResponse } = user;
+      res.json(userResponse);
+    } catch (error) {
+      console.error('Search user error:', error);
+      res.status(500).json({ error: "Failed to search user" });
+    }
+  });
+
   // Grant lifetime access to a user
   app.post("/api/admin/lifetime-access/grant", requireAdmin, async (req: any, res) => {
     try {

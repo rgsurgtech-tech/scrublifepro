@@ -122,6 +122,7 @@ export interface IStorage {
   updateInfluencerCode(id: string, updates: Partial<InfluencerCode>): Promise<InfluencerCode | null>;
   incrementCodeUsage(code: string): Promise<InfluencerCode | null>;
   deactivateInfluencerCode(id: string): Promise<InfluencerCode | null>;
+  trackPromoCodeUsage(stripePromotionCodeId: string, userId: string): Promise<void>;
 }
 
 // Note: MemStorage class kept for compatibility but not used

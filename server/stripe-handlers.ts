@@ -178,12 +178,40 @@ export async function handleCheckoutCompleted(session: Stripe.Checkout.Session) 
       return;
     }
 
+    // Check if user has lifetime access - they shouldn't be creating subscriptions
+    const user = await storage.getUserById(userId);
+    if (user?.hasLifetimeAccess) {
+      console.log(`⚠️ User ${userId} has lifetime access, ignoring subscription creation`);
+      // Optionally, refund the payment or handle this case
+      return;
+    }
+
     // Update user with Stripe customer and subscription IDs
     await storage.updateUserStripeInfo(userId, customerId, subscriptionId);
 
-    // Get subscription to determine tier
-    const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+    // Get subscription to determine tier and check for promotional codes
+    const subscription = await stripe.subscriptions.retrieve(subscriptionId, {
+      expand: ['discounts.promotion_code']
+    });
     const priceId = subscription.items.data[0]?.price.id;
+
+    // Track promotional code usage if one was applied
+    if (subscription.discounts && subscription.discounts.length > 0) {
+      const discount = subscription.discounts[0];
+      if (discount.promotion_code) {
+        const promoCodeId = typeof discount.promotion_code === 'string' 
+          ? discount.promotion_code 
+          : discount.promotion_code.id;
+        
+        try {
+          await storage.trackPromoCodeUsage(promoCodeId, userId);
+          console.log(`📊 Tracked promo code usage: ${promoCodeId} for user ${userId}`);
+        } catch (error) {
+          console.error('Failed to track promo code usage:', error);
+          // Don't fail the whole webhook if tracking fails
+        }
+      }
+    }
 
     // Determine tier based on price ID (check both monthly and annual)
     let tier = 'free';
@@ -217,6 +245,12 @@ export async function handleSubscriptionUpdated(subscription: Stripe.Subscriptio
 
     if (!user) {
       console.error('No user found for customer:', customerId);
+      return;
+    }
+
+    // Don't downgrade users with lifetime access
+    if (user.hasLifetimeAccess) {
+      console.log(`⚠️ User ${user.id} has lifetime access, maintaining premium status`);
       return;
     }
 
@@ -258,6 +292,14 @@ export async function handleSubscriptionDeleted(subscription: Stripe.Subscriptio
 
     if (!user) {
       console.error('No user found for customer:', customerId);
+      return;
+    }
+
+    // Don't downgrade users with lifetime access
+    if (user.hasLifetimeAccess) {
+      console.log(`⚠️ User ${user.id} has lifetime access, maintaining premium status`);
+      // Clear subscription ID but keep premium tier
+      await storage.updateUserStripeInfo(user.id, user.stripeCustomerId || '', '');
       return;
     }
 

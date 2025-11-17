@@ -1062,6 +1062,25 @@ export class DatabaseStorage implements IStorage {
       .returning();
     return result[0] || null;
   }
+
+  async trackPromoCodeUsage(stripePromotionCodeId: string, userId: string): Promise<void> {
+    // Find the influencer code by Stripe promotion code ID
+    const code = await db.select()
+      .from(influencerCodes)
+      .where(eq(influencerCodes.stripePromotionCodeId, stripePromotionCodeId))
+      .limit(1);
+    
+    if (code.length > 0) {
+      // Increment usage count
+      await db.update(influencerCodes)
+        .set({
+          timesUsed: sql`${influencerCodes.timesUsed} + 1`,
+          lastUsedAt: new Date(),
+          updatedAt: new Date()
+        })
+        .where(eq(influencerCodes.id, code[0].id));
+    }
+  }
 }
 
 // Export the database storage instance

@@ -27,7 +27,7 @@ import {
   handleTrialWillEnd,
   initializeAnnualPrices
 } from "./stripe-handlers";
-import { STRIPE_PRICES, canAccessFeature } from "./subscription-config";
+import { STRIPE_PRICES, canAccessFeature, getEffectiveTier } from "./subscription-config";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // NOTE: Stripe webhook is registered in server/index.ts BEFORE express.json()
@@ -241,10 +241,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/user/specialties", requireAuth, async (req: any, res) => {
     try {
       const user = req.user;
+      const effectiveTier = getEffectiveTier(user);
       res.json({ 
         selectedSpecialties: user.selectedSpecialties || [],
         subscriptionTier: user.subscriptionTier,
-        maxSpecialties: user.subscriptionTier === 'free' ? 1 : user.subscriptionTier === 'standard' ? 6 : null
+        hasLifetimeAccess: user.hasLifetimeAccess || false,
+        effectiveTier,
+        maxSpecialties: effectiveTier === 'free' ? 1 : effectiveTier === 'standard' ? 6 : null
       });
     } catch (error) {
       console.error('Get specialties error:', error);
@@ -261,8 +264,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "specialtyIds must be an array" });
       }
 
+      // Get effective tier (considers lifetime access)
+      const effectiveTier = getEffectiveTier(user);
+
       // FREE TIER RESTRICTION: Once a free user has selected a specialty, they cannot change it
-      if (user.subscriptionTier === 'free' && user.selectedSpecialties && user.selectedSpecialties.length > 0) {
+      if (effectiveTier === 'free' && user.selectedSpecialties && user.selectedSpecialties.length > 0) {
         // Check if they're trying to change their selection
         const existingSelection = user.selectedSpecialties[0];
         const newSelection = specialtyIds[0];
@@ -280,12 +286,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
       }
 
-      // Validate limits based on subscription tier
-      const maxSpecialties = user.subscriptionTier === 'free' ? 1 : user.subscriptionTier === 'standard' ? 6 : null;
+      // Validate limits based on effective subscription tier
+      const maxSpecialties = effectiveTier === 'free' ? 1 : effectiveTier === 'standard' ? 6 : null;
       
       if (maxSpecialties && specialtyIds.length > maxSpecialties) {
         return res.status(400).json({ 
-          error: `Your ${user.subscriptionTier} plan allows a maximum of ${maxSpecialties} ${maxSpecialties === 1 ? 'specialty' : 'specialties'}`
+          error: `Your ${effectiveTier} plan allows a maximum of ${maxSpecialties} ${maxSpecialties === 1 ? 'specialty' : 'specialties'}`
         });
       }
 
@@ -969,11 +975,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { category, specialtyId, procedureId, search } = req.query;
       
-      // Get user subscription tier if authenticated
+      // Get user effective tier if authenticated (considers lifetime access)
       let userSubscriptionTier: string | undefined;
       if (req.session.userId) {
         const user = await storage.getUserById(req.session.userId);
-        userSubscriptionTier = user?.subscriptionTier;
+        userSubscriptionTier = user ? getEffectiveTier(user) : undefined;
       }
       
       let videos;
@@ -1165,14 +1171,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { domain, category, difficulty, limit = '20' } = req.query;
       const user = req.user;
+      const effectiveTier = getEffectiveTier(user);
       
       // Enforce tier-based question limits server-side
       const requestedLimit = parseInt(limit as string);
       let enforcedLimit: number;
       
-      if (user.subscriptionTier === 'free') {
+      if (effectiveTier === 'free') {
         enforcedLimit = Math.min(requestedLimit, 10);
-      } else if (user.subscriptionTier === 'standard') {
+      } else if (effectiveTier === 'standard') {
         enforcedLimit = Math.min(requestedLimit, 50);
       } else { // premium
         enforcedLimit = requestedLimit;
@@ -1183,7 +1190,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         domain: domain as string | undefined,
         category: category as string | undefined,
         difficulty: difficulty as string | undefined,
-        userTier: user.subscriptionTier,
+        userTier: effectiveTier,
         limit: enforcedLimit,
         randomize: true // Enable random question selection for variety
       });
@@ -1217,9 +1224,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { sessionType, domain, category, difficulty, questionCount = 20 } = req.body;
       const user = req.user;
+      const effectiveTier = getEffectiveTier(user);
       
       // Validate tier access for session types
-      if (sessionType === 'timed' && user.subscriptionTier === 'free') {
+      if (sessionType === 'timed' && effectiveTier === 'free') {
         return res.status(403).json({ 
           error: "Timed exams require Standard or Premium subscription" 
         });
@@ -1228,9 +1236,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Enforce tier-based question limits server-side
       let enforcedQuestionCount: number;
       
-      if (user.subscriptionTier === 'free') {
+      if (effectiveTier === 'free') {
         enforcedQuestionCount = Math.min(questionCount, 10);
-      } else if (user.subscriptionTier === 'standard') {
+      } else if (effectiveTier === 'standard') {
         enforcedQuestionCount = Math.min(questionCount, 50);
       } else { // premium
         enforcedQuestionCount = questionCount;
@@ -1241,7 +1249,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         domain,
         category,
         difficulty,
-        userTier: user.subscriptionTier,
+        userTier: effectiveTier,
         limit: enforcedQuestionCount,
         randomize: true
       });

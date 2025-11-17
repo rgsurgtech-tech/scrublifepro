@@ -77,6 +77,15 @@ export const SUBSCRIPTION_TIERS = {
 
 export type SubscriptionTier = keyof typeof SUBSCRIPTION_TIERS;
 
+// Helper to get effective tier for a user (considering lifetime access)
+// Users with lifetime access are treated as premium regardless of their actual subscription tier
+export function getEffectiveTier(user: { subscriptionTier: string; hasLifetimeAccess?: boolean | null }): string {
+  if (user.hasLifetimeAccess) {
+    return 'premium';
+  }
+  return user.subscriptionTier;
+}
+
 // Helper to get tier config
 export function getTierConfig(tier: string) {
   const tierKey = tier.toUpperCase() as SubscriptionTier;

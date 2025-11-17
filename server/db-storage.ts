@@ -17,6 +17,7 @@ import {
   videoLikes,
   videoComments,
   betaTesters,
+  influencerCodes,
   examQuestions,
   examSessions,
   userQuestionProgress,
@@ -41,6 +42,8 @@ import {
   BetaTester,
   InsertBetaTester,
   InsertVideoComment,
+  InfluencerCode,
+  InsertInfluencerCode,
   ExamQuestion,
   ExamSession,
   InsertExamSession,
@@ -971,6 +974,93 @@ export class DatabaseStorage implements IStorage {
         .returning();
       return result[0];
     }
+  }
+
+  // Lifetime access management
+  async grantLifetimeAccess(userId: string, grantedBy: string): Promise<User | null> {
+    const result = await db.update(users)
+      .set({
+        hasLifetimeAccess: true,
+        lifetimeGrantedAt: new Date(),
+        lifetimeGrantedBy: grantedBy,
+        subscriptionTier: 'premium', // Automatically upgrade to premium
+        updatedAt: new Date()
+      })
+      .where(eq(users.id, userId))
+      .returning();
+    return result[0] || null;
+  }
+
+  async revokeLifetimeAccess(userId: string): Promise<User | null> {
+    const result = await db.update(users)
+      .set({
+        hasLifetimeAccess: false,
+        lifetimeGrantedAt: null,
+        lifetimeGrantedBy: null,
+        updatedAt: new Date()
+      })
+      .where(eq(users.id, userId))
+      .returning();
+    return result[0] || null;
+  }
+
+  // Influencer code management
+  async createInfluencerCode(code: InsertInfluencerCode): Promise<InfluencerCode> {
+    const result = await db.insert(influencerCodes).values(code).returning();
+    return result[0];
+  }
+
+  async getInfluencerCodeByCode(code: string): Promise<InfluencerCode | null> {
+    const result = await db.select()
+      .from(influencerCodes)
+      .where(eq(influencerCodes.code, code))
+      .limit(1);
+    return result[0] || null;
+  }
+
+  async getInfluencerCodeById(id: string): Promise<InfluencerCode | null> {
+    const result = await db.select()
+      .from(influencerCodes)
+      .where(eq(influencerCodes.id, id))
+      .limit(1);
+    return result[0] || null;
+  }
+
+  async getAllInfluencerCodes(): Promise<InfluencerCode[]> {
+    return await db.select().from(influencerCodes).orderBy(desc(influencerCodes.createdAt));
+  }
+
+  async updateInfluencerCode(id: string, updates: Partial<InfluencerCode>): Promise<InfluencerCode | null> {
+    const result = await db.update(influencerCodes)
+      .set({
+        ...updates,
+        updatedAt: new Date()
+      })
+      .where(eq(influencerCodes.id, id))
+      .returning();
+    return result[0] || null;
+  }
+
+  async incrementCodeUsage(code: string): Promise<InfluencerCode | null> {
+    const result = await db.update(influencerCodes)
+      .set({
+        timesUsed: sql`${influencerCodes.timesUsed} + 1`,
+        updatedAt: new Date()
+      })
+      .where(eq(influencerCodes.code, code))
+      .returning();
+    return result[0] || null;
+  }
+
+  async deactivateInfluencerCode(id: string): Promise<InfluencerCode | null> {
+    const result = await db.update(influencerCodes)
+      .set({
+        isActive: false,
+        updatedAt: new Date()
+      })
+      .where(eq(influencerCodes.id, id))
+      .returning();
+    return result[0] || null;
   }
 }
 

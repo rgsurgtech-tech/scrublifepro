@@ -1,4 +1,4 @@
-import { User, InsertUser, Specialty, Procedure, UserNote, InsertUserNote, ForumPost, InsertForumPost, ForumReply, InsertForumReply, VideoCategory, Video, InsertVideo, InsertVideoCategory, VideoProgress, InsertVideoProgress, VideoComment, InsertVideoComment, BetaTester, InsertBetaTester, ExamQuestion, ExamSession, InsertExamSession, UserQuestionProgress, ExamStatistics } from "@shared/schema";
+import { User, InsertUser, Specialty, Procedure, UserNote, InsertUserNote, ForumPost, InsertForumPost, ForumReply, InsertForumReply, VideoCategory, Video, InsertVideo, InsertVideoCategory, VideoProgress, InsertVideoProgress, VideoComment, InsertVideoComment, BetaTester, InsertBetaTester, ExamQuestion, ExamSession, InsertExamSession, UserQuestionProgress, ExamStatistics, InfluencerCode, InsertInfluencerCode } from "@shared/schema";
 
 export interface IStorage {
   // User management (keeping existing methods for compatibility)
@@ -109,6 +109,19 @@ export interface IStorage {
   }): Promise<ExamStatistics>;
   markQuestionForReview(userId: string, questionId: string, markedForReview: boolean): Promise<UserQuestionProgress | null>;
   updateQuestionNote(userId: string, questionId: string, note: string): Promise<UserQuestionProgress | null>;
+  
+  // Lifetime access management
+  grantLifetimeAccess(userId: string, grantedBy: string): Promise<User | null>;
+  revokeLifetimeAccess(userId: string): Promise<User | null>;
+  
+  // Influencer code management
+  createInfluencerCode(code: InsertInfluencerCode): Promise<InfluencerCode>;
+  getInfluencerCodeByCode(code: string): Promise<InfluencerCode | null>;
+  getInfluencerCodeById(id: string): Promise<InfluencerCode | null>;
+  getAllInfluencerCodes(): Promise<InfluencerCode[]>;
+  updateInfluencerCode(id: string, updates: Partial<InfluencerCode>): Promise<InfluencerCode | null>;
+  incrementCodeUsage(code: string): Promise<InfluencerCode | null>;
+  deactivateInfluencerCode(id: string): Promise<InfluencerCode | null>;
 }
 
 // Note: MemStorage class kept for compatibility but not used

@@ -19,6 +19,9 @@ export const users = pgTable("users", {
   isVerified: boolean("is_verified").default(false), // CST verification status
   stripeCustomerId: text("stripe_customer_id"),
   stripeSubscriptionId: text("stripe_subscription_id"),
+  hasLifetimeAccess: boolean("has_lifetime_access").default(false), // Influencer/promotional lifetime premium access
+  lifetimeGrantedAt: timestamp("lifetime_granted_at"),
+  lifetimeGrantedBy: varchar("lifetime_granted_by").references(() => users.id), // Admin who granted lifetime access
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -33,6 +36,25 @@ export const betaTesters = pgTable("beta_testers", {
   expectedBenefit: text("expected_benefit").notNull(),
   signupNumber: integer("signup_number").notNull(), // 1-100
   createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Influencer promotional codes for tracking discount code usage
+export const influencerCodes = pgTable("influencer_codes", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  code: text("code").notNull().unique(), // e.g., "SARAH10"
+  stripePromotionCodeId: text("stripe_promotion_code_id").notNull(), // Stripe's promo code ID
+  stripeCouponId: text("stripe_coupon_id").notNull(), // Stripe's coupon ID
+  influencerName: text("influencer_name").notNull(), // Name of influencer
+  influencerContact: text("influencer_contact"), // Email or social media handle
+  discountType: text("discount_type").notNull(), // "percentage" or "amount"
+  discountValue: integer("discount_value").notNull(), // 10 for 10%, or amount in cents
+  duration: text("duration").notNull(), // "once", "forever", "repeating"
+  timesUsed: integer("times_used").default(0),
+  isActive: boolean("is_active").default(true),
+  notes: text("notes"), // Internal notes about the partnership
+  createdBy: varchar("created_by").references(() => users.id).notNull(), // Admin who created it
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 // Surgical specialties
@@ -273,6 +295,13 @@ export const insertBetaTesterSchema = createInsertSchema(betaTesters).omit({
   createdAt: true,
 });
 
+export const insertInfluencerCodeSchema = createInsertSchema(influencerCodes).omit({
+  id: true,
+  timesUsed: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Exam Prep - CST Certification Exam Questions
 export const examQuestions = pgTable("exam_questions", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -399,6 +428,9 @@ export type InsertVideoProgress = z.infer<typeof insertVideoProgressSchema>;
 export type InsertVideoComment = z.infer<typeof insertVideoCommentSchema>;
 export type BetaTester = typeof betaTesters.$inferSelect;
 export type InsertBetaTester = z.infer<typeof insertBetaTesterSchema>;
+
+export type InfluencerCode = typeof influencerCodes.$inferSelect;
+export type InsertInfluencerCode = z.infer<typeof insertInfluencerCodeSchema>;
 
 export type ExamQuestion = typeof examQuestions.$inferSelect;
 export type ExamSession = typeof examSessions.$inferSelect;

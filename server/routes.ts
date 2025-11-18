@@ -1819,6 +1819,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Bootstrap admin account (public endpoint, but checks if admin already exists)
+  app.post("/api/bootstrap-admin", async (req: any, res) => {
+    try {
+      // Check if admin already exists
+      const existing = await storage.getUserByEmail("admin@scrublifepro.com");
+      if (existing) {
+        return res.status(403).json({ 
+          error: "Admin account already exists. Use the existing credentials or ADMIN_EMAILS environment variable." 
+        });
+      }
+
+      // Create the admin account
+      const hashedPassword = await bcrypt.hash("Admin2025!", 10);
+      const adminUser = await storage.createUser({
+        email: "admin@scrublifepro.com",
+        password: hashedPassword,
+        firstName: "Admin",
+        lastName: "User",
+        subscriptionTier: "premium",
+        isVerified: true,
+      });
+
+      res.json({ 
+        message: "Admin account created successfully",
+        email: "admin@scrublifepro.com",
+        password: "Admin2025!"
+      });
+    } catch (error: any) {
+      console.error('Bootstrap admin error:', error);
+      
+      // Check for duplicate email error
+      if (error.message && error.message.includes('unique')) {
+        return res.status(403).json({ 
+          error: "Admin account already exists" 
+        });
+      }
+      
+      res.status(500).json({ error: "Failed to create admin account" });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;

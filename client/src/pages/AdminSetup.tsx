@@ -21,9 +21,8 @@ export default function AdminSetup() {
   // Bootstrap admin mutation
   const bootstrapMutation = useMutation({
     mutationFn: async () => {
-      return await apiRequest("/api/bootstrap-admin", {
-        method: "POST",
-      });
+      const response = await apiRequest("POST", "/api/bootstrap-admin");
+      return response.json();
     },
     onSuccess: (data: any) => {
       setSetupComplete(true);

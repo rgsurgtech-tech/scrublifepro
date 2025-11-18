@@ -5,6 +5,8 @@ import bcrypt from "bcryptjs";
 import { z } from "zod";
 import Stripe from "stripe";
 import { storage } from "./storage";
+import { db } from "./db";
+import { procedures } from "@shared/schema";
 import { 
   insertUserSchema, 
   insertUserNoteSchema, 

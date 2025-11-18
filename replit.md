@@ -42,9 +42,10 @@ Preferred communication style: Simple, everyday language.
 ### Subscription and Access Control
 - **Tier-Based Access**: Features and content access are determined by subscription tier (Free, Standard, Premium).
 - **Specialty Selection**:
-    - Free tier: 1 permanent specialty selection.
-    - Standard tier: Up to 6 changeable specialties.
-    - Premium tier: Unlimited specialties.
+    - Free tier: 1 permanent specialty selection with access to ALL procedures within that specialty.
+    - Standard tier: Up to 6 changeable specialties with access to ALL procedures across those specialties.
+    - Premium tier: Unlimited specialties with access to ALL procedures across ALL specialties.
+- **Procedure Access**: No limits on procedures within selected specialties. All tiers have unlimited access to procedures within their allowed specialties.
 - **Exam Prep Access**: Tier-based question limits and mode availability for the CST Exam Preparation System.
 
 ## External Dependencies

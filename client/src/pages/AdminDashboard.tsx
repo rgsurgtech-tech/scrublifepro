@@ -66,9 +66,8 @@ export default function AdminDashboard() {
   // Seed production mutation
   const seedProductionMutation = useMutation({
     mutationFn: async () => {
-      return await apiRequest("/api/admin/seed-production", {
-        method: "POST",
-      });
+      const response = await apiRequest("POST", "/api/admin/seed-production");
+      return response.json();
     },
     onSuccess: (data: any) => {
       toast({

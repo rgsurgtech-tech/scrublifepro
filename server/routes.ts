@@ -1798,6 +1798,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Clear all procedures (admin only - use with caution!)
+  app.post("/api/admin/clear-procedures", requireAdmin, async (req: any, res) => {
+    try {
+      await db.delete(procedures);
+      
+      res.json({ 
+        message: "All procedures cleared successfully"
+      });
+    } catch (error) {
+      console.error('Clear procedures error:', error);
+      res.status(500).json({ error: "Failed to clear procedures" });
+    }
+  });
+
   // Seed production database with procedures
   app.post("/api/admin/seed-production", requireAdmin, async (req: any, res) => {
     try {

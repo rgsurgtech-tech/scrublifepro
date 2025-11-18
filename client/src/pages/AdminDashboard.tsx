@@ -63,6 +63,27 @@ export default function AdminDashboard() {
     },
   });
 
+  // Clear procedures mutation
+  const clearProceduresMutation = useMutation({
+    mutationFn: async () => {
+      const response = await apiRequest("POST", "/api/admin/clear-procedures");
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Success!",
+        description: "All procedures cleared from database",
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: "Failed to clear procedures",
+        variant: "destructive",
+      });
+    },
+  });
+
   // Seed production mutation
   const seedProductionMutation = useMutation({
     mutationFn: async () => {
@@ -357,29 +378,62 @@ export default function AdminDashboard() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center gap-3">
-              <Button
-                onClick={() => seedProductionMutation.mutate()}
-                disabled={seedProductionMutation.isPending}
-                size="lg"
-                className="bg-blue-600 hover:bg-blue-700"
-                data-testid="button-seed-production"
-              >
-                {seedProductionMutation.isPending ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                    Seeding Production...
-                  </>
-                ) : (
-                  <>
-                    <Database className="w-4 h-4 mr-2" />
-                    Seed Production Database
-                  </>
-                )}
-              </Button>
-              <p className="text-sm text-muted-foreground">
-                Only run this once after publishing to populate your production database
-              </p>
+            <div className="space-y-4">
+              {/* Clear Procedures */}
+              <div className="flex items-center gap-3">
+                <Button
+                  onClick={() => {
+                    if (confirm("⚠️ WARNING: This will DELETE ALL procedures from the database! Are you sure?")) {
+                      clearProceduresMutation.mutate();
+                    }
+                  }}
+                  disabled={clearProceduresMutation.isPending}
+                  variant="destructive"
+                  size="lg"
+                  data-testid="button-clear-procedures"
+                >
+                  {clearProceduresMutation.isPending ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                      Clearing...
+                    </>
+                  ) : (
+                    <>
+                      <Database className="w-4 h-4 mr-2" />
+                      Clear All Procedures
+                    </>
+                  )}
+                </Button>
+                <p className="text-sm text-muted-foreground">
+                  ⚠️ Removes all procedures (use if you need to start fresh)
+                </p>
+              </div>
+
+              {/* Seed Procedures */}
+              <div className="flex items-center gap-3">
+                <Button
+                  onClick={() => seedProductionMutation.mutate()}
+                  disabled={seedProductionMutation.isPending}
+                  size="lg"
+                  className="bg-blue-600 hover:bg-blue-700"
+                  data-testid="button-seed-production"
+                >
+                  {seedProductionMutation.isPending ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                      Seeding Production...
+                    </>
+                  ) : (
+                    <>
+                      <Database className="w-4 h-4 mr-2" />
+                      Seed Production Database
+                    </>
+                  )}
+                </Button>
+                <p className="text-sm text-muted-foreground">
+                  Adds all 204 procedures to the database
+                </p>
+              </div>
             </div>
           </CardContent>
         </Card>

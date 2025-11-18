@@ -1801,17 +1801,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Seed production database with procedures
   app.post("/api/admin/seed-production", requireAdmin, async (req: any, res) => {
     try {
-      // Get all specialties to create the map
-      const allSpecialties = await storage.getAllSpecialties();
-      const specialtyMap = new Map(allSpecialties.map(s => [s.name, s.id]));
+      // Import and run the full seed function (includes all 204 procedures)
+      const seedFn = (await import('./seed')).default;
+      await seedFn();
       
-      // Import and run the seed function
-      const { seedProductionProcedures } = await import('./seed-production');
-      const count = await seedProductionProcedures(specialtyMap);
+      // Count how many procedures were added
+      const procedureCount = await storage.getAllProcedures();
       
       res.json({ 
         message: "Production database seeded successfully",
-        proceduresAdded: count
+        proceduresAdded: procedureCount.length
       });
     } catch (error) {
       console.error('Seed production error:', error);

@@ -351,7 +351,7 @@ export default function AdminDashboard() {
               <div>
                 <CardTitle>Production Database</CardTitle>
                 <CardDescription>
-                  Seed the production database with all procedures (32 for Bariatric Surgery)
+                  Seed the production database with all procedures (204 across all specialties)
                 </CardDescription>
               </div>
             </div>

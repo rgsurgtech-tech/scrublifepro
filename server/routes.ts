@@ -1798,6 +1798,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Seed production database with procedures
+  app.post("/api/admin/seed-production", requireAdmin, async (req: any, res) => {
+    try {
+      // Get all specialties to create the map
+      const allSpecialties = await storage.getAllSpecialties();
+      const specialtyMap = new Map(allSpecialties.map(s => [s.name, s.id]));
+      
+      // Import and run the seed function
+      const { seedProductionProcedures } = await import('./seed-production.js');
+      const count = await seedProductionProcedures(specialtyMap);
+      
+      res.json({ 
+        message: "Production database seeded successfully",
+        proceduresAdded: count
+      });
+    } catch (error) {
+      console.error('Seed production error:', error);
+      res.status(500).json({ error: "Failed to seed production database" });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;

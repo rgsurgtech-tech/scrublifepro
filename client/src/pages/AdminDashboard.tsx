@@ -12,7 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Shield, Ticket, User, Search, CheckCircle, XCircle } from "lucide-react";
+import { Loader2, Shield, Ticket, User, Search, CheckCircle, XCircle, Database } from "lucide-react";
 
 export default function AdminDashboard() {
   const { user } = useAuth();
@@ -31,6 +31,37 @@ export default function AdminDashboard() {
   const [discountValue, setDiscountValue] = useState("");
   const [duration, setDuration] = useState<"once" | "forever" | "repeating">("forever");
   const [notes, setNotes] = useState("");
+
+  // Seed production mutation
+  const seedProductionMutation = useMutation({
+    mutationFn: async () => {
+      return await apiRequest("/api/admin/seed-production", {
+        method: "POST",
+      });
+    },
+    onSuccess: (data: any) => {
+      toast({
+        title: "Success!",
+        description: `Added ${data.proceduresAdded} procedures to production database`,
+      });
+    },
+    onError: (error: any) => {
+      if (error.message === "FORBIDDEN") {
+        toast({
+          title: "Access Denied",
+          description: "You don't have admin privileges",
+          variant: "destructive",
+        });
+        navigate("/");
+        return;
+      }
+      toast({
+        title: "Error",
+        description: "Failed to seed production database",
+        variant: "destructive",
+      });
+    },
+  });
 
   // Check if user is admin (basic check, server will validate)
   if (!user) {
@@ -296,9 +327,50 @@ export default function AdminDashboard() {
             <h1 className="text-3xl font-bold">Admin Dashboard</h1>
           </div>
           <p className="text-muted-foreground">
-            Manage lifetime memberships and promotional codes
+            Manage lifetime memberships, promotional codes, and database
           </p>
         </div>
+
+        {/* Database Management */}
+        <Card className="mb-6 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950 border-blue-200 dark:border-blue-800">
+          <CardHeader>
+            <div className="flex items-center gap-3">
+              <Database className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+              <div>
+                <CardTitle>Production Database</CardTitle>
+                <CardDescription>
+                  Seed the production database with all procedures (32 for Bariatric Surgery)
+                </CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center gap-3">
+              <Button
+                onClick={() => seedProductionMutation.mutate()}
+                disabled={seedProductionMutation.isPending}
+                size="lg"
+                className="bg-blue-600 hover:bg-blue-700"
+                data-testid="button-seed-production"
+              >
+                {seedProductionMutation.isPending ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                    Seeding Production...
+                  </>
+                ) : (
+                  <>
+                    <Database className="w-4 h-4 mr-2" />
+                    Seed Production Database
+                  </>
+                )}
+              </Button>
+              <p className="text-sm text-muted-foreground">
+                Only run this once after publishing to populate your production database
+              </p>
+            </div>
+          </CardContent>
+        </Card>
 
         <Tabs defaultValue="lifetime" className="space-y-6">
           <TabsList className="grid w-full grid-cols-2 max-w-md">

@@ -1806,7 +1806,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const specialtyMap = new Map(allSpecialties.map(s => [s.name, s.id]));
       
       // Import and run the seed function
-      const { seedProductionProcedures } = await import('./seed-production.js');
+      const { seedProductionProcedures } = await import('./seed-production');
       const count = await seedProductionProcedures(specialtyMap);
       
       res.json({ 
@@ -1816,6 +1816,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Seed production error:', error);
       res.status(500).json({ error: "Failed to seed production database" });
+    }
+  });
+
+  // Check if admin account exists (public endpoint)
+  app.get("/api/admin/check-exists", async (req: any, res) => {
+    try {
+      const adminExists = await storage.getUserByEmail("admin@scrublifepro.com");
+      res.json({ exists: !!adminExists });
+    } catch (error) {
+      console.error('Check admin error:', error);
+      res.status(500).json({ error: "Failed to check admin status" });
     }
   });
 

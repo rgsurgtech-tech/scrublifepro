@@ -20,6 +20,7 @@ import ExamPrep from "@/pages/ExamPrep";
 import TestPage from "@/pages/TestPage";
 import BetaQR from "@/pages/BetaQR";
 import AdminDashboard from "@/pages/AdminDashboard";
+import AdminSetup from "@/pages/AdminSetup";
 import NotFound from "@/pages/not-found";
 import AuthPage from "@/pages/AuthPage";
 
@@ -40,6 +41,7 @@ function Router() {
       <Route path="/subscription/success" component={SubscriptionSuccess} />
       <Route path="/subscription/cancel" component={SubscriptionCancel} />
       <Route path="/admin" component={AdminDashboard} />
+      <Route path="/admin-setup" component={AdminSetup} />
       <Route path="/test" component={TestPage} />
       <Route path="/qr" component={BetaQR} />
       <Route component={NotFound} />

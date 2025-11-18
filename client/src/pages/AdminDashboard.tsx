@@ -15,7 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2, Shield, Ticket, User, Search, CheckCircle, XCircle, Database } from "lucide-react";
 
 export default function AdminDashboard() {
-  const { user } = useAuth();
+  const { user, isLoading: isLoadingAuth } = useAuth();
   const [, navigate] = useLocation();
   const { toast } = useToast();
 
@@ -31,6 +31,37 @@ export default function AdminDashboard() {
   const [discountValue, setDiscountValue] = useState("");
   const [duration, setDuration] = useState<"once" | "forever" | "repeating">("forever");
   const [notes, setNotes] = useState("");
+
+  // Fetch all promo codes (must be called before any early returns)
+  const { data: promoCodes, isLoading: isLoadingCodes, refetch: refetchCodes } = useQuery({
+    queryKey: ["/api/admin/promo-codes"],
+    enabled: !!user && !isLoadingAuth, // Only run when user is loaded
+    retry: (failureCount, error: any) => {
+      // Don't retry on 403 errors
+      if (error?.message === "Not authorized") {
+        return false;
+      }
+      return failureCount < 3;
+    },
+    queryFn: async () => {
+      const response = await fetch("/api/admin/promo-codes", {
+        credentials: "include",
+      });
+      if (!response.ok) {
+        if (response.status === 403) {
+          toast({
+            title: "Access Denied",
+            description: "You don't have admin privileges",
+            variant: "destructive",
+          });
+          navigate("/");
+          throw new Error("Not authorized");
+        }
+        throw new Error("Failed to fetch promo codes");
+      }
+      return response.json();
+    },
+  });
 
   // Seed production mutation
   const seedProductionMutation = useMutation({
@@ -60,42 +91,6 @@ export default function AdminDashboard() {
         description: "Failed to seed production database",
         variant: "destructive",
       });
-    },
-  });
-
-  // Check if user is admin (basic check, server will validate)
-  if (!user) {
-    navigate("/auth");
-    return null;
-  }
-
-  // Fetch all promo codes
-  const { data: promoCodes, isLoading: isLoadingCodes, refetch: refetchCodes } = useQuery({
-    queryKey: ["/api/admin/promo-codes"],
-    retry: (failureCount, error: any) => {
-      // Don't retry on 403 errors
-      if (error?.message === "Not authorized") {
-        return false;
-      }
-      return failureCount < 3;
-    },
-    queryFn: async () => {
-      const response = await fetch("/api/admin/promo-codes", {
-        credentials: "include",
-      });
-      if (!response.ok) {
-        if (response.status === 403) {
-          toast({
-            title: "Access Denied",
-            description: "You don't have admin privileges",
-            variant: "destructive",
-          });
-          navigate("/");
-          throw new Error("Not authorized");
-        }
-        throw new Error("Failed to fetch promo codes");
-      }
-      return response.json();
     },
   });
 
@@ -316,6 +311,24 @@ export default function AdminDashboard() {
       notes: notes.trim() || undefined,
     });
   };
+
+  // Show loading while auth is being checked
+  if (isLoadingAuth) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center">
+        <div className="flex items-center gap-3">
+          <Loader2 className="w-6 h-6 animate-spin text-primary" />
+          <p className="text-lg">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Check if user is logged in (redirect to auth if not)
+  if (!user) {
+    navigate("/auth");
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pb-20">

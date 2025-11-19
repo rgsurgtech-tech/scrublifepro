@@ -18,37 +18,39 @@ import {
 } from '@shared/schema';
 import bcrypt from 'bcryptjs';
 
-async function seed() {
-  console.log('🌱 Seeding database...');
+async function seed(options = { proceduresOnly: false }) {
+  console.log(options.proceduresOnly ? '🌱 Seeding procedures only...' : '🌱 Seeding database...');
 
   try {
-    // Clear existing data in proper order (child tables first to avoid FK violations)
-    console.log('🗑️ Clearing existing data...');
-    
-    // Delete child tables that reference procedures/users/videos first
-    await db.delete(videoComments);
-    await db.delete(videoLikes);
-    await db.delete(videoFavorites);
-    await db.delete(videoProgress);
-    await db.delete(forumReplies);
-    await db.delete(postLikes);
-    await db.delete(forumPosts);
-    await db.delete(userActivity);
-    await db.delete(userFavorites);
-    await db.delete(userNotes);
-    
-    // Delete videos (references categories and procedures)
-    await db.delete(videos);
-    await db.delete(videoCategories);
-    
-    // Delete procedures (references specialties)
-    await db.delete(procedures);
-    
-    // Delete parent tables
-    await db.delete(specialties);
-    await db.delete(users);
-    
-    console.log('✅ Existing data cleared');
+    if (!options.proceduresOnly) {
+      // Clear existing data in proper order (child tables first to avoid FK violations)
+      console.log('🗑️ Clearing existing data...');
+      
+      // Delete child tables that reference procedures/users/videos first
+      await db.delete(videoComments);
+      await db.delete(videoLikes);
+      await db.delete(videoFavorites);
+      await db.delete(videoProgress);
+      await db.delete(forumReplies);
+      await db.delete(postLikes);
+      await db.delete(forumPosts);
+      await db.delete(userActivity);
+      await db.delete(userFavorites);
+      await db.delete(userNotes);
+      
+      // Delete videos (references categories and procedures)
+      await db.delete(videos);
+      await db.delete(videoCategories);
+      
+      // Delete procedures (references specialties)
+      await db.delete(procedures);
+      
+      // Delete parent tables
+      await db.delete(specialties);
+      await db.delete(users);
+      
+      console.log('✅ Existing data cleared');
+    }
 
   // Insert specialties
   const specialtyData = [
@@ -1668,22 +1670,25 @@ async function seed() {
   const insertedProcedures = await db.insert(procedures).values(procedureData).returning();
   console.log(`✅ Inserted ${insertedProcedures.length} procedures`);
 
-  // Create a test user
-  const hashedPassword = await bcrypt.hash('password123', 10);
-  const testUser = await db.insert(users).values({
-    email: 'jane.smith@hospital.com',
-    password: hashedPassword,
-    firstName: 'Jane',
-    lastName: 'Smith',
-    certificationNumber: '12345',
-    yearsExperience: '5-10',
-    primarySpecialty: 'General Surgery',
-    subscriptionTier: 'standard',
-    selectedSpecialties: ['General Surgery', 'Orthopedics', 'Gynecology'],
-    isVerified: true
-  }).returning();
+  if (!options.proceduresOnly) {
+    // Create a test user (only in full seed mode)
+    const hashedPassword = await bcrypt.hash('password123', 10);
+    const testUser = await db.insert(users).values({
+      email: 'jane.smith@hospital.com',
+      password: hashedPassword,
+      firstName: 'Jane',
+      lastName: 'Smith',
+      certificationNumber: '12345',
+      yearsExperience: '5-10',
+      primarySpecialty: 'General Surgery',
+      subscriptionTier: 'standard',
+      selectedSpecialties: ['General Surgery', 'Orthopedics', 'Gynecology'],
+      isVerified: true
+    }).returning();
 
-  console.log(`✅ Created test user: ${testUser[0].email}`);
+    console.log(`✅ Created test user: ${testUser[0].email}`);
+  }
+  
   console.log('🎉 Database seeded successfully!');
   } catch (error) {
     console.error('❌ Seeding error:', error);

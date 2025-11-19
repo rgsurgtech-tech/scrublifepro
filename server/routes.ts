@@ -1800,37 +1800,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Clear all procedures (admin only - use with caution!)
-  app.post("/api/admin/clear-procedures", requireAdmin, async (req: any, res) => {
+  // ONE-CLICK: Clear and reseed all procedures (production-safe - keeps all user data)
+  app.post("/api/admin/reseed-procedures", requireAdmin, async (req: any, res) => {
     try {
+      console.log('🔄 ONE-CLICK RESEED: Starting...');
+      
+      // Count before
+      const beforeCount = await storage.getAllProcedures();
+      console.log(`📊 Before: ${beforeCount.length} procedures`);
+      
+      // Step 1: Delete ALL procedures (keeps users, notes, forums safe!)
       await db.delete(procedures);
+      console.log('✅ Cleared all procedures');
       
-      res.json({ 
-        message: "All procedures cleared successfully"
-      });
-    } catch (error) {
-      console.error('Clear procedures error:', error);
-      res.status(500).json({ error: "Failed to clear procedures" });
-    }
-  });
-
-  // Seed production database with procedures
-  app.post("/api/admin/seed-production", requireAdmin, async (req: any, res) => {
-    try {
-      // Import and run the full seed function (includes all 204 procedures)
+      // Step 2: Run seed with proceduresOnly option
       const seedFn = (await import('./seed')).default;
-      await seedFn();
+      await seedFn({ proceduresOnly: true });
       
-      // Count how many procedures were added
-      const procedureCount = await storage.getAllProcedures();
+      // Step 3: Count after
+      const afterCount = await storage.getAllProcedures();
+      console.log(`✅ After: ${afterCount.length} procedures`);
       
       res.json({ 
-        message: "Production database seeded successfully",
-        proceduresAdded: procedureCount.length
+        message: `Successfully reseeded! Added ${afterCount.length} procedures`,
+        before: beforeCount.length,
+        after: afterCount.length
       });
     } catch (error) {
-      console.error('Seed production error:', error);
-      res.status(500).json({ error: "Failed to seed production database" });
+      console.error('❌ Reseed error:', error);
+      res.status(500).json({ error: `Failed to reseed: ${error.message}` });
     }
   });
 

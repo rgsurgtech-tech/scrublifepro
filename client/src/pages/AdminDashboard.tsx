@@ -63,52 +63,22 @@ export default function AdminDashboard() {
     },
   });
 
-  // Clear procedures mutation
-  const clearProceduresMutation = useMutation({
+  // ONE-CLICK reseed mutation (clears and reseeds all procedures)
+  const reseedProceduresMutation = useMutation({
     mutationFn: async () => {
-      const response = await apiRequest("POST", "/api/admin/clear-procedures");
-      return response.json();
-    },
-    onSuccess: () => {
-      toast({
-        title: "Success!",
-        description: "All procedures cleared from database",
-      });
-    },
-    onError: (error: any) => {
-      toast({
-        title: "Error",
-        description: "Failed to clear procedures",
-        variant: "destructive",
-      });
-    },
-  });
-
-  // Seed production mutation
-  const seedProductionMutation = useMutation({
-    mutationFn: async () => {
-      const response = await apiRequest("POST", "/api/admin/seed-production");
+      const response = await apiRequest("POST", "/api/admin/reseed-procedures");
       return response.json();
     },
     onSuccess: (data: any) => {
       toast({
         title: "Success!",
-        description: `Added ${data.proceduresAdded} procedures to production database`,
+        description: `Reseeded ${data.after} procedures (was ${data.before})`,
       });
     },
     onError: (error: any) => {
-      if (error.message === "FORBIDDEN") {
-        toast({
-          title: "Access Denied",
-          description: "You don't have admin privileges",
-          variant: "destructive",
-        });
-        navigate("/");
-        return;
-      }
       toast({
         title: "Error",
-        description: "Failed to seed production database",
+        description: "Failed to reseed procedures",
         variant: "destructive",
       });
     },
@@ -378,61 +348,34 @@ export default function AdminDashboard() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              {/* Clear Procedures */}
-              <div className="flex items-center gap-3">
-                <Button
-                  onClick={() => {
-                    if (confirm("⚠️ WARNING: This will DELETE ALL procedures from the database! Are you sure?")) {
-                      clearProceduresMutation.mutate();
-                    }
-                  }}
-                  disabled={clearProceduresMutation.isPending}
-                  variant="destructive"
-                  size="lg"
-                  data-testid="button-clear-procedures"
-                >
-                  {clearProceduresMutation.isPending ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                      Clearing...
-                    </>
-                  ) : (
-                    <>
-                      <Database className="w-4 h-4 mr-2" />
-                      Clear All Procedures
-                    </>
-                  )}
-                </Button>
-                <p className="text-sm text-muted-foreground">
-                  ⚠️ Removes all procedures (use if you need to start fresh)
-                </p>
-              </div>
-
-              {/* Seed Procedures */}
-              <div className="flex items-center gap-3">
-                <Button
-                  onClick={() => seedProductionMutation.mutate()}
-                  disabled={seedProductionMutation.isPending}
-                  size="lg"
-                  className="bg-blue-600 hover:bg-blue-700"
-                  data-testid="button-seed-production"
-                >
-                  {seedProductionMutation.isPending ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                      Seeding Production...
-                    </>
-                  ) : (
-                    <>
-                      <Database className="w-4 h-4 mr-2" />
-                      Seed Production Database
-                    </>
-                  )}
-                </Button>
-                <p className="text-sm text-muted-foreground">
-                  Adds all 204 procedures to the database
-                </p>
+            {/* ONE-CLICK Reseed */}
+            <div className="flex items-center gap-3">
+              <Button
+                onClick={() => {
+                  if (confirm("This will CLEAR and RESEED all procedures. Your user data will be safe. Continue?")) {
+                    reseedProceduresMutation.mutate();
+                  }
+                }}
+                disabled={reseedProceduresMutation.isPending}
+                size="lg"
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold"
+                data-testid="button-reseed-procedures"
+              >
+                {reseedProceduresMutation.isPending ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                    Reseeding ALL Procedures...
+                  </>
+                ) : (
+                  <>
+                    <Database className="w-5 h-5 mr-2" />
+                    🔄 ONE-CLICK RESEED (Clear + Reload All 204 Procedures)
+                  </>
+                )}
+              </Button>
+              <div className="text-sm text-muted-foreground">
+                <p className="font-semibold">Clears old data and adds fresh procedures</p>
+                <p className="text-xs">✅ Safe for production - keeps all users, notes, and forums</p>
               </div>
             </div>
           </CardContent>

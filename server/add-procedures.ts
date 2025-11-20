@@ -1453,12 +1453,17 @@ async function addProcedures() {
   }
 }
 
-addProcedures()
-  .then(() => {
-    console.log('🎉 Procedure addition completed successfully');
-    process.exit(0);
-  })
-  .catch((error) => {
-    console.error('💥 Failed to add procedures:', error);
-    process.exit(1);
-  });
+export default addProcedures;
+
+// Only run if executed directly
+if (import.meta.url === `file://${process.argv[1]}`) {
+  addProcedures()
+    .then(() => {
+      console.log('🎉 Procedure addition completed successfully');
+      process.exit(0);
+    })
+    .catch((error) => {
+      console.error('💥 Failed to add procedures:', error);
+      process.exit(1);
+    });
+}

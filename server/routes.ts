@@ -1821,10 +1821,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
       await db.delete(procedures);
       console.log('✅ Cleared all procedures');
       
-      // Step 3: Run add400Procedures to insert all 400 procedures
-      console.log('🌱 Seeding 400 procedures...');
-      const add400Procedures = (await import('./add-400-procedures')).default;
-      await add400Procedures();
+      // Step 3: Run ALL procedure seeding functions to get complete dataset
+      console.log('🌱 Seeding ALL procedures from multiple sources...');
+      
+      try {
+        // Import all procedure seeding functions
+        const { default: addProcedures } = await import('./add-procedures');
+        const { default: addMoreProcedures } = await import('./add-more-procedures');
+        const { default: add400Procedures } = await import('./add-400-procedures');
+        
+        console.log('Step 1: Adding main procedures...');
+        await addProcedures();
+        
+        console.log('Step 2: Adding more procedures...');
+        await addMoreProcedures();
+        
+        console.log('Step 3: Adding 400 procedures...');
+        await add400Procedures();
+        
+        console.log('✅ All procedure batches inserted!');
+      } catch (error) {
+        console.error('Error during procedure seeding:', error);
+        throw error;
+      }
       
       // Step 4: Count after
       const afterCount = await storage.getAllProcedures();

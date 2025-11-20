@@ -981,12 +981,17 @@ async function addMoreProcedures() {
   }
 }
 
-addMoreProcedures()
-  .then(() => {
-    console.log('🎉 Additional procedures added successfully');
-    process.exit(0);
-  })
-  .catch((error) => {
-    console.error('💥 Failed to add procedures:', error);
-    process.exit(1);
-  });
+export default addMoreProcedures;
+
+// Only run if executed directly
+if (import.meta.url === `file://${process.argv[1]}`) {
+  addMoreProcedures()
+    .then(() => {
+      console.log('🎉 Additional procedures added successfully');
+      process.exit(0);
+    })
+    .catch((error) => {
+      console.error('💥 Failed to add procedures:', error);
+      process.exit(1);
+    });
+}

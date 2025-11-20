@@ -30,6 +30,10 @@ import {
   initializeAnnualPrices
 } from "./stripe-handlers";
 import { STRIPE_PRICES, canAccessFeature, getEffectiveTier } from "./subscription-config";
+import addProcedures from './add-procedures';
+import addMoreProcedures from './add-more-procedures';
+import add400Procedures from './add-400-procedures';
+import add113MoreProcedures from './add-113-more-procedures';
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // NOTE: Stripe webhook is registered in server/index.ts BEFORE express.json()
@@ -1825,13 +1829,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log('🌱 Seeding ALL procedures from multiple sources...');
       
       try {
-        // Import all procedure seeding functions with cache-busting
-        const cacheBust = `?t=${Date.now()}`;
-        const { default: addProcedures } = await import(`./add-procedures${cacheBust}`);
-        const { default: addMoreProcedures } = await import(`./add-more-procedures${cacheBust}`);
-        const { default: add400Procedures } = await import(`./add-400-procedures${cacheBust}`);
-        const { default: add113MoreProcedures } = await import(`./add-113-more-procedures${cacheBust}`);
-        
+        // Call all seeding functions directly (statically imported)
         console.log('Step 1: Adding main procedures (30)...');
         await addProcedures();
         

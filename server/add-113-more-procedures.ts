@@ -596,7 +596,7 @@ async function add113MoreProcedures() {
       // ==================== ADDITIONAL ENT (6 procedures) ====================
       {
         name: 'Adenoidectomy',
-        specialtyId: getSpecialtyId('ENT'),
+        specialtyId: getSpecialtyId('ENT (Otolaryngology)'),
         description: 'Surgical removal of adenoid tissue',
         duration: '15-30 min',
         difficulty: 'Basic',
@@ -628,7 +628,7 @@ async function add113MoreProcedures() {
       },
       {
         name: 'Myringotomy with Tube Insertion',
-        specialtyId: getSpecialtyId('ENT'),
+        specialtyId: getSpecialtyId('ENT (Otolaryngology)'),
         description: 'Incision in tympanic membrane with ventilation tube placement',
         duration: '10-15 min per ear',
         difficulty: 'Basic',
@@ -660,7 +660,7 @@ async function add113MoreProcedures() {
       },
       {
         name: 'Septoplasty',
-        specialtyId: getSpecialtyId('ENT'),
+        specialtyId: getSpecialtyId('ENT (Otolaryngology)'),
         description: 'Surgical correction of deviated nasal septum',
         duration: '45-90 min',
         difficulty: 'Intermediate',
@@ -693,7 +693,7 @@ async function add113MoreProcedures() {
       },
       {
         name: 'Functional Endoscopic Sinus Surgery (FESS)',
-        specialtyId: getSpecialtyId('ENT'),
+        specialtyId: getSpecialtyId('ENT (Otolaryngology)'),
         description: 'Endoscopic surgery to open sinus ostia and remove diseased tissue',
         duration: '60-120 min',
         difficulty: 'Advanced',
@@ -728,7 +728,7 @@ async function add113MoreProcedures() {
       },
       {
         name: 'Tracheostomy',
-        specialtyId: getSpecialtyId('ENT'),
+        specialtyId: getSpecialtyId('ENT (Otolaryngology)'),
         description: 'Surgical creation of opening in trachea for airway access',
         duration: '30-45 min',
         difficulty: 'Intermediate',
@@ -762,7 +762,7 @@ async function add113MoreProcedures() {
       },
       {
         name: 'Thyroidectomy (Total)',
-        specialtyId: getSpecialtyId('ENT'),
+        specialtyId: getSpecialtyId('ENT (Otolaryngology)'),
         description: 'Surgical removal of entire thyroid gland',
         duration: '90-180 min',
         difficulty: 'Advanced',
@@ -803,7 +803,7 @@ async function add113MoreProcedures() {
       // ==================== ADDITIONAL CARDIAC SURGERY (6 procedures) ====================
       {
         name: 'Pacemaker Implantation',
-        specialtyId: getSpecialtyId('Cardiac Surgery'),
+        specialtyId: getSpecialtyId('Cardiovascular'),
         description: 'Surgical implantation of permanent cardiac pacemaker',
         duration: '60-90 min',
         difficulty: 'Intermediate',
@@ -837,7 +837,7 @@ async function add113MoreProcedures() {
       },
       {
         name: 'ICD (Implantable Cardioverter-Defibrillator) Implantation',
-        specialtyId: getSpecialtyId('Cardiac Surgery'),
+        specialtyId: getSpecialtyId('Cardiovascular'),
         description: 'Surgical implantation of implantable cardioverter-defibrillator',
         duration: '90-120 min',
         difficulty: 'Advanced',
@@ -871,7 +871,7 @@ async function add113MoreProcedures() {
       },
       {
         name: 'Pericardiectomy',
-        specialtyId: getSpecialtyId('Cardiac Surgery'),
+        specialtyId: getSpecialtyId('Cardiovascular'),
         description: 'Surgical removal of pericardium for constrictive pericarditis',
         duration: '180-300 min',
         difficulty: 'Advanced',
@@ -903,7 +903,7 @@ async function add113MoreProcedures() {
       },
       {
         name: 'Atrial Septal Defect (ASD) Repair',
-        specialtyId: getSpecialtyId('Cardiac Surgery'),
+        specialtyId: getSpecialtyId('Cardiovascular'),
         description: 'Surgical closure of atrial septal defect',
         duration: '180-240 min',
         difficulty: 'Advanced',
@@ -938,7 +938,7 @@ async function add113MoreProcedures() {
       },
       {
         name: 'Ventricular Assist Device (VAD) Implantation',
-        specialtyId: getSpecialtyId('Cardiac Surgery'),
+        specialtyId: getSpecialtyId('Cardiovascular'),
         description: 'Surgical implantation of mechanical circulatory support device',
         duration: '240-360 min',
         difficulty: 'Advanced',
@@ -974,7 +974,7 @@ async function add113MoreProcedures() {
       },
       {
         name: 'Patent Ductus Arteriosus (PDA) Ligation',
-        specialtyId: getSpecialtyId('Cardiac Surgery'),
+        specialtyId: getSpecialtyId('Cardiovascular'),
         description: 'Surgical ligation or division of patent ductus arteriosus',
         duration: '90-120 min',
         difficulty: 'Intermediate',
@@ -1009,7 +1009,7 @@ async function add113MoreProcedures() {
       // ==================== ADDITIONAL PLASTICS (6 procedures) ====================
       {
         name: 'Carpal Tunnel Release',
-        specialtyId: getSpecialtyId('Plastics'),
+        specialtyId: getSpecialtyId('Plastic & Reconstructive'),
         description: 'Open or endoscopic release of transverse carpal ligament',
         duration: '20-30 min',
         difficulty: 'Basic',
@@ -1040,7 +1040,7 @@ async function add113MoreProcedures() {
       },
       {
         name: 'Scar Revision',
-        specialtyId: getSpecialtyId('Plastics'),
+        specialtyId: getSpecialtyId('Plastic & Reconstructive'),
         description: 'Surgical revision of unsightly or symptomatic scar',
         duration: '30-90 min',
         difficulty: 'Intermediate',
@@ -1072,7 +1072,7 @@ async function add113MoreProcedures() {
       },
       {
         name: 'Split-Thickness Skin Graft (STSG)',
-        specialtyId: getSpecialtyId('Plastics'),
+        specialtyId: getSpecialtyId('Plastic & Reconstructive'),
         description: 'Harvesting and application of split-thickness skin graft',
         duration: '60-120 min',
         difficulty: 'Intermediate',
@@ -1105,7 +1105,7 @@ async function add113MoreProcedures() {
       },
       {
         name: 'Full-Thickness Skin Graft (FTSG)',
-        specialtyId: getSpecialtyId('Plastics'),
+        specialtyId: getSpecialtyId('Plastic & Reconstructive'),
         description: 'Harvesting and application of full-thickness skin graft',
         duration: '60-90 min',
         difficulty: 'Intermediate',
@@ -1138,7 +1138,7 @@ async function add113MoreProcedures() {
       },
       {
         name: 'Local Flap Reconstruction',
-        specialtyId: getSpecialtyId('Plastics'),
+        specialtyId: getSpecialtyId('Plastic & Reconstructive'),
         description: 'Reconstruction using local tissue rearrangement flap',
         duration: '60-120 min',
         difficulty: 'Intermediate',
@@ -1170,7 +1170,7 @@ async function add113MoreProcedures() {
       },
       {
         name: 'Z-Plasty',
-        specialtyId: getSpecialtyId('Plastics'),
+        specialtyId: getSpecialtyId('Plastic & Reconstructive'),
         description: 'Scar revision technique using transposition flaps',
         duration: '30-60 min',
         difficulty: 'Intermediate',

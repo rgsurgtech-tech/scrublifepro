@@ -1821,10 +1821,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       await db.delete(procedures);
       console.log('✅ Cleared all procedures');
       
-      // Step 3: Run seed with proceduresOnly option
-      console.log('🌱 Seeding procedures...');
-      const seedFn = (await import('./seed')).default;
-      await seedFn({ proceduresOnly: true });
+      // Step 3: Run add400Procedures to insert all 400 procedures
+      console.log('🌱 Seeding 400 procedures...');
+      const add400Procedures = (await import('./add-400-procedures')).default;
+      await add400Procedures();
       
       // Step 4: Count after
       const afterCount = await storage.getAllProcedures();

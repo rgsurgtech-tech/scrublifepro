@@ -1320,6 +1320,7 @@ async function add400Procedures() {
     console.log(`Inserting ${newProcedures.length} new procedures...`);
     const inserted = await db.insert(procedures).values(newProcedures).returning();
     console.log(`✅ Successfully inserted ${inserted.length} procedures`);
+    return inserted.length;
     
   } catch (error) {
     console.error('❌ Error adding procedures:', error);
@@ -1327,12 +1328,17 @@ async function add400Procedures() {
   }
 }
 
-add400Procedures()
-  .then(() => {
-    console.log('✅ Procedure insertion complete!');
-    process.exit(0);
-  })
-  .catch((error) => {
-    console.error('❌ Failed to add procedures:', error);
-    process.exit(1);
-  });
+export default add400Procedures;
+
+// Only run if executed directly
+if (import.meta.url === `file://${process.argv[1]}`) {
+  add400Procedures()
+    .then(() => {
+      console.log('✅ Procedure insertion complete!');
+      process.exit(0);
+    })
+    .catch((error) => {
+      console.error('❌ Failed to add procedures:', error);
+      process.exit(1);
+    });
+}

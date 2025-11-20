@@ -196,8 +196,18 @@ async function seed(options = { proceduresOnly: false }) {
     }
   ];
 
-  const insertedSpecialties = await db.insert(specialties).values(specialtyData).returning();
-  console.log(`✅ Inserted ${insertedSpecialties.length} specialties`);
+  let insertedSpecialties;
+  
+  if (options.proceduresOnly) {
+    // In proceduresOnly mode, fetch existing specialties instead of inserting
+    console.log('📋 Fetching existing specialties...');
+    insertedSpecialties = await db.select().from(specialties);
+    console.log(`✅ Found ${insertedSpecialties.length} existing specialties`);
+  } else {
+    // In full seed mode, insert new specialties
+    insertedSpecialties = await db.insert(specialties).values(specialtyData).returning();
+    console.log(`✅ Inserted ${insertedSpecialties.length} specialties`);
+  }
 
   // Get specialty IDs for reference
   const generalSurgeryId = insertedSpecialties.find(s => s.name === 'General Surgery')?.id!;

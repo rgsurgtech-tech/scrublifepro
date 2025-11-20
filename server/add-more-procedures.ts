@@ -966,13 +966,11 @@ async function addMoreProcedures() {
       }
     ];
 
-    console.log('📝 Inserting Neurosurgery procedures...');
-    await db.insert(procedures).values(newProcedures.slice(0, 10));
-    
-    console.log('📝 Inserting Ophthalmology procedures...');
-    await db.insert(procedures).values(newProcedures.slice(10, 20));
+    // Insert ALL procedures at once
+    console.log(`📝 Inserting ALL ${newProcedures.length} procedures...`);
+    await db.insert(procedures).values(newProcedures);
 
-    console.log(`✅ Successfully added 20 more procedures`);
+    console.log(`✅ Successfully added ${newProcedures.length} more procedures`);
     console.log('🎯 Continue with remaining specialties...');
 
   } catch (error) {

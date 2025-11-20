@@ -1434,15 +1434,9 @@ async function addProcedures() {
       }
     ];
 
-    // Insert first batch
-    console.log('📝 Inserting General Surgery procedures...');
-    await db.insert(procedures).values(newProcedures.slice(0, 10));
-    
-    console.log('📝 Inserting Orthopedics procedures...');
-    await db.insert(procedures).values(newProcedures.slice(10, 20));
-    
-    console.log('📝 Inserting Cardiovascular procedures...');
-    await db.insert(procedures).values(newProcedures.slice(20, 30));
+    // Insert ALL procedures at once
+    console.log(`📝 Inserting ALL ${newProcedures.length} procedures...`);
+    await db.insert(procedures).values(newProcedures);
 
     console.log(`✅ Successfully added ${newProcedures.length} new procedures`);
     console.log('✨ Database expansion complete!');

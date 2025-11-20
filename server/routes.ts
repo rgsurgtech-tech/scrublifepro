@@ -1825,22 +1825,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log('🌱 Seeding ALL procedures from multiple sources...');
       
       try {
-        // Import all procedure seeding functions
-        const { default: addProcedures } = await import('./add-procedures');
-        const { default: addMoreProcedures } = await import('./add-more-procedures');
-        const { default: add400Procedures } = await import('./add-400-procedures');
+        // Import all procedure seeding functions with cache-busting
+        const cacheBust = `?t=${Date.now()}`;
+        const { default: addProcedures } = await import(`./add-procedures${cacheBust}`);
+        const { default: addMoreProcedures } = await import(`./add-more-procedures${cacheBust}`);
+        const { default: add400Procedures } = await import(`./add-400-procedures${cacheBust}`);
+        const { default: add113MoreProcedures } = await import(`./add-113-more-procedures${cacheBust}`);
         
-        console.log('Step 1: Adding main procedures...');
+        console.log('Step 1: Adding main procedures (30)...');
         await addProcedures();
         
-        console.log('Step 2: Adding more procedures...');
+        console.log('Step 2: Adding more procedures (20)...');
         await addMoreProcedures();
         
-        console.log('Step 3: Adding 400 procedures...');
+        console.log('Step 3: Adding procedures batch (41)...');
         await add400Procedures();
         
-        console.log('✅ All procedure batches inserted!');
-      } catch (error) {
+        console.log('Step 4: Adding 113 additional procedures to reach 204 total...');
+        await add113MoreProcedures();
+        
+        console.log('✅ All procedure batches inserted! Should have 204 total procedures.');
+      } catch (error: unknown) {
         console.error('Error during procedure seeding:', error);
         throw error;
       }

@@ -375,7 +375,8 @@ export default function AdminDashboard() {
               </Button>
               <div className="text-sm text-muted-foreground">
                 <p className="font-semibold">Clears old data and adds fresh procedures</p>
-                <p className="text-xs">✅ Safe for production - keeps all users, notes, and forums</p>
+                <p className="text-xs">⚠️ Clears: user activity, favorites, notes (to fix foreign key errors)</p>
+                <p className="text-xs">✅ Keeps: users, forums, subscriptions</p>
               </div>
             </div>
           </CardContent>

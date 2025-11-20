@@ -6,7 +6,7 @@ import { z } from "zod";
 import Stripe from "stripe";
 import { storage } from "./storage";
 import { db } from "./db";
-import { procedures } from "@shared/schema";
+import { procedures, userActivity, userFavorites, userNotes } from "@shared/schema";
 import { 
   insertUserSchema, 
   insertUserNoteSchema, 
@@ -1809,15 +1809,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const beforeCount = await storage.getAllProcedures();
       console.log(`📊 Before: ${beforeCount.length} procedures`);
       
-      // Step 1: Delete ALL procedures (keeps users, notes, forums safe!)
+      // Step 1: Delete dependencies first (to avoid foreign key violations)
+      console.log('🗑️ Clearing user activity that references procedures...');
+      await db.delete(userActivity);
+      await db.delete(userFavorites);
+      await db.delete(userNotes);
+      console.log('✅ Cleared user activity/favorites/notes');
+      
+      // Step 2: Delete ALL procedures (now safe!)
+      console.log('🗑️ Deleting all procedures...');
       await db.delete(procedures);
       console.log('✅ Cleared all procedures');
       
-      // Step 2: Run seed with proceduresOnly option
+      // Step 3: Run seed with proceduresOnly option
+      console.log('🌱 Seeding procedures...');
       const seedFn = (await import('./seed')).default;
       await seedFn({ proceduresOnly: true });
       
-      // Step 3: Count after
+      // Step 4: Count after
       const afterCount = await storage.getAllProcedures();
       console.log(`✅ After: ${afterCount.length} procedures`);
       

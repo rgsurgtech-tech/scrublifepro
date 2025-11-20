@@ -17,6 +17,8 @@ import {
   videoLikes
 } from '@shared/schema';
 import bcrypt from 'bcryptjs';
+import { batch1Procedures } from './add-batch1-procedures';
+import { batch2Procedures } from './add-batch2-procedures';
 
 async function seed(options = { proceduresOnly: false }) {
   console.log(options.proceduresOnly ? '🌱 Seeding procedures only...' : '🌱 Seeding database...');
@@ -52,7 +54,7 @@ async function seed(options = { proceduresOnly: false }) {
       console.log('✅ Existing data cleared');
     }
 
-  // Insert specialties
+  // Insert or update specialties (always needed for batch procedures)
   const specialtyData = [
     {
       name: 'General Surgery',
@@ -196,18 +198,11 @@ async function seed(options = { proceduresOnly: false }) {
     }
   ];
 
-  let insertedSpecialties;
-  
-  if (options.proceduresOnly) {
-    // In proceduresOnly mode, fetch existing specialties instead of inserting
-    console.log('📋 Fetching existing specialties...');
-    insertedSpecialties = await db.select().from(specialties);
-    console.log(`✅ Found ${insertedSpecialties.length} existing specialties`);
-  } else {
-    // In full seed mode, insert new specialties
-    insertedSpecialties = await db.insert(specialties).values(specialtyData).returning();
-    console.log(`✅ Inserted ${insertedSpecialties.length} specialties`);
-  }
+  // ALWAYS upsert specialties (needed for batch procedures even in proceduresOnly mode)
+  console.log('📋 Upserting specialties...');
+  await db.insert(specialties).values(specialtyData).onConflictDoNothing();
+  const insertedSpecialties = await db.select().from(specialties);
+  console.log(`✅ Ensured ${insertedSpecialties.length} specialties exist`);
 
   // Get specialty IDs for reference
   const generalSurgeryId = insertedSpecialties.find(s => s.name === 'General Surgery')?.id!;
@@ -1678,7 +1673,31 @@ async function seed(options = { proceduresOnly: false }) {
   ];
 
   const insertedProcedures = await db.insert(procedures).values(procedureData).returning();
-  console.log(`✅ Inserted ${insertedProcedures.length} procedures`);
+  console.log(`✅ Inserted ${insertedProcedures.length} base procedures`);
+
+  // Insert batch procedures (new specialties)
+  const allSpecialties = await db.select().from(specialties);
+  const getSpecialtyId = (name: string) => allSpecialties.find(s => s.name === name)?.id!;
+
+  const batchData = [...batch1Procedures, ...batch2Procedures].map(proc => ({
+    name: proc.name,
+    specialtyId: getSpecialtyId(proc.specialty),
+    description: proc.description,
+    duration: proc.duration,
+    difficulty: proc.difficulty,
+    positioning: proc.positioning,
+    draping: proc.draping,
+    instruments: proc.instruments,
+    mayoSetup: proc.mayoSetup,
+    procedureSteps: proc.procedureSteps,
+    medications: proc.medications,
+    complications: proc.complications,
+    tips: proc.tips
+  }));
+
+  const insertedBatch = await db.insert(procedures).values(batchData).returning();
+  console.log(`✅ Inserted ${insertedBatch.length} new batch procedures`);
+  console.log(`✅ Total procedures: ${insertedProcedures.length + insertedBatch.length}`);
 
   if (!options.proceduresOnly) {
     // Create a test user (only in full seed mode)
@@ -1696,7 +1715,9 @@ async function seed(options = { proceduresOnly: false }) {
       isVerified: true
     }).returning();
 
-    console.log(`✅ Created test user: ${testUser[0].email}`);
+    if (testUser && testUser.length > 0) {
+      console.log(`✅ Created test user: ${testUser[0].email}`);
+    }
   }
   
   console.log('🎉 Database seeded successfully!');

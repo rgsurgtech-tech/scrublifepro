@@ -342,7 +342,7 @@ export default function AdminDashboard() {
               <div>
                 <CardTitle>Production Database</CardTitle>
                 <CardDescription>
-                  Seed the production database with all procedures (133 across all specialties)
+                  Seed the production database with all procedures (223 across all specialties)
                 </CardDescription>
               </div>
             </div>
@@ -369,7 +369,7 @@ export default function AdminDashboard() {
                 ) : (
                   <>
                     <Database className="w-5 h-5 mr-2" />
-                    🔄 ONE-CLICK RESEED (Clear + Reload All 133 Procedures)
+                    🔄 ONE-CLICK RESEED (Clear + Reload All 223 Procedures)
                   </>
                 )}
               </Button>

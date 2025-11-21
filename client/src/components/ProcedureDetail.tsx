@@ -2586,7 +2586,19 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
   };
 
   // Use real procedure data if available, fallback to mock data
-  const procedure_data = procedure || mockDetailedProcedure;
+  // Safely merge procedure data with defaults to prevent undefined errors
+  const procedure_data = procedure ? {
+    ...mockDetailedProcedure,
+    ...procedure,
+    tips: procedure.tips || [],
+    complications: procedure.complications || [],
+    positioning: procedure.positioning || mockDetailedProcedure.positioning,
+    draping: procedure.draping || mockDetailedProcedure.draping,
+    instruments: procedure.instruments || mockDetailedProcedure.instruments,
+    mayoSetup: procedure.mayoSetup || mockDetailedProcedure.mayoSetup,
+    procedureSteps: procedure.procedureSteps || mockDetailedProcedure.procedureSteps,
+    medications: procedure.medications || mockDetailedProcedure.medications
+  } : mockDetailedProcedure;
 
   return (
     <div className="min-h-screen bg-background">

@@ -2600,6 +2600,21 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
     medications: procedure.medications || mockDetailedProcedure.medications
   } : mockDetailedProcedure;
 
+  // Helper functions to check if tabs have content
+  const hasOverviewContent = procedure_data.description || 
+    (procedure_data.tips && procedure_data.tips.length > 0) ||
+    (procedure_data.complications && procedure_data.complications.length > 0);
+
+  const hasSetupContent = 
+    (procedure_data.positioning && procedure_data.positioning.steps && procedure_data.positioning.steps.length > 0) ||
+    (procedure_data.draping && procedure_data.draping.steps && procedure_data.draping.steps.length > 0) ||
+    (procedure_data.instruments && (procedure_data.instruments.basicSet?.length > 0 || procedure_data.instruments.specialInstruments?.length > 0)) ||
+    (procedure_data.mayoSetup && procedure_data.mayoSetup.essentials && procedure_data.mayoSetup.essentials.length > 0);
+
+  const hasProcedureContent = 
+    (procedure_data.procedureSteps && procedure_data.procedureSteps.steps && procedure_data.procedureSteps.steps.length > 0) ||
+    (procedure_data.medications && procedure_data.medications.items && procedure_data.medications.items.length > 0);
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -2653,23 +2668,29 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       {/* Content */}
       <div className="p-4">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-5 mb-6">
+          <TabsList className="grid w-full mb-6" style={{gridTemplateColumns: `repeat(${[true, hasSetupContent, hasProcedureContent, !!(relatedVideos && relatedVideos.length > 0), true].filter(Boolean).length}, minmax(0, 1fr))`}}>
             <TabsTrigger value="overview" className="text-xs" data-testid="tab-overview">
               <Eye className="h-3 w-3 mr-1" />
               Overview
             </TabsTrigger>
-            <TabsTrigger value="setup" className="text-xs" data-testid="tab-setup">
-              <Wrench className="h-3 w-3 mr-1" />
-              Setup
-            </TabsTrigger>
-            <TabsTrigger value="procedure" className="text-xs" data-testid="tab-procedure">
-              <FileText className="h-3 w-3 mr-1" />
-              Procedure
-            </TabsTrigger>
-            <TabsTrigger value="videos" className="text-xs" data-testid="tab-videos">
-              <Play className="h-3 w-3 mr-1" />
-              Videos
-            </TabsTrigger>
+            {hasSetupContent && (
+              <TabsTrigger value="setup" className="text-xs" data-testid="tab-setup">
+                <Wrench className="h-3 w-3 mr-1" />
+                Setup
+              </TabsTrigger>
+            )}
+            {hasProcedureContent && (
+              <TabsTrigger value="procedure" className="text-xs" data-testid="tab-procedure">
+                <FileText className="h-3 w-3 mr-1" />
+                Procedure
+              </TabsTrigger>
+            )}
+            {relatedVideos && relatedVideos.length > 0 && (
+              <TabsTrigger value="videos" className="text-xs" data-testid="tab-videos">
+                <Play className="h-3 w-3 mr-1" />
+                Videos
+              </TabsTrigger>
+            )}
             <TabsTrigger value="notes" className="text-xs" data-testid="tab-notes">
               <User className="h-3 w-3 mr-1" />
               Notes
@@ -2678,180 +2699,124 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
 
           <TabsContent value="overview" className="space-y-4">
             {/* Description */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base">Description</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">{procedure_data.description}</p>
-              </CardContent>
-            </Card>
+            {procedure_data.description && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-base">Description</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground">{procedure_data.description}</p>
+                    </CardContent>
+                  </Card>
+                )}
 
-            {/* Key Points */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base">Key Success Factors</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                {procedure_data.tips.map((tip: string, index: number) => (
-                  <div key={index} className="flex items-start gap-2">
-                    <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm">{tip}</span>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
+                {/* Key Points */}
+                {procedure_data.tips && procedure_data.tips.length > 0 && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-base">Key Success Factors</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                      {procedure_data.tips.map((tip: string, index: number) => (
+                        <div key={index} className="flex items-start gap-2">
+                          <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
+                          <span className="text-sm">{tip}</span>
+                        </div>
+                      ))}
+                    </CardContent>
+                  </Card>
+                )}
 
-            {/* Potential Complications */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base">Potential Complications</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                {procedure_data.complications.map((complication: string, index: number) => (
-                  <div key={index} className="flex items-start gap-2">
-                    <AlertCircle className="h-4 w-4 text-orange-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm">{complication}</span>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
+                {/* Potential Complications */}
+                {procedure_data.complications && procedure_data.complications.length > 0 && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-base">Potential Complications</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                      {procedure_data.complications.map((complication: string, index: number) => (
+                        <div key={index} className="flex items-start gap-2">
+                          <AlertCircle className="h-4 w-4 text-orange-500 mt-0.5 flex-shrink-0" />
+                          <span className="text-sm">{complication}</span>
+                        </div>
+                      ))}
+                    </CardContent>
+                  </Card>
+                )}
+              </>
+            )}
           </TabsContent>
 
           <TabsContent value="setup" className="space-y-4">
-            {/* Patient Positioning */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base">{procedure_data.positioning.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ol className="space-y-2">
-                  {procedure_data.positioning.steps.map((step: string, index: number) => (
-                    <li key={index} className="flex items-start gap-3 text-sm">
-                      <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs font-semibold flex-shrink-0 mt-0.5">
-                        {index + 1}
-                      </span>
-                      {step}
-                    </li>
-                  ))}
-                </ol>
-              </CardContent>
-            </Card>
+            {!hasSetupContent ? (
+              <Card>
+                <CardContent className="py-8 text-center">
+                  <Wrench className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                  <p className="text-muted-foreground">Setup details for this procedure are being added. Check back soon!</p>
+                </CardContent>
+              </Card>
+            ) : (
+              <>
+                {/* Patient Positioning */}
+                {procedure_data.positioning && procedure_data.positioning.steps && procedure_data.positioning.steps.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base">{procedure_data.positioning.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ol className="space-y-2">
+                    {procedure_data.positioning.steps.map((step: string, index: number) => (
+                      <li key={index} className="flex items-start gap-3 text-sm">
+                        <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs font-semibold flex-shrink-0 mt-0.5">
+                          {index + 1}
+                        </span>
+                        {step}
+                      </li>
+                    ))}
+                  </ol>
+                </CardContent>
+              </Card>
+            )}
 
             {/* Draping */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base">{procedure_data.draping.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ol className="space-y-2">
-                  {procedure_data.draping.steps.map((step: string, index: number) => (
-                    <li key={index} className="flex items-start gap-3 text-sm">
-                      <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs font-semibold flex-shrink-0 mt-0.5">
-                        {index + 1}
-                      </span>
-                      {step}
-                    </li>
-                  ))}
-                </ol>
-              </CardContent>
-            </Card>
+            {procedure_data.draping && procedure_data.draping.steps && procedure_data.draping.steps.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base">{procedure_data.draping.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ol className="space-y-2">
+                    {procedure_data.draping.steps.map((step: string, index: number) => (
+                      <li key={index} className="flex items-start gap-3 text-sm">
+                        <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs font-semibold flex-shrink-0 mt-0.5">
+                          {index + 1}
+                        </span>
+                        {step}
+                      </li>
+                    ))}
+                  </ol>
+                </CardContent>
+              </Card>
+            )}
 
             {/* Instrumentation */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base">{procedure_data.instruments.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <h4 className="font-semibold text-sm mb-2">Basic Sets</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {procedure_data.instruments.basicSet.map((instrument: string, index: number) => (
-                      <Badge 
-                        key={index} 
-                        variant="secondary" 
-                        className="text-xs cursor-pointer hover-elevate transition-colors"
-                        onClick={() => handleInstrumentClick(instrument)}
-                        data-testid={`badge-instrument-${instrument.toLowerCase().replace(/\s/g, '-')}`}
-                      >
-                        <Info className="w-3 h-3 mr-1" />
-                        {instrument}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-sm mb-2">Special Instruments</h4>
-                  <div className="space-y-1">
-                    {procedure_data.instruments.specialInstruments.map((instrument: string, index: number) => (
-                      <div 
-                        key={index} 
-                        className="flex items-center gap-2 text-sm cursor-pointer hover-elevate p-2 rounded-md transition-colors"
-                        onClick={() => handleInstrumentClick(instrument)}
-                        data-testid={`item-instrument-${instrument.toLowerCase().replace(/\s/g, '-')}`}
-                      >
-                        <Info className="w-4 h-4 text-primary flex-shrink-0" />
-                        <span className="underline-offset-4 hover:underline">{instrument}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Mayo Stand Setup */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base">{procedure_data.mayoSetup.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <p className="text-sm text-muted-foreground">{procedure_data.mayoSetup.layout}</p>
-                <div>
-                  <h4 className="font-semibold text-sm mb-2">Essential Items</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {procedure_data.mayoSetup.essentials.map((item: string, index: number) => (
-                      <Badge 
-                        key={index} 
-                        variant="outline" 
-                        className="text-xs cursor-pointer hover-elevate transition-colors"
-                        onClick={() => handleInstrumentClick(item)}
-                        data-testid={`badge-mayo-${item.toLowerCase().replace(/\s/g, '-')}`}
-                      >
-                        <Info className="w-3 h-3 mr-1" />
-                        {item}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="procedure" className="space-y-4">
-            {/* Procedure Steps */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base">{procedure_data.procedureSteps.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {procedure_data.procedureSteps.steps.map((step: any) => (
-                    <div key={step.step} className="border-l-2 border-primary pl-4 pb-4">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-sm font-semibold">
-                          {step.step}
-                        </span>
-                        <h4 className="font-semibold text-sm">{step.title}</h4>
-                      </div>
-                      <p className="text-sm text-muted-foreground mb-2">{step.description}</p>
-                      <div className="flex flex-wrap gap-1">
-                        {step.instruments.map((instrument: string, index: number) => (
+            {procedure_data.instruments && (procedure_data.instruments.basicSet?.length > 0 || procedure_data.instruments.specialInstruments?.length > 0) && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base">{procedure_data.instruments.title}</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {procedure_data.instruments.basicSet && procedure_data.instruments.basicSet.length > 0 && (
+                    <div>
+                      <h4 className="font-semibold text-sm mb-2">Basic Sets</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {procedure_data.instruments.basicSet.map((instrument: string, index: number) => (
                           <Badge 
                             key={index} 
-                            variant="outline" 
+                            variant="secondary" 
                             className="text-xs cursor-pointer hover-elevate transition-colors"
                             onClick={() => handleInstrumentClick(instrument)}
-                            data-testid={`badge-step-instrument-${instrument.toLowerCase().replace(/\s/g, '-')}`}
+                            data-testid={`badge-instrument-${instrument.toLowerCase().replace(/\s/g, '-')}`}
                           >
                             <Info className="w-3 h-3 mr-1" />
                             {instrument}
@@ -2859,33 +2824,137 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
                         ))}
                       </div>
                     </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+                  )}
+                  {procedure_data.instruments.specialInstruments && procedure_data.instruments.specialInstruments.length > 0 && (
+                    <div>
+                      <h4 className="font-semibold text-sm mb-2">Special Instruments</h4>
+                      <div className="space-y-1">
+                        {procedure_data.instruments.specialInstruments.map((instrument: string, index: number) => (
+                          <div 
+                            key={index} 
+                            className="flex items-center gap-2 text-sm cursor-pointer hover-elevate p-2 rounded-md transition-colors"
+                            onClick={() => handleInstrumentClick(instrument)}
+                            data-testid={`item-instrument-${instrument.toLowerCase().replace(/\s/g, '-')}`}
+                          >
+                            <Info className="w-4 h-4 text-primary flex-shrink-0" />
+                            <span className="underline-offset-4 hover:underline">{instrument}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Mayo Stand Setup */}
+            {procedure_data.mayoSetup && procedure_data.mayoSetup.essentials && procedure_data.mayoSetup.essentials.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base">{procedure_data.mayoSetup.title}</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <p className="text-sm text-muted-foreground">{procedure_data.mayoSetup.layout}</p>
+                  <div>
+                    <h4 className="font-semibold text-sm mb-2">Essential Items</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {procedure_data.mayoSetup.essentials.map((item: string, index: number) => (
+                        <Badge 
+                          key={index} 
+                          variant="outline" 
+                          className="text-xs cursor-pointer hover-elevate transition-colors"
+                          onClick={() => handleInstrumentClick(item)}
+                          data-testid={`badge-mayo-${item.toLowerCase().replace(/\s/g, '-')}`}
+                        >
+                          <Info className="w-3 h-3 mr-1" />
+                          {item}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+              </>
+            )}
+          </TabsContent>
+
+          <TabsContent value="procedure" className="space-y-4">
+            {!hasProcedureContent ? (
+              <Card>
+                <CardContent className="py-8 text-center">
+                  <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                  <p className="text-muted-foreground">Detailed procedure steps for this procedure are being added. Check back soon!</p>
+                </CardContent>
+              </Card>
+            ) : (
+              <>
+                {/* Procedure Steps */}
+                {procedure_data.procedureSteps && procedure_data.procedureSteps.steps && procedure_data.procedureSteps.steps.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base">{procedure_data.procedureSteps.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {procedure_data.procedureSteps.steps.map((step: any) => (
+                      <div key={step.step} className="border-l-2 border-primary pl-4 pb-4">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-sm font-semibold">
+                            {step.step}
+                          </span>
+                          <h4 className="font-semibold text-sm">{step.title}</h4>
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-2">{step.description}</p>
+                        {step.instruments && step.instruments.length > 0 && (
+                          <div className="flex flex-wrap gap-1">
+                            {step.instruments.map((instrument: string, index: number) => (
+                              <Badge 
+                                key={index} 
+                                variant="outline" 
+                                className="text-xs cursor-pointer hover-elevate transition-colors"
+                                onClick={() => handleInstrumentClick(instrument)}
+                                data-testid={`badge-step-instrument-${instrument.toLowerCase().replace(/\s/g, '-')}`}
+                              >
+                                <Info className="w-3 h-3 mr-1" />
+                                {instrument}
+                              </Badge>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
 
             {/* Medications */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base flex items-center gap-2">
-                  <Pill className="h-4 w-4" />
-                  {procedure_data.medications.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {procedure_data.medications.items.map((med: any, index: number) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-muted rounded-md">
-                      <div>
-                        <h4 className="font-semibold text-sm">{med.name}</h4>
-                        <p className="text-xs text-muted-foreground">{med.use}</p>
+            {procedure_data.medications && procedure_data.medications.items && procedure_data.medications.items.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <Pill className="h-4 w-4" />
+                    {procedure_data.medications.title}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {procedure_data.medications.items.map((med: any, index: number) => (
+                      <div key={index} className="flex items-center justify-between p-3 bg-muted rounded-md">
+                        <div>
+                          <h4 className="font-semibold text-sm">{med.name}</h4>
+                          <p className="text-xs text-muted-foreground">{med.use}</p>
+                        </div>
+                        <Badge variant="secondary" className="text-xs">{med.amount}</Badge>
                       </div>
-                      <Badge variant="secondary" className="text-xs">{med.amount}</Badge>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+              </>
+            )}
           </TabsContent>
 
           <TabsContent value="videos" className="space-y-4">
@@ -3029,7 +3098,7 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
               </div>
 
               {/* Instrument Image */}
-              {getInstrumentDetails(selectedInstrument)?.image && (
+              {getInstrumentDetails(selectedInstrument) && (getInstrumentDetails(selectedInstrument) as any).image && (
                 <div>
                   <img 
                     src={getInstrumentImage(getInstrumentDetails(selectedInstrument)) || ''} 

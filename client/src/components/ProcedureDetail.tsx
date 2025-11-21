@@ -2668,29 +2668,23 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
       {/* Content */}
       <div className="p-4">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full mb-6" style={{gridTemplateColumns: `repeat(${[true, hasSetupContent, hasProcedureContent, !!(relatedVideos && relatedVideos.length > 0), true].filter(Boolean).length}, minmax(0, 1fr))`}}>
+          <TabsList className="grid w-full grid-cols-5 mb-6">
             <TabsTrigger value="overview" className="text-xs" data-testid="tab-overview">
               <Eye className="h-3 w-3 mr-1" />
               Overview
             </TabsTrigger>
-            {hasSetupContent && (
-              <TabsTrigger value="setup" className="text-xs" data-testid="tab-setup">
-                <Wrench className="h-3 w-3 mr-1" />
-                Setup
-              </TabsTrigger>
-            )}
-            {hasProcedureContent && (
-              <TabsTrigger value="procedure" className="text-xs" data-testid="tab-procedure">
-                <FileText className="h-3 w-3 mr-1" />
-                Procedure
-              </TabsTrigger>
-            )}
-            {relatedVideos && relatedVideos.length > 0 && (
-              <TabsTrigger value="videos" className="text-xs" data-testid="tab-videos">
-                <Play className="h-3 w-3 mr-1" />
-                Videos
-              </TabsTrigger>
-            )}
+            <TabsTrigger value="setup" className="text-xs" data-testid="tab-setup">
+              <Wrench className="h-3 w-3 mr-1" />
+              Setup
+            </TabsTrigger>
+            <TabsTrigger value="procedure" className="text-xs" data-testid="tab-procedure">
+              <FileText className="h-3 w-3 mr-1" />
+              Procedure
+            </TabsTrigger>
+            <TabsTrigger value="videos" className="text-xs" data-testid="tab-videos">
+              <Play className="h-3 w-3 mr-1" />
+              Videos
+            </TabsTrigger>
             <TabsTrigger value="notes" className="text-xs" data-testid="tab-notes">
               <User className="h-3 w-3 mr-1" />
               Notes
@@ -2700,65 +2694,54 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
           <TabsContent value="overview" className="space-y-4">
             {/* Description */}
             {procedure_data.description && (
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="text-base">Description</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-muted-foreground">{procedure_data.description}</p>
-                    </CardContent>
-                  </Card>
-                )}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base">Description</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">{procedure_data.description}</p>
+                </CardContent>
+              </Card>
+            )}
 
-                {/* Key Points */}
-                {procedure_data.tips && procedure_data.tips.length > 0 && (
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="text-base">Key Success Factors</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                      {procedure_data.tips.map((tip: string, index: number) => (
-                        <div key={index} className="flex items-start gap-2">
-                          <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
-                          <span className="text-sm">{tip}</span>
-                        </div>
-                      ))}
-                    </CardContent>
-                  </Card>
-                )}
+            {/* Key Points */}
+            {procedure_data.tips && procedure_data.tips.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base">Key Success Factors</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  {procedure_data.tips.map((tip: string, index: number) => (
+                    <div key={index} className="flex items-start gap-2">
+                      <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-sm">{tip}</span>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+            )}
 
-                {/* Potential Complications */}
-                {procedure_data.complications && procedure_data.complications.length > 0 && (
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="text-base">Potential Complications</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                      {procedure_data.complications.map((complication: string, index: number) => (
-                        <div key={index} className="flex items-start gap-2">
-                          <AlertCircle className="h-4 w-4 text-orange-500 mt-0.5 flex-shrink-0" />
-                          <span className="text-sm">{complication}</span>
-                        </div>
-                      ))}
-                    </CardContent>
-                  </Card>
-                )}
-              </>
+            {/* Potential Complications */}
+            {procedure_data.complications && procedure_data.complications.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-base">Potential Complications</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  {procedure_data.complications.map((complication: string, index: number) => (
+                    <div key={index} className="flex items-start gap-2">
+                      <AlertCircle className="h-4 w-4 text-orange-500 mt-0.5 flex-shrink-0" />
+                      <span className="text-sm">{complication}</span>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
             )}
           </TabsContent>
 
           <TabsContent value="setup" className="space-y-4">
-            {!hasSetupContent ? (
-              <Card>
-                <CardContent className="py-8 text-center">
-                  <Wrench className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <p className="text-muted-foreground">Setup details for this procedure are being added. Check back soon!</p>
-                </CardContent>
-              </Card>
-            ) : (
-              <>
-                {/* Patient Positioning */}
-                {procedure_data.positioning && procedure_data.positioning.steps && procedure_data.positioning.steps.length > 0 && (
+            {/* Patient Positioning */}
+            {procedure_data.positioning && procedure_data.positioning.steps && procedure_data.positioning.steps.length > 0 && (
               <Card>
                 <CardHeader>
                   <CardTitle className="text-base">{procedure_data.positioning.title}</CardTitle>
@@ -2875,22 +2858,11 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
                 </CardContent>
               </Card>
             )}
-              </>
-            )}
           </TabsContent>
 
           <TabsContent value="procedure" className="space-y-4">
-            {!hasProcedureContent ? (
-              <Card>
-                <CardContent className="py-8 text-center">
-                  <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <p className="text-muted-foreground">Detailed procedure steps for this procedure are being added. Check back soon!</p>
-                </CardContent>
-              </Card>
-            ) : (
-              <>
-                {/* Procedure Steps */}
-                {procedure_data.procedureSteps && procedure_data.procedureSteps.steps && procedure_data.procedureSteps.steps.length > 0 && (
+            {/* Procedure Steps */}
+            {procedure_data.procedureSteps && procedure_data.procedureSteps.steps && procedure_data.procedureSteps.steps.length > 0 && (
               <Card>
                 <CardHeader>
                   <CardTitle className="text-base">{procedure_data.procedureSteps.title}</CardTitle>
@@ -2952,8 +2924,6 @@ export default function ProcedureDetail({ procedure, onBack }: ProcedureDetailPr
                   </div>
                 </CardContent>
               </Card>
-            )}
-              </>
             )}
           </TabsContent>
 

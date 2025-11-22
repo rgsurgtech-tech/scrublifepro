@@ -39,8 +39,9 @@ export default function AuthPage() {
       const response = await apiRequest('POST', '/api/auth/login', credentials);
       return response.json();
     },
-    onSuccess: () => {
-      refetch();
+    onSuccess: async () => {
+      // Wait for auth state to update before redirecting
+      await refetch();
       toast({
         title: 'Welcome back!',
         description: 'You have successfully logged in.'
@@ -66,8 +67,9 @@ export default function AuthPage() {
       const response = await apiRequest('POST', '/api/auth/register', data);
       return response.json();
     },
-    onSuccess: () => {
-      refetch();
+    onSuccess: async () => {
+      // Wait for auth state to update before redirecting
+      await refetch();
       toast({
         title: 'Account created!',
         description: 'Welcome to Scrub Life Pro. Please select your specialties to get started.'

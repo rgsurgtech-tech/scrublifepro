@@ -83,7 +83,8 @@ const pool = new Pool({
 });
 
 // Session middleware - Secure and working configuration
-console.log('🔧 Session config - ENV:', process.env.NODE_ENV);
+const isProduction = process.env.REPLIT_DEPLOYMENT === 'true' || process.env.NODE_ENV === 'production';
+console.log('🔧 Session config - ENV:', process.env.NODE_ENV, 'Production:', isProduction);
 
 app.use(session({
   store: new PgSession({
@@ -95,7 +96,7 @@ app.use(session({
   resave: true, // CRITICAL: Force resave for persistence
   saveUninitialized: false,
   cookie: {
-    secure: false, // False for development
+    secure: isProduction, // True for HTTPS in production
     httpOnly: true, // SECURE: Restore XSS protection
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days  
     sameSite: 'lax'
@@ -142,14 +143,15 @@ app.use((req, res, next) => {
     try {
       const procedureCount = await db.select().from(procedures);
       
-      // Re-seed if database has fewer than 200 procedures (incomplete data)
-      if (procedureCount.length < 200) {
-        log(`🌱 Production database incomplete (${procedureCount.length} procedures), re-seeding...`);
+      // Re-seed if database has fewer than 100 procedures (completely empty)
+      // Current production has 133 procedures which is the correct baseline
+      if (procedureCount.length < 100) {
+        log(`🌱 Production database empty (${procedureCount.length} procedures), re-seeding...`);
         const seedFn = (await import('./seed')).default;
         await seedFn();
-        log('✅ Production database seeded successfully with all 204 procedures!');
+        log('✅ Production database seeded successfully!');
       } else {
-        log(`✓ Production database complete with ${procedureCount.length} procedures`);
+        log(`✓ Production database ready with ${procedureCount.length} procedures`);
       }
     } catch (error) {
       log('⚠️ Auto-seeding error:', String(error));

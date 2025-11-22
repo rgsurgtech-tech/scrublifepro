@@ -13,6 +13,31 @@ import {
   handleTrialWillEnd
 } from "./stripe-handlers";
 
+// Validate required environment variables
+function validateEnvVars() {
+  const required = ['DATABASE_URL'];
+  const missing = required.filter(key => !process.env[key]);
+  
+  if (missing.length > 0) {
+    console.error('❌ FATAL: Missing required environment variables:', missing.join(', '));
+    console.error('Please configure these in your deployment settings.');
+    process.exit(1);
+  }
+  
+  // Warn about optional but recommended variables
+  const recommended = ['SESSION_SECRET', 'STRIPE_SECRET_KEY', 'STRIPE_WEBHOOK_SECRET'];
+  const missingRecommended = recommended.filter(key => !process.env[key]);
+  
+  if (missingRecommended.length > 0) {
+    console.warn('⚠️  Missing recommended environment variables:', missingRecommended.join(', '));
+  }
+  
+  console.log('✅ Environment variables validated');
+}
+
+// Validate environment on startup
+validateEnvVars();
+
 const app = express();
 
 // CRITICAL: Stripe webhook MUST be registered BEFORE express.json() middleware
@@ -78,9 +103,25 @@ app.use(express.urlencoded({ extended: false }));
 
 // PostgreSQL session store
 const PgSession = ConnectPgSimple(session);
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL
-});
+
+// Test database connection
+let pool: pg.Pool;
+try {
+  pool = new Pool({
+    connectionString: process.env.DATABASE_URL
+  });
+  
+  // Test connection immediately
+  pool.query('SELECT NOW()')
+    .then(() => console.log('✅ Database connection established'))
+    .catch(err => {
+      console.error('❌ Database connection failed:', err.message);
+      console.error('Check DATABASE_URL and database availability');
+    });
+} catch (error: any) {
+  console.error('❌ FATAL: Failed to create database pool:', error.message);
+  process.exit(1);
+}
 
 // Session middleware - Secure and working configuration
 const isProduction = process.env.REPLIT_DEPLOYMENT === 'true' || process.env.NODE_ENV === 'production';
@@ -135,58 +176,81 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  // Auto-seed database in production if empty or incomplete
-  if (process.env.REPLIT_DEPLOYMENT) {
-    const { db } = await import('./db');
-    const { procedures } = await import('@shared/schema');
+  try {
+    console.log('🚀 Starting server initialization...');
     
-    try {
-      const procedureCount = await db.select().from(procedures);
-      
-      // Re-seed if database has fewer than 100 procedures (completely empty)
-      // Current production has 133 procedures which is the correct baseline
-      if (procedureCount.length < 100) {
-        log(`🌱 Production database empty (${procedureCount.length} procedures), re-seeding...`);
-        const seedFn = (await import('./seed')).default;
-        await seedFn();
-        log('✅ Production database seeded successfully!');
-      } else {
-        log(`✓ Production database ready with ${procedureCount.length} procedures`);
+    // Auto-seed database in production if empty or incomplete
+    if (process.env.REPLIT_DEPLOYMENT) {
+      console.log('📊 Production mode - checking database...');
+      try {
+        const { db } = await import('./db');
+        const { procedures } = await import('@shared/schema');
+        
+        const procedureCount = await db.select().from(procedures);
+        
+        // Re-seed if database has fewer than 100 procedures (completely empty)
+        // Current production has 133 procedures which is the correct baseline
+        if (procedureCount.length < 100) {
+          log(`🌱 Production database empty (${procedureCount.length} procedures), re-seeding...`);
+          const seedFn = (await import('./seed')).default;
+          await seedFn();
+          log('✅ Production database seeded successfully!');
+        } else {
+          log(`✓ Production database ready with ${procedureCount.length} procedures`);
+        }
+      } catch (error: any) {
+        console.error('⚠️ Auto-seeding error:', error.message);
+        console.error('Continuing with existing database state...');
+        // Don't fail startup if seeding fails - continue with existing data
       }
-    } catch (error) {
-      log('⚠️ Auto-seeding error:', String(error));
     }
+
+    console.log('🔌 Registering routes...');
+    const server = await registerRoutes(app);
+
+    app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+      const status = err.status || err.statusCode || 500;
+      const message = err.message || "Internal Server Error";
+
+      res.status(status).json({ message });
+      throw err;
+    });
+
+    // importantly only setup vite in development and after
+    // setting up all the other routes so the catch-all route
+    // doesn't interfere with the other routes
+    console.log('⚙️  Setting up asset serving...');
+    if (app.get("env") === "development") {
+      await setupVite(app, server);
+    } else {
+      serveStatic(app);
+    }
+
+    // ALWAYS serve the app on the port specified in the environment variable PORT
+    // Other ports are firewalled. Default to 5000 if not specified.
+    // this serves both the API and the client.
+    // It is the only port that is not firewalled.
+    const port = parseInt(process.env.PORT || '5000', 10);
+    
+    console.log(`🌐 Starting server on port ${port}...`);
+    server.listen({
+      port,
+      host: "0.0.0.0",
+      reusePort: true,
+    }, () => {
+      log(`✅ Server successfully started on port ${port}`);
+      console.log('🎉 Application ready to accept connections!');
+    });
+    
+  } catch (error: any) {
+    console.error('❌ FATAL ERROR during server initialization:');
+    console.error('Error:', error.message);
+    console.error('Stack:', error.stack);
+    console.error('\n📋 Troubleshooting:');
+    console.error('1. Check DATABASE_URL is set correctly');
+    console.error('2. Verify database is accessible');
+    console.error('3. Check all required environment variables');
+    console.error('4. Review application logs for details');
+    process.exit(1);
   }
-
-  const server = await registerRoutes(app);
-
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
-
-    res.status(status).json({ message });
-    throw err;
-  });
-
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
-  if (app.get("env") === "development") {
-    await setupVite(app, server);
-  } else {
-    serveStatic(app);
-  }
-
-  // ALWAYS serve the app on the port specified in the environment variable PORT
-  // Other ports are firewalled. Default to 5000 if not specified.
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = parseInt(process.env.PORT || '5000', 10);
-  server.listen({
-    port,
-    host: "0.0.0.0",
-    reusePort: true,
-  }, () => {
-    log(`serving on port ${port}`);
-  });
 })();

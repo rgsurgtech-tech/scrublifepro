@@ -179,30 +179,10 @@ app.use((req, res, next) => {
   try {
     console.log('🚀 Starting server initialization...');
     
-    // Auto-seed database in production if empty or incomplete
+    // NOTE: Production auto-seed disabled to prevent startup delays
+    // Production database already has 133 procedures - reseed manually via admin panel if needed
     if (process.env.REPLIT_DEPLOYMENT) {
-      console.log('📊 Production mode - checking database...');
-      try {
-        const { db } = await import('./db');
-        const { procedures } = await import('@shared/schema');
-        
-        const procedureCount = await db.select().from(procedures);
-        
-        // Re-seed if database has fewer than 100 procedures (completely empty)
-        // Current production has 133 procedures which is the correct baseline
-        if (procedureCount.length < 100) {
-          log(`🌱 Production database empty (${procedureCount.length} procedures), re-seeding...`);
-          const seedFn = (await import('./seed')).default;
-          await seedFn();
-          log('✅ Production database seeded successfully!');
-        } else {
-          log(`✓ Production database ready with ${procedureCount.length} procedures`);
-        }
-      } catch (error: any) {
-        console.error('⚠️ Auto-seeding error:', error.message);
-        console.error('Continuing with existing database state...');
-        // Don't fail startup if seeding fails - continue with existing data
-      }
+      console.log('✓ Production mode - using existing database');
     }
 
     console.log('🔌 Registering routes...');

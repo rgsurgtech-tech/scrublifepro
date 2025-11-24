@@ -4,7 +4,6 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "./contexts/AuthContext";
-import { ScreenshotProtection } from "@/components/ScreenshotProtection";
 
 import Home from "@/pages/Home";
 import Specialties from "@/pages/Specialties";
@@ -54,7 +53,6 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <AuthProvider>
-          <ScreenshotProtection />
           <Router />
           <Toaster />
         </AuthProvider>
